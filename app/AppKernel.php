@@ -5,8 +5,10 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
+
     public function registerBundles()
     {
+
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
@@ -17,6 +19,8 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             // Common Aurealis Bundles
+            new Aurealis\BootstrapBundle\AurealisBootstrapBundle(),
+            new Aurealis\FontAwesomeBundle\AurealisFontAwesomeBundle(),
             new Aurealis\UserBundle\AurealisUserBundle(),
             new Aurealis\ThemeBundle\AurealisThemeBundle(),
             // Specific Elektra Bundles
@@ -36,6 +40,7 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+
+        $loader->load(__DIR__ . '/config/config_' . $this->getEnvironment() . '.yml');
     }
 }
