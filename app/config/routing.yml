@@ -1,0 +1,3 @@
+# load the site bundle routing definitions
+_elektra_site_bundle:
+    resource: "@ElektraSiteBundle/Resources/config/routing.yml"

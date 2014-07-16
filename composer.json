@@ -19,7 +19,10 @@
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
 
-		"twbs/bootstrap": "~3.2"
+		"twbs/bootstrap": "~3.2",
+		"fortawesome/font-awesome": "~4.1",
+		"mrclay/minify": "~2.2",
+		"natxet/CssMin": "~3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
