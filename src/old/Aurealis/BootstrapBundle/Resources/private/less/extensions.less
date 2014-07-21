@@ -1,0 +1,17 @@
+// -- import the variables & mixins as reference
+// ----------------------------------------------------------------------------
+@import (reference) "variables";
+@import (reference) "mixins";
+// -- import the core classes as reference (to be able to use them as mixins)
+// ----------------------------------------------------------------------------
+@import (reference) "core_plain";
+
+// -- load the various extensions
+// ----------------------------------------------------------------------------
+& when (@extend-tabs = true) {
+	@import "extensions/tabs";
+}
+
+& when (@extend-labels = true) {
+	@import "extensions/labels";
+}

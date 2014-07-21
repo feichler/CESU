@@ -1,0 +1,20 @@
+// -- order of imports:
+// --   * bootstrap core variables from twbs/bootstrap
+// --   * theme-bundle variables
+// --   * including bundle variables (found with @include_path variable - this
+//        must be specified)
+// ----------------------------------------------------------------------------
+// import the core variables
+@import "../../../../../../../vendor/twbs/bootstrap/less/variables";
+
+// define theme-bundle variables
+@theme-bundle-version: "0.1.0";
+
+// import the including bundle vars
+@import "@{include_path}/bootstrap/variables.less";
+
+// ----------------------------------------------------------------------------
+// -- variable override order should now be ensured
+// --   * bootstrap core variables are the base
+// --   * theme-bundle variables (defined in this file) may override the base
+// --   * including bundle variables override both before

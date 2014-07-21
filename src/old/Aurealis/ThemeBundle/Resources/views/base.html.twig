@@ -1,0 +1,89 @@
+{% set bodyId = '' %}
+{% set bodyClasses = [] %}
+{% set scriptIncludes = {
+'jquery': false,
+'bootstrap_common': false,
+'bootstrap_affix': false,
+'bootstrap_alert':false,
+'bootstrap_button':false,
+'bootstrap_carousel':false,
+'bootstrap_collapse':false,
+'bootstrap_dropdown':false,
+'bootstrap_modal':false,
+'bootstrap_popover':false,
+'bootstrap_scrollspy':false,
+'bootstrap_tab':false,
+'bootstrap_tooltip':false
+} %}
+{% set scripts = [] %}
+{% if page is defined %}
+    {% if page.bodyId is defined %}
+        {% set bodyId = page.bodyId %}
+    {% endif %}
+    {% if page.bodyClasses is defined %}
+        {% set bodyClasses = page.bodyClasses %}
+    {% endif %}
+    {% if page.scripts is defined %}
+        {% if page.scripts.common is defined and page.scripts.common == true %}
+            {% set scripts =  scripts|merge(["@AurealisBootstrapBundle/Resources/private/js/transition.js"]) %}
+        {% endif %}
+    {% endif %}
+{% endif %}
+
+<!DOCTYPE html>
+
+<html>
+{% block head %}
+    <head>
+        {% block charset %}
+            <meta charset="UTF-8"/>
+        {% endblock charset %}
+        {% block metadata %}
+        {% endblock metadata %}
+        {% block viewport %}
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% endblock viewport %}
+        <title>{% block title %}Aurealis ThemeBundle Base Template{% endblock %}</title>
+        {% block stylesheets %}
+            {% include "AurealisThemeBundle:parts:fonts-bootstrap.html.twig" %}
+            {% include "AurealisThemeBundle:parts:fonts-fontawesome.html.twig" %}
+            {% stylesheets filter="cssmin" combine=true output="css/theme_base.min.css" %}
+            <link type="text/css" href="{{ asset_url }}"/>
+            {% endstylesheets %}
+        {% endblock %}
+        {% block favicon %}
+            <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+        {% endblock favicon %}
+    </head>
+{% endblock head %}
+{% block body %}
+    <body id="{{ bodyId }}" class="{{ bodyClasses|join(' ') }}">
+    {% block bodycontent %}
+        <span class="glyphicon glyphicon-question-sign"></span>
+        <span class="fico fico-question"></span>
+        {#{{ dump(scripts) }}#}
+        {#{{ dump(app.request) }}#}
+    {% endblock bodycontent %}
+    {% block javascripts %}
+        {#{% javascripts filter="jsminplus" combine=true output="js/theme_base.min.js"#}
+        {#"@AurealisThemeBundle/Resources/private/js/jquery-1.11.1.js"#}
+        {#"@AurealisBootstrapBundle/Resources/private/js/transition.js"#}
+        {#"@AurealisBootstrapBundle/Resources/private/js/alert.js"#}
+        {#"@AurealisBootstrapBundle/Resources/private/js/button.js"#}
+        {#"@AurealisBootstrapBundle/Resources/private/js/carousel.js"#}
+        {#"@AurealisBootstrapBundle/Resources/private/js/collapse.js"#}
+        {#"@AurealisBootstrapBundle/Resources/private/js/dropdown.js"#}
+        {#"@AurealisBootstrapBundle/Resources/private/js/modal.js"#}
+        {#"@AurealisBootstrapBundle/Resources/private/js/tooltip.js"#}
+        {#"@AurealisBootstrapBundle/Resources/private/js/popover.js"#}
+        {#"@AurealisBootstrapBundle/Resources/private/js/scrollspy.js"#}
+        {#"@AurealisBootstrapBundle/Resources/private/js/tab.js"#}
+        {#"@AurealisBootstrapBundle/Resources/private/js/affix.js" %}#}
+        {#<script src="{{ asset_url }}" type="text/javascript"></script>#}
+        {#{% endjavascripts %}#}
+    {% endblock %}
+
+
+    </body>
+{% endblock body %}
+</html>

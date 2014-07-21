@@ -1,0 +1,20 @@
+// -- order of imports:
+// --   * bootstrap core mixins from twbs/bootstrap
+// --   * theme-bundle mixins
+// --   * including bundle mixins (found with @include_path variable - this
+//        must be specified)
+// ----------------------------------------------------------------------------
+// import the core mixins
+@import "../../../../../../../vendor/twbs/bootstrap/less/mixins";
+
+// define theme-bundle mixins
+@theme-bundle-version: "0.1.0";
+
+// import the including bundle vars
+@import "@{include_path}/bootstrap/mixins.less";
+
+// ----------------------------------------------------------------------------
+// -- mixin override order should now be ensured
+// --   * bootstrap core mixins are the base
+// --   * theme-bundle mixins (defined in this file) may override the base
+// --   * including bundle mixins override both before

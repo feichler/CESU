@@ -19,14 +19,15 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             // Common Aurealis Bundles
-            new Aurealis\BootstrapBundle\AurealisBootstrapBundle(),
-            new Aurealis\FontAwesomeBundle\AurealisFontAwesomeBundle(),
-            new Aurealis\UserBundle\AurealisUserBundle(),
+            //            new Aurealis\BootstrapBundle\AurealisBootstrapBundle(),
+            //            new Aurealis\FontAwesomeBundle\AurealisFontAwesomeBundle(),
+            //            new Aurealis\UserBundle\AurealisUserBundle(),
             new Aurealis\ThemeBundle\AurealisThemeBundle(),
             // Specific Elektra Bundles
             new Elektra\SiteBundle\ElektraSiteBundle(),
-            new Elektra\CompanyBundle\ElektraCompanyBundle(),
             new Elektra\SeedUnitBundle\ElektraSeedUnitBundle(),
+            //            new Elektra\CompanyBundle\ElektraCompanyBundle(),
+            //            new Elektra\SeedUnitBundle\ElektraSeedUnitBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

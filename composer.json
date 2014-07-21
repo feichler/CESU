@@ -21,6 +21,8 @@
 
 		"twbs/bootstrap": "~3.2",
 		"fortawesome/font-awesome": "~4.1",
+		"frameworks/jquery": "1.11.x",
+		"yiisoft/jquery": "1.11.x",
 		"mrclay/minify": "~2.2",
 		"natxet/CssMin": "~3.0"
     },

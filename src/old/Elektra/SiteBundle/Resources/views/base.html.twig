@@ -1,0 +1,23 @@
+{% extends 'AurealisThemeBundle::base.html.twig' %}
+
+{# TODO after development: add filter 'cssmin' and output="css/site_base.min.css' and combine=true #}
+{% block stylesheets %}
+    {% stylesheets
+    filter="cssmin,less,cssrewrite"
+    combine=true
+    "@ElektraSiteBundle/Resources/private/less/bs_elektra_site.less"
+    "@ElektraSiteBundle/Resources/private/less/fa_elektra_site.less"
+    "@ElektraSiteBundle/Resources/private/less/theme_elektra_site.less" %}
+    <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock stylesheets %}
+
+{#{% block javascripts %}#}
+    {#{{ parent() }}#}
+    {#{% javascripts combine=true#}
+    {#"@AurealisThemeBundle/Resources/private/js/jquery-1.11.1.js"#}
+    {#"@AurealisBootstrapBundle/Resources/private/js/transition.js"#}
+    {#"@AurealisBootstrapBundle/Resources/private/js/affix.js" %}#}
+    {#<script src="{{ asset_url }}" type="text/javascript"></script>#}
+    {#{% endjavascripts %}#}
+{#{% endblock javascripts %}#}
