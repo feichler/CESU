@@ -34,7 +34,7 @@ class SeedUnit
     /**
      * @var Model
      *
-     * @ORM\ManyToOne(targetEntity="Model", inversedBy="seedUnits")
+     * @ORM\ManyToOne(targetEntity="Model", inversedBy="seedUnits", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="modelId", referencedColumnName="modelId")
      */
     protected $model;
@@ -42,7 +42,7 @@ class SeedUnit
     /**
      * @var PowerType
      *
-     * @ORM\ManyToOne(targetEntity="PowerType", inversedBy="seedUnits")
+     * @ORM\ManyToOne(targetEntity="PowerType", inversedBy="seedUnits", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="powerTypeId", referencedColumnName="powerTypeId")
      */
     protected $powerType;

@@ -42,12 +42,14 @@ class Model
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="SeedUnit", mappedBy="model")
+     * @ORM\OneToMany(targetEntity="SeedUnit", mappedBy="model", fetch="EXTRA_LAZY")
      */
     protected $seedUnits;
 
     public function __construct()
     {
+
+        $this->seedUnits = new ArrayCollection();
     }
 
     /**
@@ -112,4 +114,13 @@ class Model
 
         return $this->seedUnits;
     }
+
+    /**
+     * @return bool
+     */
+    public function getCanDelete() {
+
+        return count($this->seedUnits) == 0;
+    }
+
 }
