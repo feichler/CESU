@@ -1,0 +1,5 @@
+
+services:
+    elektra.menu:
+        class: Elektra\SiteBundle\Menu\Menu
+        arguments: [ "@theme.menu" ]

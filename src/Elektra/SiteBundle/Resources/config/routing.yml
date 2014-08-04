@@ -1,5 +1,16 @@
 
-_elektra_site_home:
-    path: /
+_cesu_home:
+    path:       /
     defaults:
-        _controller: ElektraSiteBundle:Site:home
+        _controller:    ElektraSiteBundle:Site:home
+
+_cesu_about:
+    path:       /about
+    defaults:
+        _controller:    ElektraSiteBundle:Site:about
+
+
+_cesu_terms:
+    path:       /terms
+    defaults:
+        _controller:    ElektraSiteBundle:Site:terms
