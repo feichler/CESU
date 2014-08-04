@@ -20,6 +20,7 @@ class ModelController extends Controller
         $page->setBundle('ElektraSiteBundle');
         $page->includeEverything();
         $page->setHeading($title);
+        $page->setBodyId('seedunit-models');
     }
 
     public function listAction(Request $request, $page)
@@ -101,6 +102,13 @@ class ModelController extends Controller
 
         $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnit\Model');
         $model      = $repository->find($id);
+
+        if (!$model->getCanDelete()) {
+            $this->container->get('session')->getFlashBag()->add('error', ':Not possible: the model "' . $model->getName() . '" - ID ' . $model->getId() . ' cannot be deleted (seed units associated)');
+
+            return $this->redirect($this->generateUrl('_cesu_seed_unit_models_list'));
+        }
+
 
         $this->getDoctrine()->getManager()->remove($model);
         $this->getDoctrine()->getManager()->flush();

@@ -61,7 +61,9 @@ class SeedUnitController extends Controller
             )
         );
         //        $formBuilder->add('description', 'textarea');
+        $formBuilder->add('reset','reset');
         $formBuilder->add('save', 'submit');
+//        $formBuilder->add('test','button');
 
         $form = $formBuilder->getForm();
 
@@ -110,6 +112,7 @@ class SeedUnitController extends Controller
         );
         //        $formBuilder->add('description', 'textarea');
         $formBuilder->add('save', 'submit');
+
 
         $form = $formBuilder->getForm();
 

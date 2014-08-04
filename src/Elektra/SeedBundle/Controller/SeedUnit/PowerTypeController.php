@@ -102,6 +102,12 @@ class PowerTypeController extends Controller
         $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnit\PowerType');
         $powerType  = $repository->find($id);
 
+        if (!$powerType->getCanDelete()) {
+            $this->container->get('session')->getFlashBag()->add('error', ':Not possible: the power type "' . $powerType->getName() . '" - ID ' . $powerType->getPowerTypeId() . ' cannot be deleted (seed units associated)');
+
+            return $this->redirect($this->generateUrl('_cesu_seed_unit_power_types_list'));
+        }
+
         $this->getDoctrine()->getManager()->remove($powerType);
         $this->getDoctrine()->getManager()->flush();
 
