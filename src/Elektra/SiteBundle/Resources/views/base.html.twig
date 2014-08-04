@@ -1,14 +1,3 @@
-{% extends "AurealisThemeBundle::base.html.twig" %}
+{% extends 'AurealisThemeBundle::base.html.twig' %}
 
-{# include the default stylesheets for the template#}
-{% block head_stylesheets %}
-    {{ parent() }}
-    {% include "ElektraSiteBundle:includes:styles-bootstrap.html.twig" %}
-{% endblock head_stylesheets %}
-
-{# load jQuery and bootstrap scripts #}
-{% block body_javascripts %}
-    {{ parent() }}
-    {% include "AurealisThemeBundle:includes:js-jquery.html.twig" %}
-    {% include "AurealisThemeBundle:includes:js-bootstrap.html.twig" %}
-{% endblock body_javascripts %}
+{% import 'AurealisThemeBundle::macros.html.twig' as macro %}
