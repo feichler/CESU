@@ -18,16 +18,16 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            // Common third-party bundles
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
             // Common Aurealis Bundles
-            //            new Aurealis\BootstrapBundle\AurealisBootstrapBundle(),
-            //            new Aurealis\FontAwesomeBundle\AurealisFontAwesomeBundle(),
-            //            new Aurealis\UserBundle\AurealisUserBundle(),
+            new Aurealis\UserBundle\AurealisUserBundle(),
             new Aurealis\ThemeBundle\AurealisThemeBundle(),
             // Specific Elektra Bundles
+            //            new Elektra\ThemeBundle\ElektraThemeBundle(),
             new Elektra\SiteBundle\ElektraSiteBundle(),
-            new Elektra\SeedUnitBundle\ElektraSeedUnitBundle(),
-            //            new Elektra\CompanyBundle\ElektraCompanyBundle(),
-            //            new Elektra\SeedUnitBundle\ElektraSeedUnitBundle(),
+            new Elektra\SeedBundle\ElektraSeedBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
