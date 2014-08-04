@@ -1,0 +1,13 @@
+{% for message in info %}
+    <div class="system-message system-message-info system-message-dismissable">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">
+                &times;
+            </span>
+            <span class="sr-only">
+                Close
+            </span>
+        </button>
+        {{ message|msg }}
+    </div>
+{% endfor %}

@@ -1,0 +1,26 @@
+{% set info = app.session.flashbag.get('info') %}
+{% set success = app.session.flashbag.get('success') %}
+{% set warning = app.session.flashbag.get('warning') %}
+{% set error = app.session.flashbag.get('error') %}
+
+{% if (info|length > 0) or (success|length > 0) or (warning|length > 0) or (error|length > 0) %}
+    <div class="container">
+
+        {% if error|length > 0 %}
+            {% include "AurealisThemeBundle:Messages:errors.html.twig" %}
+        {% endif %}
+
+        {% if warning|length > 0 %}
+            {% include "AurealisThemeBundle:Messages:warnings.html.twig" %}
+        {% endif %}
+
+        {% if success|length > 0 %}
+            {% include "AurealisThemeBundle:Messages:success.html.twig" %}
+        {% endif %}
+
+        {% if info|length > 0 %}
+            {% include "AurealisThemeBundle:Messages:infos.html.twig" %}
+        {% endif %}
+
+    </div>
+{% endif %}
