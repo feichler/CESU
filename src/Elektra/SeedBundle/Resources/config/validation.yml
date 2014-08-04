@@ -1,0 +1,18 @@
+
+Elektra\SeedBundle\Entity\SeedUnit\Model:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
+    properties:
+        name:
+            - NotBlank: ~
+        description:
+            - NotBlank: ~
+
+Elektra\SeedBundle\Entity\SeedUnit\PowerType:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
+    properties:
+        name:
+            - NotBlank: ~
+        description:
+            - NotBlank: ~

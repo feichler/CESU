@@ -1,0 +1,56 @@
+
+# Seed Unit Model Routes:
+_cesu_seed_unit_models_list:
+    path:       /config/seedunit/models/browse/{page}
+    defaults:
+        _controller:    ElektraSeedBundle:SeedUnit/Model:list
+        page:           1
+    requirements:
+        page:           \d+
+
+_cesu_seed_unit_models_add:
+    path:       /config/seedunit/models/add
+    defaults:
+        _controller:    ElektraSeedBundle:SeedUnit/Model:add
+
+_cesu_seed_unit_models_edit:
+    path:       /config/seedunit/models/edit/{id}
+    defaults:
+        _controller:    ElektraSeedBundle:SeedUnit/Model:edit
+    requirements:
+        id:           \d+
+
+_cesu_seed_unit_models_delete:
+    path:       /config/seedunit/models/delete/{id}
+    defaults:
+        _controller:    ElektraSeedBundle:SeedUnit/Model:delete
+    requirements:
+        id:           \d+
+
+# Seed Unit Power Type Routes:
+_cesu_seed_unit_power_types_list:
+    path:       /config/seedunit/powertypes/browse/{page}
+    defaults:
+        _controller:    ElektraSeedBundle:SeedUnit/PowerType:list
+        page:           1
+    requirements:
+        page:           \d+
+
+_cesu_seed_unit_power_types_add:
+    path:       /config/seedunit/powertypes/add
+    defaults:
+        _controller:    ElektraSeedBundle:SeedUnit/PowerType:add
+
+_cesu_seed_unit_power_types_edit:
+    path:       /config/seedunit/powertypes/edit/{id}
+    defaults:
+        _controller:    ElektraSeedBundle:SeedUnit/PowerType:edit
+    requirements:
+        id:           \d+
+
+_cesu_seed_unit_power_types_delete:
+    path:       /config/seedunit/powertypes/delete/{id}
+    defaults:
+        _controller:    ElektraSeedBundle:SeedUnit/PowerType:delete
+    requirements:
+        id:           \d+

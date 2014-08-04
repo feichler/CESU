@@ -1,0 +1,46 @@
+{% extends "ElektraSiteBundle::layout.html.twig" %}
+
+{# TODO src: make the listing of entries generic #}
+{% block body_component %}
+    <div class="container">
+        <table class="table table-condensed table-striped table-hover" style="width: 100%">
+            <thead>
+            <tr>
+                <th style="width: 5%">ID</th>
+                <th>Model</th>
+                <th style="width: 15%" class="text-right">Actions</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">
+                    {{ macro.addLink(path('_cesu_seed_unit_models_add'),'New') }}
+                </td>
+            </tr>
+            </tfoot>
+            <tbody>
+            {% if entries|length > 0 %}
+                {% for model in entries %}
+                    <tr>
+                        <td>{{ model.modelId }}</td>
+                        <td>
+                            <span><strong>{{ model.name }}</strong></span>
+
+                            <p>{{ model.description }}</p>
+                        </td>
+                        <td class="text-right">
+                            {{ macro.editLink(path('_cesu_seed_unit_models_edit', {'id': model.modelId})) }}
+                            {{ macro.deleteLink(path('_cesu_seed_unit_models_delete', {'id': model.modelId})) }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <td colspan="3">
+                    No Models defined
+                </td>
+            {% endif %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock body_component %}
