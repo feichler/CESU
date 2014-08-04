@@ -8,12 +8,13 @@
             <tr>
                 <th style="width: 5%">ID</th>
                 <th>Model</th>
+                <th># Seed Units</th>
                 <th style="width: 15%" class="text-right">Actions</th>
             </tr>
             </thead>
             <tfoot>
             <tr>
-                <td colspan="3" class="text-right">
+                <td colspan="4" class="text-right">
                     {{ macro.addLink(path('_cesu_seed_unit_models_add'),'New') }}
                 </td>
             </tr>
@@ -28,14 +29,19 @@
 
                             <p>{{ model.description }}</p>
                         </td>
+                        <td>
+                            {{ model.seedUnits|length }}
+                        </td>
                         <td class="text-right">
                             {{ macro.editLink(path('_cesu_seed_unit_models_edit', {'id': model.id})) }}
-                            {{ macro.deleteLink(path('_cesu_seed_unit_models_delete', {'id': model.id})) }}
+                            {% if model.canDelete %}
+                                {{ macro.deleteLink(path('_cesu_seed_unit_models_delete', {'id': model.id})) }}
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
             {% else %}
-                <td colspan="3">
+                <td colspan="4">
                     No Models defined
                 </td>
             {% endif %}
