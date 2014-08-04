@@ -1,0 +1,69 @@
+{# #########################################################################
+    Variable initialisation
+############################################################################ #}
+{# page variable itself #}
+{% if page is not defined %}
+    {% set page = {} %}
+{% endif %}
+{# body id within page #}
+{% if page.bodyId is not defined %}
+    {% set page = page|merge({"bodyId": ""}) %}
+{% endif %}
+{# body classes within page #}
+{% if page.bodyClasses is not defined %}
+    {% set page = page|merge({"bodyClasses": []}) %}
+{% endif %}
+
+
+<!DOCTYPE html>
+
+<html>
+{# html head START #}
+{% block head %}
+    <head>
+
+        {% block head_charset %}
+            <meta charset="UTF-8"/>
+        {% endblock head_charset %}
+        {% block head_metadata %}
+        {% endblock head_metadata %}
+        {% block head_viewport %}
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% endblock head_viewport %}
+
+        <title>{% block title %}Aurealis ThemeBundle Base Template{% endblock %}</title>
+
+        {% block head_favicon %}
+            <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+        {% endblock head_favicon %}
+
+        {% block head_stylesheets %}
+            {% stylesheets %}
+            {% endstylesheets %}
+        {% endblock head_stylesheets %}
+
+        {% block head_javascripts %}
+            {% javascripts %}
+            {% endjavascripts %}
+        {% endblock head_javascripts %}
+    </head>
+{% endblock head %}
+{# html head END#}
+
+{# html body START#}
+{% block body %}
+    <body id="{{ page.bodyId }}" class="{{ page.bodyClasses|join(" ") }}">
+
+    {% block body_content %}
+
+    {% endblock body_content %}
+
+    {% block body_javascripts %}
+        {% javascripts %}
+        {% endjavascripts %}
+    {% endblock body_javascripts %}
+    </body>
+{% endblock body %}
+{# html body END#}
+
+</html>
