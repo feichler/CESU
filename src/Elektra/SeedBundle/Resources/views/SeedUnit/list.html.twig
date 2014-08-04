@@ -7,36 +7,34 @@
             <thead>
             <tr>
                 <th style="width: 5%">ID</th>
-                <th>Power Type</th>
+                <th>Seed Unit</th>
                 <th style="width: 15%" class="text-right">Actions</th>
             </tr>
             </thead>
             <tfoot>
             <tr>
                 <td colspan="3" class="text-right">
-                    {{ macro.addLink(path('_cesu_seed_unit_power_types_add'),'New') }}
+                    {{ macro.addLink(path('_cesu_seed_units_add'),'New') }}
                 </td>
             </tr>
             </tfoot>
             <tbody>
             {% if entries|length > 0 %}
-                {% for powerType in entries %}
+                {% for unit in entries %}
                     <tr>
-                        <td>{{ powerType.id }}</td>
+                        <td>{{ unit.id }}</td>
                         <td>
-                            <span><strong>{{ powerType.name }}</strong></span>
-
-                            <p>{{ powerType.description }}</p>
+                            <span><strong>{{ unit.serialNumber }}</strong></span>
                         </td>
                         <td class="text-right">
-                            {{ macro.editLink(path('_cesu_seed_unit_power_types_edit', {'id': powerType.id})) }}
-                            {{ macro.deleteLink(path('_cesu_seed_unit_power_types_delete', {'id': powerType.id})) }}
+                            {{ macro.editLink(path('_cesu_seed_units_edit', {'id': unit.id})) }}
+                            {{ macro.deleteLink(path('_cesu_seed_units_delete', {'id': unit.id})) }}
                         </td>
                     </tr>
                 {% endfor %}
             {% else %}
                 <td colspan="3">
-                    No Power Types defined
+                    No Units defined
                 </td>
             {% endif %}
             </tbody>

@@ -1,3 +1,32 @@
+# Seed Unit Routes:
+_cesu_seed_units_list:
+    path:       /seedunits/browse/{page}
+    defaults:
+        _controller:    ElektraSeedBundle:SeedUnit:list
+        page:           1
+    requirements:
+        page:           \d+
+
+_cesu_seed_units_add:
+    path:       /seedunits/add
+    defaults:
+        _controller:    ElektraSeedBundle:SeedUnit:add
+
+_cesu_seed_units_edit:
+    path:       /seedunits/edit/{id}
+    defaults:
+        _controller:    ElektraSeedBundle:SeedUnit:edit
+    requirements:
+        id:           \d+
+
+_cesu_seed_units_delete:
+    path:       /seedunits/delete/{id}
+    defaults:
+        _controller:    ElektraSeedBundle:SeedUnit:delete
+    requirements:
+        id:           \d+
+
+
 
 # Seed Unit Model Routes:
 _cesu_seed_unit_models_list:

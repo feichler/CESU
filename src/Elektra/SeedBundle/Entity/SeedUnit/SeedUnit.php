@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class SeedUnit
  *
- * @package Elektra\SeedBundle\Entity
+ * @package Elektra\SeedBundle\Entity\SeedUnit
  *
  * @ORM\Entity
  * @ORM\Table(name="seedunit")
