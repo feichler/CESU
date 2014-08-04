@@ -28,6 +28,7 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    # TODO src add own field renderer resources
 
 # Assetic Configuration
 assetic:
@@ -79,3 +80,21 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Aurealis\UserBundle\Entity\User
+
+#aurealis_theme:
+#    lists:
+#        limit:  10
+
+#aurealis_user: ~
+
+#elektra_seed:
+#    lists:
+#        limits:
+#            unit_model: 5
+
+#elektra_site: ~
