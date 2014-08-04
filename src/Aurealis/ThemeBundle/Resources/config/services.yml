@@ -1,0 +1,23 @@
+
+services:
+    theme.page:
+        class: Aurealis\ThemeBundle\Page\Page
+
+    theme.pagination:
+        class: Aurealis\ThemeBundle\Pagination\Pagination
+
+    theme.menu:
+        class: Aurealis\ThemeBundle\Menu\Menu
+
+    aurealis.twig.message_extension:
+        class: Aurealis\ThemeBundle\Twig\MessageExtension
+        tags:
+            - { name: twig.extension }
+
+    aurealis.twig.globals_extension:
+        class: Aurealis\ThemeBundle\Twig\GlobalsExtension
+        arguments: [ "@theme.page","@theme.menu","@theme.pagination" ]
+        tags:
+            - { name: twig.extension }
+
+
