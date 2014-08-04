@@ -2,8 +2,21 @@ security:
     providers:
         in_memory:
             memory: ~
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
 
     firewalls:
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+            logout: true
+            anonymous: true
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
