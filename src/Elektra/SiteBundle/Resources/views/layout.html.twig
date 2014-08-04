@@ -1,1 +1,38 @@
-{% extends "ElektraSiteBundle::base.html.twig" %}
+{% extends 'ElektraSiteBundle::base.html.twig' %}
+
+{% block body_content %}
+
+    {# header block: main navigation #}
+    {% block body_header %}
+        {# TODO src: make navbar generic (using Elektra\SiteBundle\Menu\Menu and Aurealis\ThemeBundle\Menu\Menu #}
+        {% include 'ElektraSiteBundle:Includes:navbar.html.twig' %}
+        {#{% include 'AurealisThemeBundle:Navbar:navbar.html.twig' %}#}
+    {% endblock body_header %}
+
+    {# messages block: system messages (info / error / etc) #}
+    {% block body_messages %}
+        {% include 'AurealisThemeBundle:Messages:messages.html.twig' %}
+    {% endblock body_messages %}
+
+    {# heading block: actual page title #}
+    {% block body_heading %}
+        {% if ( theme_page.heading is defined ) and not ( theme_page.heading is empty ) %}
+            <div class="container">
+                <h1 class="page_heading">
+                    {{ theme_page.heading }}
+                </h1>
+            </div>
+        {% endif %}
+    {% endblock body_heading %}
+
+    {# component block: the actual page content #}
+    {% block body_component %}
+
+    {% endblock body_component %}
+
+    {# footer block: copyright information, etc #}
+    {% block body_footer %}
+
+    {% endblock body_footer %}
+
+{% endblock body_content %}
