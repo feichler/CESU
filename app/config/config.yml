@@ -29,6 +29,9 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     # TODO src add own field renderer resources
+    form:
+        resources:
+            - "AurealisThemeBundle:Form:fields.html.twig"
 
 # Assetic Configuration
 assetic:
