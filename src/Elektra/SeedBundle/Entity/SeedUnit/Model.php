@@ -2,6 +2,7 @@
 
 namespace Elektra\SeedBundle\Entity\SeedUnit;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,8 +39,24 @@ class Model
      */
     protected $description;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="SeedUnit", mappedBy="model")
+     */
+    protected $seedUnits;
+
     public function __construct()
     {
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+
+        return $this->modelId;
     }
 
     /**
@@ -85,5 +102,14 @@ class Model
     {
 
         return $this->name;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSeedUnits()
+    {
+
+        return $this->seedUnits;
     }
 }

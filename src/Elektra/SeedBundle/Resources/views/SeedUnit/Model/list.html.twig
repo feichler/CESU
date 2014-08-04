@@ -29,8 +29,8 @@
                             <p>{{ model.description }}</p>
                         </td>
                         <td class="text-right">
-                            {{ macro.editLink(path('_cesu_seed_unit_models_edit', {'id': model.modelId})) }}
-                            {{ macro.deleteLink(path('_cesu_seed_unit_models_delete', {'id': model.modelId})) }}
+                            {{ macro.editLink(path('_cesu_seed_unit_models_edit', {'id': model.id})) }}
+                            {{ macro.deleteLink(path('_cesu_seed_unit_models_delete', {'id': model.id})) }}
                         </td>
                     </tr>
                 {% endfor %}

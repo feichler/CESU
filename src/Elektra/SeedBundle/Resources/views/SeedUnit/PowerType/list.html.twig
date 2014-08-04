@@ -29,8 +29,8 @@
                             <p>{{ powerType.description }}</p>
                         </td>
                         <td class="text-right">
-                            {{ macro.editLink(path('_cesu_seed_unit_power_types_edit', {'id': powerType.powerTypeId})) }}
-                            {{ macro.deleteLink(path('_cesu_seed_unit_power_types_delete', {'id': powerType.powerTypeId})) }}
+                            {{ macro.editLink(path('_cesu_seed_unit_power_types_edit', {'id': powerType.id})) }}
+                            {{ macro.deleteLink(path('_cesu_seed_unit_power_types_delete', {'id': powerType.id})) }}
                         </td>
                     </tr>
                 {% endfor %}
