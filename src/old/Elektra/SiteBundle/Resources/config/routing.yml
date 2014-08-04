@@ -1,5 +1,0 @@
-
-_elektra_site_home:
-    path: /
-    defaults:
-        _controller: ElektraSiteBundle:Site:home
