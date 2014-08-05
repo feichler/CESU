@@ -6,7 +6,7 @@ namespace Elektra\SeedBundle\Controller\SeedUnit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Elektra\SeedBundle\Entity\SeedUnit\Model;
+use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel;
 
 class ModelController extends Controller
 {
@@ -42,7 +42,7 @@ class ModelController extends Controller
 
         $this->initializePage('Add Seed Unit Models');
 
-        $model = new Model();
+        $model = new SeedUnitModel();
 
         $formBuilder = $this->createFormBuilder($model);
         $formBuilder->add('name', 'text');

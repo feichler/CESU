@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class Companies
+ * Class Company
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *

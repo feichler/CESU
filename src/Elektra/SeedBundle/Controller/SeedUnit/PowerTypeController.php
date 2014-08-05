@@ -3,7 +3,7 @@
 // TODO src: add CSRF Protection to the forms
 namespace Elektra\SeedBundle\Controller\SeedUnit;
 
-use Elektra\SeedBundle\Entity\SeedUnit\PowerType;
+use Elektra\SeedBundle\Entity\SeedUnits\PowerCordType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,7 +41,7 @@ class PowerTypeController extends Controller
 
         $this->initializePage('Add Seed Unit Power Types');
 
-        $powerType = new PowerType();
+        $powerType = new PowerCordType();
 
         $formBuilder = $this->createFormBuilder($powerType);
         $formBuilder->add('name', 'text');

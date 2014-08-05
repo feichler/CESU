@@ -3,7 +3,7 @@
 // TODO src: add CSRF Protection to the forms
 namespace Elektra\SeedBundle\Controller;
 
-use Elektra\SeedBundle\Entity\SeedUnit\SeedUnit;
+use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 

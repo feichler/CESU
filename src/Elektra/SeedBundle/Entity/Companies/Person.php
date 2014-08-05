@@ -75,9 +75,17 @@ class Person
      */
     protected $contactInfo;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Attendance", mappedBy="person", fetch="EXTRA_LAZY")
+     */
+    protected $attendances;
+
     public function __construct()
     {
         $this->contactInfo = new ArrayCollection();
+        $this->attendances = new ArrayCollection();
     }
 
     /**
@@ -126,6 +134,22 @@ class Person
     public function getContactInfo()
     {
         return $this->contactInfo;
+    }
+
+    /**
+     * @param ArrayCollection $attendances
+     */
+    public function setAttendances($attendances)
+    {
+        $this->attendances = $attendances;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getAttendances()
+    {
+        return $this->attendances;
     }
 
     /**
