@@ -19,6 +19,8 @@
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
 
+		"doctrine/doctrine-fixtures-bundle": "~2.2",
+		"friendsofsymfony/user-bundle": "2.0.*@dev",
 		"twbs/bootstrap": "~3.2",
 		"fortawesome/font-awesome": "~4.1",
 		"frameworks/jquery": "1.11.x",
