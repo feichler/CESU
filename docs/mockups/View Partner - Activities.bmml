@@ -1,0 +1,28 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1027" measuredH="513" mockupW="868" mockupH="493">
+  <controls>
+    <control controlID="46" controlTypeID="com.balsamiq.mockups::Title" x="159" y="20" w="-1" h="-1" measuredW="316" measuredH="43" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Partner%3A%20Partner%201</text>
+      </controlProperties>
+    </control>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="159" y="118" w="868" h="395" measuredW="200" measuredH="302" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <hrefs>View%20Partner%20-%20General%26bm%3BView%20Partner%20-%20General.bmml%26bm%3BView%20Partner%20-%20General.bmml%26bm%3BView%20Partner%20-%20General.bmml%2CView%20Partner%20-%20Locations%26bm%3BView%20Partner%20-%20Locations.bmml%26bm%3BView%20Partner%20-%20Locations.bmml%26bm%3BView%20Partner%20-%20Locations.bmml%2CView%20Partner%20-%20People%26bm%3BView%20Partner%20-%20People.bmml%26bm%3BView%20Partner%20-%20People.bmml%26bm%3BView%20Partner%20-%20People.bmml%2CView%20Partner%20-%20Customers%26bm%3BView%20Partner%20-%20Customers.bmml%26bm%3BView%20Partner%20-%20Customers.bmml%26bm%3BView%20Partner%20-%20Customers.bmml%2CView%20Partner%20-%20Seed%20Units%26bm%3BView%20Partner%20-%20Seed%20Units.bmml%26bm%3BView%20Partner%20-%20Seed%20Units.bmml%26bm%3BView%20Partner%20-%20Seed%20Units.bmml%2CView%20Partner%20-%20Requests%26bm%3BView%20Partner%20-%20Requests.bmml%26bm%3BView%20Partner%20-%20Requests.bmml%26bm%3BView%20Partner%20-%20Requests.bmml%2CView%20Partner%20-%20Notes%26bm%3BView%20Partner%20-%20Notes.bmml%26bm%3BView%20Partner%20-%20Notes.bmml%26bm%3BView%20Partner%20-%20Notes.bmml%2C</hrefs>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C118%2C76%2C148%22%20href%3D%22View%2520Partner%2520-%2520General.bmml%22%20alt%3D%22View%20Partner%20-%20General%22%20id%3D%2247%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C146%2C76%2C176%22%20href%3D%22View%2520Partner%2520-%2520Locations.bmml%22%20alt%3D%22View%20Partner%20-%20Locations%22%20id%3D%2247%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C174%2C76%2C204%22%20href%3D%22View%2520Partner%2520-%2520People.bmml%22%20alt%3D%22View%20Partner%20-%20People%22%20id%3D%2247%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C202%2C76%2C232%22%20href%3D%22View%2520Partner%2520-%2520Customers.bmml%22%20alt%3D%22View%20Partner%20-%20Customers%22%20id%3D%2247%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C230%2C76%2C260%22%20href%3D%22View%2520Partner%2520-%2520Seed%2520Units.bmml%22%20alt%3D%22View%20Partner%20-%20Seed%20Units%22%20id%3D%2247%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C258%2C76%2C288%22%20href%3D%22View%2520Partner%2520-%2520Requests.bmml%22%20alt%3D%22View%20Partner%20-%20Requests%22%20id%3D%2247%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C286%2C76%2C316%22%20href%3D%22View%2520Partner%2520-%2520Notes.bmml%22%20alt%3D%22View%20Partner%20-%20Notes%22%20id%3D%2247%22/%3E%0A</map>
+        <selectedIndex>7</selectedIndex>
+        <text>General%0ALocations%0APeople%0ACustomers%0ASeed%20Units%0ARequests%0ANotes%0AActivities</text>
+      </controlProperties>
+    </control>
+    <control controlID="56" controlTypeID="com.balsamiq.mockups::ButtonBar" x="730" y="78" w="-1" h="-1" measuredW="297" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>-1</selectedIndex>
+        <text>Edit%2C%20Add%20Note%2C%20Add%20Request%2C%20Export</text>
+      </controlProperties>
+    </control>
+    <control controlID="57" controlTypeID="com.balsamiq.mockups::DataGrid" x="242" y="127" w="770" h="377" measuredW="728" measuredH="201" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Date%20%5E%2CTime%20%5E%2CSerial%20Number%2CModel%2CPower%20Cord%2C%20Status%2C%20Location%2C%20Customer%2C%20Comment%0A28/07/2014%2C%208%3A00%20AM%2C%20%5B123456789-0%5D%2C%5BModel%201%5D%2C%5BEU%5D%2CPIC%2C%5BPartnerLocation%201%5D%2C%20%5BCustomer%201%5D%0A27/07/2014%2C%2010%3A00%20AM%2C%20%5B123456789-0%5D%2C%5BModel%201%5D%2C%5BEU%5D%2CDV%2C%20%5BPartnerLocation%201%5D%0A27/07/2014%2C%209%3A00%20AM%2C%20%5B123456789-0%5D%2C%5BModel%201%5D%2C%5BEU%5D%2CAA%2C%20%5BPartnerLocation%201%5D%0A27/07/2014%2C%208%3A00%20AM%2C%20%5B123456789-0%5D%2C%5BModel%201%5D%2C%5BEU%5D%2CD%2C%20%5BPartnerLocation%201%5D%0A26/07/2014%2C%209%3A00%20AM%2C%20%5B123456789-0%5D%2C%5BModel%201%5D%2C%5BEU%5D%2CI%2C%20In%20transit%0A25/07/2014%2C%2012%3A00%20PM%2C%20%5B123456789-0%5D%2C%5BModel%201%5D%2C%5BEU%5D%2CR%2C%5BLocation%20%28Warehouse%29%5D</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

@@ -1,0 +1,108 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="859" measuredH="513" mockupW="700" mockupH="493">
+  <controls>
+    <control controlID="46" controlTypeID="com.balsamiq.mockups::Title" x="159" y="20" w="-1" h="-1" measuredW="316" measuredH="43" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Partner%3A%20Partner%201</text>
+      </controlProperties>
+    </control>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="159" y="118" w="700" h="395" measuredW="200" measuredH="302" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <hrefs>%2CView%20Partner%20-%20Locations%26bm%3BView%20Partner%20-%20Locations.bmml%26bm%3BView%20Partner%20-%20Locations.bmml%26bm%3BView%20Partner%20-%20Locations.bmml%2CView%20Partner%20-%20People%26bm%3BView%20Partner%20-%20People.bmml%26bm%3BView%20Partner%20-%20People.bmml%26bm%3BView%20Partner%20-%20People.bmml%2CView%20Partner%20-%20Customers%26bm%3BView%20Partner%20-%20Customers.bmml%26bm%3BView%20Partner%20-%20Customers.bmml%26bm%3BView%20Partner%20-%20Customers.bmml%2CView%20Partner%20-%20Seed%20Units%26bm%3BView%20Partner%20-%20Seed%20Units.bmml%26bm%3BView%20Partner%20-%20Seed%20Units.bmml%26bm%3BView%20Partner%20-%20Seed%20Units.bmml%2CView%20Partner%20-%20Requests%26bm%3BView%20Partner%20-%20Requests.bmml%26bm%3BView%20Partner%20-%20Requests.bmml%26bm%3BView%20Partner%20-%20Requests.bmml%2CView%20Partner%20-%20Notes%26bm%3BView%20Partner%20-%20Notes.bmml%26bm%3BView%20Partner%20-%20Notes.bmml%26bm%3BView%20Partner%20-%20Notes.bmml%2CView%20Partner%20-%20Activities%26bm%3BView%20Partner%20-%20Activities.bmml%26bm%3BView%20Partner%20-%20Activities.bmml%26bm%3BView%20Partner%20-%20Activities.bmml</hrefs>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C146%2C76%2C176%22%20href%3D%22View%2520Partner%2520-%2520Locations.bmml%22%20alt%3D%22View%20Partner%20-%20Locations%22%20id%3D%2247%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C174%2C76%2C204%22%20href%3D%22View%2520Partner%2520-%2520People.bmml%22%20alt%3D%22View%20Partner%20-%20People%22%20id%3D%2247%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C202%2C76%2C232%22%20href%3D%22View%2520Partner%2520-%2520Customers.bmml%22%20alt%3D%22View%20Partner%20-%20Customers%22%20id%3D%2247%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C230%2C76%2C260%22%20href%3D%22View%2520Partner%2520-%2520Seed%2520Units.bmml%22%20alt%3D%22View%20Partner%20-%20Seed%20Units%22%20id%3D%2247%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C258%2C76%2C288%22%20href%3D%22View%2520Partner%2520-%2520Requests.bmml%22%20alt%3D%22View%20Partner%20-%20Requests%22%20id%3D%2247%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C286%2C76%2C316%22%20href%3D%22View%2520Partner%2520-%2520Notes.bmml%22%20alt%3D%22View%20Partner%20-%20Notes%22%20id%3D%2247%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C314%2C76%2C344%22%20href%3D%22View%2520Partner%2520-%2520Activities.bmml%22%20alt%3D%22View%20Partner%20-%20Activities%22%20id%3D%2247%22/%3E%0A</map>
+        <selectedIndex>0</selectedIndex>
+        <text>General%0ALocations%0APeople%0ACustomers%0ASeed%20Units%0ARequests%0ANotes%0AActivities</text>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Label" x="616" y="150" w="-1" h="-1" measuredW="30" measuredH="21" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Max.%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::Label" x="616" y="189" w="-1" h="-1" measuredW="40" measuredH="21" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>In%20use%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::Label" x="241" y="141" w="-1" h="-1" measuredW="38" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Name%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::Label" x="241" y="180" w="-1" h="-1" measuredW="74" measuredH="21" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Partner%20Tier%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="52" controlTypeID="com.balsamiq.mockups::Label" x="241" y="294" w="-1" h="-1" measuredW="60" measuredH="21" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Comment%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::TextArea" x="241" y="315" w="594" h="186" measuredW="200" measuredH="140" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::Label" x="241" y="219" w="-1" h="-1" measuredW="51" measuredH="21" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Created%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::Label" x="241" y="258" w="-1" h="-1" measuredW="52" measuredH="21" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Modified%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="56" controlTypeID="com.balsamiq.mockups::ButtonBar" x="562" y="78" w="-1" h="-1" measuredW="297" measuredH="27" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>-1</selectedIndex>
+        <text>Edit%2C%20Add%20Note%2C%20Add%20Request%2C%20Export</text>
+      </controlProperties>
+    </control>
+    <control controlID="57" controlTypeID="com.balsamiq.mockups::Label" x="362" y="141" w="-1" h="-1" measuredW="81" measuredH="21" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>123456789-0</text>
+      </controlProperties>
+    </control>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::Link" x="362" y="181" w="-1" h="-1" measuredW="10" measuredH="19" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>1</text>
+      </controlProperties>
+    </control>
+    <control controlID="59" controlTypeID="com.balsamiq.mockups::Label" x="732" y="189" w="-1" h="-1" measuredW="10" measuredH="21" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>1</text>
+      </controlProperties>
+    </control>
+    <control controlID="60" controlTypeID="com.balsamiq.mockups::Label" x="732" y="150" w="10" h="-1" measuredW="10" measuredH="21" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>2</text>
+      </controlProperties>
+    </control>
+    <control controlID="61" controlTypeID="com.balsamiq.mockups::Label" x="362" y="219" w="-1" h="-1" measuredW="72" measuredH="21" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>07/25/2014</text>
+      </controlProperties>
+    </control>
+    <control controlID="62" controlTypeID="com.balsamiq.mockups::Link" x="475" y="220" w="-1" h="-1" measuredW="55" measuredH="19" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>John%20Doe</text>
+      </controlProperties>
+    </control>
+    <control controlID="63" controlTypeID="com.balsamiq.mockups::Label" x="616" y="228" w="-1" h="-1" measuredW="53" measuredH="21" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Available%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="64" controlTypeID="com.balsamiq.mockups::Label" x="732" y="228" w="-1" h="-1" measuredW="10" measuredH="21" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>1</text>
+      </controlProperties>
+    </control>
+    <control controlID="65" controlTypeID="com.balsamiq.mockups::FieldSet" x="609" y="133" w="148" h="131" measuredW="200" measuredH="170" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%23%20of%20Seed%20Units</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

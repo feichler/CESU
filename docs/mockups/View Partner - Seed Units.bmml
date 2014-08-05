@@ -1,0 +1,41 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1002" measuredH="513" mockupW="843" mockupH="493">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::Title" x="159" y="20" w="-1" h="-1" measuredW="316" measuredH="43" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Partner%3A%20Partner%201</text>
+      </controlProperties>
+    </control>
+    <control controlID="35" controlTypeID="com.balsamiq.mockups::VerticalTabBar" x="159" y="118" w="843" h="395" measuredW="200" measuredH="302" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <hrefs>View%20Partner%20-%20General%26bm%3BView%20Partner%20-%20General.bmml%26bm%3BView%20Partner%20-%20General.bmml%26bm%3BView%20Partner%20-%20General.bmml%2CView%20Partner%20-%20Locations%26bm%3BView%20Partner%20-%20Locations.bmml%26bm%3BView%20Partner%20-%20Locations.bmml%26bm%3BView%20Partner%20-%20Locations.bmml%2CView%20Partner%20-%20People%26bm%3BView%20Partner%20-%20People.bmml%26bm%3BView%20Partner%20-%20People.bmml%26bm%3BView%20Partner%20-%20People.bmml%2CView%20Partner%20-%20Customers%26bm%3BView%20Partner%20-%20Customers.bmml%26bm%3BView%20Partner%20-%20Customers.bmml%26bm%3BView%20Partner%20-%20Customers.bmml%2C%2CView%20Partner%20-%20Requests%26bm%3BView%20Partner%20-%20Requests.bmml%26bm%3BView%20Partner%20-%20Requests.bmml%26bm%3BView%20Partner%20-%20Requests.bmml%2CView%20Partner%20-%20Notes%26bm%3BView%20Partner%20-%20Notes.bmml%26bm%3BView%20Partner%20-%20Notes.bmml%26bm%3BView%20Partner%20-%20Notes.bmml%2CView%20Partner%20-%20Activities%26bm%3BView%20Partner%20-%20Activities.bmml%26bm%3BView%20Partner%20-%20Activities.bmml%26bm%3BView%20Partner%20-%20Activities.bmml</hrefs>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C118%2C76%2C148%22%20href%3D%22View%2520Partner%2520-%2520General.bmml%22%20alt%3D%22View%20Partner%20-%20General%22%20id%3D%2235%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C146%2C76%2C176%22%20href%3D%22View%2520Partner%2520-%2520Locations.bmml%22%20alt%3D%22View%20Partner%20-%20Locations%22%20id%3D%2235%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C174%2C76%2C204%22%20href%3D%22View%2520Partner%2520-%2520People.bmml%22%20alt%3D%22View%20Partner%20-%20People%22%20id%3D%2235%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C202%2C76%2C232%22%20href%3D%22View%2520Partner%2520-%2520Customers.bmml%22%20alt%3D%22View%20Partner%20-%20Customers%22%20id%3D%2235%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C258%2C76%2C288%22%20href%3D%22View%2520Partner%2520-%2520Requests.bmml%22%20alt%3D%22View%20Partner%20-%20Requests%22%20id%3D%2235%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C286%2C76%2C316%22%20href%3D%22View%2520Partner%2520-%2520Notes.bmml%22%20alt%3D%22View%20Partner%20-%20Notes%22%20id%3D%2235%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%220%2C314%2C76%2C344%22%20href%3D%22View%2520Partner%2520-%2520Activities.bmml%22%20alt%3D%22View%20Partner%20-%20Activities%22%20id%3D%2235%22/%3E%0A</map>
+        <selectedIndex>4</selectedIndex>
+        <text>General%0ALocations%0APeople%0ACustomers%0ASeed%20Units%0ARequests%0ANotes%0AActivities</text>
+      </controlProperties>
+    </control>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::ButtonBar" x="705" y="78" w="-1" h="-1" measuredW="297" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>-1</selectedIndex>
+        <text>Edit%2C%20Add%20Note%2C%20Add%20Request%2C%20Export</text>
+      </controlProperties>
+    </control>
+    <control controlID="46" controlTypeID="com.balsamiq.mockups::DataGrid" x="241" y="141" w="-1" h="-1" measuredW="746" measuredH="51" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%2CSerial%20Number%20%5E%2C%20Model%2C%20Power%20Cord%2C%20Status%2C%20Status%20since%2C%20Location%2C%20Customer%2C%20Comment%2C%20Actions%0A%5Bx%5D%2C%5B123456789-0%5D%2C%20Model%201%2C%20US%2C%20PIC%2C%2007-28-2014%2C%20%5BPartnerLocation1%5D%2C%2C%2C%5BEdit%5D%20%5BDelete%5D</text>
+      </controlProperties>
+    </control>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::StickyNote" x="857" y="216" w="-1" h="-1" measuredW="109" measuredH="123" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Columns%20identical%20to%20View%20Seed%20Units%20%28exc.%20Partner%29</text>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Canvas" x="267" y="162" w="111" h="23" measuredW="100" measuredH="70" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0</backgroundAlpha>
+        <borderStyle>none</borderStyle>
+        <href>View%20Seed%20Unit%20-%20General%26bm%3BView%20Seed%20Unit%20-%20General.bmml%26bm%3BView%20Seed%20Unit%20-%20General.bmml%26bm%3BView%20Seed%20Unit%20-%20General.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22108%2C142%2C219%2C165%22%20href%3D%22View%2520Seed%2520Unit%2520-%2520General.bmml%22%20alt%3D%22View%20Seed%20Unit%20-%20General%22%20id%3D%2248%22/%3E</map>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

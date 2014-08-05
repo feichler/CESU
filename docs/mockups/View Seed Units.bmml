@@ -1,0 +1,29 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="970" measuredH="199" mockupW="811" mockupH="179">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::Title" x="159" y="20" w="-1" h="-1" measuredW="202" measuredH="43" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Seed%20Units</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::ButtonBar" x="860" y="78" w="-1" h="-1" measuredW="110" measuredH="27" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>-1</selectedIndex>
+        <text>Add%2C%20Export</text>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::DataGrid" x="159" y="118" w="-1" h="-1" measuredW="811" measuredH="81" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%2CSerial%20Number%20%5E%2C%20Model%2C%20Power%20Cord%2C%20Status%2C%20Status%20since%2C%20Location%2C%20Partner%2C%20Customer%2C%20Comment%2C%20Actions%0A%5Bx%5D%2C%5B123456789-0%5D%2C%20Model%201%2C%20EU%2CPIC%2C%2007-28-2014%2C%20%5BPartnerLocation1%5D%2C%20%5BPartner%201%5D%2C%2C%2C%5BEdit%5D%20%5BDelete%5D%0A%5B%5D%2C%5B987654321-0%5D%2C%20Model%201%2C%20US%2C%20A%2C%2007-29-2014%2C%20%5BFL-EU-AMS-01%5D%2C%2C%2C%2C%5BEdit%5D%20%5BDelete%5D</text>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Canvas" x="188" y="140" w="104" h="21" measuredW="100" measuredH="70" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0</backgroundAlpha>
+        <borderStyle>none</borderStyle>
+        <href>View%20Seed%20Unit%20-%20General%26bm%3BView%20Seed%20Unit%20-%20General.bmml%26bm%3BView%20Seed%20Unit%20-%20General.bmml%26bm%3BView%20Seed%20Unit%20-%20General.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2229%2C120%2C133%2C141%22%20href%3D%22View%2520Seed%2520Unit%2520-%2520General.bmml%22%20alt%3D%22View%20Seed%20Unit%20-%20General%22%20id%3D%223%22/%3E</map>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
