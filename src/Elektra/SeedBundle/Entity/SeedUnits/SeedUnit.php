@@ -1,20 +1,19 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\SeedUnit;
+namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class SeedUnit
+ * Class SeedUnits
  *
- * @package Elektra\SeedBundle\Entity\SeedUnit
+ * @package Elektra\SeedBundle\Entity\SeedUnits
  *
  * @ORM\Entity
- * @ORM\Table(name="seedunit")
+ * @ORM\Table(name="seedUnits")
  */
 class SeedUnit
 {
-
     /**
      * @var int
      *
@@ -32,20 +31,20 @@ class SeedUnit
     protected $serialNumber;
 
     /**
-     * @var Model
+     * @var SeedUnitModel
      *
-     * @ORM\ManyToOne(targetEntity="Model", inversedBy="seedUnits", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="modelId", referencedColumnName="modelId")
+     * @ORM\ManyToOne(targetEntity="SeedUnitModel", inversedBy="seedUnits", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="seedUnitModelId", referencedColumnName="seedUnitModelId")
      */
     protected $model;
 
     /**
-     * @var PowerType
+     * @var PowerCordType
      *
-     * @ORM\ManyToOne(targetEntity="PowerType", inversedBy="seedUnits", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="powerTypeId", referencedColumnName="powerTypeId")
+     * @ORM\ManyToOne(targetEntity="PowerCordType", inversedBy="seedUnits", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="powerCordTypeId", referencedColumnName="powerCordTypeId")
      */
-    protected $powerType;
+    protected $powerCordType;
 
     function __construct()
     {
@@ -56,7 +55,6 @@ class SeedUnit
      */
     public function getId()
     {
-
         return $this->seedUnitId;
     }
 
@@ -65,44 +63,39 @@ class SeedUnit
      */
     public function getSeedUnitId()
     {
-
         return $this->seedUnitId;
     }
 
     /**
-     * @param Model $model
+     * @param SeedUnitModel $model
      */
     public function setModel($model)
     {
-
         $this->model = $model;
     }
 
     /**
-     * @return Model
+     * @return SeedUnitModel
      */
     public function getModel()
     {
-
         return $this->model;
     }
 
     /**
-     * @param PowerType $powerType
+     * @param PowerCordType $powerCordType
      */
-    public function setPowerType($powerType)
+    public function setPowerCordType($powerCordType)
     {
-
-        $this->powerType = $powerType;
+        $this->powerCordType = $powerCordType;
     }
 
     /**
-     * @return PowerType
+     * @return PowerCordType
      */
-    public function getPowerType()
+    public function getPowerCordType()
     {
-
-        return $this->powerType;
+        return $this->powerCordType;
     }
 
     /**
@@ -110,7 +103,6 @@ class SeedUnit
      */
     public function setSerialNumber($serialNumber)
     {
-
         $this->serialNumber = $serialNumber;
     }
 
@@ -119,7 +111,6 @@ class SeedUnit
      */
     public function getSerialNumber()
     {
-
         return $this->serialNumber;
     }
 }

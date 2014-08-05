@@ -1,26 +1,25 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\Company;
+namespace Elektra\SeedBundle\Entity\Companies;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class Location
+ * Class Companies
  *
- * @package Elektra\SeedBundle\Entity\Company
+ * @package Elektra\SeedBundle\Entity\Companies
  *
  * @ORM\Entity
- * @ORM\Table(name="locations")
+ * @ORM\Table(name="companies")
  * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="locationType", type="string")
+ * @ORM\DiscriminatorColumn(name="companyType",type="string")
  * @ORM\DiscriminatorMap({
- *  "company" = "CompanyLocation",
- *  "warehouse" = "WarehouseLocation",
- *  "generic" = "GenericLocation"
+ *  "partner" = "Partner",
+ *  "customer" = "Customer"
  * })
  */
-abstract class Location
+abstract class Company
 {
 
     /**
@@ -30,7 +29,7 @@ abstract class Location
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $locationId;
+    protected $companyId;
 
     /**
      * @var string
@@ -49,14 +48,13 @@ abstract class Location
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Address",mappedBy="location",fetch="EXTRA_LAZY",cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Location",mappedBy="company",fetch="EXTRA_LAZY",cascade={"remove"})
      */
-    protected $addresses;
+    protected $locations;
 
     public function __construct()
     {
-
-        $this->addresses = new ArrayCollection();
+        $this->locations = new ArrayCollection();
     }
 
     /**
@@ -64,35 +62,31 @@ abstract class Location
      */
     public function getId()
     {
-
-        return $this->locationId;
+        return $this->companyId;
     }
 
     /**
      * @return int
      */
-    public function getLocationId()
+    public function getCompanyId()
     {
-
-        return $this->locationId;
+        return $this->companyId;
     }
 
     /**
-     * @param \Doctrine\Common\Collections\ArrayCollection $addresses
+     * @param ArrayCollection $locations
      */
-    public function setAddresses($addresses)
+    public function setLocations($locations)
     {
-
-        $this->addresses = $addresses;
+        $this->locations = $locations;
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection
      */
-    public function getAddresses()
+    public function getLocations()
     {
-
-        return $this->addresses;
+        return $this->locations;
     }
 
     /**
@@ -100,7 +94,6 @@ abstract class Location
      */
     public function setName($name)
     {
-
         $this->name = $name;
     }
 
@@ -109,7 +102,6 @@ abstract class Location
      */
     public function getName()
     {
-
         return $this->name;
     }
 
@@ -118,7 +110,6 @@ abstract class Location
      */
     public function setShortName($shortName)
     {
-
         $this->shortName = $shortName;
     }
 
@@ -127,7 +118,6 @@ abstract class Location
      */
     public function getShortName()
     {
-
         return $this->shortName;
     }
 }

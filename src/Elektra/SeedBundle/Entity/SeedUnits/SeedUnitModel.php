@@ -1,6 +1,6 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\SeedUnit;
+namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -8,12 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Model
  *
- * @package Elektra\SeedBundle\Entity\SeedUnit
+ * @package Elektra\SeedBundle\Entity\SeedUnits
  *
  * @ORM\Entity
- * @ORM\Table(name="seedunits_models")
+ * @ORM\Table(name="seedUnitModels")
  */
-class Model
+class SeedUnitModel
 {
 
     /**
@@ -23,7 +23,7 @@ class Model
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $modelId;
+    protected $seedUnitModelId;
 
     /**
      * @var string
@@ -42,13 +42,12 @@ class Model
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="SeedUnit", mappedBy="model", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="SeedUnits", mappedBy="model", fetch="EXTRA_LAZY")
      */
     protected $seedUnits;
 
     public function __construct()
     {
-
         $this->seedUnits = new ArrayCollection();
     }
 
@@ -58,16 +57,15 @@ class Model
     public function getId()
     {
 
-        return $this->modelId;
+        return $this->seedUnitModelId;
     }
 
     /**
      * @return int
      */
-    public function getModelId()
+    public function getSeedUnitModelId()
     {
-
-        return $this->modelId;
+        return $this->seedUnitModelId;
     }
 
     /**
@@ -75,7 +73,6 @@ class Model
      */
     public function setDescription($description)
     {
-
         $this->description = $description;
     }
 
@@ -84,7 +81,6 @@ class Model
      */
     public function getDescription()
     {
-
         return $this->description;
     }
 
@@ -93,7 +89,6 @@ class Model
      */
     public function setName($name)
     {
-
         $this->name = $name;
     }
 
@@ -102,7 +97,6 @@ class Model
      */
     public function getName()
     {
-
         return $this->name;
     }
 
@@ -111,7 +105,6 @@ class Model
      */
     public function getSeedUnits()
     {
-
         return $this->seedUnits;
     }
 
@@ -122,5 +115,4 @@ class Model
 
         return count($this->seedUnits) == 0;
     }
-
 }

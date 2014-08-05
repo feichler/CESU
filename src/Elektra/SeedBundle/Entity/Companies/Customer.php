@@ -1,20 +1,19 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\Company;
+namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Customer
  *
- * @package Elektra\SeedBundle\Entity\Company
+ * @package Elektra\SeedBundle\Entity\Companies
  *
  * @ORM\Entity
- * @ORM\Table(name="companies_customer")
+ * @ORM\Table(name="customerCompanies")
  */
 class Customer extends Company
 {
-
     public function __construct()
     {
 

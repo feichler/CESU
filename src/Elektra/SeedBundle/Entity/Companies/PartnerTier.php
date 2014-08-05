@@ -1,21 +1,20 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\Company;
+namespace Elektra\SeedBundle\Entity\Companies;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class PartnerTier
  *
- * @package Elektra\SeedBundle\Entity\Company
+ * @package Elektra\SeedBundle\Entity\Companies
  *
  * @ORM\Entity
- * @ORM\Table(name="companies_partner_tier")
+ * @ORM\Table(name="partnerTiers")
  */
 class PartnerTier
 {
-
     /**
      * @var int
      *
@@ -71,6 +70,24 @@ class PartnerTier
     }
 
     /**
+     * @param ArrayCollection $partners
+     */
+    public function setPartners($partners)
+    {
+
+        $this->partners = $partners;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPartners()
+    {
+
+        return $this->partners;
+    }
+
+    /**
      * @param string $name
      */
     public function setName($name)
@@ -86,24 +103,6 @@ class PartnerTier
     {
 
         return $this->name;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\ArrayCollection $partners
-     */
-    public function setPartners($partners)
-    {
-
-        $this->partners = $partners;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getPartners()
-    {
-
-        return $this->partners;
     }
 
     /**

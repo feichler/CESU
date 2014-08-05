@@ -1,26 +1,27 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\Company;
+namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class Company
+ * Class Location
  *
- * @package Elektra\SeedBundle\Entity\Company
+ * @package Elektra\SeedBundle\Entity\Companies
  *
  * @ORM\Entity
- * @ORM\Table(name="companies")
+ * @ORM\Table(name="locations")
  * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="companyType",type="string")
+ * @ORM\DiscriminatorColumn(name="locationType", type="string")
  * @ORM\DiscriminatorMap({
- *  "partner" = "Partner",
- *  "customer" = "Customer"
+ *  "company" = "CompanyLocation",
+ *  "warehouse" = "WarehouseLocation",
+ *  "generic" = "GenericLocation"
  * })
  */
-abstract class Company
+abstract class Location
 {
-
     /**
      * @var int
      *
@@ -28,7 +29,7 @@ abstract class Company
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $companyId;
+    protected $locationId;
 
     /**
      * @var string
@@ -44,8 +45,16 @@ abstract class Company
      */
     protected $shortName;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Address",mappedBy="location",fetch="EXTRA_LAZY",cascade={"remove"})
+     */
+    protected $addresses;
+
     public function __construct()
     {
+        $this->addresses = new ArrayCollection();
     }
 
     /**
@@ -53,17 +62,31 @@ abstract class Company
      */
     public function getId()
     {
-
-        return $this->companyId;
+        return $this->locationId;
     }
 
     /**
      * @return int
      */
-    public function getCompanyId()
+    public function getLocationId()
     {
+        return $this->locationId;
+    }
 
-        return $this->companyId;
+    /**
+     * @param ArrayCollection $addresses
+     */
+    public function setAddresses($addresses)
+    {
+        $this->addresses = $addresses;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getAddresses()
+    {
+        return $this->addresses;
     }
 
     /**
@@ -71,7 +94,6 @@ abstract class Company
      */
     public function setName($name)
     {
-
         $this->name = $name;
     }
 
@@ -80,7 +102,6 @@ abstract class Company
      */
     public function getName()
     {
-
         return $this->name;
     }
 
@@ -89,7 +110,6 @@ abstract class Company
      */
     public function setShortName($shortName)
     {
-
         $this->shortName = $shortName;
     }
 
@@ -98,7 +118,6 @@ abstract class Company
      */
     public function getShortName()
     {
-
         return $this->shortName;
     }
 }

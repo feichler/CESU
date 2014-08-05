@@ -1,20 +1,19 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\Company;
+namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class GenericLocation
  *
- * @package Elektra\SeedBundle\Entity\Company
+ * @package Elektra\SeedBundle\Entity\Companies
  *
  * @ORM\Entity
- * @ORM\Table(name="location_generic")
+ * @ORM\Table(name="genericLocations")
  */
 class GenericLocation extends Location
 {
-
     public function __construct()
     {
 

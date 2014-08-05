@@ -1,6 +1,6 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\SeedUnit;
+namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -8,14 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class PowerType
  *
- * @package Elektra\SeedBundle\Entity\SeedUnit
+ * @package Elektra\SeedBundle\Entity\SeedUnits
  *
  * @ORM\Entity
- * @ORM\Table(name="seedunits_powertypes")
+ * @ORM\Table(name="powerCordTypes")
  */
-class PowerType
+class PowerCordType
 {
-
     /**
      * @var int
      *
@@ -23,7 +22,7 @@ class PowerType
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $powerTypeId;
+    protected $powerCordTypeId;
 
     /**
      * @var string
@@ -35,6 +34,7 @@ class PowerType
     /**
      * @var string
      *
+
      * @ORM\Column(type="text")
      */
     protected $description;
@@ -42,13 +42,12 @@ class PowerType
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="SeedUnit", mappedBy="powerType", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="SeedUnits", mappedBy="powerCordType", fetch="EXTRA_LAZY")
      */
     protected $seedUnits;
 
     public function __construct()
     {
-
         $this->seedUnits = new ArrayCollection();
     }
 
@@ -57,17 +56,15 @@ class PowerType
      */
     public function getId()
     {
-
-        return $this->powerTypeId;
+        return $this->powerCordTypeId;
     }
 
     /**
      * @return int
      */
-    public function getPowerTypeId()
+    public function getPowerCordTypeId()
     {
-
-        return $this->powerTypeId;
+        return $this->powerCordTypeId;
     }
 
     /**
@@ -75,7 +72,6 @@ class PowerType
      */
     public function setDescription($description)
     {
-
         $this->description = $description;
     }
 
@@ -84,7 +80,6 @@ class PowerType
      */
     public function getDescription()
     {
-
         return $this->description;
     }
 
@@ -93,7 +88,6 @@ class PowerType
      */
     public function setName($name)
     {
-
         $this->name = $name;
     }
 
@@ -102,7 +96,6 @@ class PowerType
      */
     public function getName()
     {
-
         return $this->name;
     }
 
@@ -111,7 +104,6 @@ class PowerType
      */
     public function getSeedUnits()
     {
-
         return $this->seedUnits;
     }
 

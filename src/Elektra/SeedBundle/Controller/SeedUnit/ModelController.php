@@ -28,13 +28,13 @@ class ModelController extends Controller
 
         $this->initializePage('Browse Seed Unit Models');
 
-        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnit\Model');
+        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnits\Model');
         // TODO src: add pagination to the list
         $models = $repository->findAll();
 
         // TODO src: also display number of seed units associated with this type
 
-        return $this->render("ElektraSeedBundle:SeedUnit/Model:list.html.twig", array('entries' => $models));
+        return $this->render("ElektraSeedBundle:SeedUnits/Model:list.html.twig", array('entries' => $models));
     }
 
     public function addAction(Request $request)
@@ -63,7 +63,7 @@ class ModelController extends Controller
             return $this->redirect($this->generateUrl('_cesu_seed_unit_models_list'));
         }
 
-        return $this->render('ElektraSeedBundle:SeedUnit/Model:form.html.twig', array('form' => $form->createView()));
+        return $this->render('ElektraSeedBundle:SeedUnits/Model:form.html.twig', array('form' => $form->createView()));
     }
 
     public function editAction(Request $request, $id)
@@ -71,7 +71,7 @@ class ModelController extends Controller
 
         $this->initializePage('Edit Seed Unit Models');
 
-        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnit\Model');
+        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnits\Model');
         $model      = $repository->find($id);
 
         $formBuilder = $this->createFormBuilder($model);
@@ -92,7 +92,7 @@ class ModelController extends Controller
             return $this->redirect($this->generateUrl('_cesu_seed_unit_models_list'));
         }
 
-        return $this->render('ElektraSeedBundle:SeedUnit/Model:form.html.twig', array('form' => $form->createView()));
+        return $this->render('ElektraSeedBundle:SeedUnits/Model:form.html.twig', array('form' => $form->createView()));
     }
 
     public function deleteAction(Request $request, $id)
@@ -100,7 +100,7 @@ class ModelController extends Controller
 
         // TODO src: check for references
 
-        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnit\Model');
+        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnits\Model');
         $model      = $repository->find($id);
 
         if (!$model->getCanDelete()) {

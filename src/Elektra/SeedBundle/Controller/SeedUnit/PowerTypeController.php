@@ -27,13 +27,13 @@ class PowerTypeController extends Controller
 
         $this->initializePage('Browse Seed Unit Power Types');
 
-        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnit\PowerType');
+        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnits\PowerType');
         // TODO src: add pagination to the list
         $powerTypes = $repository->findAll();
 
         // TODO src: also display number of seed units associated with this power type
 
-        return $this->render("ElektraSeedBundle:SeedUnit/PowerType:list.html.twig", array('entries' => $powerTypes));
+        return $this->render("ElektraSeedBundle:SeedUnits/PowerType:list.html.twig", array('entries' => $powerTypes));
     }
 
     public function addAction(Request $request)
@@ -62,7 +62,7 @@ class PowerTypeController extends Controller
             return $this->redirect($this->generateUrl('_cesu_seed_unit_power_types_list'));
         }
 
-        return $this->render('ElektraSeedBundle:SeedUnit/PowerType:form.html.twig', array('form' => $form->createView()));
+        return $this->render('ElektraSeedBundle:SeedUnits/PowerType:form.html.twig', array('form' => $form->createView()));
     }
 
     public function editAction(Request $request, $id)
@@ -70,7 +70,7 @@ class PowerTypeController extends Controller
 
         $this->initializePage('Edit Seed Unit Power Types');
 
-        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnit\PowerType');
+        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnits\PowerType');
         $powerType  = $repository->find($id);
 
         $formBuilder = $this->createFormBuilder($powerType);
@@ -91,7 +91,7 @@ class PowerTypeController extends Controller
             return $this->redirect($this->generateUrl('_cesu_seed_unit_power_types_list'));
         }
 
-        return $this->render('ElektraSeedBundle:SeedUnit/PowerType:form.html.twig', array('form' => $form->createView()));
+        return $this->render('ElektraSeedBundle:SeedUnits/PowerType:form.html.twig', array('form' => $form->createView()));
     }
 
     public function deleteAction(Request $request, $id)
@@ -99,7 +99,7 @@ class PowerTypeController extends Controller
 
         // TODO src: check for references
 
-        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnit\PowerType');
+        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnits\PowerType');
         $powerType  = $repository->find($id);
 
         if (!$powerType->getCanDelete()) {

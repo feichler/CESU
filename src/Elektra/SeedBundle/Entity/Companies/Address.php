@@ -1,20 +1,19 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\Company;
+namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Address
  *
- * @package Elektra\SeedBundle\Entity\Company
+ * @package Elektra\SeedBundle\Entity\Companies
  *
  * @ORM\Entity
  * @ORM\Table("addresses")
  */
 class Address
 {
-
     /**
      * @var int
      *
@@ -112,7 +111,6 @@ class Address
      */
     public function getId()
     {
-
         return $this->addressId;
     }
 
@@ -121,8 +119,23 @@ class Address
      */
     public function getAddressId()
     {
-
         return $this->addressId;
+    }
+
+    /**
+     * @param Location $location
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+    }
+
+    /**
+     * @return Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 
     /**
@@ -130,7 +143,6 @@ class Address
      */
     public function setCity($city)
     {
-
         $this->city = $city;
     }
 
@@ -139,7 +151,6 @@ class Address
      */
     public function getCity()
     {
-
         return $this->city;
     }
 
@@ -148,7 +159,6 @@ class Address
      */
     public function setCountry($country)
     {
-
         $this->country = $country;
     }
 
@@ -157,7 +167,6 @@ class Address
      */
     public function getCountry()
     {
-
         return $this->country;
     }
 
@@ -166,7 +175,6 @@ class Address
      */
     public function setIsPrimary($isPrimary)
     {
-
         $this->isPrimary = $isPrimary;
     }
 
@@ -175,26 +183,7 @@ class Address
      */
     public function getIsPrimary()
     {
-
         return $this->isPrimary;
-    }
-
-    /**
-     * @param \Elektra\SeedBundle\Entity\Company\Location $location
-     */
-    public function setLocation($location)
-    {
-
-        $this->location = $location;
-    }
-
-    /**
-     * @return \Elektra\SeedBundle\Entity\Company\Location
-     */
-    public function getLocation()
-    {
-
-        return $this->location;
     }
 
     /**
@@ -202,7 +191,6 @@ class Address
      */
     public function setName($name)
     {
-
         $this->name = $name;
     }
 
@@ -211,7 +199,6 @@ class Address
      */
     public function getName()
     {
-
         return $this->name;
     }
 
@@ -220,7 +207,6 @@ class Address
      */
     public function setPostalCode($postalCode)
     {
-
         $this->postalCode = $postalCode;
     }
 
@@ -229,7 +215,6 @@ class Address
      */
     public function getPostalCode()
     {
-
         return $this->postalCode;
     }
 
@@ -238,7 +223,6 @@ class Address
      */
     public function setState($state)
     {
-
         $this->state = $state;
     }
 
@@ -247,7 +231,6 @@ class Address
      */
     public function getState()
     {
-
         return $this->state;
     }
 
@@ -256,7 +239,6 @@ class Address
      */
     public function setStreet1($street1)
     {
-
         $this->street1 = $street1;
     }
 
@@ -265,7 +247,6 @@ class Address
      */
     public function getStreet1()
     {
-
         return $this->street1;
     }
 
@@ -274,7 +255,6 @@ class Address
      */
     public function setStreet2($street2)
     {
-
         $this->street2 = $street2;
     }
 
@@ -283,7 +263,6 @@ class Address
      */
     public function getStreet2()
     {
-
         return $this->street2;
     }
 
@@ -292,7 +271,6 @@ class Address
      */
     public function setStreet3($street3)
     {
-
         $this->street3 = $street3;
     }
 
@@ -301,7 +279,6 @@ class Address
      */
     public function getStreet3()
     {
-
         return $this->street3;
     }
 
@@ -310,7 +287,6 @@ class Address
      */
     public function setType($type)
     {
-
         $this->type = $type;
     }
 
@@ -319,7 +295,6 @@ class Address
      */
     public function getType()
     {
-
         return $this->type;
     }
 }

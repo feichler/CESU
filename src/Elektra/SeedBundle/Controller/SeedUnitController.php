@@ -26,11 +26,11 @@ class SeedUnitController extends Controller
 
         $this->initializePage('Browse Seed Units');
 
-        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnit\SeedUnit');
+        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnits\SeedUnits');
         // TODO src: add pagination to the list
         $units = $repository->findAll();
 
-        return $this->render("ElektraSeedBundle:SeedUnit:list.html.twig", array('entries' => $units));
+        return $this->render("ElektraSeedBundle:SeedUnits:list.html.twig", array('entries' => $units));
     }
 
     public function addAction(Request $request)
@@ -46,7 +46,7 @@ class SeedUnitController extends Controller
             'model',
             'entity',
             array(
-                'class'       => 'ElektraSeedBundle:SeedUnit\Model',
+                'class'       => 'ElektraSeedBundle:SeedUnits\Model',
                 'property'    => 'name',
                 'empty_value' => 'Choose a model',
                 'required' => true,
@@ -56,7 +56,7 @@ class SeedUnitController extends Controller
             'powerType',
             'entity',
             array(
-                'class'    => 'ElektraSeedBundle:SeedUnit\PowerType',
+                'class'    => 'ElektraSeedBundle:SeedUnits\PowerType',
                 'property' => 'name',
             )
         );
@@ -79,7 +79,7 @@ class SeedUnitController extends Controller
             return $this->redirect($this->generateUrl('_cesu_seed_units_list'));
         }
 
-        return $this->render('ElektraSeedBundle:SeedUnit:form.html.twig', array('form' => $form->createView()));
+        return $this->render('ElektraSeedBundle:SeedUnits:form.html.twig', array('form' => $form->createView()));
     }
 
     public function editAction(Request $request, $id)
@@ -87,7 +87,7 @@ class SeedUnitController extends Controller
 
         $this->initializePage('Edit Seed Units');
 
-        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnit\SeedUnit');
+        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnits\SeedUnits');
         $unit       = $repository->find($id);
 
         $formBuilder = $this->createFormBuilder($unit);
@@ -96,7 +96,7 @@ class SeedUnitController extends Controller
             'model',
             'entity',
             array(
-                'class'       => 'ElektraSeedBundle:SeedUnit\Model',
+                'class'       => 'ElektraSeedBundle:SeedUnits\Model',
                 'property'    => 'name',
                 'empty_value' => 'Choose a model',
                 'required' => true,
@@ -106,7 +106,7 @@ class SeedUnitController extends Controller
             'powerType',
             'entity',
             array(
-                'class'    => 'ElektraSeedBundle:SeedUnit\PowerType',
+                'class'    => 'ElektraSeedBundle:SeedUnits\PowerType',
                 'property' => 'name',
             )
         );
@@ -127,7 +127,7 @@ class SeedUnitController extends Controller
             return $this->redirect($this->generateUrl('_cesu_seed_units_list'));
         }
 
-        return $this->render('ElektraSeedBundle:SeedUnit:form.html.twig', array('form' => $form->createView()));
+        return $this->render('ElektraSeedBundle:SeedUnits:form.html.twig', array('form' => $form->createView()));
     }
 
     public function deleteAction(Request $request, $id)
@@ -135,7 +135,7 @@ class SeedUnitController extends Controller
 
         // TODO src: check for references
 
-        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnit\SeedUnit');
+        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnits\SeedUnits');
         $unit       = $repository->find($id);
 
         $this->getDoctrine()->getManager()->remove($unit);

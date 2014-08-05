@@ -1,20 +1,19 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\Company;
+namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Partner
  *
- * @package Elektra\SeedBundle\Entity\Company
+ * @package Elektra\SeedBundle\Entity\Companies
  *
  * @ORM\Entity
- * @ORM\Table(name="companies_partner")
+ * @ORM\Table(name="partnerCompanies")
  */
 class Partner extends Company
 {
-
     /**
      * @var PartnerTier
      *
@@ -25,7 +24,22 @@ class Partner extends Company
 
     public function __construct()
     {
-
         parent::__construct();
+    }
+
+    /**
+     * @param PartnerTier $partnerTier
+     */
+    public function setPartnerTier($partnerTier)
+    {
+        $this->partnerTier = $partnerTier;
+    }
+
+    /**
+     * @return PartnerTier
+     */
+    public function getPartnerTier()
+    {
+        return $this->partnerTier;
     }
 }
