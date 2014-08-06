@@ -110,7 +110,7 @@ class Address
      * @ORM\ManyToOne(targetEntity="AddressType", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="addressTypeId", referencedColumnName="addressTypeId")
      *
-     */1
+     */
     protected $addressType;
 
     public function __construct()
