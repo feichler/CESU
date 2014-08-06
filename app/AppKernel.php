@@ -21,11 +21,9 @@ class AppKernel extends Kernel
             // Common third-party bundles
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            // Common Aurealis Bundles
-            new Aurealis\UserBundle\AurealisUserBundle(),
-            new Aurealis\ThemeBundle\AurealisThemeBundle(),
             // Specific Elektra Bundles
-            //            new Elektra\ThemeBundle\ElektraThemeBundle(),
+            new Elektra\UserBundle\ElektraUserBundle(),
+            new Elektra\ThemeBundle\ElektraThemeBundle(),
             new Elektra\SiteBundle\ElektraSiteBundle(),
             new Elektra\SeedBundle\ElektraSeedBundle(),
         );
