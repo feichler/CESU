@@ -18,8 +18,8 @@ class CompanyLocation extends Location
     /**
      * @var Company
      *
-     * @ORM\ManyToOne(targetEntity="Companies", inversedBy="companyLocations",fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="companyId",referencedColumnName="companyId")
+     * @ORM\ManyToOne(targetEntity="Companies", inversedBy="companyLocations", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="companyId", referencedColumnName="companyId")
      *
      */
     protected $company;
@@ -27,7 +27,7 @@ class CompanyLocation extends Location
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Person",mappedBy="location",fetch="EXTRA_LAZY",cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Person", mappedBy="location",fetch="EXTRA_LAZY", cascade={"remove"})
      */
     protected $persons;
 

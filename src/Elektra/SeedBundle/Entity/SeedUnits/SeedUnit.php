@@ -33,7 +33,7 @@ class SeedUnit
     /**
      * @var SeedUnitModel
      *
-     * @ORM\ManyToOne(targetEntity="SeedUnitModel", inversedBy="seedUnits", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="SeedUnitModel", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="seedUnitModelId", referencedColumnName="seedUnitModelId")
      */
     protected $model;
@@ -41,7 +41,7 @@ class SeedUnit
     /**
      * @var PowerCordType
      *
-     * @ORM\ManyToOne(targetEntity="PowerCordType", inversedBy="seedUnits", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="PowerCordType", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="powerCordTypeId", referencedColumnName="powerCordTypeId")
      */
     protected $powerCordType;

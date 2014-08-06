@@ -3,7 +3,6 @@
 namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class PartnerTier
@@ -38,17 +37,8 @@ class PartnerTier
      */
     protected $unitsLimit;
 
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Partner", mappedBy="partnerTier", fetch="EXTRA_LAZY")
-     */
-    protected $partners;
-
     public function __construct()
     {
-
-        $this->partners = new ArrayCollection();
     }
 
     /**
@@ -56,7 +46,6 @@ class PartnerTier
      */
     public function getId()
     {
-
         return $this->partnerTierId;
     }
 
@@ -65,26 +54,7 @@ class PartnerTier
      */
     public function getPartnerTierId()
     {
-
         return $this->partnerTierId;
-    }
-
-    /**
-     * @param ArrayCollection $partners
-     */
-    public function setPartners($partners)
-    {
-
-        $this->partners = $partners;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getPartners()
-    {
-
-        return $this->partners;
     }
 
     /**
@@ -92,7 +62,6 @@ class PartnerTier
      */
     public function setName($name)
     {
-
         $this->name = $name;
     }
 
@@ -101,7 +70,6 @@ class PartnerTier
      */
     public function getName()
     {
-
         return $this->name;
     }
 
@@ -110,7 +78,6 @@ class PartnerTier
      */
     public function setUnitsLimit($unitsLimit)
     {
-
         $this->unitsLimit = $unitsLimit;
     }
 
@@ -119,7 +86,6 @@ class PartnerTier
      */
     public function getUnitsLimit()
     {
-
         return $this->unitsLimit;
     }
 }

@@ -17,8 +17,8 @@ class Partner extends Company
     /**
      * @var PartnerTier
      *
-     * @ORM\ManyToOne(targetEntity="PartnerTier", inversedBy="partners", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="partnerTierId",referencedColumnName="partnerTierId")
+     * @ORM\ManyToOne(targetEntity="PartnerTier", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="partnerTierId", referencedColumnName="partnerTierId")
      */
     protected $partnerTier;
 

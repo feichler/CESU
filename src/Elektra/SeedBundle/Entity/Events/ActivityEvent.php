@@ -18,16 +18,15 @@ class ActivityEvent extends Event
     /**
      * @var ContactInfo
      *
-     * @ORM\ManyToOne(targetEntity="ContactInfo", inversedBy="events", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="contactInfoId",referencedColumnName="contactInfoId")
+     * @ORM\ManyToOne(targetEntity="ContactInfo", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="contactInfoId", referencedColumnName="contactInfoId")
      */
     protected $contactInfo;
 
     /**
      * @var ResponseEvent
      *
-     * @ORM\ManyToOne(targetEntity="ResponseEvent", inversedBy="activityEvent", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="responseEventId",referencedColumnName="eventId")
+     * @ORM\OneToOne(targetEntity="ResponseEvent", mappedBy="activityEvent", fetch="EXTRA_LAZY")
      */
     protected $responseEvent;
 
@@ -37,7 +36,7 @@ class ActivityEvent extends Event
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Companies\ContactInfo $contactInfo
+     * @param ContactInfo $contactInfo
      */
     public function setContactInfo($contactInfo)
     {
@@ -45,7 +44,7 @@ class ActivityEvent extends Event
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Companies\ContactInfo
+     * @return ContactInfo
      */
     public function getContactInfo()
     {
@@ -53,7 +52,7 @@ class ActivityEvent extends Event
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Events\ResponseEvent $responseEvent
+     * @param ResponseEvent $responseEvent
      */
     public function setResponseEvent($responseEvent)
     {
@@ -61,7 +60,7 @@ class ActivityEvent extends Event
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Events\ResponseEvent
+     * @return ResponseEvent
      */
     public function getResponseEvent()
     {

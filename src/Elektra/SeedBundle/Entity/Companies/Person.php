@@ -62,8 +62,8 @@ class Person
     /**
      * @var Location
      *
-     * @ORM\ManyToOne(targetEntity="CompanyLocation", inversedBy="persons",fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="locationId",referencedColumnName="locationId")
+     * @ORM\ManyToOne(targetEntity="CompanyLocation", inversedBy="persons", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="locationId", referencedColumnName="locationId")
      *
      */
     protected $location;
@@ -71,7 +71,7 @@ class Person
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="ContactInfo",mappedBy="person",fetch="EXTRA_LAZY",cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="ContactInfo", mappedBy="person", fetch="EXTRA_LAZY", cascade={"remove"})
      */
     protected $contactInfo;
 
@@ -81,6 +81,15 @@ class Person
      * @ORM\OneToMany(targetEntity="Attendance", mappedBy="person", fetch="EXTRA_LAZY")
      */
     protected $attendances;
+
+    /**
+     * @var Role
+     *
+     * @ORM\ManyToOne(targetEntity="Role", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="roleId", referencedColumnName="roleId")
+     *
+     */
+    protected $role;
 
     public function __construct()
     {
@@ -150,6 +159,22 @@ class Person
     public function getAttendances()
     {
         return $this->attendances;
+    }
+
+    /**
+     * @param Role $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    /**
+     * @return Role
+     */
+    public function getRole()
+    {
+        return $this->role;
     }
 
     /**

@@ -35,23 +35,23 @@ abstract class Event
      * @var \Elektra\SeedBundle\Entity\SeedUnits\SeedUnit
      *
      * @ORM\ManyToOne(targetEntity="SeedUnit", inversedBy="events", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="seedUnitId",referencedColumnName="seedUnitId")
+     * @ORM\JoinColumn(name="seedUnitId", referencedColumnName="seedUnitId")
      */
     protected $seedUnit;
 
     /**
      * @var EventType
      *
-     * @ORM\ManyToOne(targetEntity="EventType", inversedBy="events", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="eventTypeId",referencedColumnName="eventTypeId")
+     * @ORM\ManyToOne(targetEntity="EventType", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="eventTypeId", referencedColumnName="eventTypeId")
      */
     protected $eventType;
 
     /**
      * @var UnitStatus
      *
-     * @ORM\ManyToOne(targetEntity="UnitStatus", inversedBy="events", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="unitStatusId",referencedColumnName="UnitStatusId")
+     * @ORM\ManyToOne(targetEntity="UnitStatus", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="unitStatusId", referencedColumnName="UnitStatusId")
      */
     protected $unitStatus;
 

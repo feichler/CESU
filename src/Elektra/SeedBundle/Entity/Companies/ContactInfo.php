@@ -40,8 +40,8 @@ class ContactInfo
     /**
      * @var ContactInfoType
      *
-     * @ORM\ManyToOne(targetEntity="ContactInfoType", inversedBy="contactInfo", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="contactInfoTypeId",referencedColumnName="contactInfoTypeId")
+     * @ORM\ManyToOne(targetEntity="ContactInfoType", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="contactInfoTypeId", referencedColumnName="contactInfoTypeId")
      */
     protected $contactInfoType;
 

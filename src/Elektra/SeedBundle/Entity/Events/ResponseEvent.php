@@ -18,10 +18,18 @@ class ResponseEvent extends Event
     /**
      * @var ContactInfo
      *
-     * @ORM\ManyToOne(targetEntity="ContactInfo", inversedBy="events", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="contactInfoId",referencedColumnName="contactInfoId")
+     * @ORM\ManyToOne(targetEntity="ContactInfo", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="contactInfoId", referencedColumnName="contactInfoId")
      */
     protected $contactInfo;
+
+    /**
+     * @var ActivityEvent
+     *
+     * @ORM\OneToOne(targetEntity="ActivityEvent", inversedBy="responseEvent", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="activityEventId", referencedColumnName="eventId")
+     */
+    protected $activityEvent;
 
     /**
      * @var bool
@@ -43,7 +51,7 @@ class ResponseEvent extends Event
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Companies\ContactInfo $contactInfo
+     * @param ContactInfo $contactInfo
      */
     public function setContactInfo($contactInfo)
     {
@@ -51,11 +59,27 @@ class ResponseEvent extends Event
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Companies\ContactInfo
+     * @return ContactInfo
      */
     public function getContactInfo()
     {
         return $this->contactInfo;
+    }
+
+    /**
+     * @param ActivityEvent $activityEvent
+     */
+    public function setActivityEvent($activityEvent)
+    {
+        $this->activityEvent = $activityEvent;
+    }
+
+    /**
+     * @return ActivityEvent
+     */
+    public function getActivityEvent()
+    {
+        return $this->activityEvent;
     }
 
     /**

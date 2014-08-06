@@ -16,7 +16,6 @@ class GenericLocation extends Location
 {
     public function __construct()
     {
-
         parent::__construct();
     }
 }

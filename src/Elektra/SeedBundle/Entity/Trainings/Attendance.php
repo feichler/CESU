@@ -28,7 +28,7 @@ class Attendance
      * @var Person
      *
      * @ORM\ManyToOne(targetEntity="Person", inversedBy="attendances", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="personId",referencedColumnName="personId")
+     * @ORM\JoinColumn(name="personId", referencedColumnName="personId")
      */
     protected $person;
 
@@ -36,7 +36,7 @@ class Attendance
      * @var Training
      *
      * @ORM\ManyToOne(targetEntity="Training", inversedBy="attendances", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="trainingId",referencedColumnName="trainingId")
+     * @ORM\JoinColumn(name="trainingId", referencedColumnName="trainingId")
      */
     protected $training;
 

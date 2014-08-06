@@ -3,7 +3,6 @@
 namespace Elektra\SeedBundle\Entity\Events;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class UnitStatus
@@ -31,16 +30,8 @@ class UnitStatus
      */
     protected $name;
 
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="unitStatus", fetch="EXTRA_LAZY")
-     */
-    protected $events;
-
     public function __construct()
     {
-        $this->events = new ArrayCollection();
     }
 
     /**
@@ -73,21 +64,5 @@ class UnitStatus
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @param ArrayCollection $events
-     */
-    public function setEvents($events)
-    {
-        $this->events = $events;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getEvents()
-    {
-        return $this->events;
     }
 }

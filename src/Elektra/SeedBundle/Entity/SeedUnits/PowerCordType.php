@@ -2,7 +2,6 @@
 
 namespace Elektra\SeedBundle\Entity\SeedUnits;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,21 +33,12 @@ class PowerCordType
     /**
      * @var string
      *
-
      * @ORM\Column(type="text")
      */
     protected $description;
 
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="SeedUnits", mappedBy="powerCordType", fetch="EXTRA_LAZY")
-     */
-    protected $seedUnits;
-
     public function __construct()
     {
-        $this->seedUnits = new ArrayCollection();
     }
 
     /**
@@ -97,21 +87,5 @@ class PowerCordType
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getSeedUnits()
-    {
-        return $this->seedUnits;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getCanDelete() {
-
-        return count($this->seedUnits) == 0;
     }
 }

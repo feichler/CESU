@@ -16,7 +16,6 @@ class Customer extends Company
 {
     public function __construct()
     {
-
         parent::__construct();
     }
 }

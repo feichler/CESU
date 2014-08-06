@@ -42,13 +42,6 @@ class Address
      *
      * @ORM\Column(type="string", length=255)
      */
-    protected $country;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
     protected $state;
 
     /**
@@ -96,11 +89,29 @@ class Address
     /**
      * @var Location
      *
-     * @ORM\ManyToOne(targetEntity="Location", inversedBy="addresses",fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="locationId",referencedColumnName="locationId")
+     * @ORM\ManyToOne(targetEntity="Location", inversedBy="addresses", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="locationId", referencedColumnName="locationId")
      *
      */
     protected $location;
+
+    /**
+     * @var Country
+     *
+     * @ORM\ManyToOne(targetEntity="Country", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="countryId", referencedColumnName="countryId")
+     *
+     */
+    protected $country;
+
+    /**
+     * @var AddressType
+     *
+     * @ORM\ManyToOne(targetEntity="AddressType", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="addressTypeId", referencedColumnName="addressTypeId")
+     *
+     */
+    protected $addressType;
 
     public function __construct()
     {
@@ -139,6 +150,38 @@ class Address
     }
 
     /**
+     * @param AddressType $addressType
+     */
+    public function setAddressType($addressType)
+    {
+        $this->addressType = $addressType;
+    }
+
+    /**
+     * @return AddressType
+     */
+    public function getAddressType()
+    {
+        return $this->addressType;
+    }
+
+    /**
+     * @param Country $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return Country
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
      * @param string $city
      */
     public function setCity($city)
@@ -152,22 +195,6 @@ class Address
     public function getCity()
     {
         return $this->city;
-    }
-
-    /**
-     * @param string $country
-     */
-    public function setCountry($country)
-    {
-        $this->country = $country;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCountry()
-    {
-        return $this->country;
     }
 
     /**
