@@ -40,4 +40,13 @@ class ThemeExtension extends \Twig_Extension
 
         return array('theme' => $this->theme);
     }
+
+    public function initializeComplete()
+    {
+
+        $this->theme->setScript('jquery');
+        $this->theme->setScript('bootstrap');
+        $this->theme->setStylesheet('bootstrap');
+        $this->theme->setStylesheet('fontAwesome');
+    }
 }

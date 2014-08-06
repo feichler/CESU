@@ -1,24 +1,31 @@
-# load the site bundle routing definitions
-_cesu_site:
+elektra_site:
     resource:   "@ElektraSiteBundle/Resources/config/routing.yml"
-    prefix:     /site
 
-_cesu_seed:
-    resource:   "@ElektraSeedBundle/Resources/config/routing.yml"
-    prefix:     /seed # TODO src find a better routing prefix for the seed bundle
+elektra_user:
+    resource:   "@ElektraUserBundle/Resources/config/routing.yml"
 
-# FOS User Bundle Routing
-fos_user_security:
-    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+#
+## load the site bundle routing definitions
+#_cesu_site:
+#    resource:   "@ElektraSiteBundle/Resources/config/routing.yml"
+#    prefix:     /site
+#
+#_cesu_seed:
+#    resource:   "@ElektraSeedBundle/Resources/config/routing.yml"
+#    prefix:     /seed # TODO src find a better routing prefix for the seed bundle
 
-fos_user_profile:
-    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    prefix: /profile
-
-fos_user_resetting:
-    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /resetting
-
-fos_user_change_password:
-    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    prefix: /profile
+## FOS User Bundle Routing
+#fos_user_security:
+#    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+#
+#fos_user_profile:
+#    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+#    prefix: /profile
+#
+#fos_user_resetting:
+#    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+#    prefix: /resetting
+#
+#fos_user_change_password:
+#    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+#    prefix: /profile
