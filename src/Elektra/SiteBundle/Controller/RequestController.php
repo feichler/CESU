@@ -14,12 +14,15 @@ class RequestController extends Controller
 
         $this->container->get('elektra.twig.theme_extension')->initializeComplete();
 
-//        $theme = $this->container->get('theme');
-//        $theme->useEverything();
+        $theme = $this->container->get('theme');
+        $theme->setSubTemplate('navbar', 'ElektraSiteBundle:Parts/Navigation:request-navbar.html.twig');
+        $theme->setSubTemplate('footer', 'ElektraSiteBundle:Parts/Footer:request-footer.html.twig');
+        // TODO src: set the correct brand name or remove
+        $theme->setPageVar('navbar.brand.name', 'TODO: short name');
+        // TODO src: set the correct brand route or remove
+        //        $theme->setPageVar('navbar.brand.route', 'TODO');
+        $theme->setPageVar('heading', 'Cisco ASA with FirePOWER Services');
 
-        //        var_dump($theme);
         return $this->render('ElektraThemeBundle::layout.html.twig');
-
-        return new Response('Request steps: ' . $step . ' - ' . $number);
     }
 }

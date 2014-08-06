@@ -20,11 +20,25 @@ class Theme
     protected $stylesheets;
 
     /**
-     * Array of page parameters
+     * Array of page variables (mostly content)
      *
      * @var array
      */
-    protected $page;
+    protected $pageVars;
+
+    /**
+     * Array of all other variables that may be used by the template
+     *
+     * @var array
+     */
+    protected $vars;
+
+    /**
+     * Array of page parts (sub-templates)
+     *
+     * @var array
+     */
+    protected $subTemplates;
 
     /**
      * Constructor
@@ -44,9 +58,16 @@ class Theme
             'fontAwesome' => false,
         );
 
-        $this->page = array(
-            'title'   => '',
-            'heading' => '',
+        $this->pageVars = array(
+            'title'   => null,
+            'heading' => null,
+        );
+
+        $this->vars = array();
+
+        $this->subTemplates = array(
+            'navbar' => null,
+            'footer' => null,
         );
     }
 
@@ -115,7 +136,7 @@ class Theme
     public function setPageVar($var, $content)
     {
 
-        $this->page[$var] = $content;
+        $this->pageVars[$var] = $content;
     }
 
     /**
@@ -128,8 +149,66 @@ class Theme
     public function getPageVar($var)
     {
 
-        if (array_key_exists($var, $this->page)) {
-            return $this->page[$var];
+        if (array_key_exists($var, $this->pageVars)) {
+            return $this->pageVars[$var];
+        }
+
+        return null;
+    }
+
+    /**
+     * Set a variable
+     *
+     * @param string $var
+     * @param mixed  $content
+     */
+    public function setVar($var, $content)
+    {
+
+        $this->vars[$var] = $content;
+    }
+
+    /**
+     * Get a variable
+     *
+     * @param string $var
+     *
+     * @return mixed
+     */
+    public function getVar($var)
+    {
+
+        if (array_key_exists($var, $this->vars)) {
+            return $this->vars[$var];
+        }
+
+        return null;
+    }
+
+    /**
+     * Set the given template identifier
+     *
+     * @param string $type
+     * @param string $identifier
+     */
+    public function setSubTemplate($type, $identifier)
+    {
+
+        $this->subTemplates[$type] = $identifier;
+    }
+
+    /**
+     * Get the required template identifier
+     *
+     * @param string $type
+     *
+     * @return string|null
+     */
+    public function getSubTemplate($type)
+    {
+
+        if (array_key_exists($type, $this->subTemplates)) {
+            return $this->subTemplates[$type];
         }
 
         return null;

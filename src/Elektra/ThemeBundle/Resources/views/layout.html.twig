@@ -3,5 +3,35 @@
 {% block title %}Elektra ThemeBundle basic layout{% endblock title %}
 
 {% block body_content %}
-asdf
+
+    {% block navbar %}
+        {% if theme.getSubTemplate('navbar') is not null %}
+            {% include theme.getSubTemplate('navbar') %}
+        {% endif %}
+    {% endblock %}
+
+    {# TODO src: add the system messages (themed?) #}
+
+    {% block page_heading %}
+        {% if theme.getPageVar('heading') is not null %}
+            <div class="container">
+                <h1 class="page_heading">
+                    {{ theme.getPageVar('heading') }}
+                </h1>
+            </div>
+        {% endif %}
+    {% endblock page_heading %}
+
+    {# TODO src: add any filter bar or breadcrumbs here? #}
+
+    {% block main_content %}
+
+    {% endblock main_content %}
+
+    {% block footer %}
+        {% if theme.getSubTemplate('footer') is not null %}
+            {% include theme.getSubTemplate('footer') %}
+        {% endif %}
+    {% endblock footer %}
+
 {% endblock body_content %}
