@@ -1,6 +1,6 @@
 <?php
 
-namespace Aurealis\UserBundle\DependencyInjection;
+namespace Elektra\SeedBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -17,10 +17,7 @@ class Configuration implements ConfigurationInterface
     {
 
         $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('aurealis_user');
 
         return $treeBuilder;
     }
-
-
 }

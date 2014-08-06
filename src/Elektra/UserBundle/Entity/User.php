@@ -1,6 +1,6 @@
 <?php
 
-namespace Aurealis\UserBundle\Entity;
+namespace Elektra\UserBundle\Entity;
 
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class User
  *
- * @package Aurealis\UserBundle\Entity
+ * @package Elektra\UserBundle\Entity
  *
  * @ORM\Entity
  * @ORM\Table(name="users")
