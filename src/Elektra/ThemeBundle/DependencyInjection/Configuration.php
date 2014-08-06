@@ -18,6 +18,11 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder = new TreeBuilder();
 
+        $rootNode = $treeBuilder->root('elektra_theme');
+
+        // NOTE: add configuration options for list limits?
+        // NOTE: add any other configuration?
+
         return $treeBuilder;
     }
 }

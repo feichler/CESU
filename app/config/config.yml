@@ -31,7 +31,7 @@ twig:
     # TODO src add own field renderer resources
     form:
         resources:
-            - "ElektraThemeBundle:Form:fields.html.twig"
+            - "ElektraThemeBundle:Basic/Form:fields.html.twig"
 
 # Assetic Configuration
 assetic:

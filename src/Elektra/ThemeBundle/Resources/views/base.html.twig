@@ -30,14 +30,14 @@
     {% block head_stylesheets %}
         {# bootstrap styles #}
         {% if theme.includeBootstrapStyles %}
-            {% include "ElektraThemeBundle:Styles:bootstrap.html.twig" %}
+            {% include "ElektraThemeBundle:Basic/Styles:bootstrap.html.twig" %}
         {% endif %}
         {# font-awesome styles #}
         {% if theme.includeFontAwesomeStyles %}
-            {% include "ElektraThemeBundle:Styles:fontAwesome.html.twig" %}
+            {% include "ElektraThemeBundle:Basic/Styles:fontAwesome.html.twig" %}
         {% endif %}
         {# theme styles #}
-        {% include "ElektraThemeBundle:Styles:theme.html.twig" %}
+        {% include "ElektraThemeBundle:Basic/Styles:theme.html.twig" %}
     {% endblock head_stylesheets %}
 
     {# javascripts (head part) #}
@@ -59,11 +59,11 @@
 {% block body_javascripts %}
     {# jQuery script include #}
     {% if theme.includeJQuery %}
-        {% include "ElektraThemeBundle:Scripts:jquery.html.twig" %}
+        {% include "ElektraThemeBundle:Basic/Scripts:jquery.html.twig" %}
     {% endif %}
     {# bootstrap scripts include #}
     {% if theme.includeBootstrapScripts %}
-        {% include "ElektraThemeBundle:Scripts:bootstrap.html.twig" %}
+        {% include "ElektraThemeBundle:Basic/Scripts:bootstrap.html.twig" %}
     {% endif %}
 {% endblock body_javascripts %}
 
