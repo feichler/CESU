@@ -1,4 +1,5 @@
 {% extends "ElektraThemeBundle::base.html.twig" %}
+{% import "ElektraThemeBundle:Macros:tables.html.twig" as tables %}
 
 {% block title %}Elektra ThemeBundle basic layout{% endblock title %}
 
@@ -10,7 +11,11 @@
         {% endif %}
     {% endblock %}
 
-    {# TODO src: add the system messages (themed?) #}
+    {% block messages %}
+        {% if theme.getSubTemplate('messages') is not null %}
+            {% include theme.getSubTemplate('messages') %}
+        {% endif %}
+    {% endblock messages %}
 
     {% block page_heading %}
         {% if theme.getPageVar('heading') is not null %}
@@ -25,6 +30,14 @@
     {# TODO src: add any filter bar or breadcrumbs here? #}
 
     {% block main_content %}
+        {{ table.setStriped }}
+        {{ table.setFullWidth }}
+        {#{% table1.striped = 1 %}#}
+
+        {{ tables.show(table) }}
+        {#{% for entry in entries %}#}
+
+        {#{% endfor %}#}
 
     {% endblock main_content %}
 

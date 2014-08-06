@@ -41,6 +41,11 @@ class Theme
     protected $subTemplates;
 
     /**
+     * @var string
+     */
+    protected $activeRoute = '';
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -198,6 +203,17 @@ class Theme
     }
 
     /**
+     * Reset the given template identifier (in order to omit the rendering)
+     *
+     * @param string $type
+     */
+    public function resetSubTemplate($type)
+    {
+
+        $this->subTemplates[$type] = null;
+    }
+
+    /**
      * Get the required template identifier
      *
      * @param string $type
@@ -212,5 +228,44 @@ class Theme
         }
 
         return null;
+    }
+
+    /**
+     * Set the active route for menu highlighting
+     *
+     * @param string $route
+     */
+    public function setActiveRoute($route)
+    {
+
+        $this->activeRoute = $route;
+    }
+
+    /**
+     * Get the active route
+     *
+     * @return string
+     */
+    public function getActiveRoute()
+    {
+
+        return $this->activeRoute;
+    }
+
+    /**
+     * Checks if the given route is the active one (for menu highlighting)
+     *
+     * @param string $route
+     *
+     * @return bool
+     */
+    public function isActive($route)
+    {
+
+        if ($this->activeRoute == $route) {
+            return true;
+        }
+
+        return false;
     }
 }

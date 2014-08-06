@@ -48,5 +48,13 @@ class ThemeExtension extends \Twig_Extension
         $this->theme->setScript('bootstrap');
         $this->theme->setStylesheet('bootstrap');
         $this->theme->setStylesheet('fontAwesome');
+
+        $this->theme->setSubTemplate('navbar', 'ElektraThemeBundle:Parts/Navigation:base-navbar.html.twig');
+        $this->theme->setSubTemplate('footer', 'ElektraThemeBundle:Parts/Footer:base-footer.html.twig');
+        $this->theme->setSubTemplate('messages', 'ElektraThemeBundle:Parts/Messages:base-messages.html.twig');
+        $this->theme->setSubTemplate('messages-error', 'ElektraThemeBundle:Parts/Messages:base-messages-error.html.twig');
+        $this->theme->setSubTemplate('messages-warning', 'ElektraThemeBundle:Parts/Messages:base-messages-warning.html.twig');
+        $this->theme->setSubTemplate('messages-info', 'ElektraThemeBundle:Parts/Messages:base-messages-info.html.twig');
+        $this->theme->setSubTemplate('messages-success', 'ElektraThemeBundle:Parts/Messages:base-messages-success.html.twig');
     }
 }
