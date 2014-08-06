@@ -18,6 +18,10 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder = new TreeBuilder();
 
+        $rootNode = $treeBuilder->root('elektra_user');
+
+        // NOTE: add any configuration options?
+
         return $treeBuilder;
     }
 }

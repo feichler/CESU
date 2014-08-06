@@ -1,16 +1,10 @@
 
-_cesu_home:
-    path:       /
-    defaults:
-        _controller:    ElektraSiteBundle:Site:home
+elektra_request:
+    resource:   "@ElektraSiteBundle/Resources/config/routing/request.yml"
+    prefix:     /
 
-_cesu_about:
-    path:       /about
-    defaults:
-        _controller:    ElektraSiteBundle:Site:about
+elektra_admin:
+    resource:   "@ElektraSiteBundle/Resources/config/routing/admin.yml"
+    prefix:     /admin
 
-
-_cesu_terms:
-    path:       /terms
-    defaults:
-        _controller:    ElektraSiteBundle:Site:terms
+# TODO src: add routes for "About", "Terms&Conditions", etc
