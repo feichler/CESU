@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    {# character set #}
+    {% block head_charset %}
+        <meta charset="UTF-8"/>
+    {% endblock head_charset %}
+
+    {# metadata #}
+    {% block head_metadata %}
+    {% endblock head_metadata %}
+
+    {# viewport #}
+    {% block head_viewport %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock head_viewport %}
+
+    {# page title #}
+    <title>{% block title %}Elektra ThemeBundle Base Template{% endblock %}</title>
+
+    {# favicon #}
+    {% block head_favicon %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    {% endblock head_favicon %}
+
+    {# stylesheets #}
+    {% block head_stylesheets %}
+        {# bootstrap styles #}
+        {% if theme.includeBootstrapStyles %}
+            {% include "ElektraThemeBundle:Styles:bootstrap.html.twig" %}
+        {% endif %}
+        {# font-awesome styles #}
+        {% if theme.includeFontAwesomeStyles %}
+            {% include "ElektraThemeBundle:Styles:fontAwesome.html.twig" %}
+        {% endif %}
+        {# theme styles #}
+        {% include "ElektraThemeBundle:Styles:theme.html.twig" %}
+    {% endblock head_stylesheets %}
+
+    {# javascripts (head part) #}
+    {% block head_javascripts %}
+        {% javascripts %}
+        {% endjavascripts %}
+    {% endblock head_javascripts %}
+
+</head>
+
+<body>
+
+{# body content -> every application output goes in here #}
+{% block body_content %}
+
+{% endblock %}
+
+{# javascripts (body part) #}
+{% block body_javascripts %}
+    {# jQuery script include #}
+    {% if theme.includeJQuery %}
+        {% include "ElektraThemeBundle:Scripts:jquery.html.twig" %}
+    {% endif %}
+    {# bootstrap scripts include #}
+    {% if theme.includeBootstrapScripts %}
+        {% include "ElektraThemeBundle:Scripts:bootstrap.html.twig" %}
+    {% endif %}
+{% endblock body_javascripts %}
+
+</body>
+</html>
