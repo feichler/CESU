@@ -1,0 +1,31 @@
+{% macro action(type, href, text, render) %}
+    {% set render = render|default('button') %}
+    {% set classes = 'action action-'~type %}
+    {% if render == 'button' %}
+        {% set classes = classes ~ ' action-btn' %}
+    {% endif %}
+
+    <a href="{{ href }}" class="{{ classes }}">
+        <span class="icon"></span>
+        <span class="text">{{ text }}</span>
+    </a>
+{% endmacro %}
+
+
+{% macro add(href, text, render) %}
+    {% import _self as actions %}
+    {% set text = text|default('Add') %}
+    {{ actions.action('add', href, text, render) }}
+{% endmacro %}
+
+{% macro edit(href, text, render) %}
+    {% import _self as actions %}
+    {% set text = text|default('Edit') %}
+    {{ actions.action('edit', href, text, render) }}
+{% endmacro %}
+
+{% macro delete(href, text, render) %}
+    {% import _self as actions %}
+    {% set text = text|default('Delete') %}
+    {{ actions.action('delete', href, text, render) }}
+{% endmacro %}

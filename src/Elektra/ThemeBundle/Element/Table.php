@@ -2,117 +2,313 @@
 
 namespace Elektra\ThemeBundle\Element;
 
+use Elektra\ThemeBundle\Element\Table\Foot;
+use Elektra\ThemeBundle\Element\Table\Head;
+use Elektra\ThemeBundle\Element\Table\Row;
 use Elektra\ThemeBundle\Element\Table\Style;
 
 class Table
 {
 
-    const STYLE_STRIPED = 1;
-
-    const STYLE_BORDERED = 2;
-
-    const STYLE_HOVERROWS = 3;
-
-    const STYLE_CONDENSED = 4;
-
     /**
+     * Styling information of this table element
+     *
      * @var Style
      */
     protected $style;
 
-    protected $tableStyles = array();
+    /**
+     * Message indicating "no-rows" in the table
+     *
+     * @var string
+     */
+    protected $emptyContentMessage;
 
-    protected $width = '';
+    /**
+     * Array of header rows
+     *
+     * @var array
+     */
+    protected $headerRows;
 
-    protected $head;
+    /**
+     * Array of footer rows
+     *
+     * @var array
+     */
+    protected $footerRows;
 
-    protected $foot;
+    /**
+     * Array of content rows
+     *
+     * @var array
+     */
+    protected $contentRows;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
 
-        $this->style = new Style();
+        $this->emptyContentMessage = 'No rows';
+        $this->style               = new Style();
+        $this->headerRows          = array();
+        $this->footerRows          = array();
+        $this->contentRows         = array();
     }
 
-    public function setFullWidth()
+    /**
+     * Add a row to the header
+     *
+     * @return Row
+     */
+    public function addHeaderRow()
     {
 
-        $this->style->setCss('width', '100%');
-        //        $this->width = '100%';
+        $row = new Row();
+
+        $this->headerRows[] = $row;
+
+        return $row;
     }
 
-    public function setAutoWidth()
+    /**
+     * Returns <code>true</code> if the table has header rows.
+     *
+     * @return bool
+     */
+    public function getHasHeader()
     {
 
-        $this->style->setCss('width', 'auto');
-        //        $this->width = 'auto';
+        return count($this->headerRows) != 0;
     }
 
-    public function setWidth($width)
+    /**
+     * Get the header rows
+     *
+     * @return array
+     */
+    public function getHeaderRows()
     {
 
-        $this->style->setCss('width', $width);
-        //        $this->width = $width;
+        return $this->headerRows;
     }
 
-    public function setStriped()
+    /**
+     * Add a row to the footer
+     *
+     * @return Row
+     */
+    public function addFooterRow()
     {
 
-        $this->style->addClass('table-striped');
+        $row = new Row();
+
+        $this->footerRows[] = $row;
+
+        return $row;
     }
 
-    public function setBordered()
+    /**
+     * Returns <code>true</code> if the table has footer rows.
+     *
+     * @return bool
+     */
+    public function getHasFooter()
     {
 
-        $this->style->addClass('table-bordered');
+        return count($this->footerRows) != 0;
     }
 
-    public function setHovering()
+    /**
+     * Get the footer rows
+     *
+     * @return array
+     */
+    public function getFooterRows()
     {
 
-        $this->style->addClass('table-hover');
+        return $this->footerRows;
     }
 
-    public function setCondensed()
+    /**
+     * Add a row to the content
+     *
+     * @return Row
+     */
+    public function addContentRow()
     {
 
-        $this->style->addClass('table-condensed');
+        $row = new Row();
+
+        $this->contentRows[] = $row;
+
+        return $row;
     }
 
+    /**
+     * Returns <code>true</code> if the table has content rows.
+     *
+     * @return bool
+     */
+    public function getHasContent()
+    {
+
+        return count($this->contentRows) != 0;
+    }
+
+    /**
+     * Get the content rows
+     *
+     * @return array
+     */
+    public function getContentRows()
+    {
+
+        return $this->contentRows;
+    }
+
+    /**
+     * Get the empty table message
+     *
+     * @return string
+     */
+    public function getEmptyContentMessage()
+    {
+
+        return $this->emptyContentMessage;
+    }
+
+    /**
+     * Get the style object for this table
+     *
+     * @return Style
+     */
     public function getStyle()
     {
 
         return $this->style;
     }
 
-//    public function getWidth()
-//    {
-//
-//        return $this->width;
-//    }
+    /**
+     * Get the column count of the table (maximum columns in any of the stored rows)
+     *
+     * @return int
+     */
+    public function getColumnCount()
+    {
 
-//    public function getHasHead()
-//    {
-//
-//        return false;
-//    }
+        $maxColumns = 0;
 
-//    /**
-//     * Set the table styles (use the STYLE_* constants)
-//     *
-//     * @param int $style
-//     */
-//    public function addTableStyle($style)
-//    {
-//
-//        if (in_array($style, array(self::STYLE_STRIPED, self::STYLE_BORDERED, self::STYLE_HOVERROWS, self::STYLE_CONDENSED))) {
-//            $this->tableStyles[] = $style;
-//        }
-//    }
-//
-//    public function getTableStyles()
-//    {
-//
-//        return $this->tableStyles;
-//    }
+        foreach ($this->headerRows as $row) {
+            if (count($row->getCells()) > $maxColumns) {
+                $maxColumns = count($row->getCells());
+            }
+        }
+        foreach ($this->footerRows as $row) {
+            if (count($row->getCells()) > $maxColumns) {
+                $maxColumns = count($row->getCells());
+            }
+        }
+        foreach ($this->contentRows as $row) {
+            if (count($row->getCells()) > $maxColumns) {
+                $maxColumns = count($row->getCells());
+            }
+        }
+
+        return $maxColumns;
+    }
+
+    //
+    //    /**
+    //     * Table Head
+    //     *
+    //     * @var Head
+    //     */
+    //    protected $head;
+    //
+    //    /**
+    //     * Table Foot
+    //     *
+    //     * @var Foot
+    //     */
+    //    protected $foot;
+    //
+    //    /**
+    //     * Constructor
+    //     */
+    //    public function __construct()
+    //    {
+    //
+    //        $this->style = new Style();
+    //        $this->head  = new Head();
+    //        $this->foot  = new Foot();
+    //    }
+    //
+
+    //
+    //    /**
+    //     * Get the head object for this table
+    //     *
+    //     * @return Head
+    //     */
+    //    public function getHead()
+    //    {
+    //
+    //        return $this->head;
+    //    }
+    //
+    //    /**
+    //     * Check if the table has a head to display
+    //     *
+    //     * @return bool
+    //     */
+    //    public function getHasHead()
+    //    {
+    //
+    //        return $this->head->getColumnCount() != 0;
+    //    }
+    //
+    //    /**
+    //     * Get the foot object for this table
+    //     *
+    //     * @return Foot
+    //     */
+    //    public function getFoot()
+    //    {
+    //
+    //        return $this->foot;
+    //    }
+
+    //    public function getWidth()
+    //    {
+    //
+    //        return $this->width;
+    //    }
+
+    //    public function getHasHead()
+    //    {
+    //
+    //        return false;
+    //    }
+
+    //    /**
+    //     * Set the table styles (use the STYLE_* constants)
+    //     *
+    //     * @param int $style
+    //     */
+    //    public function addTableStyle($style)
+    //    {
+    //
+    //        if (in_array($style, array(self::STYLE_STRIPED, self::STYLE_BORDERED, self::STYLE_HOVERROWS, self::STYLE_CONDENSED))) {
+    //            $this->tableStyles[] = $style;
+    //        }
+    //    }
+    //
+    //    public function getTableStyles()
+    //    {
+    //
+    //        return $this->tableStyles;
+    //    }
 }

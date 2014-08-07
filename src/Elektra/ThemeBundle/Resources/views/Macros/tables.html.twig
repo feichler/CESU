@@ -1,46 +1,214 @@
+{% import "ElektraThemeBundle:Macros:actions.html.twig" as actions %}
+
+{# MACRO for the complete table #}
 {% macro show(table) %}
+    {# for sub-macros #}
     {% import _self as tables %}
 
+    {# add the responsive container if required #}
+    {% if table.style.responsive -%}
+        <div class="table-responsive">
+    {%- endif %}
 
+    {# start the table itself #}
     <table class="{{ table.style.classes }}" style="{{ table.style.css }}">
-        {#{% if table.hasHead %}#}
+
+        {{- tables.show_header(table) -}}
+
+        {{- tables.show_footer(table) -}}
+
+        {{- tables.show_content(table) -}}
+    </table>
+
+    {# close the responsive container if required #}
+    {% if table.style.responsive -%}
+        </div>
+    {%- endif %}
+
+{% endmacro %}
+
+{# MACRO to render the table header #}
+{% macro show_header(table) %}
+    {# for sub-macros #}
+    {% import _self as tables %}
+
+    {% if table.hasHeader %}
+        <thead>
+        {% for row in table.headerRows %}
+            {{ tables.show_row(table, row, 'header') }}
+        {% endfor %}
+        </thead>
+    {% endif %}
+{% endmacro %}
+
+{# MACRO to render the table footer #}
+{% macro show_footer(table) %}
+    {# for sub-macros #}
+    {% import _self as tables %}
+
+    {% if table.hasFooter %}
+        <tfoot>
+        {% for row in table.footerRows %}
+            {{ tables.show_row(table, row, 'footer') }}
+        {% endfor %}
+        </tfoot>
+    {% endif %}
+{% endmacro %}
+
+{# MACRO to render the table content #}
+{% macro show_content(table) %}
+    {# for sub-macros #}
+    {% import _self as tables %}
+
+    <tbody>
+    {% if table.hasContent %}
+        {% for row in table.contentRows %}
+            {{ tables.show_row(table, row, 'content') }}
+        {% endfor %}
+    {% else %}
+        <tr class="warning">
+            <td colspan="{{ table.columnCount }}">
+                {{ table.emptyContentMessage }}
+            </td>
+        </tr>
+    {% endif %}
+    </tbody>
+{% endmacro %}
+
+{% macro show_row(table, row, type) %}
+    {# for sub-macros #}
+    {% import _self as tables %}
+
+    {% set class = (row.classes) ? ' class="' ~ row.classes ~ '"' : '' %}
+
+    <tr{{ class|raw }}>
+        {% for cell in row.cells %}
+            {{ tables.show_cell(table, row, cell, type) }}
+        {% endfor %}
+    </tr>
+{% endmacro %}
+
+{% macro show_cell(table, row, cell, type) %}
+    {# for sub-macros #}
+    {% import _self as tables %}
+
+    {% set class = (cell.classes) ? ' class="' ~ cell.classes ~ '"' : '' %}
+    {% set style = (cell.css) ? ' style="' ~ cell.css ~ '"' : '' %}
+    {% set rowspan = (cell.rowSpan) ? ' rowspan="' ~ cell.rowspan ~ '"' : '' %}
+    {% set columnspan = (cell.columnSpan) ? ' colspan="' ~ cell.columnspan ~ '"' : '' %}
+
+    {% if type == 'header' %}
+        <th{{ class|raw }}{{ style|raw }}{{ rowspan|raw }}{{ columnspan|raw }}>
+            {{ tables.show_cell_content(cell.content) }}
+        </th>
+    {% else %}
+        <td{{ class|raw }}{{ style|raw }}{{ rowspan|raw }}{{ columnspan|raw }}>
+            {{ tables.show_cell_content(cell.content) }}
+        </td>
+    {% endif %}
+{% endmacro %}
+
+{% macro show_cell_content(content) %}
+    {# for sub-macros #}
+    {% import "ElektraThemeBundle:Macros:actions.html.twig" as action %}
+
+    {% for item in content %}
+        {% if item.type == 'html' %}
+            {{ item.content|raw }}
+        {% elseif item.type == 'action' %}
+            {{ attribute(action,item.action,[item.href,item.text,item.render] ) }}
+        {% else %}
+            {# UNKNOWN ITEM TYPE #}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+
+{#{% macro show1(table) %}#}
+    {#{% import _self as tables %}#}
+    {#{{ dump(table) }}#}
+    {#{% if table.style.responsive %}#}
+        {#<div class="table-responsive">#}
+    {#{% endif %}#}
+
+    {#&#123;&#35;&#123;&#35;{{ tables.start(table) }}&#35;&#125;&#35;&#125;#}
+
+    {#<table class="{{ table.style.classes }}" style="{{ table.style.css }}">#}
+        {#{% if table.hasHeader %}#}
             {#<thead>#}
 
             {#</thead>#}
         {#{% endif %}#}
-    </table>
 
+        {#{% if table.hasFooter %}#}
+            {#<tfoot>#}
 
-{% endmacro %}
+            {#</tfoot>#}
+        {#{% endif %}#}
 
-{% macro start(table) %}
+        {#<tbody>#}
+        {#{% if table.hasContent %}#}
+            {#&#123;&#35;{% for row in table.contentRows %}&#35;&#125;#}
 
+            {#&#123;&#35;{% endfor %}&#35;&#125;#}
 
+            {#{% for row in table.contentRows %}#}
+                {#{{ tables.show_row("content", row) }}#}
+                {#&#123;&#35;{% set classes = row.classes %}&#35;&#125;#}
+                {#&#123;&#35;<tr> &#123;&#35; TODO add row classes & styles &#35;&#125;&#35;&#125;#}
+                {#&#123;&#35;{% for cell in row.cells %}&#35;&#125;#}
+                {#&#123;&#35;<td> &#123;&#35; TODO add cell classes / styles / width / spans&#35;&#125;&#35;&#125;#}
+                {#&#123;&#35;{{ cell.content }}&#35;&#125;#}
+                {#&#123;&#35;</td>&#35;&#125;#}
+                {#&#123;&#35;{% endfor %}&#35;&#125;#}
+                {#&#123;&#35;</tr>&#35;&#125;#}
+            {#{% endfor %}#}
+        {#{% else %}#}
+            {#<tr>#}
+                {#<td colspan="{{ table.columnCount }}">#}
+                    {#{{ table.emptyContentMessage }}#}
+                {#</td>#}
+            {#</tr>#}
+        {#{% endif %}#}
+        {#<tr>#}
+            {#<td colspan="{{ table.columnCount }}">#}
+                {#{{ table.emptyContentMessage }}#}
+            {#</td>#}
+        {#</tr>#}
+        {#</tbody>#}
+    {#</table>#}
 
-    {#{{ classes }}#}
-{% endmacro %}
+    {#{% if table.style.responsive %}#}
+        {#</div>#}
+    {#{% endif %}#}
+{#{% endmacro %}#}
 
+{#&#123;&#35;{% macro start_row(row) %}&#35;&#125;#}
+    {#&#123;&#35;{% set class = (row.classes)?' class="'~row.classes~'"':'' %}&#35;&#125;#}
+{#&#123;&#35;<tr{{ class }}>&#35;&#125;#}
+    {#&#123;&#35;{% endmacro %}&#35;&#125;#}
 
-    {#{% macro start(table) %}#}
+    {#&#123;&#35;{% macro end_row(row) %}&#35;&#125;#}
+{#&#123;&#35;</tr>&#35;&#125;#}
+{#&#123;&#35;{% endmacro %}&#35;&#125;#}
 
-    {#{% endmacro %}#}
+{#{% macro show_row1(type, row) %}#}
+    {#{% import _self as tables %}#}
+    {#{% set class = (row.classes) ? ' class="' ~ row.classes ~ '"' : '' %}#}
+    {#<tr{{ class|raw }}>#}
+        {#{% for cell in row.cells %}#}
+            {#{% if type == 'content' %}#}
+                {#{{ tables.show_content_cell(cell) }}#}
+            {#{% elseif type == 'header' %}#}
+            {#{% else %}#}
+            {#{% endif %}#}
+        {#{% endfor %}#}
+    {#</tr>#}
+{#{% endmacro %}#}
 
-    {#{% macro end(table) %}#}
-
-    {#{% endmacro %}#}
-
-    {#{% macro head(table) %}#}
-
-    {#{% endmacro %}#}
-
-    {#{% macro foot(table) %}#}
-
-    {#{% endmacro %}#}
-
-    {#{% macro body(table) %}#}
-
-    {#{% endmacro %}#}
-
-    {#{% macro row() %}#}
-
+{#{% macro show_content_cell1(cell) %}#}
+    {#{% set class = (cell.classes) ? ' class="' ~ cell.classes ~ '"' : '' %}#}
+    {#<td{{ class|raw }}>#}
+        {#{{ cell.content }}#}
+    {#</td>#}
 {#{% endmacro %}#}

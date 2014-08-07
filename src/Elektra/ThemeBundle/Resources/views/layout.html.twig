@@ -31,8 +31,8 @@
 
     {% block main_content %}
         <div class="container">
-        {{ table.setStriped }}
-        {{ table.setFullWidth }}
+        {#{{ table.style.setStriped }}#}
+        {#{{ table.style.setFullWidth }}#}
         {#{% table1.striped = 1 %}#}
 
         {{ tables.show(table) }}
@@ -40,8 +40,6 @@
 
         {#{% endfor %}#}
         </div>
-
-        <i class="fa fa-search"></i>
     {% endblock main_content %}
 
     {% block footer %}
