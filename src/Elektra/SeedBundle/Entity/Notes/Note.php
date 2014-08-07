@@ -27,7 +27,7 @@ class Note
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\UserBundle\Entity\User", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="userId", referencedColumnName="id")
      */
     protected $user;

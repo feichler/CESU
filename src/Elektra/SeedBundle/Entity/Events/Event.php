@@ -36,7 +36,7 @@ abstract class Event
     /**
      * @var \Elektra\SeedBundle\Entity\SeedUnits\SeedUnit
      *
-     * @ORM\ManyToOne(targetEntity="SeedUnit", inversedBy="events", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\SeedUnit", inversedBy="events", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="seedUnitId", referencedColumnName="seedUnitId", nullable=false)
      */
     protected $seedUnit;
@@ -67,7 +67,7 @@ abstract class Event
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length="255")
+     * @ORM\Column(type="string", length=255)
      */
     protected $title;
 
@@ -81,10 +81,10 @@ abstract class Event
     /**
      * @var ArrayCollection
      *
-     * @ManyToMany(targetEntity = "Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
-     * @JoinTable(name = "events_notes",
-     *      joinColumns = {@JoinColumn(name = "eventId", referencedColumnName = "eventId")},
-     *      inverseJoinColumns = {@JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name = "events_notes",
+     *      joinColumns = {@ORM\JoinColumn(name = "eventId", referencedColumnName = "eventId")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
      * )
      */
     protected $notes;
@@ -92,8 +92,8 @@ abstract class Event
     /**
      * @var Audit
      *
-     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     * @ORM\OneToOne(targetEntity="Elektra\SeedBundle\Entity\Auditing\Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumnName="auditId")
      */
     protected $audit;
 

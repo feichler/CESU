@@ -27,14 +27,14 @@ class CompanyPerson extends Person
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Attendance", mappedBy="person", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\Trainings\Attendance", mappedBy="person", fetch="EXTRA_LAZY")
      */
     protected $attendances;
 
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Registration", mappedBy="person", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\Trainings\Registration", mappedBy="person", fetch="EXTRA_LAZY")
      */
     protected $registrations;
 

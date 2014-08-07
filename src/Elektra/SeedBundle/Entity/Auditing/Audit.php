@@ -27,7 +27,7 @@ class Audit
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\UserBundle\Entity\User", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="createdByUserId", referencedColumnName="id", nullable=false)
      */
     protected $createdBy;
@@ -35,7 +35,7 @@ class Audit
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\UserBundle\Entity\User", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="modifiedByUserId", referencedColumnName="id")
      */
     protected $modifiedBy;
