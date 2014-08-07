@@ -30,6 +30,7 @@
     {# TODO src: add any filter bar or breadcrumbs here? #}
 
     {% block main_content %}
+        <div class="container">
         {{ table.setStriped }}
         {{ table.setFullWidth }}
         {#{% table1.striped = 1 %}#}
@@ -38,7 +39,9 @@
         {#{% for entry in entries %}#}
 
         {#{% endfor %}#}
+        </div>
 
+        <i class="fa fa-search"></i>
     {% endblock main_content %}
 
     {% block footer %}

@@ -1,0 +1,14 @@
+.message-type(@type) {
+	@bg: 'messages-@{type}-background';
+	@border: 'messages-@{type}-border';
+	@text: 'messages-@{type}-text';
+	@icon: 'messages-@{type}-icon';
+
+	.alert-variant(@@bg, @@border, @@text);
+
+	.icon {
+		&:before {
+			content : @@icon;
+		}
+	}
+}
