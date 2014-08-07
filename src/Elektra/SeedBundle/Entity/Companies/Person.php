@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class Address
+ * Class Person
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
@@ -60,41 +60,15 @@ class Person
     protected $salutation;
 
     /**
-     * @var Location
-     *
-     * @ORM\ManyToOne(targetEntity="CompanyLocation", inversedBy="persons", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="locationId", referencedColumnName="locationId")
-     *
-     */
-    protected $location;
-
-    /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="ContactInfo", mappedBy="person", fetch="EXTRA_LAZY", cascade={"remove"})
      */
     protected $contactInfo;
 
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Attendance", mappedBy="person", fetch="EXTRA_LAZY")
-     */
-    protected $attendances;
-
-    /**
-     * @var Role
-     *
-     * @ORM\ManyToOne(targetEntity="Role", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="roleId", referencedColumnName="roleId")
-     *
-     */
-    protected $role;
-
     public function __construct()
     {
         $this->contactInfo = new ArrayCollection();
-        $this->attendances = new ArrayCollection();
     }
 
     /**
@@ -114,22 +88,6 @@ class Person
     }
 
     /**
-     * @param CompanyLocation $location
-     */
-    public function setLocation($location)
-    {
-        $this->location = $location;
-    }
-
-    /**
-     * @return CompanyLocation
-     */
-    public function getLocation()
-    {
-        return $this->location;
-    }
-
-    /**
      * @param ArrayCollection $contactInfo
      */
     public function setContactInfo($contactInfo)
@@ -143,38 +101,6 @@ class Person
     public function getContactInfo()
     {
         return $this->contactInfo;
-    }
-
-    /**
-     * @param ArrayCollection $attendances
-     */
-    public function setAttendances($attendances)
-    {
-        $this->attendances = $attendances;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getAttendances()
-    {
-        return $this->attendances;
-    }
-
-    /**
-     * @param Role $role
-     */
-    public function setRole($role)
-    {
-        $this->role = $role;
-    }
-
-    /**
-     * @return Role
-     */
-    public function getRole()
-    {
-        return $this->role;
     }
 
     /**

@@ -6,14 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
 
 /**
- * Class Attendance
+ * Class Registration
  *
  * @package Elektra\SeedBundle\Entity\Trainings
  *
  * @ORM\Entity
- * @ORM\Table(name="attendances")
+ * @ORM\Table(name="registrations")
  */
-class Attendance
+class Registration
 {
     /**
      * @var int
@@ -22,12 +22,12 @@ class Attendance
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $attendanceId;
+    protected $registrationId;
 
     /**
      * @var CompanyPerson
      *
-     * @ORM\ManyToOne(targetEntity="Person", inversedBy="attendances", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Person", inversedBy="registrations", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="personId", referencedColumnName="personId")
      */
     protected $person;
@@ -35,7 +35,7 @@ class Attendance
     /**
      * @var Training
      *
-     * @ORM\ManyToOne(targetEntity="Training", inversedBy="attendances", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Training", inversedBy="registrations", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="trainingId", referencedColumnName="trainingId")
      */
     protected $training;
@@ -49,15 +49,15 @@ class Attendance
      */
     public function getId()
     {
-        return $this->attendanceId;
+        return $this->registrationId;
     }
 
     /**
      * @return int
      */
-    public function getAttendanceId()
+    public function getRegistrationId()
     {
-        return $this->attendanceId;
+        return $this->registrationId;
     }
 
     /**

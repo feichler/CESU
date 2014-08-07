@@ -1,18 +1,18 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\Companies;
+namespace Elektra\SeedBundle\Entity\Requests;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class Role
+ * Class RequestStatus
  *
- * @package Elektra\SeedBundle\Entity\Companies
+ * @package Elektra\SeedBundle\Entity\Requests
  *
  * @ORM\Entity
- * @ORM\Table(name="roles")
+ * @ORM\Table(name="requestStatuses")
  */
-class Role
+class RequestStatus
 {
     /**
      * @var int
@@ -21,7 +21,7 @@ class Role
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $roleId;
+    protected $requestStatusId;
 
     /**
      * @var string
@@ -39,15 +39,15 @@ class Role
      */
     public function getId()
     {
-        return $this->roleId;
+        return $this->requestStatusId;
     }
 
     /**
      * @return int
      */
-    public function getRoleId()
+    public function getRequestStatusId()
     {
-        return $this->roleId;
+        return $this->requestStatusId;
     }
 
     /**

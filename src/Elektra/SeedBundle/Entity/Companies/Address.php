@@ -26,20 +26,6 @@ class Address
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=50)
-     */
-    protected $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=50)
-     */
-    protected $type;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
     protected $state;
@@ -80,22 +66,6 @@ class Address
     protected $street3;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="boolean")
-     */
-    protected $isPrimary;
-
-    /**
-     * @var Location
-     *
-     * @ORM\ManyToOne(targetEntity="Location", inversedBy="addresses", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="locationId", referencedColumnName="locationId")
-     *
-     */
-    protected $location;
-
-    /**
      * @var Country
      *
      * @ORM\ManyToOne(targetEntity="Country", fetch="EXTRA_LAZY")
@@ -131,22 +101,6 @@ class Address
     public function getAddressId()
     {
         return $this->addressId;
-    }
-
-    /**
-     * @param Location $location
-     */
-    public function setLocation($location)
-    {
-        $this->location = $location;
-    }
-
-    /**
-     * @return Location
-     */
-    public function getLocation()
-    {
-        return $this->location;
     }
 
     /**
@@ -195,38 +149,6 @@ class Address
     public function getCity()
     {
         return $this->city;
-    }
-
-    /**
-     * @param string $isPrimary
-     */
-    public function setIsPrimary($isPrimary)
-    {
-        $this->isPrimary = $isPrimary;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIsPrimary()
-    {
-        return $this->isPrimary;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
@@ -307,21 +229,5 @@ class Address
     public function getStreet3()
     {
         return $this->street3;
-    }
-
-    /**
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 }

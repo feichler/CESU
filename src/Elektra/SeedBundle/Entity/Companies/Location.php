@@ -48,7 +48,7 @@ abstract class Location
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Address", mappedBy="location", fetch="EXTRA_LAZY", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="LocationAddress", mappedBy="location", fetch="EXTRA_LAZY", cascade={"remove"})
      */
     protected $addresses;
 

@@ -59,9 +59,17 @@ class Training
      */
     protected $attendances;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Registration", mappedBy="training", fetch="EXTRA_LAZY")
+     */
+    protected $registrations;
+
     public function __construct()
     {
         $this->attendances = new ArrayCollection();
+        $this->registrations = new ArrayCollection();
     }
 
     /**
@@ -94,6 +102,22 @@ class Training
     public function getAttendances()
     {
         return $this->attendances;
+    }
+
+    /**
+     * @param ArrayCollection $registrations
+     */
+    public function setRegistrations($registrations)
+    {
+        $this->registrations = $registrations;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getRegistrations()
+    {
+        return $this->registrations;
     }
 
     /**
