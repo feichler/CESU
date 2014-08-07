@@ -4,6 +4,7 @@ namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 
 /**
  * Class Location
@@ -52,9 +53,29 @@ abstract class Location
      */
     protected $addresses;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ManyToMany(targetEntity = "Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @JoinTable(name = "location_notes",
+     *      joinColumns = {@JoinColumn(name = "locationId", referencedColumnName = "locationId")},
+     *      inverseJoinColumns = {@JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     * )
+     */
+    protected $notes;
+
+    /**
+     * @var Audit
+     *
+     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     */
+    protected $audit;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     /**
@@ -119,5 +140,37 @@ abstract class Location
     public function getShortName()
     {
         return $this->shortName;
+    }
+
+    /**
+     * @param ArrayCollection $notes
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     */
+    public function setAudit($audit)
+    {
+        $this->audit = $audit;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     */
+    public function getAudit()
+    {
+        return $this->audit;
     }
 }

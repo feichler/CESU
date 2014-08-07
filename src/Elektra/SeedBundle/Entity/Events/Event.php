@@ -3,7 +3,9 @@
 namespace Elektra\SeedBundle\Entity\Events;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
+use Doctrine\Common\Collections\ArrayCollection;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 /**
  * Class Event
  *
@@ -35,7 +37,7 @@ abstract class Event
      * @var \Elektra\SeedBundle\Entity\SeedUnits\SeedUnit
      *
      * @ORM\ManyToOne(targetEntity="SeedUnit", inversedBy="events", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="seedUnitId", referencedColumnName="seedUnitId")
+     * @ORM\JoinColumn(name="seedUnitId", referencedColumnName="seedUnitId", nullable=false)
      */
     protected $seedUnit;
 
@@ -43,7 +45,7 @@ abstract class Event
      * @var EventType
      *
      * @ORM\ManyToOne(targetEntity="EventType", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="eventTypeId", referencedColumnName="eventTypeId")
+     * @ORM\JoinColumn(name="eventTypeId", referencedColumnName="eventTypeId", nullable=false)
      */
     protected $eventType;
 
@@ -51,7 +53,7 @@ abstract class Event
      * @var UnitStatus
      *
      * @ORM\ManyToOne(targetEntity="UnitStatus", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="unitStatusId", referencedColumnName="UnitStatusId")
+     * @ORM\JoinColumn(name="unitStatusId", referencedColumnName="unitStatusId")
      */
     protected $unitStatus;
 
@@ -67,17 +69,37 @@ abstract class Event
      *
      * @ORM\Column(type="string", length="255")
      */
-    protected $subject;
+    protected $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="text", nullable=true)
      */
-    protected $body;
+    protected $text;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ManyToMany(targetEntity = "Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @JoinTable(name = "events_notes",
+     *      joinColumns = {@JoinColumn(name = "eventId", referencedColumnName = "eventId")},
+     *      inverseJoinColumns = {@JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     * )
+     */
+    protected $notes;
+
+    /**
+     * @var Audit
+     *
+     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     */
+    protected $audit;
 
     public function __construct()
     {
+        $this->notes = new ArrayCollection();
     }
 
     /**
@@ -97,7 +119,7 @@ abstract class Event
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Events\EventType $eventType
+     * @param EventType $eventType
      */
     public function setEventType($eventType)
     {
@@ -105,7 +127,7 @@ abstract class Event
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Events\EventType
+     * @return EventType
      */
     public function getEventType()
     {
@@ -113,7 +135,7 @@ abstract class Event
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\SeedUnits\SeedUnit $seedUnit
+     * @param SeedUnit $seedUnit
      */
     public function setSeedUnit($seedUnit)
     {
@@ -121,7 +143,7 @@ abstract class Event
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\SeedUnits\SeedUnit
+     * @return SeedUnit
      */
     public function getSeedUnit()
     {
@@ -129,7 +151,7 @@ abstract class Event
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Events\UnitStatus $unitStatus
+     * @param UnitStatus $unitStatus
      */
     public function setUnitStatus($unitStatus)
     {
@@ -137,7 +159,7 @@ abstract class Event
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Events\UnitStatus
+     * @return UnitStatus
      */
     public function getUnitStatus()
     {
@@ -147,33 +169,33 @@ abstract class Event
     /**
      * @param string $body
      */
-    public function setBody($body)
+    public function setText($body)
     {
-        $this->body = $body;
+        $this->text = $body;
     }
 
     /**
      * @return string
      */
-    public function getBody()
+    public function getText()
     {
-        return $this->body;
+        return $this->text;
     }
 
     /**
      * @param string $subject
      */
-    public function setSubject($subject)
+    public function setTitle($subject)
     {
-        $this->subject = $subject;
+        $this->title = $subject;
     }
 
     /**
      * @return string
      */
-    public function getSubject()
+    public function getTitle()
     {
-        return $this->subject;
+        return $this->title;
     }
 
     /**
@@ -190,5 +212,37 @@ abstract class Event
     public function getTimestamp()
     {
         return $this->timestamp;
+    }
+
+    /**
+     * @param ArrayCollection $notes
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     */
+    public function setAudit($audit)
+    {
+        $this->audit = $audit;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     */
+    public function getAudit()
+    {
+        return $this->audit;
     }
 }

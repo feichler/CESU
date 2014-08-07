@@ -4,6 +4,8 @@ namespace Elektra\SeedBundle\Entity\Trainings;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
+use Doctrine\Common\Collections\ArrayCollection;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 
 /**
  * Class Attendance
@@ -28,7 +30,7 @@ class Attendance
      * @var CompanyPerson
      *
      * @ORM\ManyToOne(targetEntity="Person", inversedBy="attendances", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="personId", referencedColumnName="personId")
+     * @ORM\JoinColumn(name="personId", referencedColumnName="personId", nullable=false)
      */
     protected $person;
 
@@ -36,12 +38,32 @@ class Attendance
      * @var Training
      *
      * @ORM\ManyToOne(targetEntity="Training", inversedBy="attendances", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="trainingId", referencedColumnName="trainingId")
+     * @ORM\JoinColumn(name="trainingId", referencedColumnName="trainingId", nullable=false)
      */
     protected $training;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ManyToMany(targetEntity = "Note", cascade={"persist", "remove"})
+     * @JoinTable(name = "attendances_notes",
+     *      joinColumns = {@JoinColumn(name = "attendanceId", referencedColumnName = "attendanceId")},
+     *      inverseJoinColumns = {@JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     * )
+     */
+    protected $notes;
+
+    /**
+     * @var Audit
+     *
+     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     */
+    protected $audit;
+
     public function __construct()
     {
+        $this->notes = new ArrayCollection();
     }
 
     /**
@@ -90,5 +112,37 @@ class Attendance
     public function getTraining()
     {
         return $this->training;
+    }
+
+    /**
+     * @param ArrayCollection $notes
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     */
+    public function setAudit($audit)
+    {
+        $this->audit = $audit;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     */
+    public function getAudit()
+    {
+        return $this->audit;
     }
 }

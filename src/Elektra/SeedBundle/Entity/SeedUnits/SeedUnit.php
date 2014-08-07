@@ -3,6 +3,8 @@
 namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 
 /**
  * Class SeedUnits
@@ -34,7 +36,7 @@ class SeedUnit
      * @var SeedUnitModel
      *
      * @ORM\ManyToOne(targetEntity="SeedUnitModel", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="seedUnitModelId", referencedColumnName="seedUnitModelId")
+     * @ORM\JoinColumn(name="seedUnitModelId", referencedColumnName="seedUnitModelId", nullable=false)
      */
     protected $model;
 
@@ -42,12 +44,32 @@ class SeedUnit
      * @var PowerCordType
      *
      * @ORM\ManyToOne(targetEntity="PowerCordType", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="powerCordTypeId", referencedColumnName="powerCordTypeId")
+     * @ORM\JoinColumn(name="powerCordTypeId", referencedColumnName="powerCordTypeId", nullable=false)
      */
     protected $powerCordType;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ManyToMany(targetEntity = "Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @JoinTable(name = "seedUnits_notes",
+     *      joinColumns = {@JoinColumn(name = "seedUnitId", referencedColumnName = "seedUnitId")},
+     *      inverseJoinColumns = {@JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     * )
+     */
+    protected $notes;
+
+    /**
+     * @var Audit
+     *
+     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     */
+    protected $audit;
+
     function __construct()
     {
+        $this->notes = new ArrayCollection();
     }
 
     /**
@@ -112,5 +134,37 @@ class SeedUnit
     public function getSerialNumber()
     {
         return $this->serialNumber;
+    }
+
+    /**
+     * @param ArrayCollection $notes
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     */
+    public function setAudit($audit)
+    {
+        $this->audit = $audit;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     */
+    public function getAudit()
+    {
+        return $this->audit;
     }
 }

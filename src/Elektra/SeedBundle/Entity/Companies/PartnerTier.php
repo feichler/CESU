@@ -3,6 +3,7 @@
 namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 
 /**
  * Class PartnerTier
@@ -35,7 +36,15 @@ class PartnerTier
      *
      * @ORM\Column(type="integer")
      */
-    protected $unitsLimit;
+    protected $unitsLimit = 1;
+
+    /**
+     * @var Audit
+     *
+     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     */
+    protected $audit;
 
     public function __construct()
     {
@@ -87,5 +96,21 @@ class PartnerTier
     public function getUnitsLimit()
     {
         return $this->unitsLimit;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     */
+    public function setAudit($audit)
+    {
+        $this->audit = $audit;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     */
+    public function getAudit()
+    {
+        return $this->audit;
     }
 }

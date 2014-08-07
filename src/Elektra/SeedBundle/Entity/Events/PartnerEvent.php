@@ -19,7 +19,7 @@ class PartnerEvent extends Event
      * @var Location
      *
      * @ORM\ManyToOne(targetEntity="Location", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="locationId", referencedColumnName="locationId")
+     * @ORM\JoinColumn(name="locationId", referencedColumnName="locationId", nullable=false)
      */
     protected $location;
 

@@ -19,7 +19,7 @@ class ActivityEvent extends Event
      * @var ContactInfo
      *
      * @ORM\ManyToOne(targetEntity="ContactInfo", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="contactInfoId", referencedColumnName="contactInfoId")
+     * @ORM\JoinColumn(name="contactInfoId", referencedColumnName="contactInfoId", nullable=false)
      */
     protected $contactInfo;
 

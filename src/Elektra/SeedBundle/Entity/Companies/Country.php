@@ -3,6 +3,7 @@
 namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 
 /**
  * Class Country
@@ -27,7 +28,7 @@ class Country
      * @var Region
      *
      * @ORM\ManyToOne(targetEntity="Region", inversedBy="countries", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="regionId", referencedColumnName="regionId")
+     * @ORM\JoinColumn(name="regionId", referencedColumnName="regionId", nullable=false)
      */
     protected $region;
 
@@ -37,6 +38,14 @@ class Country
      * @ORM\Column(type="string", length=50, unique=true)
      */
     protected $name;
+
+    /**
+     * @var Audit
+     *
+     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     */
+    protected $audit;
 
     public function __construct()
     {
@@ -88,5 +97,21 @@ class Country
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     */
+    public function setAudit($audit)
+    {
+        $this->audit = $audit;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     */
+    public function getAudit()
+    {
+        return $this->audit;
     }
 }
