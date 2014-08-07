@@ -6,7 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Companies\Person;
 use Elektra\SeedBundle\Entity\Companies\Address;
 use Elektra\SeedBundle\Entity\Companies\PartnerTier;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 /**
  * Class Request
  *
@@ -36,21 +37,21 @@ abstract class Request
     /**
      * @var int
      *
-     * @ORM\Column(type="int")
+     * @ORM\Column(type="int", nullable=true)
      */
     protected $numberOfUnitsRequested;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="int")
+     * @ORM\Column(type="int", nullable=true)
      */
     protected $tocAgreedAt;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="int")
+     * @ORM\Column(type="int", nullable=true)
      */
     protected $objectivesAgreedAt;
 
@@ -73,7 +74,7 @@ abstract class Request
      * @var RequestStatus
      *
      * @ORM\ManyToOne(targetEntity="RequestStatus", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="requestStatusId", referencedColumnName="requestStatusId")
+     * @ORM\JoinColumn(name="requestStatusId", referencedColumnName="requestStatusId", nullable=false)
      */
     protected $requestStatus;
 
@@ -109,8 +110,28 @@ abstract class Request
      */
     protected $shippingAddress;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ManyToMany(targetEntity = "Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @JoinTable(name = "requests_notes",
+     *      joinColumns = {@JoinColumn(name = "requestId", referencedColumnName = "requestId")},
+     *      inverseJoinColumns = {@JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     * )
+     */
+    protected $notes;
+
+    /**
+     * @var Audit
+     *
+     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     */
+    protected $audit;
+
     public function __construct()
     {
+        $this->notes = new ArrayCollection();
     }
 
     /**
@@ -303,5 +324,37 @@ abstract class Request
     public function getTocAgreedAt()
     {
         return $this->tocAgreedAt;
+    }
+
+    /**
+     * @param ArrayCollection $notes
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     */
+    public function setAudit($audit)
+    {
+        $this->audit = $audit;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     */
+    public function getAudit()
+    {
+        return $this->audit;
     }
 }

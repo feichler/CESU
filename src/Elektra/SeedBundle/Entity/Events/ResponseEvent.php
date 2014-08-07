@@ -19,7 +19,7 @@ class ResponseEvent extends Event
      * @var ContactInfo
      *
      * @ORM\ManyToOne(targetEntity="ContactInfo", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="contactInfoId", referencedColumnName="contactInfoId")
+     * @ORM\JoinColumn(name="contactInfoId", referencedColumnName="contactInfoId", nullable=false)
      */
     protected $contactInfo;
 
@@ -27,7 +27,7 @@ class ResponseEvent extends Event
      * @var ActivityEvent
      *
      * @ORM\OneToOne(targetEntity="ActivityEvent", inversedBy="responseEvent", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="activityEventId", referencedColumnName="eventId")
+     * @ORM\JoinColumn(name="activityEventId", referencedColumnName="eventId", nullable=false)
      */
     protected $activityEvent;
 
@@ -36,14 +36,14 @@ class ResponseEvent extends Event
      *
      * @ORM\Column(type="boolean")
      */
-    protected $responseReceived;
+    protected $responseReceived = false;
 
     /**
      * @var bool
      *
      * @ORM\Column(type="boolean")
      */
-    protected $isAcknowledged;
+    protected $isAcknowledged = false;
 
     public function __construct()
     {

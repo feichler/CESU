@@ -4,7 +4,7 @@ namespace Elektra\SeedBundle\Entity\Trainings;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 /**
  * Class Training
  *
@@ -34,7 +34,7 @@ class Training
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     protected $location;
 
@@ -66,10 +66,30 @@ class Training
      */
     protected $registrations;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ManyToMany(targetEntity = "Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @JoinTable(name = "trainings_notes",
+     *      joinColumns = {@JoinColumn(name = "trainingId", referencedColumnName = "trainingId")},
+     *      inverseJoinColumns = {@JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     * )
+     */
+    protected $notes;
+
+    /**
+     * @var Audit
+     *
+     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     */
+    protected $audit;
+
     public function __construct()
     {
         $this->attendances = new ArrayCollection();
         $this->registrations = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     /**
@@ -182,5 +202,37 @@ class Training
     public function getEndedAt()
     {
         return $this->endedAt;
+    }
+
+    /**
+     * @param ArrayCollection $notes
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     */
+    public function setAudit($audit)
+    {
+        $this->audit = $audit;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     */
+    public function getAudit()
+    {
+        return $this->audit;
     }
 }

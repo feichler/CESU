@@ -3,6 +3,7 @@
 namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 
 /**
  * Class AddressType
@@ -29,6 +30,14 @@ class AddressType
      * @ORM\Column(type="string", length=50, unique=true)
      */
     protected $name;
+
+    /**
+     * @var Audit
+     *
+     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     */
+    protected $audit;
 
     public function __construct()
     {
@@ -64,5 +73,21 @@ class AddressType
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     */
+    public function setAudit($audit)
+    {
+        $this->audit = $audit;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     */
+    public function getAudit()
+    {
+        return $this->audit;
     }
 }

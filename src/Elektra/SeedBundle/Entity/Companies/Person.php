@@ -4,6 +4,7 @@ namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 
 /**
  * Class Person
@@ -11,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @package Elektra\SeedBundle\Entity\Companies
  *
  * @ORM\Entity
- * @ORM\Table("persons")
+ * @ORM\Table("people")
  */
 class Person
 {
@@ -41,21 +42,14 @@ class Person
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=50)
-     */
-    protected $academicTitle;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     protected $jobTitle;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     protected $salutation;
 
@@ -66,9 +60,29 @@ class Person
      */
     protected $contactInfo;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ManyToMany(targetEntity = "Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @JoinTable(name = "people_notes",
+     *      joinColumns = {@JoinColumn(name = "personId", referencedColumnName = "personId")},
+     *      inverseJoinColumns = {@JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     * )
+     */
+    protected $notes;
+
+    /**
+     * @var Audit
+     *
+     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     */
+    protected $audit;
+
     public function __construct()
     {
         $this->contactInfo = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     /**
@@ -101,22 +115,6 @@ class Person
     public function getContactInfo()
     {
         return $this->contactInfo;
-    }
-
-    /**
-     * @param string $academicTitle
-     */
-    public function setAcademicTitle($academicTitle)
-    {
-        $this->academicTitle = $academicTitle;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAcademicTitle()
-    {
-        return $this->academicTitle;
     }
 
     /**
@@ -181,5 +179,37 @@ class Person
     public function getSalutation()
     {
         return $this->salutation;
+    }
+
+    /**
+     * @param ArrayCollection $notes
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     */
+    public function setAudit($audit)
+    {
+        $this->audit = $audit;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     */
+    public function getAudit()
+    {
+        return $this->audit;
     }
 }
