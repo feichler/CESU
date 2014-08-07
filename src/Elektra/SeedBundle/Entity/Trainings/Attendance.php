@@ -29,7 +29,7 @@ class Attendance
     /**
      * @var CompanyPerson
      *
-     * @ORM\ManyToOne(targetEntity="Person", inversedBy="attendances", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Person", inversedBy="attendances", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="personId", referencedColumnName="personId", nullable=false)
      */
     protected $person;
@@ -45,10 +45,10 @@ class Attendance
     /**
      * @var ArrayCollection
      *
-     * @ManyToMany(targetEntity = "Note", cascade={"persist", "remove"})
-     * @JoinTable(name = "attendances_notes",
-     *      joinColumns = {@JoinColumn(name = "attendanceId", referencedColumnName = "attendanceId")},
-     *      inverseJoinColumns = {@JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name = "attendances_notes",
+     *      joinColumns = {@ORM\JoinColumn(name = "attendanceId", referencedColumnName = "attendanceId")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
      * )
      */
     protected $notes;
@@ -56,8 +56,8 @@ class Attendance
     /**
      * @var Audit
      *
-     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     * @ORM\OneToOne(targetEntity="Elektra\SeedBundle\Entity\Auditing\Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumnName="auditId")
      */
     protected $audit;
 

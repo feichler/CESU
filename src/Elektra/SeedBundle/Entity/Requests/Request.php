@@ -37,21 +37,21 @@ abstract class Request
     /**
      * @var int
      *
-     * @ORM\Column(type="int", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $numberOfUnitsRequested;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="int", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $tocAgreedAt;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="int", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $objectivesAgreedAt;
 
@@ -65,7 +65,7 @@ abstract class Request
     /**
      * @var PartnerTier
      *
-     * @ORM\ManyToOne(targetEntity="PartnerTier", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\PartnerTier", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="partnerTierId", referencedColumnName="partnerTierId")
      */
     protected $partnerTier;
@@ -81,7 +81,7 @@ abstract class Request
     /**
      * @var Person
      *
-     * @ORM\ManyToOne(targetEntity="Person", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Person", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="requesterPersonId", referencedColumnName="personId")
      */
     protected $requesterPerson;
@@ -89,7 +89,7 @@ abstract class Request
     /**
      * @var Person
      *
-     * @ORM\ManyToOne(targetEntity="Person", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Person", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="receiverPersonId", referencedColumnName="personId")
      */
     protected $receiverPerson;
@@ -97,7 +97,7 @@ abstract class Request
     /**
      * @var Address
      *
-     * @ORM\ManyToOne(targetEntity="Address", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Address", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="companyAddressId", referencedColumnName="addressId")
      */
     protected $companyAddress;
@@ -105,7 +105,7 @@ abstract class Request
     /**
      * @var Address
      *
-     * @ORM\ManyToOne(targetEntity="Address", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Address", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="shippingAddressId", referencedColumnName="addressId")
      */
     protected $shippingAddress;
@@ -113,10 +113,10 @@ abstract class Request
     /**
      * @var ArrayCollection
      *
-     * @ManyToMany(targetEntity = "Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
-     * @JoinTable(name = "requests_notes",
-     *      joinColumns = {@JoinColumn(name = "requestId", referencedColumnName = "requestId")},
-     *      inverseJoinColumns = {@JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name = "requests_notes",
+     *      joinColumns = {@ORM\JoinColumn(name = "requestId", referencedColumnName = "requestId")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
      * )
      */
     protected $notes;
@@ -124,8 +124,8 @@ abstract class Request
     /**
      * @var Audit
      *
-     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     * @ORM\OneToOne(targetEntity="Elektra\SeedBundle\Entity\Auditing\Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumnName="auditId")
      */
     protected $audit;
 

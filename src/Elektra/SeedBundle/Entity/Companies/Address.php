@@ -5,7 +5,7 @@ namespace Elektra\SeedBundle\Entity\Companies;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-
+use Elektra\SeedBundle\Entity\Notes\Note;
 /**
  * Class Address
  *
@@ -72,7 +72,6 @@ class Address
      *
      * @ORM\ManyToOne(targetEntity="Country", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="countryId", referencedColumnName="countryId")
-     *
      */
     protected $country;
 
@@ -81,17 +80,16 @@ class Address
      *
      * @ORM\ManyToOne(targetEntity="AddressType", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="addressTypeId", referencedColumnName="addressTypeId")
-     *
      */
     protected $addressType;
 
     /**
      * @var ArrayCollection
      *
-     * @ManyToMany(targetEntity = "Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
-     * @JoinTable(name = "addresses_notes",
-     *      joinColumns = {@JoinColumn(name = "addressId", referencedColumnName = "addressId")},
-     *      inverseJoinColumns = {@JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name = "addresses_notes",
+     *      joinColumns = {@ORM\JoinColumn(name = "addressId", referencedColumnName = "addressId")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
      * )
      */
     protected $notes;
@@ -99,8 +97,8 @@ class Address
     /**
      * @var Audit
      *
-     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     * @ORM\OneToOne(targetEntity="Elektra\SeedBundle\Entity\Auditing\Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumnName="auditId")
      */
     protected $audit;
 

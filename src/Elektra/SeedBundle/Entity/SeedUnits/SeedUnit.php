@@ -51,10 +51,10 @@ class SeedUnit
     /**
      * @var ArrayCollection
      *
-     * @ManyToMany(targetEntity = "Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
-     * @JoinTable(name = "seedUnits_notes",
-     *      joinColumns = {@JoinColumn(name = "seedUnitId", referencedColumnName = "seedUnitId")},
-     *      inverseJoinColumns = {@JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name = "seedUnits_notes",
+     *      joinColumns = {@ORM\JoinColumn(name = "seedUnitId", referencedColumnName = "seedUnitId")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
      * )
      */
     protected $notes;
@@ -62,8 +62,8 @@ class SeedUnit
     /**
      * @var Audit
      *
-     * @ORM\OneToOne(targetEntity="Audit", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="auditId", referencedColumn="auditId")
+     * @ORM\OneToOne(targetEntity="Elektra\SeedBundle\Entity\Auditing\Audit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="auditId", referencedColumnName="auditId")
      */
     protected $audit;
 
