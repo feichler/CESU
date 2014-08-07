@@ -5,6 +5,7 @@ namespace Elektra\SeedBundle\Entity\SeedUnits;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\Requests\CompletedRequest;
 
 /**
  * Class SeedUnits
@@ -47,6 +48,14 @@ class SeedUnit
      * @ORM\JoinColumn(name="powerCordTypeId", referencedColumnName="powerCordTypeId", nullable=false)
      */
     protected $powerCordType;
+
+    /**
+     * @var CompletedRequest
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Requests\CompletedRequest", inversedBy="seedUnits", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="requestId", referencedColumnName="requestId")
+     */
+    protected $request;
 
     /**
      * @var ArrayCollection
@@ -118,6 +127,22 @@ class SeedUnit
     public function getPowerCordType()
     {
         return $this->powerCordType;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Requests\CompletedRequest $requestCompletion
+     */
+    public function setRequestCompletion($requestCompletion)
+    {
+        $this->requestCompletion = $requestCompletion;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Requests\CompletedRequest
+     */
+    public function getRequestCompletion()
+    {
+        return $this->requestCompletion;
     }
 
     /**
