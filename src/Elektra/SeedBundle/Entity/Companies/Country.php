@@ -15,6 +15,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  */
 class Country
 {
+
     /**
      * @var int
      *
@@ -31,6 +32,27 @@ class Country
      * @ORM\JoinColumn(name="regionId", referencedColumnName="regionId", nullable=false)
      */
     protected $region;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=2, unique=true)
+     */
+    protected $alphaTwo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=3, unique=true)
+     */
+    protected $alphaThree;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=3, unique=true)
+     */
+    protected $numericCode;
 
     /**
      * @var string
@@ -56,6 +78,7 @@ class Country
      */
     public function getId()
     {
+
         return $this->countryId;
     }
 
@@ -64,6 +87,7 @@ class Country
      */
     public function getCountryId()
     {
+
         return $this->countryId;
     }
 
@@ -72,6 +96,7 @@ class Country
      */
     public function setRegion($region)
     {
+
         $this->region = $region;
     }
 
@@ -80,7 +105,62 @@ class Country
      */
     public function getRegion()
     {
+
         return $this->region;
+    }
+
+    /**
+     * @param string $alphaTwo
+     */
+    public function setAlphaTwo($alphaTwo)
+    {
+
+        $this->alphaTwo = $alphaTwo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlphaTwo()
+    {
+
+        return $this->alphaTwo;
+    }
+
+    /**
+     * @param string $alphaThree
+     */
+    public function setAlphaThree($alphaThree)
+    {
+
+        $this->alphaThree = $alphaThree;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlphaThree()
+    {
+
+        return $this->alphaThree;
+    }
+
+    /**
+     * @param string $numeric
+     */
+    public function setNumericCode($numeric)
+    {
+
+        $this->numericCode = $numeric;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNumericCode()
+    {
+
+        return $this->numericCode;
     }
 
     /**
@@ -88,6 +168,7 @@ class Country
      */
     public function setName($name)
     {
+
         $this->name = $name;
     }
 
@@ -96,6 +177,7 @@ class Country
      */
     public function getName()
     {
+
         return $this->name;
     }
 
@@ -104,6 +186,7 @@ class Country
      */
     public function setAudit($audit)
     {
+
         $this->audit = $audit;
     }
 
@@ -112,6 +195,7 @@ class Country
      */
     public function getAudit()
     {
+
         return $this->audit;
     }
 }
