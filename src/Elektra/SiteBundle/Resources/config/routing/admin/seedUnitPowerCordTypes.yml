@@ -2,26 +2,34 @@
 seedUnitPowerCordTypes_browse:
     path:       /{page}
     defaults:
-        _controller:    "ElektraSeedBundle:SeedUnit/PowerCordType:browse"
+        _controller:    "ElektraSeedBundle:SeedUnit/SeedUnitPowerCordType:browse"
         page:           1
     requirements:
         page:           \d+
 
+seedUnitPowerCordTypes_view:
+    path:       /view/{id}
+    defaults:
+        _controller:    "ElektraSeedBundle:SeedUnit/SeedUnitPowerCordType:view"
+    requirements:
+        id:             \d+
+
+
 seedUnitPowerCordTypes_add:
     path:       /add
     defaults:
-        _controller:    "ElektraSeedBundle:SeedUnit/PowerCordType:add"
+        _controller:    "ElektraSeedBundle:SeedUnit/SeedUnitPowerCordType:add"
 
 seedUnitPowerCordTypes_edit:
     path:       /edit/{id}
     defaults:
-        _controller:    "ElektraSeedBundle:SeedUnit/PowerCordType:edit"
+        _controller:    "ElektraSeedBundle:SeedUnit/SeedUnitPowerCordType:edit"
     requirements:
         id:             \d+
 
 seedUnitPowerCordTypes_delete:
     path:       /delete/{id}
     defaults:
-        _controller:    "ElektraSeedBundle:SeedUnit/PowerCordType:delete"
+        _controller:    "ElektraSeedBundle:SeedUnit/SeedUnitPowerCordType:delete"
     requirements:
         id:             \d+

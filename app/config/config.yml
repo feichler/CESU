@@ -78,11 +78,6 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
 
-services:
-    my.listener:
-        class: Elektra\SeedBundle\Subscribers\AuditSubscriber
-        tags:
-            - { name: doctrine.event_subcriber, connection: default }
 
 # Swiftmailer Configuration
 swiftmailer:

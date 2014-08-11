@@ -3,7 +3,9 @@
 namespace Elektra\SeedBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class ElektraSeedExtension extends Extension
@@ -28,6 +30,9 @@ class ElektraSeedExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         $this->parseParameters($container, $config, 'elektra_seed');
+
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yml');
     }
 
     private function parseParameters(ContainerBuilder $container, array $config, $pathPrefix = '')

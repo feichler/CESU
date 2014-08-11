@@ -1,7 +1,7 @@
 <?php
 // TODO src: move forms to own FormType class
 // TODO src: add CSRF Protection to the forms
-namespace Elektra\SeedBundle\Controller;
+namespace Elektra\SeedBundle\Controller\SeedUnit;
 
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -49,7 +49,7 @@ class SeedUnitController extends Controller
                 'class'       => 'ElektraSeedBundle:SeedUnits\Model',
                 'property'    => 'name',
                 'empty_value' => 'Choose a model',
-                'required' => true,
+                'required'    => true,
             )
         );
         $formBuilder->add(
@@ -61,9 +61,9 @@ class SeedUnitController extends Controller
             )
         );
         //        $formBuilder->add('description', 'textarea');
-        $formBuilder->add('reset','reset');
+        $formBuilder->add('reset', 'reset');
         $formBuilder->add('save', 'submit');
-//        $formBuilder->add('test','button');
+        //        $formBuilder->add('test','button');
 
         $form = $formBuilder->getForm();
 
@@ -99,7 +99,7 @@ class SeedUnitController extends Controller
                 'class'       => 'ElektraSeedBundle:SeedUnits\Model',
                 'property'    => 'name',
                 'empty_value' => 'Choose a model',
-                'required' => true,
+                'required'    => true,
             )
         );
         $formBuilder->add(
@@ -112,7 +112,6 @@ class SeedUnitController extends Controller
         );
         //        $formBuilder->add('description', 'textarea');
         $formBuilder->add('save', 'submit');
-
 
         $form = $formBuilder->getForm();
 

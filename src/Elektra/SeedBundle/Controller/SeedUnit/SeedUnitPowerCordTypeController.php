@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PowerCordTypeController extends Controller
+class SeedUnitPowerCordTypeController extends Controller
 {
 
     public function browseAction(Request $request, $page)

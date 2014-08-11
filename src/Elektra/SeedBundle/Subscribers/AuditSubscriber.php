@@ -17,6 +17,13 @@ use Elektra\SeedBundle\Entity\IAuditContainer;
 
 class AuditSubscriber implements EventSubscriber
 {
+    public function __construct($securityContext) {
+
+        echo get_class($securityContext)."<br />";
+        exit();
+    }
+
+
     /**
      * Returns an array of events this subscriber wants to listen to.
      *
@@ -28,7 +35,7 @@ class AuditSubscriber implements EventSubscriber
     }
 
     public function prePersist(LifecycleEventArgs $args)
-    {
+    {echo 'ASF';
         $entity = $args->getEntity();
 
         if (!($entity instanceof IAuditContainer))

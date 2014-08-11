@@ -2,7 +2,7 @@
 seedUnitModels_browse:
     path:       /{page}
     defaults:
-        _controller:    "ElektraSeedBundle:SeedUnit/Model:browse"
+        _controller:    "ElektraSeedBundle:SeedUnit/SeedUnitModel:browse"
         page:           1
     requirements:
         page:           \d+
@@ -10,25 +10,25 @@ seedUnitModels_browse:
 seedUnitModels_view:
     path:       /view/{id}
     defaults:
-        _controller:    "ElektraSeedBundle:SeedUnit/Model:view"
+        _controller:    "ElektraSeedBundle:SeedUnit/SeedUnitModel:view"
     requirements:
         id:             \d+
 
 seedUnitModels_add:
     path:       /add
     defaults:
-        _controller:    "ElektraSeedBundle:SeedUnit/Model:add"
+        _controller:    "ElektraSeedBundle:SeedUnit/SeedUnitModel:add"
 
 seedUnitModels_edit:
     path:       /edit/{id}
     defaults:
-        _controller:    "ElektraSeedBundle:SeedUnit/Model:edit"
+        _controller:    "ElektraSeedBundle:SeedUnit/SeedUnitModel:edit"
     requirements:
         id:             \d+
 
 seedUnitModels_delete:
     path:       /delete/{id}
     defaults:
-        _controller:    "ElektraSeedBundle:SeedUnit/Model:delete"
+        _controller:    "ElektraSeedBundle:SeedUnit/SeedUnitModel:delete"
     requirements:
         id:             \d+
