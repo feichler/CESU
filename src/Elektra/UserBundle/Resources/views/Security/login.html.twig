@@ -1,0 +1,45 @@
+{% extends "ElektraUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-12">
+        <form action="{{ path("fos_user_security_check") }}" method="post" class="form-horizontal" role="form">
+            {# hidden form controls #}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+            {# username field #}
+            <div class="form-group">
+                <label for="username" class="col-sm-2 control-label">{{ 'security.login.username'|trans }}</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="{{ 'security.login.username'|trans }}"/>
+                </div>
+            </div>
+            {# password field #}
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">{{ 'security.login.password'|trans }}</label>
+
+                <div class="col-sm-10">
+                    <input class="form-control" type="password" id="password" name="_password" required="required" placeholder="{{ 'security.login.password'|trans }}   "/>
+                </div>
+            </div>
+            {# remember me checkbox #}
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <div class="checkbox">
+                        <label for="remember_me">
+                            <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
+                            {{ 'security.login.remember_me'|trans }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            {# login button #}
+            <div class="form-group">
+                <div class="col-sm-12 text-right">
+                    <input class="btn btn-primary" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}"/>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock fos_user_content %}

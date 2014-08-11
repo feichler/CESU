@@ -1,11 +1,8 @@
-
-
+{# ElektraThemeBundle - basic html template #}
+{# Defines the basic html file structure #}
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
     {# character set #}
     {% block head_charset %}
         <meta charset="UTF-8"/>
@@ -47,11 +44,8 @@
         {% javascripts %}
         {% endjavascripts %}
     {% endblock head_javascripts %}
-
 </head>
-
 <body>
-
 {# body content -> every application output goes in here #}
 {% block body_content %}
 
@@ -68,6 +62,5 @@
         {% include "ElektraThemeBundle:Basic/Scripts:bootstrap.html.twig" %}
     {% endif %}
 {% endblock body_javascripts %}
-
 </body>
 </html>

@@ -1,0 +1,27 @@
+
+seedUnitPowerCordTypes_browse:
+    path:       /{page}
+    defaults:
+        _controller:    "ElektraSeedBundle:SeedUnit/PowerCordType:browse"
+        page:           1
+    requirements:
+        page:           \d+
+
+seedUnitPowerCordTypes_add:
+    path:       /add
+    defaults:
+        _controller:    "ElektraSeedBundle:SeedUnit/PowerCordType:add"
+
+seedUnitPowerCordTypes_edit:
+    path:       /edit/{id}
+    defaults:
+        _controller:    "ElektraSeedBundle:SeedUnit/PowerCordType:edit"
+    requirements:
+        id:             \d+
+
+seedUnitPowerCordTypes_delete:
+    path:       /delete/{id}
+    defaults:
+        _controller:    "ElektraSeedBundle:SeedUnit/PowerCordType:delete"
+    requirements:
+        id:             \d+

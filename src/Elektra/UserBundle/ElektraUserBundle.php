@@ -13,4 +13,10 @@ class ElektraUserBundle extends Bundle
 
         parent::build($container);
     }
+
+    public function getParent()
+    {
+
+        return "FOSUserBundle";
+    }
 }

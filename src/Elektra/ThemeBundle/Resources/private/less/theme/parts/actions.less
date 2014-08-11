@@ -10,6 +10,18 @@
 		.btn-xs();
 	}
 
+	&.action-view {
+		color : @action-view-color;
+		&.action-btn {
+			//			TODO src: add a button variant for the view button
+		}
+		.icon {
+			&:before {
+				content : @action-view-icon;
+			}
+		}
+	}
+
 	&.action-add {
 		color : @action-add-color;
 		&.action-btn {

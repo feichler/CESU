@@ -64,8 +64,9 @@ class Theme
         );
 
         $this->pageVars = array(
-            'title'   => null,
-            'heading' => null,
+            'title'      => null,
+            'heading'    => null,
+            'subheading' => null,
         );
 
         $this->vars = array();

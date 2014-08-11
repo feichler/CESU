@@ -9,3 +9,18 @@ services:
             - "@theme"
         tags:
             - { name: twig.extension }
+
+    elektra_theme.form.type.link:
+        class: Elektra\ThemeBundle\Form\Field\LinkType
+        tags:
+            - { name: form.type, alias: link }
+
+    elektra_theme.form.type.cancel:
+            class: Elektra\ThemeBundle\Form\Field\CancelType
+            tags:
+                - { name: form.type, alias: cancel }
+
+    elektra_theme.form.type.buttongroup:
+            class: Elektra\ThemeBundle\Form\Field\ButtonGroupType
+            tags:
+                - { name: form.type, alias: buttongroup }

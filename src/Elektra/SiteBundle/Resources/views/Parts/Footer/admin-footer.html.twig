@@ -1,17 +1,49 @@
 {% extends "ElektraThemeBundle:Parts/Footer:base-footer.html.twig" %}
 
 {% block navbar_left_content %}
-    <ul class="navbar-nav nav">
-        <li>
-            <a href="#">TODO: Define Footer - left</a>
-        </li>
-    </ul>
+    <p class="navbar-text">
+        &copy; 2014 Cisco Elektra Seed Unit Program
+    </p>
 {% endblock navbar_left_content %}
 
 {% block navbar_right_content %}
     <ul class="navbar-nav nav">
-        <li>
-            <a href="#">TODO: Define Footer - right</a>
-        </li>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <li>
+    <span class="navbar-text">
+        {{ 'layout.logged_in_as'|trans({'%firstname%': app.user.firstname, '%lastname%': app.user.lastname}, 'FOSUserBundle') }}
+    </span>
+            </li>
+            <li>
+                <a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+            </li>
+        {% else %}
+            <li>
+                <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+            </li>
+        {% endif %}
+        {#<li>#}
+        {#{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}#}
+        {#{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |#}
+        {#<a href="{{ path('fos_user_security_logout') }}">#}
+        {#{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}#}
+        {#</a>#}
+        {#{% else %}#}
+        {#<a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>#}
+        {#{% endif %}#}
+        {#&#123;&#35;<a href="#">TODO: Login / Logout</a>&#35;&#125;#}
+        {#</li>#}
     </ul>
 {% endblock navbar_right_content %}
+
+
+{#{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}#}
+    {#{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |#}
+    {#<a href="{{ path('fos_user_security_logout') }}">#}
+        {#{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}#}
+    {#</a>#}
+{#{% else %}#}
+    {#&#123;&#35;<a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>&#35;&#125;#}
+{#{% endif %}#}

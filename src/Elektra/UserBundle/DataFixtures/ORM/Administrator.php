@@ -13,7 +13,7 @@ class Administrator implements FixtureInterface
     /**
      * @inheritdoc
      */
-    function load(ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
 
         $admin = new User();
