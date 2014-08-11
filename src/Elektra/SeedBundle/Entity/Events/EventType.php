@@ -4,6 +4,7 @@ namespace Elektra\SeedBundle\Entity\Events;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\IAuditContainer;
 
 /**
  * Class EventType
@@ -13,7 +14,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\Entity
  * @ORM\Table(name="eventTypes")
  */
-class EventType
+class EventType implements IAuditContainer
 {
     /**
      * @var int

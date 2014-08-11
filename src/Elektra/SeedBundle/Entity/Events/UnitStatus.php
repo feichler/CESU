@@ -4,6 +4,7 @@ namespace Elektra\SeedBundle\Entity\Events;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\IAuditContainer;
 
 /**
  * Class UnitStatus
@@ -13,7 +14,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\Entity
  * @ORM\Table(name="unitStatuses")
  */
-class UnitStatus
+class UnitStatus implements IAuditContainer
 {
     /**
      * @var int

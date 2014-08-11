@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\INoteContainer;
+
 /**
  * Class Registration
  *
@@ -14,7 +16,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\Entity
  * @ORM\Table(name="registrations")
  */
-class Registration
+class Registration implements IAuditContainer, INoteContainer
 {
     /**
      * @var int

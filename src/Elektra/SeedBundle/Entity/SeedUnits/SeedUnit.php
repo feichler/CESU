@@ -5,6 +5,8 @@ namespace Elektra\SeedBundle\Entity\SeedUnits;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\IAuditContainer;
+use Elektra\SeedBundle\Entity\INoteContainer;
 use Elektra\SeedBundle\Entity\Requests\CompletedRequest;
 
 /**
@@ -15,7 +17,7 @@ use Elektra\SeedBundle\Entity\Requests\CompletedRequest;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitRepository")
  * @ORM\Table(name="seedUnits")
  */
-class SeedUnit
+class SeedUnit implements IAuditContainer, INoteContainer
 {
     /**
      * @var int

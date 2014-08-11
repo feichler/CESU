@@ -4,6 +4,7 @@ namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\IAuditContainer;
 
 /**
  * Class ContactInfoType
@@ -13,7 +14,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\Entity
  * @ORM\Table(name="contactInfoTypes")
  */
-class ContactInfoType
+class ContactInfoType implements IAuditContainer
 {
     /**
      * @var int

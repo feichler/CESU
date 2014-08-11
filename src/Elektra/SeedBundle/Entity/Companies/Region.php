@@ -5,6 +5,7 @@ namespace Elektra\SeedBundle\Entity\Companies;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\IAuditContainer;
 
 /**
  * Class Region
@@ -14,7 +15,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\RegionRepository")
  * @ORM\Table(name="regions")
  */
-class Region
+class Region implements IAuditContainer
 {
     /**
      * @var int

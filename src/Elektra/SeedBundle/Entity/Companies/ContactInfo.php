@@ -5,6 +5,8 @@ namespace Elektra\SeedBundle\Entity\Companies;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\IAuditContainer;
+use Elektra\SeedBundle\Entity\INoteContainer;
 
 /**
  * Class ContactInfo
@@ -14,7 +16,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\Entity
  * @ORM\Table(name="contactInfo")
  */
-class ContactInfo
+class ContactInfo implements IAuditContainer, INoteContainer
 {
     /**
      * @var int

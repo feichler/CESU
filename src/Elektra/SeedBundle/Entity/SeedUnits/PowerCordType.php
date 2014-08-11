@@ -4,7 +4,7 @@ namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\Helper;
+use Elektra\SeedBundle\Entity\IAuditContainer;
 
 /**
  * Class PowerType
@@ -14,7 +14,7 @@ use Elektra\SeedBundle\Entity\Helper;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\PowerCordTypeRepository")
  * @ORM\Table(name="powerCordTypes")
  */
-class PowerCordType
+class PowerCordType implements IAuditContainer
 {
     /**
      * @var int
@@ -113,21 +113,5 @@ class PowerCordType
     public function getAudit()
     {
         return $this->audit;
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    protected function onPrePersist()
-    {
-        $this->setAudit(Helper::createAudit());
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    protected function onPreUpdate()
-    {
-        Helper::updateAudit($this->getAudit());
     }
 }

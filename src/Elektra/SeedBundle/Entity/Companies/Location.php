@@ -5,6 +5,8 @@ namespace Elektra\SeedBundle\Entity\Companies;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\IAuditContainer;
+use Elektra\SeedBundle\Entity\INoteContainer;
 
 /**
  * Class Location
@@ -21,7 +23,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *  "generic" = "GenericLocation"
  * })
  */
-abstract class Location
+abstract class Location implements IAuditContainer, INoteContainer
 {
     /**
      * @var int

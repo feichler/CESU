@@ -3,6 +3,8 @@
 namespace Elektra\SeedBundle\Entity\Events;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\SeedBundle\Entity\IAuditContainer;
+use Elektra\SeedBundle\Entity\INoteContainer;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
@@ -22,7 +24,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *  "response" = "ResponseEvent",
  * })
  */
-abstract class Event
+abstract class Event implements IAuditContainer, INoteContainer
 {
     /**
      * @var int

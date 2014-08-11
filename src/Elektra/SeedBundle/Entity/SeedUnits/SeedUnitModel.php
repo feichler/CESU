@@ -4,6 +4,7 @@ namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\IAuditContainer;
 
 /**
  * Class Model
@@ -13,7 +14,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitModelRepository")
  * @ORM\Table(name="seedUnitModels")
  */
-class SeedUnitModel
+class SeedUnitModel implements IAuditContainer
 {
     /**
      * @var int
