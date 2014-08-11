@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\IAuditContainer;
 use Elektra\SeedBundle\Entity\INoteContainer;
 
 /**
