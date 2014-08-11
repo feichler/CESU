@@ -11,7 +11,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\CompanyRepository")
  * @ORM\Table(name="companies")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="companyType",type="string")

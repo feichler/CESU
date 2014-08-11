@@ -10,7 +10,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *
  * @package Elektra\SeedBundle\Entity\SeedUnits
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitModelRepository")
  * @ORM\Table(name="seedUnitModels")
  */
 class SeedUnitModel
@@ -96,14 +96,6 @@ class SeedUnitModel
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getCanDelete() {
-
-        return count($this->seedUnits) == 0;
     }
 
     /**

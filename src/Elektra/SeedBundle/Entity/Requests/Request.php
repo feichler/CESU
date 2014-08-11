@@ -13,7 +13,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *
  * @package Elektra\SeedBundle\Entity\Requests
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Requests\RequestRepository")
  * @ORM\Table(name="requests")
  */
 abstract class Request

@@ -11,7 +11,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\PersonRepository")
  * @ORM\Table("people")
  */
 class Person

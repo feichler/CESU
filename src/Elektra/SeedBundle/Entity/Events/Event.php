@@ -11,7 +11,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *
  * @package Elektra\SeedBundle\Entity\Events
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Events\EventRepository")
  * @ORM\Table(name="events")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="eventType",type="string")

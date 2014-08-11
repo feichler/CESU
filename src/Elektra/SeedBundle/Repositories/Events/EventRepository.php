@@ -1,16 +1,16 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\SeedUnits;
+namespace Elektra\SeedBundle\Repositories\Events;
 
 use Doctrine\ORM\EntityRepository;
 
-class SeedUnitModelRepository extends EntityRepository
+class EventRepository extends EntityRepository
 {
     public function getCount()
     {
         $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select($builder->expr()->count('m'));
-        $builder->from($this->getEntityName(), 'm');
+        $builder->select($builder->expr()->count('e'));
+        $builder->from($this->getEntityName(), 'e');
 
         $query = $builder->getQuery();
 

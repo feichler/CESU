@@ -1,16 +1,16 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\SeedUnits;
+namespace Elektra\SeedBundle\Repositories\SeedUnits;
 
 use Doctrine\ORM\EntityRepository;
 
-class PowerCordTypeRepository extends EntityRepository
+class SeedUnitRepository extends EntityRepository
 {
     public function getCount()
     {
         $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select($builder->expr()->count('pt'));
-        $builder->from($this->getEntityName(), 'pt');
+        $builder->select($builder->expr()->count('s'));
+        $builder->from($this->getEntityName(), 's');
 
         $query = $builder->getQuery();
 

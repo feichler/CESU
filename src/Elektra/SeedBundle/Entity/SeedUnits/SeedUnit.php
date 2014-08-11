@@ -12,7 +12,7 @@ use Elektra\SeedBundle\Entity\Requests\CompletedRequest;
  *
  * @package Elektra\SeedBundle\Entity\SeedUnits
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitRepository")
  * @ORM\Table(name="seedUnits")
  */
 class SeedUnit
@@ -132,17 +132,17 @@ class SeedUnit
     /**
      * @param \Elektra\SeedBundle\Entity\Requests\CompletedRequest $requestCompletion
      */
-    public function setRequestCompletion($requestCompletion)
+    public function setRequest($request)
     {
-        $this->requestCompletion = $requestCompletion;
+        $this->request = $request;
     }
 
     /**
      * @return \Elektra\SeedBundle\Entity\Requests\CompletedRequest
      */
-    public function getRequestCompletion()
+    public function getRequest()
     {
-        return $this->requestCompletion;
+        return $this->request;
     }
 
     /**

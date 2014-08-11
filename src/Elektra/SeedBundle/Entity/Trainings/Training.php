@@ -10,7 +10,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *
  * @package Elektra\SeedBundle\Entity\Trainings
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Trainings\TrainingRepository")
  * @ORM\Table("trainings")
  */
 class Training
