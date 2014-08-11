@@ -1,40 +1,44 @@
-{% extends 'ElektraSiteBundle::base.html.twig' %}
+{% extends "ElektraThemeBundle::layout.html.twig" %}
 
-{#{% form_theme form "AurealisThemeBundle:Form:fields.html.twig" %}#}
+{#{% extends 'ElektraSiteBundle::base.html.twig' %}#}
 
-{% block body_content %}
+{#&#123;&#35;{% form_theme form "AurealisThemeBundle:Form:fields.html.twig" %}&#35;&#125;#}
 
-    {# header block: main navigation #}
-    {% block body_header %}
-        {# TODO src: make navbar generic (using Elektra\SiteBundle\Menu\Menu and Aurealis\ThemeBundle\Menu\Menu #}
-        {% include 'ElektraSiteBundle:Includes:navbar.html.twig' %}
-        {#{% include 'AurealisThemeBundle:Navbar:navbar.html.twig' %}#}
-    {% endblock body_header %}
 
-    {# messages block: system messages (info / error / etc) #}
-    {% block body_messages %}
-        {#{% include 'AurealisThemeBundle:Messages:messages.html.twig' %}#}
-    {% endblock body_messages %}
 
-    {# heading block: actual page title #}
-    {% block body_heading %}
-        {% if ( theme_page.heading is defined ) and not ( theme_page.heading is empty ) %}
-            <div class="container">
-                <h1 class="page_heading">
-                    {{ theme_page.heading }}
-                </h1>
-            </div>
-        {% endif %}
-    {% endblock body_heading %}
+{#{% block body_content %}#}
 
-    {# component block: the actual page content #}
-    {% block body_component %}
+    {#&#123;&#35; header block: main navigation &#35;&#125;#}
+    {#{% block body_header %}#}
+        {#&#123;&#35; TODO src: make navbar generic (using Elektra\SiteBundle\Menu\Menu and Aurealis\ThemeBundle\Menu\Menu &#35;&#125;#}
+        {#{% include 'ElektraSiteBundle:Includes:navbar.html.twig' %}#}
+        {#&#123;&#35;{% include 'AurealisThemeBundle:Navbar:navbar.html.twig' %}&#35;&#125;#}
+    {#{% endblock body_header %}#}
 
-    {% endblock body_component %}
+    {#&#123;&#35; messages block: system messages (info / error / etc) &#35;&#125;#}
+    {#{% block body_messages %}#}
+        {#&#123;&#35;{% include 'AurealisThemeBundle:Messages:messages.html.twig' %}&#35;&#125;#}
+    {#{% endblock body_messages %}#}
 
-    {# footer block: copyright information, etc #}
-    {% block body_footer %}
+    {#&#123;&#35; heading block: actual page title &#35;&#125;#}
+    {#{% block body_heading %}#}
+        {#{% if ( theme_page.heading is defined ) and not ( theme_page.heading is empty ) %}#}
+            {#<div class="container">#}
+                {#<h1 class="page_heading">#}
+                    {#{{ theme_page.heading }}#}
+                {#</h1>#}
+            {#</div>#}
+        {#{% endif %}#}
+    {#{% endblock body_heading %}#}
 
-    {% endblock body_footer %}
+    {#&#123;&#35; component block: the actual page content &#35;&#125;#}
+    {#{% block body_component %}#}
 
-{% endblock body_content %}
+    {#{% endblock body_component %}#}
+
+    {#&#123;&#35; footer block: copyright information, etc &#35;&#125;#}
+    {#{% block body_footer %}#}
+
+    {#{% endblock body_footer %}#}
+
+{#{% endblock body_content %}#}

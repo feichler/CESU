@@ -1,2 +1,7 @@
 
-# NOTE: SiteBundle currently has no defined services
+services:
+    site:
+        class: Elektra\SiteBundle\Theme\Theme
+        arguments:
+            - "@service_container"
+

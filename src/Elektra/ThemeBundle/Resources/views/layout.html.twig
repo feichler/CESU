@@ -1,27 +1,39 @@
+{# ElektraThemeBundle - basic site template #}
 {% extends "ElektraThemeBundle::base.html.twig" %}
 {% import "ElektraThemeBundle:Macros:tables.html.twig" as tables %}
 
-{% block title %}Elektra ThemeBundle basic layout{% endblock title %}
+{# Set the page title if defined #}
+{% block title %}
+    {% if theme.pageVar('title') is not null %}
+        {{ theme.pageVar('title') }}
+    {% endif %}
+{% endblock title %}
 
+{# define the layout fot the body content #}
 {% block body_content %}
-
+    {# Navigation Bar (Top Navigation) #}
     {% block navbar %}
         {% if theme.getSubTemplate('navbar') is not null %}
             {% include theme.getSubTemplate('navbar') %}
         {% endif %}
     {% endblock %}
 
+    {# System Messages #}
     {% block messages %}
         {% if theme.getSubTemplate('messages') is not null %}
             {% include theme.getSubTemplate('messages') %}
         {% endif %}
     {% endblock messages %}
 
+    {# Page Heading #}
     {% block page_heading %}
-        {% if theme.getPageVar('heading') is not null %}
+        {% if theme.pageVar('heading') is not null %}
             <div class="container">
                 <h1 class="page_heading">
-                    {{ theme.getPageVar('heading') }}
+                    {{ theme.pageVar('heading') }}
+                    {% if theme.pageVar('subheading') is not null %}
+                        <small>{{ theme.pageVar('subheading') }}</small>
+                    {% endif %}
                 </h1>
             </div>
         {% endif %}
@@ -29,19 +41,22 @@
 
     {# TODO src: add any filter bar or breadcrumbs here? #}
 
-    {% block main_content %}
         <div class="container">
-        {#{{ table.style.setStriped }}#}
-        {#{{ table.style.setFullWidth }}#}
-        {#{% table1.striped = 1 %}#}
+            {# Main page content - to be overriden / used in the specific templates #}
+    {% block main_content %}
+            {#{{ table.style.setStriped }}#}
+            {#{{ table.style.setFullWidth }}#}
+            {#{% table1.striped = 1 %}#}
+            {% if table is defined %}
+                {{ tables.show(table) }}
+            {% endif %}
+            {#{% for entry in entries %}#}
 
-        {{ tables.show(table) }}
-        {#{% for entry in entries %}#}
-
-        {#{% endfor %}#}
-        </div>
+            {#{% endfor %}#}
     {% endblock main_content %}
+        </div>
 
+    {# Footer (navigation bar 2) #}
     {% block footer %}
         {% if theme.getSubTemplate('footer') is not null %}
             {% include theme.getSubTemplate('footer') %}

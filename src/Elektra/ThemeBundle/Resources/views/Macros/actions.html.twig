@@ -11,6 +11,12 @@
     </a>
 {% endmacro %}
 
+{% macro view(href, text, render) %}
+    {% import _self as actions %}
+    {% set text = text|default('Show') %}
+    {% set render = render|default('link') %}
+    {{ actions.action('view', href, text, render) }}
+{% endmacro %}
 
 {% macro add(href, text, render) %}
     {% import _self as actions %}

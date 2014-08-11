@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
 
+
 framework:
     #esi:             ~
     #translator:      { fallback: "%locale%" }
@@ -23,6 +24,7 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    translator: ~
 
 # Twig Configuration
 twig:
@@ -88,4 +90,13 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Elektra\UserBundle\Entity\User
+    group:
+        group_class: Elektra\UserBundle\Entity\Group
+
+#elektra_site:
+#    test: 'abc'
+
+#imports:
+#    - { resource: '@ElektraSiteBundle/Resources/config/site.yml' }
+
 

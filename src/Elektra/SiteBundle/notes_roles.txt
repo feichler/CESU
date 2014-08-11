@@ -1,0 +1,28 @@
+
+Defined actions at the Site:
+	Request units:			everyone
+	View Administration / Login:
+	Admin Master Data
+		- Seed Units
+			- Models
+			- Power Cord Types
+		- Regions / Countries
+		- Company Data
+			- Partners
+				- Locations
+				- Persons
+			- Customers
+				- Locations
+				- Persons
+
+
+
+
+Defined roles:
+	ROLE_USER		Guest allowed to view and enter the request form
+	ROLE_ADMIN		User allowed to login and see the administration area
+	ROLE_ADMIN_MASTER_DATA_SEEDUNITS_MODELS
+	ROLE_ADMIN_MASTER_DATA_SEEDUNITS_POWERCORDTYPES
+	ROLE_ADMIN_MASTER_DATA_SEEDUNITS
+	ROLE_ADMIN_MASTER_DATA
+	ROLE_SUPER_USER	User granted all privileges

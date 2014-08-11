@@ -58,6 +58,15 @@ class Table
         $this->contentRows         = array();
     }
 
+    public function defaultStyling()
+    {
+
+        $this->style->setFullWidth();
+        $this->style->setStriped();
+        $this->style->setResponsive();
+        $this->style->setBordered();
+    }
+
     /**
      * Add a row to the header
      *

@@ -47,7 +47,7 @@ class ThemeExtension extends \Twig_Extension
         $this->theme->setScript('jquery');
         $this->theme->setScript('bootstrap');
         $this->theme->setStylesheet('bootstrap');
-        $this->theme->setStylesheet('fontAwesome');
+//        $this->theme->setStylesheet('fontAwesome');
 
         $this->theme->setSubTemplate('navbar', 'ElektraThemeBundle:Parts/Navigation:base-navbar.html.twig');
         $this->theme->setSubTemplate('footer', 'ElektraThemeBundle:Parts/Footer:base-footer.html.twig');

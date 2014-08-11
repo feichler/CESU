@@ -12,9 +12,10 @@ class RequestController extends Controller
 
     public function stepsAction(Request $request, $step, $number)
     {
-
-        $this->container->get('elektra.twig.theme_extension')->initializeComplete();
-        $bag = $this->container->get('session')->getFlashBag();
+$site = $this->container->get('site');
+        $site->initializeRequestPage('TODO: Request','TODO: Request heading');
+//        $this->container->get('elektra.twig.theme_extension')->initializeComplete();
+//        $bag = $this->container->get('session')->getFlashBag();
 
         //                $bag->add('info','asdf1234');
         //                $bag->add('error',"asdf");
@@ -23,15 +24,15 @@ class RequestController extends Controller
         //                $bag->add('info','asdf');
         //                $bag->add('success','asdf');
 
-        $theme = $this->container->get('theme');
-        $theme->setSubTemplate('navbar', 'ElektraSiteBundle:Parts/Navigation:request-navbar.html.twig');
-        //        $theme->resetSubTemplate('navbar');
-        $theme->setSubTemplate('footer', 'ElektraSiteBundle:Parts/Footer:request-footer.html.twig');
-        // TODO src: set the correct brand name or remove
-        $theme->setPageVar('navbar.brand.name', 'TODO: short name');
-        // TODO src: set the correct brand route or remove
-        //        $theme->setPageVar('navbar.brand.route', 'TODO');
-        $theme->setPageVar('heading', 'Cisco ASA with FirePOWER Services');
+//        $theme = $this->container->get('theme');
+//        $theme->setSubTemplate('navbar', 'ElektraSiteBundle:Parts/Navigation:request-navbar.html.twig');
+//        //        $theme->resetSubTemplate('navbar');
+//        $theme->setSubTemplate('footer', 'ElektraSiteBundle:Parts/Footer:request-footer.html.twig');
+//        // TODO src: set the correct brand name or remove
+//        $theme->setPageVar('navbar.brand.name', 'TODO: short name');
+//        // TODO src: set the correct brand route or remove
+//        //        $theme->setPageVar('navbar.brand.route', 'TODO');
+//        $theme->setPageVar('heading', 'Cisco ASA with FirePOWER Services');
 
         $table = new Table();
         $table->getStyle()->setCondensed();

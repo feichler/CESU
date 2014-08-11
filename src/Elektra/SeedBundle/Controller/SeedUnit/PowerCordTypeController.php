@@ -8,8 +8,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PowerTypeController extends Controller
+class PowerCordTypeController extends Controller
 {
+
+    public function browseAction(Request $request, $page)
+    {
+
+        $site = $this->container->get('site');
+        $site->initializeAdminPage('Seed Unit Power Cord Types', 'Seed Units - Browser Power Cord Types', 'menu.master_data');
+
+        return $this->render('ElektraSiteBundle:Admin/SeedUnit/PowerCordTypes:browse.html.twig');
+    }
 
     protected function initializePage($title)
     {
@@ -103,7 +112,10 @@ class PowerTypeController extends Controller
         $powerType  = $repository->find($id);
 
         if (!$powerType->getCanDelete()) {
-            $this->container->get('session')->getFlashBag()->add('error', ':Not possible: the power type "' . $powerType->getName() . '" - ID ' . $powerType->getPowerTypeId() . ' cannot be deleted (seed units associated)');
+            $this->container->get('session')->getFlashBag()->add(
+                'error',
+                ':Not possible: the power type "' . $powerType->getName() . '" - ID ' . $powerType->getPowerTypeId() . ' cannot be deleted (seed units associated)'
+            );
 
             return $this->redirect($this->generateUrl('_cesu_seed_unit_power_types_list'));
         }

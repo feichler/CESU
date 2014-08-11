@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @package Elektra\UserBundle\Entity
  *
- * @ORM\Entity
+ * @ORM\Entity()
  * @ORM\Table(name="users")
  */
 class User extends BaseUser
@@ -38,6 +38,18 @@ class User extends BaseUser
      * @ORM\Column(type="string", length=100)
      */
     protected $lastName;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToMany(targetEntity="Elektra\UserBundle\Entity\Group")
+     * @ORM\JoinTable(
+     *      name="users_groups",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    protected $groups;
 
     public function __construct()
     {
