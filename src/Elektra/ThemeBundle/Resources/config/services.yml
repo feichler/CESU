@@ -3,7 +3,7 @@ services:
     theme:
         class: Elektra\ThemeBundle\Theme\Theme
 
-    elektra.twig.theme_extension:
+    elektra_theme.twig.theme_extension:
         class: Elektra\ThemeBundle\Twig\ThemeExtension
         arguments:
             - "@theme"
