@@ -27,10 +27,10 @@ interface AuditableInterface
     /**
      * @return Audit
      */
-    public function getCreationAudit();
+    //public function getCreationAudit();
 
     /**
      * @return Audit
      */
-    public function getLastModifiedAudit();
+    //public function getLastModifiedAudit();
 }

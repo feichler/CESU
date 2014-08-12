@@ -21,7 +21,6 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  */
 class SeedUnitModel implements AuditableInterface
 {
-
     /**
      * @var int
      *
@@ -36,7 +35,6 @@ class SeedUnitModel implements AuditableInterface
      *
      * @ORM\Column(type="string", length=50, unique=true)
      *
-
      */
     protected $name;
 
@@ -69,7 +67,6 @@ class SeedUnitModel implements AuditableInterface
      */
     public function getId()
     {
-
         return $this->seedUnitModelId;
     }
 
@@ -78,7 +75,6 @@ class SeedUnitModel implements AuditableInterface
      */
     public function getSeedUnitModelId()
     {
-
         return $this->seedUnitModelId;
     }
 
@@ -87,7 +83,6 @@ class SeedUnitModel implements AuditableInterface
      */
     public function setDescription($description)
     {
-
         $this->description = $description;
     }
 
@@ -96,7 +91,6 @@ class SeedUnitModel implements AuditableInterface
      */
     public function getDescription()
     {
-
         return $this->description;
     }
 
@@ -105,7 +99,6 @@ class SeedUnitModel implements AuditableInterface
      */
     public function setName($name)
     {
-
         $this->name = $name;
     }
 
@@ -114,7 +107,6 @@ class SeedUnitModel implements AuditableInterface
      */
     public function getName()
     {
-
         return $this->name;
     }
 
