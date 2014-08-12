@@ -290,4 +290,21 @@ class Address implements AuditableInterface, AnnotableInterface
     {
         return $this->audits;
     }
+
+    /**
+     * @return Audit
+     */
+    public function getCreationAudit()
+    {
+        return $this->getAudits()->slice(0, 1);
+    }
+
+    /**
+     * @return Audit
+     */
+    public function getLastModifiedAudit()
+    {
+        $audits = $this->getAudits();
+        return $audits->slice($audits->count()-1, 1);
+    }
 }
