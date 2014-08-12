@@ -51,8 +51,8 @@ class SeedUnitModel implements AuditableInterface
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "seedUnitModels_audits",
-     *      joinColumns = {@ORM\JoinColumn(name = "seedUnitModelId", referencedColumnName = "seedUnitModelId", onDelete="CASCADE")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true)}
+     *      joinColumns = {@ORM\JoinColumn(name = "seedUnitModelId", referencedColumnName = "seedUnitModelId")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
      * )
      */
     protected $audits;

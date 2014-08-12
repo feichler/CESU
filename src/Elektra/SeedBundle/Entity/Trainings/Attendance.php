@@ -59,11 +59,11 @@ class Attendance implements AuditableInterface, AnnotableInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "attendances_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "attendanceId", referencedColumnName = "attendanceId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true)}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
      * )
      */
     protected $audits;
