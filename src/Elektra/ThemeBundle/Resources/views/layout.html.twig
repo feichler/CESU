@@ -36,33 +36,18 @@
     {% block page_heading %}
         {% if theme.pageVar('heading') or theme.pageVar('section') %}
             <div class="container">
-                <h1 class="page_heading">
-                    {% if theme.pageVar('section') %}
-                        <span class="pull-right">{{ theme.pageVar('section')|trans }}</span>
-                    {% endif %}
+                <h1 class="page_heading clearfix">
                     {% if theme.pageVar('heading') %}
-                        <small>
+                        <small class="pull-left">
                             {{ theme.pageVar('heading')|transchoice(theme.pageVar('heading_p'), {'%action%': theme.pageVar('heading_a')|trans}) }}
                         </small>
                     {% endif %}
+                    {% if theme.pageVar('section') %}
+                        <span class="pull-right">{{ theme.pageVar('section')|trans }}</span>
+                    {% endif %}
                 </h1>
             </div>
-            {#heading or section<br/>#}
-            {#Heading: {{ theme.pageVar('heading') }}#}
-            {#<br/>#}
-            {#Section: {{ theme.pageVar('section') }}#}
-            {#<br/>#}
         {% endif %}
-        {#{% if theme.pageVar('heading') is not null %}#}
-            {#<div class="container">#}
-                {#<h1 class="page_heading">#}
-                    {#{{ theme.pageVar('heading') }}#}
-                    {#{% if theme.pageVar('subheading') is not null %}#}
-                        {#<small>{{ theme.pageVar('subheading') }}</small>#}
-                    {#{% endif %}#}
-                {#</h1>#}
-            {#</div>#}
-        {#{% endif %}#}
     {% endblock page_heading %}
 
     {# TODO src: add any filter bar or breadcrumbs here? #}
@@ -78,10 +63,10 @@
             {% endif %}
             {#{% for entry in entries %}#}
 
-            {% if string1 is defined %}
-                Template: <br/>
-                {{ string1|trans }}<br/>
-            {% endif %}
+            {#{% if string1 is defined %}#}
+                {#Template: <br/>#}
+                {#{{ string1|trans }}<br/>#}
+            {#{% endif %}#}
 
             {#{% endfor %}#}
         {% endblock main_content %}

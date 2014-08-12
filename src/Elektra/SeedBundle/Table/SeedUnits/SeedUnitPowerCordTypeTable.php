@@ -3,10 +3,11 @@
 namespace Elektra\SeedBundle\Table\SeedUnits;
 
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel;
+use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType;
 use Elektra\ThemeBundle\Element\Table;
 use Symfony\Component\Routing\RouterInterface;
 
-class SeedUnitModelTable extends Table
+class SeedUnitPowerCordTypeTable extends Table
 {
 
     /**
@@ -18,7 +19,7 @@ class SeedUnitModelTable extends Table
     {
 
         parent::__construct($router);
-        $this->setRoutingPrefix('ElektraSeedBundle_seedunits_models');
+        $this->setRoutingPrefix('ElektraSeedBundle_seedunits_powerCordTypes');
 
         parent::defaultStyling();
 
@@ -37,7 +38,7 @@ class SeedUnitModelTable extends Table
         $idCell->addHTMLContent('ID');
 
         $modelCell = $header->addCell();
-        $modelCell->addHTMLContent('Model');
+        $modelCell->addHTMLContent('Power Cord Type');
 
         $auditCell = $header->addCell();
         $auditCell->setWidth('230', 'px');
@@ -65,7 +66,7 @@ class SeedUnitModelTable extends Table
     {
 
         foreach ($entries as $entry) {
-            if ($entry instanceof SeedUnitModel) {
+            if ($entry instanceof SeedUnitPowerCordType) {
                 $row = $this->addContentRow();
 
                 $idCell = $row->addCell();

@@ -10,7 +10,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 
 /**
- * Class Model
+ * Class SeedUnitModels
  *
  * @package Elektra\SeedBundle\Entity\SeedUnits
  *

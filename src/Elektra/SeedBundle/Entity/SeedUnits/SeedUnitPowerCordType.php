@@ -8,14 +8,14 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 
 /**
- * Class PowerType
+ * Class SeedUnitPowerTypes
  *
  * @package Elektra\SeedBundle\Entity\SeedUnits
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\PowerCordTypeRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitPowerCordTypeRepository")
  * @ORM\Table(name="powerCordTypes")
  */
-class PowerCordType implements AuditableInterface
+class SeedUnitPowerCordType implements AuditableInterface
 {
     /**
      * @var int

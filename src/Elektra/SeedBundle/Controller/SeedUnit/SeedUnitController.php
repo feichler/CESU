@@ -33,7 +33,7 @@ class SeedUnitController extends Controller
         // TODO src: add pagination to the list
         $units = $repository->findAll();
 
-        return $this->render("ElektraSeedBundle:SeedUnits:list.html.twig", array('entries' => $units));
+        return $this->render("ElektraSeedBundle:SeedUnits:browse.html.twig", array('entries' => $units));
     }
 
     public function addAction(Request $request)

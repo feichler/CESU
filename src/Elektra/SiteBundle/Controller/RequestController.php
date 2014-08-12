@@ -10,12 +10,17 @@ use Symfony\Component\Translation\Loader\YamlFileLoader;
 
 class RequestController extends Controller
 {
+    private function initialise() {
+
+        $theme = $this->get('site');
+        $theme->initialiseRequestPage();
+    }
 
     public function stepsAction(Request $request, $step, $number)
     {
-
-        $site = $this->container->get('site');
-        $site->initializeRequestPage('TODO: Request', 'TODO: Request heading');
+$this->initialise();
+//        $site = $this->container->get('site');
+//        $site->initializeRequestPage('TODO: Request', 'TODO: Request heading');
         //        $this->container->get('elektra.twig.theme_extension')->initializeComplete();
         //        $bag = $this->container->get('session')->getFlashBag();
 
@@ -111,15 +116,15 @@ class RequestController extends Controller
 //        echo $this->get('translator')->trans('test.string.translate');
         $locale  = $request->getLocale();
         $entries = array();
-        echo $this->get('request')->get('locale');
-        echo 'test.string.translate';
-        echo '<br />';
-        echo $this->get('translator.default')->getLocale();
-        echo '<br />';
-//        echo $this->get('test.string.translate');
-        echo '<br />';
-        echo $this->get('translator.default')->trans('test.string.translate');
-        echo '<br />';
+//        echo $this->get('request')->get('locale');
+//        echo 'test.string.translate';
+//        echo '<br />';
+//        echo $this->get('translator.default')->getLocale();
+//        echo '<br />';
+////        echo $this->get('test.string.translate');
+//        echo '<br />';
+//        echo $this->get('translator.default')->trans('test.string.translate');
+//        echo '<br />';
 
         return $this->render('ElektraThemeBundle::layout.html.twig', array('table' => $table, 'string1' => 'test.string.translate'));
     }

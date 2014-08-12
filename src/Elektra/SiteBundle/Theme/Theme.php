@@ -63,6 +63,19 @@ class Theme
 
     public function initialiseRequestPage()
     {
+        $theme_extension = $this->container->get('elektra_theme.twig.theme_extension');
+        $theme_extension->initializeComplete();
+
+        $page_theme = $this->container->get('theme');
+
+        $this->setSubTemplates($page_theme, 'request');
+        $this->setPageBrand($page_theme, 'request');
+
+        $page_theme->setPageVar('title', 'site.request.title_suffix');
+        $page_theme->setPageVar('heading', 'site.request.heading');
+        $page_theme->setPageVar('heading_p', 1);
+
+//        $this->setPageSection($page_theme, 'request', 'request');
     }
 
     protected function setSubTemplates(\Elektra\ThemeBundle\Theme\Theme $page_theme, $type)

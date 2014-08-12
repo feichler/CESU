@@ -3,12 +3,14 @@
 namespace Elektra\SeedBundle\Repositories\SeedUnits;
 
 use Doctrine\ORM\EntityRepository;
-use Elektra\SeedBundle\Entity\SeedUnits\PowerCordType;
+use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType;
 
-class PowerCordTypeRepository extends EntityRepository
+class SeedUnitPowerCordTypeRepository extends EntityRepository
 {
+
     public function getCount()
     {
+
         $builder = $this->getEntityManager()->createQueryBuilder();
         $builder->select($builder->expr()->count('pct'));
         $builder->from($this->getEntityName(), 'pct');
@@ -20,10 +22,12 @@ class PowerCordTypeRepository extends EntityRepository
 
     /**
      * @param PowerCordType $powerCordType
+     *
      * @return bool
      */
     public function getCanDelete($powerCordType)
     {
+
         $builder = $this->getEntityManager()->createQueryBuilder();
         $builder->select($builder->expr()->count('su'));
         $builder->where("su.powerCordTypeId = :pctId");
@@ -31,5 +35,13 @@ class PowerCordTypeRepository extends EntityRepository
         $builder->setParameter("pctId", $powerCordType->getId());
 
         return $builder->getQuery()->getSingleScalarResult() == 0;
+    }
+
+    public function getEntries($page, $perPage)
+    {
+
+        $entries = $this->findBy(array(), array(), $perPage, ($page - 1) * $perPage);
+
+        return $entries;
     }
 }

@@ -1,0 +1,8 @@
+{% extends "ElektraSiteBundle::layout.html.twig" %}
+
+{% block main_content %}
+    {% if table is defined %}
+        {{ tables.show(table) }}
+    {% endif %}
+{% endblock main_content %}
+

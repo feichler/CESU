@@ -44,7 +44,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface
     protected $model;
 
     /**
-     * @var PowerCordType
+     * @var SeedUnitPowerCordType
      *
      * @ORM\ManyToOne(targetEntity="PowerCordType", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="powerCordTypeId", referencedColumnName="powerCordTypeId", nullable=false)

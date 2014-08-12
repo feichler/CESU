@@ -20,13 +20,13 @@ class SeedUnitModels extends AbstractFixture
     {
 
         $modelA = new SeedUnitModel();
-        $modelA->setName('Model A');
-        $modelA->setDescription('Description for "Model A"');
+        $modelA->setName('SeedUnitModels A');
+        $modelA->setDescription('Description for "SeedUnitModels A"');
         $manager->persist($modelA);
 
         $modelB = new SeedUnitModel();
-        $modelB->setName('Model B');
-        $modelB->setDescription('Description for "Model B"');
+        $modelB->setName('SeedUnitModels B');
+        $modelB->setDescription('Description for "SeedUnitModels B"');
         $manager->persist($modelB);
 
         $manager->flush();
