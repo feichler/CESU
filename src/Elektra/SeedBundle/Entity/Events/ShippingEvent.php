@@ -13,7 +13,7 @@ use Elektra\SeedBundle\Entity\Companies\Location;
  * @ORM\Entity
  * @ORM\Table(name="shippingEvents")
  */
-class ShippingEvent extends Event
+class ShippingEvent extends StatusEvent
 {
     /**
      * @var Location

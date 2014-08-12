@@ -18,10 +18,8 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="eventType",type="string")
  * @ORM\DiscriminatorMap({
- *  "shipping" = "ShippingEvent",
- *  "partner" = "PartnerEvent",
- *  "activity" = "ActivityEvent",
- *  "response" = "ResponseEvent",
+ *  "status" = "StatusEvent",
+ *  "sales" = "SalesEvent"
  * })
  */
 abstract class Event implements AuditableInterface, AnnotableInterface
@@ -52,14 +50,6 @@ abstract class Event implements AuditableInterface, AnnotableInterface
     protected $eventType;
 
     /**
-     * @var UnitStatus
-     *
-     * @ORM\ManyToOne(targetEntity="UnitStatus", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="unitStatusId", referencedColumnName="unitStatusId")
-     */
-    protected $unitStatus;
-
-    /**
      * @var int
      *
      * @ORM\Column(type="integer")
@@ -83,11 +73,11 @@ abstract class Event implements AuditableInterface, AnnotableInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "events_notes",
-     *      joinColumns = {@ORM\JoinColumn(name = "eventId", referencedColumnName = "eventId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     *      joinColumns = {@ORM\JoinColumn(name = "eventId", referencedColumnName = "eventId", onDelete="CASCADE")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true, onDelete="CASCADE")}
      * )
      */
     protected $notes;
@@ -95,11 +85,11 @@ abstract class Event implements AuditableInterface, AnnotableInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "events_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "eventId", referencedColumnName = "eventId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true)}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
      * )
      */
     protected $audits;
@@ -156,22 +146,6 @@ abstract class Event implements AuditableInterface, AnnotableInterface
     public function getSeedUnit()
     {
         return $this->seedUnit;
-    }
-
-    /**
-     * @param UnitStatus $unitStatus
-     */
-    public function setUnitStatus($unitStatus)
-    {
-        $this->unitStatus = $unitStatus;
-    }
-
-    /**
-     * @return UnitStatus
-     */
-    public function getUnitStatus()
-    {
-        return $this->unitStatus;
     }
 
     /**

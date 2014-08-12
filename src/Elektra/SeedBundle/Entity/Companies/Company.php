@@ -17,6 +17,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\DiscriminatorColumn(name="companyType",type="string")
  * @ORM\DiscriminatorMap({
  *  "partner" = "Partner",
+ *  "salesTeam" = "SalesTeam",
  *  "customer" = "Customer"
  * })
  */
@@ -56,7 +57,7 @@ abstract class Company
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "companies_notes",
      *      joinColumns = {@ORM\JoinColumn(name = "companyId", referencedColumnName = "companyId")},
@@ -68,11 +69,11 @@ abstract class Company
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "companies_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "companyId", referencedColumnName = "companyId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true)}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
      * )
      */
     protected $audits;

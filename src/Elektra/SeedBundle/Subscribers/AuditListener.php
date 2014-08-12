@@ -37,11 +37,17 @@ class AuditListener
             {
                 $audit = new Audit();
                 $audit->setTimestamp(time());
-                $audit->setUser($this->container->get('security.context')->getToken()->getUser());
+                $audit->setUser($this->getUser());
                 $updated->getAudits()->add($audit);
             }
         }
 
         $uow->computeChangeSets();
+    }
+
+    private function getUser()
+    {
+        $token = $this->container->get('security.context')->getToken();
+        return $token != null ? $token->getUser() : null;
     }
 }
