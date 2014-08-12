@@ -47,11 +47,11 @@ class Attendance implements AuditableInterface, AnnotableInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "attendances_notes",
-     *      joinColumns = {@ORM\JoinColumn(name = "attendanceId", referencedColumnName = "attendanceId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     *      joinColumns = {@ORM\JoinColumn(name = "attendanceId", referencedColumnName = "attendanceId", onDelete="CASCADE")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true, onDelete="CASCADE")}
      * )
      */
     protected $notes;

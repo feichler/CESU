@@ -56,7 +56,7 @@ abstract class Company
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "companies_notes",
      *      joinColumns = {@ORM\JoinColumn(name = "companyId", referencedColumnName = "companyId")},

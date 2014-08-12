@@ -47,11 +47,11 @@ class Registration implements AuditableInterface, AnnotableInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "registrations_notes",
-     *      joinColumns = {@ORM\JoinColumn(name = "registrationId", referencedColumnName = "registrationId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
+     *      joinColumns = {@ORM\JoinColumn(name = "registrationId", referencedColumnName = "registrationId", onDelete="CASCADE")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true, onDelete="CASCADE")}
      * )
      */
     protected $notes;
