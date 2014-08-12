@@ -179,4 +179,20 @@ abstract class Company
     {
         return $this->audits;
     }
+    /**
+     * @return Audit
+     */
+    public function getCreationAudit()
+    {
+        return $this->getAudits()->slice(0, 1)[0];
+    }
+
+    /**
+     * @return Audit
+     */
+    public function getLastModifiedAudit()
+    {
+        $audits = $this->getAudits();
+        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+    }
 }

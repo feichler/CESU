@@ -250,7 +250,7 @@ class Training implements AuditableInterface, AnnotableInterface
      */
     public function getCreationAudit()
     {
-        return $this->getAudits()->slice(0, 1);
+        return $this->getAudits()->slice(0, 1)[0];
     }
 
     /**
@@ -259,6 +259,6 @@ class Training implements AuditableInterface, AnnotableInterface
     public function getLastModifiedAudit()
     {
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1) : null;
+        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
     }
 }

@@ -31,7 +31,7 @@ class AuditListener
         $em  = $args->getEntityManager();
         $uow = $em->getUnitOfWork();
 
-        foreach ($uow->getScheduledEntityUpdates() as $updated)
+        foreach (array_merge($uow->getScheduledEntityInsertions(), $uow->getScheduledEntityUpdates()) as $updated)
         {
             if ($updated instanceof AuditableInterface)
             {
