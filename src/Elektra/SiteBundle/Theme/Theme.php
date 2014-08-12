@@ -146,7 +146,7 @@ class Theme // implements ContainerAwareInterface
             $theme->setPageVar('heading', $heading);
         } else {
             $key = 'site_lang.' . $type . '.' . $section;
-            $theme->setPageVar('heading', $this->container->getParameter('translation missing'));
+            $theme->setPageVar('heading', 'translation missing');
 //            $theme->setPageVar('heading', $this->container->getParameter($key));
             $theme->setPageVar('subheading', $heading);
         }
