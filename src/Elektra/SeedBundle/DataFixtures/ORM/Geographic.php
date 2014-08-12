@@ -73,7 +73,7 @@ class Geographic implements FixtureInterface, ContainerAwareInterface
             //            $audit = new Audit();
             //            $audit->setCreatedAt(time());
             //            $audit->setCreatedBy($admin);
-            $country->setAudit($this->getAudit($manager));
+            $country->setAudits($this->getAudit($manager));
 
             $manager->persist($country);
             //            $manager->flush();
@@ -88,7 +88,7 @@ class Geographic implements FixtureInterface, ContainerAwareInterface
 
         $region = new Region();
         $region->setName($name);
-        $region->setAudit($this->getAudit($manager));
+        $region->setAudits($this->getAudit($manager));
         $manager->persist($region);
 
         return $region;

@@ -10,6 +10,7 @@ namespace Elektra\SeedBundle\Subscribers;
 
 
 use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
@@ -35,22 +36,13 @@ class AuditSubscriber implements EventSubscriber
     }
 
     public function prePersist(LifecycleEventArgs $args)
-    {echo 'ASF';
+    {
         $entity = $args->getEntity();
 
         if (!($entity instanceof AuditableInterface))
             return;
 
-        $audit = new Audit();
-        $audit->setCreatedAt($this->getTimestamp());
-        $audit->setCreatedBy($this->getUser());
-
-        $entity->setAudit($audit);
-
-        $mgr = $args->getEntityManager();
-        $uow = $mgr->getUnitOfWork();
-        $uow->recomputeSingleEntityChangeSet($mgr->getClassMetadata(get_class($entity)), $entity);
-        $uow->recomputeSingleEntityChangeSet($mgr->getClassMetadata(get_class($audit)), $audit);
+        $this->addAudit($entity, $args->getEntityManager());
     }
 
     public function preUpdate(LifecycleEventArgs $args)
@@ -60,22 +52,24 @@ class AuditSubscriber implements EventSubscriber
         if (!($entity instanceof AuditableInterface))
             return;
 
-        $audit = $entity->getAudit();
-        $audit->setModifiedAt($this->getTimestamp());
-        $audit->setModifiedBy($this->getUser());
+        $this->addAudit($entity, $args->getEntityManager());
+    }
 
-        $mgr = $args->getEntityManager();
+    /**
+     * @param AuditableInterface $auditable
+     * @param EntityManager $mgr
+     */
+    private function addAudit($auditable, $mgr)
+    {
+        $audit = new Audit();
+        $audit->setTimestamp(time());
+        // TODO: retrieve current user
+        $audit->setUser(null);
+
+        $auditable->getAudits()->add($audit);
+
         $uow = $mgr->getUnitOfWork();
+        $uow->recomputeSingleEntityChangeSet($mgr->getClassMetadata(get_class($auditable)), $auditable);
         $uow->recomputeSingleEntityChangeSet($mgr->getClassMetadata(get_class($audit)), $audit);
     }
-
-    private function getTimestamp()
-    {
-        return time();
-    }
-
-    private function getUser()
-    {
-        return null;
-    }
-} 
+}

@@ -2,6 +2,7 @@
 
 namespace Elektra\SeedBundle\Entity\SeedUnits;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
@@ -40,15 +41,18 @@ class SeedUnitModel implements AuditableInterface
     protected $description;
 
     /**
-     * @var Audit
+     * @var ArrayCollection
      *
-     * @ORM\OneToOne(targetEntity="Elektra\SeedBundle\Entity\Auditing\Audit", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="auditId", referencedColumnName="auditId")
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name = "seedUnitModels_audits",
+     *      joinColumns = {@ORM\JoinColumn(name = "seedUnitModelId", referencedColumnName = "seedUnitModelId")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true)}
      */
-    protected $audit;
+    protected $audits;
 
     public function __construct()
     {
+        $this->audits = new ArrayCollection();
     }
 
     /**
@@ -100,18 +104,18 @@ class SeedUnitModel implements AuditableInterface
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     * @param ArrayCollection
      */
-    public function setAudit($audit)
+    public function setAudits($audits)
     {
-        $this->audit = $audit;
+        $this->audits = $audits;
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     * @return ArrayCollection
      */
-    public function getAudit()
+    public function getAudits()
     {
-        return $this->audit;
+        return $this->audits;
     }
 }

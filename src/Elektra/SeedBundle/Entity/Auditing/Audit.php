@@ -28,31 +28,16 @@ class Audit
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="Elektra\UserBundle\Entity\User", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="createdByUserId", referencedColumnName="id", nullable=false)
-     */
-    protected $createdBy;
-
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="Elektra\UserBundle\Entity\User", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="modifiedByUserId", referencedColumnName="id")
      */
-    protected $modifiedBy;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     */
-    protected $createdAt;
+    protected $user;
 
     /**
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $modifiedAt;
+    protected $timestamp;
 
     public function __construct()
     {
@@ -75,66 +60,34 @@ class Audit
     }
 
     /**
-     * @param int $createdAt
+     * @param int $timestamp
      */
-    public function setCreatedAt($createdAt)
+    public function setTimestamp($timestamp)
     {
-        $this->createdAt = $createdAt;
+        $this->timestamp = $timestamp;
     }
 
     /**
      * @return int
      */
-    public function getCreatedAt()
+    public function getTimestamp()
     {
-        return $this->createdAt;
+        return $this->timestamp;
     }
 
     /**
-     * @param User $createdBy
+     * @param User $user
      */
-    public function setCreatedBy($createdBy)
+    public function setUser($user)
     {
-        $this->createdBy = $createdBy;
-    }
-
-    /**
-     * @return User
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * @param int $modifiedAt
-     */
-    public function setModifiedAt($modifiedAt)
-    {
-        $this->modifiedAt = $modifiedAt;
-    }
-
-    /**
-     * @return int
-     */
-    public function getModifiedAt()
-    {
-        return $this->modifiedAt;
-    }
-
-    /**
-     * @param User $modifiedBy
-     */
-    public function setModifiedBy($modifiedBy)
-    {
-        $this->modifiedBy = $modifiedBy;
+        $this->user = $user;
     }
 
     /**
      * @return User
      */
-    public function getModifiedBy()
+    public function getUser()
     {
-        return $this->modifiedBy;
+        return $this->user;
     }
 }

@@ -45,7 +45,7 @@ class AuditListener
         $audit = new Audit();
         $audit->setCreatedAt($this->getTimestamp());
         $audit->setCreatedBy($this->getUser());
-        $entity->setAudit($audit);
+        $entity->setAudits($audit);
 
         // TODO src: the following lines produce an error (not managed entity)
         //        $mgr = $args->getEntityManager();
@@ -105,9 +105,9 @@ class AuditListener
 
         foreach ($uow->getScheduledEntityUpdates() as $updated) {
             if ($updated instanceof AuditableInterface) {
-                $audit = $updated->getAudit();
-                $audit->setModifiedAt($this->getTimestamp());
-                $audit->setModifiedBy($this->getUser());
+                $audit = $updated->getAudits();
+                $audit->setTimestamp($this->getTimestamp());
+                $audit->setUserId($this->getUser());
             }
         }
 

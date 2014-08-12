@@ -11,7 +11,8 @@ namespace Elektra\SeedBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-interface AnnotableInterface {
+interface AnnotableInterface
+{
     /**
      * @param ArrayCollection $notes
      */

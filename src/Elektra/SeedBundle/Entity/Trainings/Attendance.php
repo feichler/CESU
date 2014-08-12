@@ -133,17 +133,17 @@ class Attendance implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audits
      */
-    public function setAudit($audit)
+    public function setAudits($audits)
     {
-        $this->audit = $audit;
+        $this->audit = $audits;
     }
 
     /**
      * @return \Elektra\SeedBundle\Entity\Auditing\Audit
      */
-    public function getAudit()
+    public function getAudits()
     {
         return $this->audit;
     }
