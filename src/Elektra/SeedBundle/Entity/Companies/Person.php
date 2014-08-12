@@ -66,6 +66,7 @@ class Person implements AuditableInterface, AnnotableInterface
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "people_notes",
      *      joinColumns = {@ORM\JoinColumn(name = "personId", referencedColumnName = "personId")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
@@ -74,17 +75,22 @@ class Person implements AuditableInterface, AnnotableInterface
     protected $notes;
 
     /**
-     * @var Audit
+     * @var ArrayCollection
      *
-     * @ORM\OneToOne(targetEntity="Elektra\SeedBundle\Entity\Auditing\Audit", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="auditId", referencedColumnName="auditId")
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"timestamp" = "DESC"})
+     * @ORM\JoinTable(name = "people_audits",
+     *      joinColumns = {@ORM\JoinColumn(name = "personId", referencedColumnName = "personId")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true)}
+     * )
      */
-    protected $audit;
+    protected $audits;
 
     public function __construct()
     {
         $this->contactInfo = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->audits = new ArrayCollection();
     }
 
     /**
@@ -200,18 +206,18 @@ class Person implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     * @param ArrayCollection
      */
-    public function setAudit($audit)
+    public function setAudits($audits)
     {
-        $this->audit = $audit;
+        $this->audits = $audits;
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     * @return ArrayCollection
      */
-    public function getAudit()
+    public function getAudits()
     {
-        return $this->audit;
+        return $this->audits;
     }
 }

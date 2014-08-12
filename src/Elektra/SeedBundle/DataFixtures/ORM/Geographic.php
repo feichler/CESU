@@ -15,7 +15,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Geographic implements FixtureInterface, ContainerAwareInterface
 {
-
     /**
      * @var ContainerInterface
      */
@@ -30,7 +29,6 @@ class Geographic implements FixtureInterface, ContainerAwareInterface
      */
     public function setContainer(ContainerInterface $container = null)
     {
-
         $this->container = $container;
     }
 
@@ -39,7 +37,6 @@ class Geographic implements FixtureInterface, ContainerAwareInterface
      */
     function load(ObjectManager $manager)
     {
-
 //        $em = $this->container->get('doctrine.orm.default_entity_manager');
 //        //        $em->var_dump(get_class($em));
 //        $this->getAdminUser();
@@ -73,7 +70,7 @@ class Geographic implements FixtureInterface, ContainerAwareInterface
             //            $audit = new Audit();
             //            $audit->setCreatedAt(time());
             //            $audit->setCreatedBy($admin);
-            $country->setAudit($this->getAudit($manager));
+            $country->getAudits()->add($this->getAudit($manager));
 
             $manager->persist($country);
             //            $manager->flush();
@@ -85,10 +82,9 @@ class Geographic implements FixtureInterface, ContainerAwareInterface
 
     protected function createRegion(ObjectManager $manager, $name)
     {
-
         $region = new Region();
         $region->setName($name);
-        $region->setAudit($this->getAudit($manager));
+        $region->getAudits()->add($this->getAudit($manager));
         $manager->persist($region);
 
         return $region;
@@ -96,22 +92,20 @@ class Geographic implements FixtureInterface, ContainerAwareInterface
 
     protected function getAudit(ObjectManager $manager)
     {
-
 //        static $admin = null;
 //        if ($admin == null) {
 //            $admin = $manager->find('ElektraUserBundle:User', 1);
 //        }
 
         $audit = new Audit();
-        $audit->setCreatedBy($this->getAdminUser());
-        $audit->setCreatedAt(time());
+        $audit->setUser($this->getAdminUser());
+        $audit->setTimestamp(time());
 
         return $audit;
     }
 
     protected function getAdminUser()
     {
-
         static $adminUser = null;
 
         if ($adminUser == null) {

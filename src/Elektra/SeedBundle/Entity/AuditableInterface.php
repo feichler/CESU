@@ -9,14 +9,28 @@
 namespace Elektra\SeedBundle\Entity;
 
 
-interface AuditableInterface {
+use Doctrine\Common\Collections\ArrayCollection;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
+
+interface AuditableInterface
+{
     /**
-     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     * @param ArrayCollection
      */
-    public function setAudit($audit);
+    public function setAudits($audits);
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     * @return ArrayCollection
      */
-    public function getAudit();
+    public function getAudits();
+
+    /**
+     * @return Audit
+     */
+    //public function getCreationAudit();
+
+    /**
+     * @return Audit
+     */
+    //public function getLastModifiedAudit();
 }

@@ -2,6 +2,7 @@
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
@@ -63,15 +64,20 @@ class Country implements AuditableInterface
     protected $name;
 
     /**
-     * @var Audit
+     * @var ArrayCollection
      *
-     * @ORM\OneToOne(targetEntity="Elektra\SeedBundle\Entity\Auditing\Audit", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="auditId", referencedColumnName="auditId")
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"timestamp" = "DESC"})
+     * @ORM\JoinTable(name = "countries_audits",
+     *      joinColumns = {@ORM\JoinColumn(name = "countryId", referencedColumnName = "countryId")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true)}
+     * )
      */
-    protected $audit;
+    protected $audits;
 
     public function __construct()
     {
+        $this->audits = new ArrayCollection();
     }
 
     /**
@@ -183,20 +189,18 @@ class Country implements AuditableInterface
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
+     * @param ArrayCollection
      */
-    public function setAudit($audit)
+    public function setAudits($audits)
     {
-
-        $this->audit = $audit;
+        $this->audits = $audits;
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Auditing\Audit
+     * @return ArrayCollection
      */
-    public function getAudit()
+    public function getAudits()
     {
-
-        return $this->audit;
+        return $this->audits;
     }
 }
