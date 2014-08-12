@@ -141,7 +141,7 @@ abstract class CRUDController extends Controller
         if ($action != '') { // usually only for the deleteAction no theme is required as this action redirects
             // initialise the theme
             $theme = $this->get('site');
-            $theme->initializeCRUDPage('admin', $this->langKeys['type'], $this->langKeys['section'], $action);
+            $theme->initialiseCRUDPage('admin', $this->langKeys['type'], $this->langKeys['section'], $action);
         }
     }
 

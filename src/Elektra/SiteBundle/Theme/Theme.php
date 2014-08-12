@@ -23,7 +23,7 @@ class Theme
         $this->container = $container;
     }
 
-    public function initializeCRUDPage($type, $langKey, $sectionKey, $action)
+    public function initialiseCRUDPage($type, $langKey, $sectionKey, $action)
     {
 
         $theme_extension = $this->container->get('elektra_theme.twig.theme_extension');
@@ -43,44 +43,27 @@ class Theme
         $this->setPageSection($page_theme, $type, $sectionKey);
     }
 
-    //    /**
-    //     * Initialize the basic page variables for the given type
-    //     *
-    //     * @param string $type
-    //     * @param array  $options
-    //     */
-    //    public function initializePage($type, $languageKey, $sectionKey, $options = array())
-    //    {
-    //
-    //        $theme_extension = $this->container->get('elektra_theme.twig.theme_extension');
-    //        $page_theme      = $this->container->get('theme');
-    //
-    //        $theme_extension->initializeComplete();
-    //
-    //        // Site Title (html -> head -> title)
-    //        $title = '';
-    //        if (isset($options['title']) && !empty($options['title'])) {
-    //            $title = $options['title'];
-    //        }
-    //
-    //        // Page Heading
-    //        $heading = '';
-    //        if (isset($options['heading']) && !empty($options['heading'])) {
-    //            $heading = $options['heading'];
-    //        }
-    //
-    //        // Page Section
-    //        $section = '';
-    //        if (isset($options['section']) && !empty($options['section'])) {
-    //            $section = $options['section'];
-    //        }
-    //
-    //        $this->setSubTemplates($page_theme, $type);
-    //        $this->setPageTitle($page_theme, $type, $languageKey);
-    //        $this->setPageBrand($page_theme, $type);
-    //        $this->setPageHeading($page_theme, $type, $languageKey, 'browse', true);
-    //        $this->setPageSection($page_theme, $type, $sectionKey);
-    //    }
+    public function initialiseAdminPage()
+    {
+
+        $theme_extension = $this->container->get('elektra_theme.twig.theme_extension');
+        $theme_extension->initializeComplete();
+
+        $page_theme = $this->container->get('theme');
+
+        $this->setSubTemplates($page_theme, 'admin');
+        $this->setPageBrand($page_theme, 'admin');
+
+        $page_theme->setPageVar('title', 'site.admin.title_suffix');
+        $page_theme->setPageVar('heading', 'site.admin.heading');
+        $page_theme->setPageVar('heading_p', 1);
+
+        $this->setPageSection($page_theme, 'admin', 'admin');
+    }
+
+    public function initialiseRequestPage()
+    {
+    }
 
     protected function setSubTemplates(\Elektra\ThemeBundle\Theme\Theme $page_theme, $type)
     {

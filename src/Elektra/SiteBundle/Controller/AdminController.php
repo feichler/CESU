@@ -9,10 +9,18 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminController extends Controller
 {
 
+    private function initialise() {
+
+        $theme = $this->get('site');
+$theme->initialiseAdminPage();
+    }
+
     public function indexAction(Request $request)
     {
-        $site= $this->container->get('site');
-        $site->initializeAdminPage('Home', 'Administration');
+        $this->initialise();
+
+//        $site= $this->container->get('site');
+//        $site->initializeAdminPage('Home', 'Administration');
 
 //        $theme = $this->initializeTheme();
 //        $theme->setPageVar('navbar.brand.name', 'CESU Admin');
