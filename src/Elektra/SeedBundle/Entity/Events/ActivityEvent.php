@@ -13,7 +13,7 @@ use Elektra\SeedBundle\Entity\Companies\ContactInfo;
  * @ORM\Entity
  * @ORM\Table(name="activityEvents")
  */
-class ActivityEvent extends Event
+class ActivityEvent extends StatusEvent
 {
     /**
      * @var ContactInfo

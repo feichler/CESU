@@ -18,10 +18,8 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="eventType",type="string")
  * @ORM\DiscriminatorMap({
- *  "shipping" = "ShippingEvent",
- *  "partner" = "PartnerEvent",
- *  "activity" = "ActivityEvent",
- *  "response" = "ResponseEvent",
+ *  "status" = "StatusEvent",
+ *  "sales" = "SalesEvent"
  * })
  */
 abstract class Event implements AuditableInterface, AnnotableInterface
@@ -50,14 +48,6 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      * @ORM\JoinColumn(name="eventTypeId", referencedColumnName="eventTypeId", nullable=false)
      */
     protected $eventType;
-
-    /**
-     * @var UnitStatus
-     *
-     * @ORM\ManyToOne(targetEntity="UnitStatus", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="unitStatusId", referencedColumnName="unitStatusId")
-     */
-    protected $unitStatus;
 
     /**
      * @var int
@@ -156,22 +146,6 @@ abstract class Event implements AuditableInterface, AnnotableInterface
     public function getSeedUnit()
     {
         return $this->seedUnit;
-    }
-
-    /**
-     * @param UnitStatus $unitStatus
-     */
-    public function setUnitStatus($unitStatus)
-    {
-        $this->unitStatus = $unitStatus;
-    }
-
-    /**
-     * @return UnitStatus
-     */
-    public function getUnitStatus()
-    {
-        return $this->unitStatus;
     }
 
     /**
