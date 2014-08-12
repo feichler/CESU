@@ -112,6 +112,6 @@ class UnitStatus implements AuditableInterface
     public function getLastModifiedAudit()
     {
         $audits = $this->getAudits();
-        return $audits->slice($audits->count()-1, 1);
+        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1) : null;
     }
 }

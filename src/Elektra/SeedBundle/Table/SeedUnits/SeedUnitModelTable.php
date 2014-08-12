@@ -85,7 +85,9 @@ class SeedUnitModelTable extends Table
                     $created = $entry->getCreationAudit();
                     $modified = $entry->getLastModifiedAudit();
                     //                    $auditCell->addHTMLContent($audit->getCreatedBy()->getUsername());
+                    if ($created != null) {
                     $auditCell->addHTMLContent(date('Y-m-d H:i:s O', $created->getTimestamp()));
+                    }
 //                    if($audits->getTimestamp() != null) {
 //                        $auditCell->addHTMLContent($audits->getTimestamp());
 //                    } else {
