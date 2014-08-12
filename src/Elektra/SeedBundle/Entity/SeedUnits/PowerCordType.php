@@ -44,9 +44,11 @@ class PowerCordType implements AuditableInterface
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "powerCordTypes_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "powerCordTypeId", referencedColumnName = "powerCordTypeId")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true)}
+     * )
      */
     protected $audits;
 

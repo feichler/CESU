@@ -66,6 +66,7 @@ class Person implements AuditableInterface, AnnotableInterface
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "people_notes",
      *      joinColumns = {@ORM\JoinColumn(name = "personId", referencedColumnName = "personId")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
@@ -77,9 +78,11 @@ class Person implements AuditableInterface, AnnotableInterface
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "people_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "personId", referencedColumnName = "personId")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true)}
+     * )
      */
     protected $audits;
 

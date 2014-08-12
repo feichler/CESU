@@ -44,9 +44,11 @@ class Region implements AuditableInterface
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "regions_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "regionId", referencedColumnName = "regionId")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true)}
+     * )
      */
     protected $audits;
 
