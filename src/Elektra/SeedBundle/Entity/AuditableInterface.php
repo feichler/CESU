@@ -10,6 +10,7 @@ namespace Elektra\SeedBundle\Entity;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 
 interface AuditableInterface
 {
@@ -22,4 +23,14 @@ interface AuditableInterface
      * @return ArrayCollection
      */
     public function getAudits();
+
+    /**
+     * @return Audit
+     */
+    public function getCreationAudit();
+
+    /**
+     * @return Audit
+     */
+    public function getLastModifiedAudit();
 }
