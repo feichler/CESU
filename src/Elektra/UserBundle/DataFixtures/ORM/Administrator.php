@@ -2,16 +2,18 @@
 
 namespace Elektra\UserBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\Doctrine;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\UserBundle\Entity\User;
 
-class Administrator implements FixtureInterface
+class Administrator extends AbstractFixture implements OrderedFixtureInterface
 {
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
@@ -19,7 +21,7 @@ class Administrator implements FixtureInterface
         $admin = new User();
         $admin->setUsername('administrator');
         $admin->setPlainPassword('administrator');
-//        $admin->setPassword('administrator');
+        //        $admin->setPassword('administrator');
         $admin->setFirstName('Admin');
         $admin->setLastName('User');
         $admin->setEmail('administrator@elektra.aurealis.at');
@@ -28,5 +30,16 @@ class Administrator implements FixtureInterface
         $manager->persist($admin);
 
         $manager->flush();
+
+        $this->addReference('admin-user',$admin);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrder()
+    {
+
+        return 1;
     }
 }
