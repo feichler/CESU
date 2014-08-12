@@ -5,8 +5,8 @@ namespace Elektra\SeedBundle\Entity\Companies;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\IAuditContainer;
-use Elektra\SeedBundle\Entity\INoteContainer;
+use Elektra\SeedBundle\Entity\AuditableInterface;
+use Elektra\SeedBundle\Entity\AnnotableInterface;
 
 /**
  * Class Person
@@ -16,7 +16,7 @@ use Elektra\SeedBundle\Entity\INoteContainer;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\PersonRepository")
  * @ORM\Table("people")
  */
-class Person implements IAuditContainer, INoteContainer
+class Person implements AuditableInterface, AnnotableInterface
 {
     /**
      * @var int

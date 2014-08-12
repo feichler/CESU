@@ -4,7 +4,7 @@ namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\IAuditContainer;
+use Elektra\SeedBundle\Entity\AuditableInterface;
 
 /**
  * Class PartnerTier
@@ -14,7 +14,7 @@ use Elektra\SeedBundle\Entity\IAuditContainer;
  * @ORM\Entity
  * @ORM\Table(name="partnerTiers")
  */
-class PartnerTier implements IAuditContainer
+class PartnerTier implements AuditableInterface
 {
     /**
      * @var int

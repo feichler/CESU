@@ -8,8 +8,8 @@ use Elektra\SeedBundle\Entity\Companies\Address;
 use Elektra\SeedBundle\Entity\Companies\PartnerTier;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\IAuditContainer;
-use Elektra\SeedBundle\Entity\INoteContainer;
+use Elektra\SeedBundle\Entity\AuditableInterface;
+use Elektra\SeedBundle\Entity\AnnotableInterface;
 
 /**
  * Class Request
@@ -19,7 +19,7 @@ use Elektra\SeedBundle\Entity\INoteContainer;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Requests\RequestRepository")
  * @ORM\Table(name="requests")
  */
-abstract class Request implements IAuditContainer, INoteContainer
+abstract class Request implements AuditableInterface, AnnotableInterface
 {
     /**
      * @var int
