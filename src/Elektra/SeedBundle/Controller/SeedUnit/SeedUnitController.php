@@ -24,7 +24,10 @@ class SeedUnitController extends Controller
     public function listAction(Request $request, $page)
     {
 
-        $this->initializePage('Browse Seed Units');
+
+
+
+        $this->initializePage('Browse');
 
         $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:SeedUnits\SeedUnits');
         // TODO src: add pagination to the list

@@ -15,31 +15,31 @@
             {% endif %}
             >
         <span class="icon"></span>
-        <span class="text">{{ text }}</span>
+        <span class="text">{{ text|trans }}</span>
     </a>
 {% endmacro %}
 
 {% macro view(href, text, render) %}
     {% import _self as actions %}
-    {% set text = text|default('Show') %}
+    {% set text = text|default('site.admin.actions.view') %}
     {% set render = render|default('link') %}
     {{ actions.action('view', href, text, render) }}
 {% endmacro %}
 
 {% macro add(href, text, render) %}
     {% import _self as actions %}
-    {% set text = text|default('Add') %}
+    {% set text = text|default('site.admin.actions.add') %}
     {{ actions.action('add', href, text, render) }}
 {% endmacro %}
 
 {% macro edit(href, text, render) %}
     {% import _self as actions %}
-    {% set text = text|default('Edit') %}
+    {% set text = text|default('site.admin.actions.edit') %}
     {{ actions.action('edit', href, text, render) }}
 {% endmacro %}
 
 {% macro delete(href, text, render) %}
     {% import _self as actions %}
-    {% set text = text|default('Delete') %}
-    {{ actions.action('delete', href, text, render, 'Do you really want to delete this entry?') }}
+    {% set text = text|default('site.admin.actions.delete') %}
+    {{ actions.action('delete', href, text, render, 'site.generic.confirm_delete'|trans) }}
 {% endmacro %}

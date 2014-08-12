@@ -1,0 +1,79 @@
+
+site:
+    generic:
+        toggle_nav: Toggle Navigation
+        toggle_footer: Toogle Footer
+        confirm_delete: Do you really want to delete this entry?
+    admin:
+        title_prefix: ~
+        title_suffix: CESU Administration
+        copyright: TODO 2014 Cisco Elektra Seed Unit Program
+        brand_name: CESU Admin
+        messages:
+            success:
+                add: New %type% successfully added
+                edit: %type% successfully updated
+                delete: %type% successfully deleted
+            error:
+                add: ~
+                edit: ~
+                delete: ~
+        actions:
+            browse: Browse
+            view: View
+            edit: Edit
+            add: Add
+            delete: Delete
+        entities:
+            seedunit_models:
+                type: Seed Unit Model|Seed Unit Models
+                title: Seed Unit Models
+                heading: %action% Seed Unit Model|%action% Seed Unit Models
+        sections:
+            master_data: Master Data
+
+
+
+
+
+#        parts:
+#            sections:
+#                master_data: Master Data
+#            seedunits:
+#                title: ~
+#                heading: ~
+#            seedunit_models:
+#                title: Seed Unit Models
+#                heading: %action% Seed Unit Model|%action% Seed Unit Models
+#            seedunit_powercordtypes:
+#                title: Seed Unit Power Cord Types
+#                heading: %action% Seed Unit Power Cord Type|%action% Seed Unit Power Cord Types
+        menu:
+            master_data: Master Data
+            seedunits: Seed Units
+            seedunit_models: Models
+            seedunit_powercordtypes: Power Cord Types
+
+    request:
+
+    user:
+
+
+
+
+#    static:
+#        toggle_nav: Toggle Navigation
+#        toogle_foot: Toogle Footer
+#        admin:
+#            title_suffix: CESU Administration
+#            copyright: TODO 2014 Cisco Elektra Seed Unit Program
+#            menu:
+#                master_data: Master Data
+#                seedunits: Seed Units
+#                seedunit_models: Models
+#                seedunit_powercordtypes: Power Cord Types
+#        request:
+#            title_suffix: Unit Request
+#            copyright: TODO 2014 Cisco Elektra Seed Unit Program
+#        user:
+#            title_suffix: ''

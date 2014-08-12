@@ -68,7 +68,7 @@
     {% else %}
         <tr class="warning">
             <td colspan="{{ table.columnCount }}">
-                {{ table.emptyContentMessage }}
+                {{ table.emptyContentMessage|trans }}
             </td>
         </tr>
     {% endif %}

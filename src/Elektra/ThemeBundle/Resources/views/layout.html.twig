@@ -5,8 +5,15 @@
 {# Set the page title if defined #}
 {% block title %}
     {% if theme.pageVar('title') is not null %}
-        {{ theme.pageVar('title') }}
+        {% if theme.pageVar('title_prefix') is not null and theme.pageVar('title_prefix')|trans != theme.pageVar('title_prefix') %}
+            {{ theme.pageVar('title_prefix')|trans() }} -
+        {% endif %}
+        {{ theme.pageVar('title')|trans }} {# make sure to use the plural #}
+        {% if theme.pageVar('title_suffix') is not null and theme.pageVar('title_suffix')|trans != theme.pageVar('title_suffix') %}
+            - {{ theme.pageVar('title_suffix')|trans }}
+        {% endif %}
     {% endif %}
+
 {% endblock title %}
 
 {# define the layout fot the body content #}
@@ -25,25 +32,44 @@
         {% endif %}
     {% endblock messages %}
 
-    {# Page Heading #}
+    {# Page Heading & Section #}
     {% block page_heading %}
-        {% if theme.pageVar('heading') is not null %}
+        {% if theme.pageVar('heading') or theme.pageVar('section') %}
             <div class="container">
                 <h1 class="page_heading">
-                    {{ theme.pageVar('heading') }}
-                    {% if theme.pageVar('subheading') is not null %}
-                        <small>{{ theme.pageVar('subheading') }}</small>
+                    {% if theme.pageVar('section') %}
+                        <span class="pull-right">{{ theme.pageVar('section')|trans }}</span>
+                    {% endif %}
+                    {% if theme.pageVar('heading') %}
+                        <small>
+                            {{ theme.pageVar('heading')|transchoice(theme.pageVar('heading_p'), {'%action%': theme.pageVar('heading_a')|trans}) }}
+                        </small>
                     {% endif %}
                 </h1>
             </div>
+            {#heading or section<br/>#}
+            {#Heading: {{ theme.pageVar('heading') }}#}
+            {#<br/>#}
+            {#Section: {{ theme.pageVar('section') }}#}
+            {#<br/>#}
         {% endif %}
+        {#{% if theme.pageVar('heading') is not null %}#}
+            {#<div class="container">#}
+                {#<h1 class="page_heading">#}
+                    {#{{ theme.pageVar('heading') }}#}
+                    {#{% if theme.pageVar('subheading') is not null %}#}
+                        {#<small>{{ theme.pageVar('subheading') }}</small>#}
+                    {#{% endif %}#}
+                {#</h1>#}
+            {#</div>#}
+        {#{% endif %}#}
     {% endblock page_heading %}
 
     {# TODO src: add any filter bar or breadcrumbs here? #}
 
-        <div class="container">
-            {# Main page content - to be overriden / used in the specific templates #}
-    {% block main_content %}
+    <div class="container">
+        {# Main page content - to be overriden / used in the specific templates #}
+        {% block main_content %}
             {#{{ table.style.setStriped }}#}
             {#{{ table.style.setFullWidth }}#}
             {#{% table1.striped = 1 %}#}
@@ -52,14 +78,14 @@
             {% endif %}
             {#{% for entry in entries %}#}
 
-        {% if string1 is defined %}
-            Template: <br />
-            {{ string1|trans }}<br />
+            {% if string1 is defined %}
+                Template: <br/>
+                {{ string1|trans }}<br/>
             {% endif %}
 
             {#{% endfor %}#}
-    {% endblock main_content %}
-        </div>
+        {% endblock main_content %}
+    </div>
 
     {# Footer (navigation bar 2) #}
     {% block footer %}

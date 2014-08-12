@@ -63,7 +63,7 @@ class Table
     {
 
         $this->router              = $router;
-        $this->emptyContentMessage = 'No rows';
+        $this->emptyContentMessage = 'table.entries.none';
         $this->style               = new Style();
         $this->headerRows          = array();
         $this->footerRows          = array();

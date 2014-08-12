@@ -8,8 +8,8 @@ abstract class Controller extends BaseController
 {
 
 
-    public function __construct()
-    {
-
-    }
+//    public function __construct()
+//    {
+//
+//    }
 }

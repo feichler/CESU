@@ -15,28 +15,41 @@ use Elektra\SeedBundle\Controller\CRUDController;
 class SeedUnitModelController extends CRUDController
 {
 
-    public function __construct()
+//    public function __construct()
+//    {
+//
+//        parent::__construct();
+//
+//        //        $this->setPageHeading('Seed Unit Models');
+//        //        $this->setPageHeading('Seed Units - :action: Models');
+//
+//        //        $this->setRoutingPrefix('ElektraSeedBundle_seedunits_models');
+//        //        $this->setThemeSection('Seed Unit Models', 'Seed Units', 'menu.master_data');
+//    }
+
+    /**
+     * @return void
+     */
+    protected function initialiseVariables()
     {
 
-        parent::__construct();
-
+        // set the prefixes
         $this->setPrefix('routing', 'ElektraSeedBundle_seedunits_models');
         $this->setPrefix('view', 'ElektraSiteBundle:Admin/SeedUnit/Models');
 
-        $this->setLanguageString('title', 'Seed Unit Models');
-        $this->setLanguageString('section', 'menu.master_data');
-        $this->setLanguageString('entityName', 'Seed Unit Model');
+        // set the language keys
+        $this->setLangKey('type', 'seedunit_models');
+        $this->setLangKey('section', 'master_data');
 
+        // set the classes
         $this->setClass('table', 'Elektra\SeedBundle\Table\SeedUnits\SeedUnitModelTable');
         $this->setClass('form', 'Elektra\SeedBundle\Form\Type\SeedUnits\SeedUnitModelType');
         $this->setClass('repository', 'ElektraSeedBundle:SeedUnits\SeedUnitModel');
         $this->setClass('entity', 'Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel');
-        //        $this->setPageHeading('Seed Unit Models');
-        //        $this->setPageHeading('Seed Units - :action: Models');
-
-        //        $this->setRoutingPrefix('ElektraSeedBundle_seedunits_models');
-        //        $this->setThemeSection('Seed Unit Models', 'Seed Units', 'menu.master_data');
     }
+
+
+
 
     //    protected $routePrefix = 'seedUnitModels_';
 
@@ -185,4 +198,5 @@ class SeedUnitModelController extends CRUDController
     //
     //        return $model;
     //    }
+
 }

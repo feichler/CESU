@@ -2,10 +2,9 @@
 
 namespace Elektra\SiteBundle\Theme;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class Theme // implements ContainerAwareInterface
+class Theme
 {
 
     /**
@@ -13,148 +12,148 @@ class Theme // implements ContainerAwareInterface
      */
     protected $container;
 
+    /**
+     * Constructor
+     *
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
 
         $this->container = $container;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setContainer(ContainerInterface $container = null)
+    public function initializeCRUDPage($type, $langKey, $sectionKey, $action)
     {
 
-        $this->container = $container;
-    }
+        $theme_extension = $this->container->get('elektra_theme.twig.theme_extension');
+        $theme_extension->initializeComplete();
 
-    public function initializeRequestPage($title, $heading, $headingSection = '')
-    {
+        $page_theme = $this->container->get('theme');
 
-        // BIG TODO src - add translations
-        $theme = $this->container->get('theme');
+        $this->setSubTemplates($page_theme, $type);
+        $this->setPageBrand($page_theme, $type);
 
-        /*
-         * Initialize the template itself
-         */
-        $this->initializeTemplate();
-
-        /*
-         * Set the sub-templates
-         */
-        $theme->setSubTemplate('navbar', 'ElektraSiteBundle:Parts/Navigation:request-navbar.html.twig');
-        $theme->setSubTemplate('footer', 'ElektraSiteBundle:Parts/Footer:request-footer.html.twig');
-
-        /*
-         * Set the default routes
-         */
-        $theme->setPageVar('navbar.brand.route', 'ElektraSiteBundle_request_index');
-
-        /*
-         * Set the strings
-         */
-        // html title
-        $theme->setPageVar('title', $title . ' - ' . 'translation missing');
-//        $theme->setPageVar('title', $title . ' - ' . $this->container->getParameter('site_lang.request.page_title_suffix'));
-
-        // brand item name
-        $theme->setPageVar('navbar.brand.name', 'translation missing');
-//        $theme->setPageVar('navbar.brand.name', $this->container->getParameter('site_lang.request.page_name'));
-
-        // page heading
-        $this->setPageHeading('request', $heading, $headingSection);
-    }
-
-    public function initializeAdminPage($title, $heading, $headingSection = '')
-    {
-
-        $theme = $this->container->get('theme');
-
-        /*
-         * Initialize the template itself
-         */
-        $this->initializeTemplate();
-
-        /*
-         * Set the sub-templates
-         */
-        $theme->setSubTemplate('navbar', 'ElektraSiteBundle:Parts/Navigation:admin-navbar.html.twig');
-        $theme->setSubTemplate('footer', 'ElektraSiteBundle:Parts/Footer:admin-footer.html.twig');
-
-        /*
-         * Set the default routes
-         */
-        $theme->setPageVar('navbar.brand.route', 'ElektraSiteBundle_admin_index');
-
-        /*
-         * Set the strings
-         */
-        // html title
-        $theme->setPageVar('title', $title . ' - ' . 'translation missing');
-//        $theme->setPageVar('title', $title . ' - ' . $this->container->getParameter('site_lang.admin.page_title_suffix'));
-
-        // brand item name
-        $theme->setPageVar('navbar.brand.name', 'translation missing');
-//        $theme->setPageVar('navbar.brand.name', $this->container->getParameter('site_lang.admin.page_name'));
-
-        // page heading
-        $this->setPageHeading('admin', $heading, $headingSection);
-    }
-
-    public function initializeUserPage($title, $heading, $headingSection = '')
-    {
-
-        $theme = $this->container->get('theme');
-
-        /*
-         * Initialize the template itself
-         */
-        $this->initializeTemplate();
-
-        /*
-         * Set the sub-templates
-         */
-        //        $theme->setSubTemplate('navbar', 'ElektraSiteBundle:Parts/Navigation:admin-navbar.html.twig');
-        $theme->setSubTemplate('footer', 'ElektraSiteBundle:Parts/Footer:admin-footer.html.twig');
-
-        /*
-         * Set the default routes
-         */
-        $theme->setPageVar('navbar.brand.route', 'ElektraSiteBundle_admin_index');
-
-        /*
-         * Set the strings
-         */
-        // html title
-        $theme->setPageVar('title', $title . ' - ' . 'translation missing');
-//        $theme->setPageVar('title', $title . ' - ' . $this->container->getParameter('site_lang.admin.page_title_suffix'));
-
-        // brand item name
-        $theme->setPageVar('navbar.brand.name', 'translation missing');
-//        $theme->setPageVar('navbar.brand.name', $this->container->getParameter('site_lang.admin.page_name'));
-
-        // page heading
-        $this->setPageHeading('admin', $heading, $headingSection);
-    }
-
-    protected function setPageHeading($type, $heading, $section)
-    {
-
-        $theme = $this->container->get('theme');
-
-        if ($section == '') {
-            $theme->setPageVar('heading', $heading);
+        $this->setPageTitle($page_theme, $type, $langKey);
+        if ($action == 'browse') {
+            $this->setPageHeading($page_theme, $type, $langKey, $action, true);
         } else {
-            $key = 'site_lang.' . $type . '.' . $section;
-            $theme->setPageVar('heading', 'translation missing');
-//            $theme->setPageVar('heading', $this->container->getParameter($key));
-            $theme->setPageVar('subheading', $heading);
+            $this->setPageHeading($page_theme, $type, $langKey, $action, false);
+        }
+        $this->setPageSection($page_theme, $type, $sectionKey);
+    }
+
+    //    /**
+    //     * Initialize the basic page variables for the given type
+    //     *
+    //     * @param string $type
+    //     * @param array  $options
+    //     */
+    //    public function initializePage($type, $languageKey, $sectionKey, $options = array())
+    //    {
+    //
+    //        $theme_extension = $this->container->get('elektra_theme.twig.theme_extension');
+    //        $page_theme      = $this->container->get('theme');
+    //
+    //        $theme_extension->initializeComplete();
+    //
+    //        // Site Title (html -> head -> title)
+    //        $title = '';
+    //        if (isset($options['title']) && !empty($options['title'])) {
+    //            $title = $options['title'];
+    //        }
+    //
+    //        // Page Heading
+    //        $heading = '';
+    //        if (isset($options['heading']) && !empty($options['heading'])) {
+    //            $heading = $options['heading'];
+    //        }
+    //
+    //        // Page Section
+    //        $section = '';
+    //        if (isset($options['section']) && !empty($options['section'])) {
+    //            $section = $options['section'];
+    //        }
+    //
+    //        $this->setSubTemplates($page_theme, $type);
+    //        $this->setPageTitle($page_theme, $type, $languageKey);
+    //        $this->setPageBrand($page_theme, $type);
+    //        $this->setPageHeading($page_theme, $type, $languageKey, 'browse', true);
+    //        $this->setPageSection($page_theme, $type, $sectionKey);
+    //    }
+
+    protected function setSubTemplates(\Elektra\ThemeBundle\Theme\Theme $page_theme, $type)
+    {
+
+        switch ($type) {
+            case 'admin':
+                $page_theme->setSubTemplate('navbar', 'ElektraSiteBundle:Parts/Navigation:admin-navbar.html.twig');
+                $page_theme->setSubTemplate('footer', 'ElektraSiteBundle:Parts/Footer:admin-footer.html.twig');
+                break;
+            case 'request':
+                $page_theme->setSubTemplate('navbar', 'ElektraSiteBundle:Parts/Navigation:request-navbar.html.twig');
+                $page_theme->setSubTemplate('footer', 'ElektraSiteBundle:Parts/Footer:request-footer.html.twig');
+                break;
+            case 'user':
+                $page_theme->setSubTemplate('footer', 'ElektraSiteBundle:Parts/Footer:admin-footer.html.twig');
+                break;
         }
     }
 
-    protected function initializeTemplate()
+    protected function setPageTitle(\Elektra\ThemeBundle\Theme\Theme $page_theme, $type, $key)
     {
 
-        $this->container->get('elektra_theme.twig.theme_extension')->initializeComplete();
+        //        echo '<b>page title:</b> <br />';
+        //        echo 'key: ' . $key . '<br />';
+
+        $page_theme->setPageVar('title', 'site.' . $type . '.entities.' . $key . '.title');
+        $page_theme->setPageVar('title_prefix', 'site.' . $type . '.title_prefix');
+        $page_theme->setPageVar('title_suffix', 'site.' . $type . '.title_suffix');
+        //
+        //        echo 'pageVar title: ' . $page_theme->getPageVar('title') . '<br />';
+        //        echo 'pageVar title_prefix: ' . $page_theme->getPageVar('title_prefix') . '<br />';
+        //        echo 'pageVar title_suffix: ' . $page_theme->getPageVar('title_suffix') . '<br />';
+    }
+
+    protected function setPageBrand(\Elektra\ThemeBundle\Theme\Theme $page_theme, $type)
+    {
+
+        $page_theme->setPageVar('brand.name', 'site.' . $type . '.brand_name');
+
+        switch ($type) {
+            case 'admin':
+                $page_theme->setPageVar('brand.route', 'ElektraSiteBundle_admin_index');
+                break;
+            // TODO src: check if other routes are needed for the brand item
+        }
+    }
+
+    protected function setPageHeading(\Elektra\ThemeBundle\Theme\Theme $page_theme, $type, $key, $action, $plural = false)
+    {
+
+        //        echo '<b>page heading:</b> <br />';
+        //        echo 'key: ' . $key . '<br />';
+
+        if ($key != '') {
+            $page_theme->setPageVar('heading', 'site.' . $type . '.entities.' . $key . '.heading');
+            $page_theme->setPageVar('heading_a', 'site.' . $type . '.actions.' . $action);
+        }
+        if ($plural) {
+            $page_theme->setPageVar('heading_p', 2);
+        } else {
+            $page_theme->setPageVar('heading_p', 1);
+        }
+
+        //        echo 'pageVar heading: ' . $page_theme->getPageVar('heading') . '<br />';
+        //        echo 'pageVar heading_a: ' . $page_theme->getPageVar('heading_a') . '<br />';
+        //        echo 'pageVar heading_p: ' . $page_theme->getPageVar('heading_p') . '<br />';
+    }
+
+    protected function setPageSection(\Elektra\ThemeBundle\Theme\Theme $page_theme, $type, $key)
+    {
+
+        if ($key != '') {
+            $page_theme->setPageVar('section', 'site.' . $type . '.sections.' . $key);
+        }
     }
 }
