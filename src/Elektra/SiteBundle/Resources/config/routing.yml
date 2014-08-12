@@ -1,10 +1,23 @@
+# Administrator Home Page
+ElektraSiteBundle_admin_index:
+    path: /admin
+    defaults:
+        _controller: ElektraSiteBundle:Admin:index
 
-elektra_request:
-    resource:   "@ElektraSiteBundle/Resources/config/routing/request.yml"
-    prefix:     /
+# Request Page
+ElektraSiteBundle_request_index:
+    # NOTE: currently only 4 steps are defined - if more are needed, these regex needs to be changed
+    # NOTE: steps: "Agree objectives", "Agree T&C", "Enter request data", "Check and submit request data"
+    path:       /{step}/{number}
+    defaults:
+        _controller:    ElektraSiteBundle:Request:steps
+        step:           step
+        number:         1
+    requirements:
+        step:           step
+        number:         "[1-4]"
 
-elektra_admin:
-    resource:   "@ElektraSiteBundle/Resources/config/routing/admin.yml"
-    prefix:     /admin
+
+
 
 # TODO src: add routes for "About", "Terms&Conditions", etc

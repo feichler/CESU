@@ -1,11 +1,19 @@
-{% macro action(type, href, text, render) %}
+{% macro action(type, href, text, render, confirmMsg) %}
     {% set render = render|default('button') %}
     {% set classes = 'action action-'~type %}
+    {% set confirm = '' %}
+    {% if confirmMsg|default('') != '' %}
+        {% set confirm = ' onclick=\"return confirm(\''~confirmMsg|escape~'\');\"'|raw %}
+    {% endif %}
     {% if render == 'button' %}
         {% set classes = classes ~ ' action-btn' %}
     {% endif %}
 
-    <a href="{{ href }}" class="{{ classes }}">
+    <a href="{{ href }}" class="{{ classes }}"
+            {% if confirmMsg|default('') != '' %}
+                onclick="return confirm('{{ confirmMsg }}');"
+            {% endif %}
+            >
         <span class="icon"></span>
         <span class="text">{{ text }}</span>
     </a>
@@ -33,5 +41,5 @@
 {% macro delete(href, text, render) %}
     {% import _self as actions %}
     {% set text = text|default('Delete') %}
-    {{ actions.action('delete', href, text, render) }}
+    {{ actions.action('delete', href, text, render, 'Do you really want to delete this entry?') }}
 {% endmacro %}

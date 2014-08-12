@@ -34,6 +34,11 @@ class ElektraSiteExtension extends Extension
         $loader->load('services.yml');
         $loader->load('strings.yml');
 
+//        $container->get('translator');
+
+//        $loader = new \Symfony\Component\Translation\Loader\YamlFileLoader();
+//        $loader->load(new Yam)
+
         // process the parameters from site.yml
         $parameters = $container->getParameter('elektra_site');
 

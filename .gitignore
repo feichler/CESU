@@ -15,10 +15,6 @@
 !bin/console
 !bin/symfony_requirements
 /composer.phar
-/src_old/
-/src_old/*
-/src_old2/
-/src_old2/*
-/old/
-/old/*
+/cleanup/
+/cleanup/*
 /node_modules

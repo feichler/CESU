@@ -1,13 +1,14 @@
 
 services:
-#    elektra.seed.audits.subscriber:
-#        class: Elektra\SeedBundle\Subscribers\AuditSubscriber
-#        arguments: ["@security.context"]
-#        tags:
-#            - { name: doctrine.event_subcriber }
+    elektra_seed.routing_loader:
+        class: Elektra\SeedBundle\Routing\RoutingLoader
+        tags:
+            - { name: routing.loader }
 
-    elektra.seed.audits.listener:
+    elektra_seed.audits.listener:
         class: Elektra\SeedBundle\Subscribers\AuditListener
         arguments: ["@service_container"]
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+
+
