@@ -6,9 +6,20 @@ use Elektra\ThemeBundle\Element\Table\Foot;
 use Elektra\ThemeBundle\Element\Table\Head;
 use Elektra\ThemeBundle\Element\Table\Row;
 use Elektra\ThemeBundle\Element\Table\Style;
+use Symfony\Component\Routing\RouterInterface;
 
 class Table
 {
+
+    /**
+     * @var string
+     */
+    protected $routingPrefix;
+
+    /**
+     * @var RouterInterface
+     */
+    protected $router;
 
     /**
      * Styling information of this table element
@@ -48,14 +59,27 @@ class Table
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(RouterInterface $router)
     {
 
+        $this->router              = $router;
         $this->emptyContentMessage = 'No rows';
         $this->style               = new Style();
         $this->headerRows          = array();
         $this->footerRows          = array();
         $this->contentRows         = array();
+    }
+
+    protected function setRoutingPrefix($routingPrefix)
+    {
+
+        $this->routingPrefix = $routingPrefix;
+    }
+
+    protected function getRouteName($type)
+    {
+
+        return $this->routingPrefix . '_' . $type;
     }
 
     public function defaultStyling()

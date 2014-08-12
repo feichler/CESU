@@ -47,7 +47,7 @@ class Theme // implements ContainerAwareInterface
         /*
          * Set the default routes
          */
-        $theme->setPageVar('navbar.brand.route', 'seedunit_request');
+        $theme->setPageVar('navbar.brand.route', 'ElektraSiteBundle_request_index');
 
         /*
          * Set the strings
@@ -81,7 +81,7 @@ class Theme // implements ContainerAwareInterface
         /*
          * Set the default routes
          */
-        $theme->setPageVar('navbar.brand.route', 'admin_home');
+        $theme->setPageVar('navbar.brand.route', 'ElektraSiteBundle_admin_index');
 
         /*
          * Set the strings
@@ -114,7 +114,7 @@ class Theme // implements ContainerAwareInterface
         /*
          * Set the default routes
          */
-        $theme->setPageVar('navbar.brand.route', 'admin_home');
+        $theme->setPageVar('navbar.brand.route', 'ElektraSiteBundle_admin_index');
 
         /*
          * Set the strings
@@ -146,6 +146,6 @@ class Theme // implements ContainerAwareInterface
     protected function initializeTemplate()
     {
 
-        $this->container->get('elektra.twig.theme_extension')->initializeComplete();
+        $this->container->get('elektra_theme.twig.theme_extension')->initializeComplete();
     }
 }

@@ -52,6 +52,11 @@
             {% endif %}
             {#{% for entry in entries %}#}
 
+        {% if string1 is defined %}
+            Template: <br />
+            {{ string1|trans }}<br />
+            {% endif %}
+
             {#{% endfor %}#}
     {% endblock main_content %}
         </div>

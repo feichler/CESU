@@ -7,6 +7,8 @@ parameters:
                     master_data: 'Master Data'
                 page_name: 'CESU Admin'
                 page_title_suffix: 'CESU Administration'
+                validation:
+                    unique_name: '"Name" must be unique'
             request:
                 menu:
                     none: ''
