@@ -32,33 +32,33 @@ class ElektraSiteExtension extends Extension
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
-        $loader->load('strings.yml');
-
-//        $container->get('translator');
-
-//        $loader = new \Symfony\Component\Translation\Loader\YamlFileLoader();
-//        $loader->load(new Yam)
-
-        // process the parameters from site.yml
-        $parameters = $container->getParameter('elektra_site');
-
-        // language strings
-        $strings = $parameters['strings'];
-        $this->parseStrings($container, $strings);
+//        $loader->load('strings.yml');
+//
+////        $container->get('translator');
+//
+////        $loader = new \Symfony\Component\Translation\Loader\YamlFileLoader();
+////        $loader->load(new Yam)
+//
+//        // process the parameters from site.yml
+//        $parameters = $container->getParameter('elektra_site');
+//
+//        // language strings
+//        $strings = $parameters['strings'];
+//        $this->parseStrings($container, $strings);
     }
 
-    protected function parseStrings(ContainerBuilder $container, array $strings, $prefix = 'site_lang')
-    {
-
-        foreach ($strings as $key => $value) {
-            $path = $prefix . '.' . $key;
-            if (is_string($value)) {
-                $container->setParameter($path, $value);
-            } else if (is_array($value)) {
-                $this->parseStrings($container, $value, $path);
-            } else {
-                throw new \InvalidArgumentException('Invalid value for strings');
-            }
-        }
-    }
+//    protected function parseStrings(ContainerBuilder $container, array $strings, $prefix = 'site_lang')
+//    {
+//
+//        foreach ($strings as $key => $value) {
+//            $path = $prefix . '.' . $key;
+//            if (is_string($value)) {
+//                $container->setParameter($path, $value);
+//            } else if (is_array($value)) {
+//                $this->parseStrings($container, $value, $path);
+//            } else {
+//                throw new \InvalidArgumentException('Invalid value for strings');
+//            }
+//        }
+//    }
 }
