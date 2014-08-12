@@ -9,7 +9,7 @@
 namespace Elektra\SeedBundle\Entity;
 
 
-interface IAuditContainer {
+interface AuditableInterface {
     /**
      * @param \Elektra\SeedBundle\Entity\Auditing\Audit $audit
      */
@@ -19,4 +19,4 @@ interface IAuditContainer {
      * @return \Elektra\SeedBundle\Entity\Auditing\Audit
      */
     public function getAudit();
-} 
+}

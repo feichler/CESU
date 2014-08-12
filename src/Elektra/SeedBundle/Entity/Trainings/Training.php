@@ -5,8 +5,8 @@ namespace Elektra\SeedBundle\Entity\Trainings;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\IAuditContainer;
-use Elektra\SeedBundle\Entity\INoteContainer;
+use Elektra\SeedBundle\Entity\AuditableInterface;
+use Elektra\SeedBundle\Entity\AnnotableInterface;
 
 /**
  * Class Training
@@ -16,7 +16,7 @@ use Elektra\SeedBundle\Entity\INoteContainer;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Trainings\TrainingRepository")
  * @ORM\Table("trainings")
  */
-class Training implements IAuditContainer, INoteContainer
+class Training implements AuditableInterface, AnnotableInterface
 {
     /**
      * @var int

@@ -4,7 +4,7 @@ namespace Elektra\SeedBundle\Entity\Requests;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\IAuditContainer;
+use Elektra\SeedBundle\Entity\AuditableInterface;
 
 /**
  * Class RequestStatus
@@ -14,7 +14,7 @@ use Elektra\SeedBundle\Entity\IAuditContainer;
  * @ORM\Entity
  * @ORM\Table(name="requestStatuses")
  */
-class RequestStatus implements IAuditContainer
+class RequestStatus implements AuditableInterface
 {
     /**
      * @var int

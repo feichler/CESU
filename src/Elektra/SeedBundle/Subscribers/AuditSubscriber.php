@@ -13,7 +13,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\IAuditContainer;
+use Elektra\SeedBundle\Entity\AuditableInterface;
 
 class AuditSubscriber implements EventSubscriber
 {
@@ -38,7 +38,7 @@ class AuditSubscriber implements EventSubscriber
     {echo 'ASF';
         $entity = $args->getEntity();
 
-        if (!($entity instanceof IAuditContainer))
+        if (!($entity instanceof AuditableInterface))
             return;
 
         $audit = new Audit();
@@ -57,7 +57,7 @@ class AuditSubscriber implements EventSubscriber
     {
         $entity = $args->getEntity();
 
-        if (!($entity instanceof IAuditContainer))
+        if (!($entity instanceof AuditableInterface))
             return;
 
         $audit = $entity->getAudit();

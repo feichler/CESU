@@ -14,7 +14,7 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\IAuditContainer;
+use Elektra\SeedBundle\Entity\AuditableInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -37,7 +37,7 @@ class AuditListener
 
         $entity = $args->getEntity();
 
-        if (!($entity instanceof IAuditContainer)) {
+        if (!($entity instanceof AuditableInterface)) {
 
             return;
         }
@@ -104,7 +104,7 @@ class AuditListener
         $uow = $em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityUpdates() as $updated) {
-            if ($updated instanceof IAuditContainer) {
+            if ($updated instanceof AuditableInterface) {
                 $audit = $updated->getAudit();
                 $audit->setModifiedAt($this->getTimestamp());
                 $audit->setModifiedBy($this->getUser());

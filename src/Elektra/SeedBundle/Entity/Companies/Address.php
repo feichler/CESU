@@ -5,8 +5,8 @@ namespace Elektra\SeedBundle\Entity\Companies;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\IAuditContainer;
-use Elektra\SeedBundle\Entity\INoteContainer;
+use Elektra\SeedBundle\Entity\AuditableInterface;
+use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\Notes\Note;
 /**
  * Class Address
@@ -16,7 +16,7 @@ use Elektra\SeedBundle\Entity\Notes\Note;
  * @ORM\Entity
  * @ORM\Table("addresses")
  */
-class Address implements IAuditContainer, INoteContainer
+class Address implements AuditableInterface, AnnotableInterface
 {
     /**
      * @var int
