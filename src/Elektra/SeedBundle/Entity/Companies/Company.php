@@ -17,6 +17,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\DiscriminatorColumn(name="companyType",type="string")
  * @ORM\DiscriminatorMap({
  *  "partner" = "Partner",
+ *  "salesTeam" = "SalesTeam",
  *  "customer" = "Customer"
  * })
  */
