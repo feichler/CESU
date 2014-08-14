@@ -55,6 +55,8 @@ abstract class CRUDController extends Controller
         $entries    = $repository->getEntries($page, $this->crudOptions->getViewLimit());
         $table      = new $tableClass();
         $table->setRouter($this->get('router'));
+        $table->getPagination()->setPage($page);
+        $table->getPagination()->setCount($repository->getCount());
         $table->prepare($entries);
 
         // generate the view name

@@ -2,6 +2,8 @@
 
 namespace Elektra\ThemeBundle\Table;
 
+use Elektra\ThemeBundle\Pagination\Pagination;
+
 class Table
 {
 
@@ -9,6 +11,11 @@ class Table
      * @var Style
      */
     protected $style;
+
+    /**
+     * @var Pagination
+     */
+    protected $pagination;
 
     /**
      * @var array
@@ -36,20 +43,27 @@ class Table
     public function __construct()
     {
 
-        $this->style   = new Style();
-        $this->header  = array();
-        $this->footer  = array();
-        $this->content = array();
-        $this->params  = array();
+        $this->style      = new Style();
+        $this->pagination = new Pagination();
+        $this->header     = array();
+        $this->footer     = array();
+        $this->content    = array();
+        $this->params     = array();
     }
 
     /**
-     * @return \Elektra\ThemeBundle\Table\Style
+     * @return Style
      */
     public function getStyle()
     {
 
         return $this->style;
+    }
+
+    public function getPagination()
+    {
+
+        return $this->pagination;
     }
 
     /**

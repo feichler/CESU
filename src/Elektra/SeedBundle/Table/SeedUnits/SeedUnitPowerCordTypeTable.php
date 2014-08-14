@@ -43,13 +43,12 @@ class SeedUnitPowerCordTypeTable extends CRUDTable
         }
 
         // ID
-        $idCell = $content->addCell();
-        $idCell->addHtmlContent($entry->getId());
+        $this->generateIdCell($content, $entry);
 
         // Name & Description
         $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
         $modelCell = $content->addCell();
-        $modelCell->addActionContent('view', $viewLink, array('text' => $entry->getName(), 'render' => 'link'));
+        $modelCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
         $description = $modelCell->addHtmlContent($entry->getDescription());
         $description->setContainer('div');
 

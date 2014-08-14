@@ -16,6 +16,9 @@
         </div>
     {% endif %}
 
+    {#{% if not table.pagination.hidden %}#}
+    {{ tables.pagination(table.pagination) }}
+    {#{% endif %}#}
 {% endmacro %}
 
 {% macro start(table) %}
@@ -114,18 +117,6 @@
     {% import 'ElektraThemeBundle:Macros:actions.html.twig' as actions %}
 
     {% for item in cell.content %}
-        {# container start #}
-        {#{% if item.container %}#}
-        {#{% if item.container == 'p' or item.container == 'paragraph' %}#}
-        {#<p>#}
-        {#{% elseif item.container == 'div' %}#}
-        {#<div>#}
-        {#{% elseif item.container == 'span' %}#}
-        {#<span>#}
-        {#{% else %}#}
-        {#UNKNOWN container: {{ item.container }}#}
-        {#{% endif %}#}
-        {#{% endif %}#}
 
         {# item self #}
         {% if item.type == 'html' %}
@@ -136,19 +127,45 @@
             {# UNKNOWN TYPE #}
         {% endif %}
 
-        {# container end #}
-        {#{% if item.container %}#}
-        {#{% if item.container == 'p' or item.container == 'paragraph' %}#}
-        {#</p>#}
-        {#{% elseif item.container == 'div' %}#}
-        {#</div>#}
-        {#{% elseif item.container == 'span' %}#}
-        {#</span>#}
-        {#{% else %}#}
-
-        {#{% endif %}#}
-        {#{% endif %}#}
-
     {% endfor %}
 {% endmacro %}
 
+{% macro pagination(pagination) %}
+    {% import _self as tables %}
+    {% set actPage = pagination.page %}
+    <div class="text-center">
+        <ul class="pagination">
+            {{ tables.pagination_item(pagination.first, '<span class="page-link page-first"></span>', actPage) }}
+            {{ tables.pagination_item(pagination.previous, '<span class="page-link page-prev"></span>', actPage) }}
+            {% if pagination.previousSpace %}
+                {{ tables.pagination_item('', '...') }}
+            {% endif %}
+            {% for linkPage, link in pagination.pageLinks %}
+                {{ tables.pagination_item(link, linkPage, actPage) }}
+            {% endfor %}
+            {% if pagination.nextSpace %}
+                {{ tables.pagination_item('', '...') }}
+            {% endif %}
+            {{ tables.pagination_item(pagination.next, '<span class="page-link page-next"></span>', actPage) }}
+            {{ tables.pagination_item(pagination.last, '<span class="page-link page-last"></span>', actPage) }}
+        </ul>
+    </div>
+{% endmacro %}
+
+{% macro pagination_item(link, text, actPage) %}
+    {% set liClass = '' %}
+    {% set href = ' href="' ~ link ~ '"' %}
+    {% set tag = 'a' %}
+    {% if link is empty %}
+        {% set liClass = ' class="disabled"' %}
+        {% set tag = 'span' %}
+        {% set href = '' %}
+    {% endif %}
+    {% if text == actPage %}
+        {% set liClass = ' class="active"' %}
+    {% endif %}
+
+<li{{ liClass|raw }}>
+    <{{ tag }}{{ href }}>{{ text|raw }}</{{ tag }}>
+    </li>
+{% endmacro %}

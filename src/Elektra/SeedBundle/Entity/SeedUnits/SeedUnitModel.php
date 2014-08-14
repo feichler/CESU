@@ -4,6 +4,7 @@ namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
@@ -19,8 +20,9 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  *
  * @UniqueEntity(fields={"name"}, message="error.constraint.unique_name")
  */
-class SeedUnitModel implements AuditableInterface
+class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -59,15 +61,26 @@ class SeedUnitModel implements AuditableInterface
 
     public function __construct()
     {
+
         $this->audits = new ArrayCollection();
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
-        return $this->seedUnitModelId;
+
+        return $this->getSeedUnitModelId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTitle()
+    {
+
+        return $this->getName();
     }
 
     /**
@@ -75,6 +88,7 @@ class SeedUnitModel implements AuditableInterface
      */
     public function getSeedUnitModelId()
     {
+
         return $this->seedUnitModelId;
     }
 
@@ -83,6 +97,7 @@ class SeedUnitModel implements AuditableInterface
      */
     public function setDescription($description)
     {
+
         $this->description = $description;
     }
 
@@ -91,6 +106,7 @@ class SeedUnitModel implements AuditableInterface
      */
     public function getDescription()
     {
+
         return $this->description;
     }
 
@@ -99,6 +115,7 @@ class SeedUnitModel implements AuditableInterface
      */
     public function setName($name)
     {
+
         $this->name = $name;
     }
 
@@ -107,6 +124,7 @@ class SeedUnitModel implements AuditableInterface
      */
     public function getName()
     {
+
         return $this->name;
     }
 
@@ -115,6 +133,7 @@ class SeedUnitModel implements AuditableInterface
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -123,6 +142,7 @@ class SeedUnitModel implements AuditableInterface
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -131,6 +151,7 @@ class SeedUnitModel implements AuditableInterface
      */
     public function getCreationAudit()
     {
+
         return $this->getAudits()->slice(0, 1)[0];
     }
 
@@ -139,7 +160,9 @@ class SeedUnitModel implements AuditableInterface
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+
+        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
     }
 }

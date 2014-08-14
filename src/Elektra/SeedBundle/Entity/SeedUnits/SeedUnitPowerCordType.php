@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 
 /**
  * Class SeedUnitPowerTypes
@@ -15,8 +16,9 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitPowerCordTypeRepository")
  * @ORM\Table(name="powerCordTypes")
  */
-class SeedUnitPowerCordType implements AuditableInterface
+class SeedUnitPowerCordType implements AuditableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -54,15 +56,26 @@ class SeedUnitPowerCordType implements AuditableInterface
 
     public function __construct()
     {
+
         $this->audits = new ArrayCollection();
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
-        return $this->powerCordTypeId;
+
+        return $this->getPowerCordTypeId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTitle()
+    {
+
+        return $this->getName();
     }
 
     /**
@@ -70,6 +83,7 @@ class SeedUnitPowerCordType implements AuditableInterface
      */
     public function getPowerCordTypeId()
     {
+
         return $this->powerCordTypeId;
     }
 
@@ -78,6 +92,7 @@ class SeedUnitPowerCordType implements AuditableInterface
      */
     public function setDescription($description)
     {
+
         $this->description = $description;
     }
 
@@ -86,6 +101,7 @@ class SeedUnitPowerCordType implements AuditableInterface
      */
     public function getDescription()
     {
+
         return $this->description;
     }
 
@@ -94,6 +110,7 @@ class SeedUnitPowerCordType implements AuditableInterface
      */
     public function setName($name)
     {
+
         $this->name = $name;
     }
 
@@ -102,6 +119,7 @@ class SeedUnitPowerCordType implements AuditableInterface
      */
     public function getName()
     {
+
         return $this->name;
     }
 
@@ -110,6 +128,7 @@ class SeedUnitPowerCordType implements AuditableInterface
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -118,6 +137,7 @@ class SeedUnitPowerCordType implements AuditableInterface
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -126,6 +146,7 @@ class SeedUnitPowerCordType implements AuditableInterface
      */
     public function getCreationAudit()
     {
+
         return $this->getAudits()->slice(0, 1)[0];
     }
 
@@ -134,7 +155,9 @@ class SeedUnitPowerCordType implements AuditableInterface
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+
+        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
     }
 }

@@ -4,11 +4,14 @@ namespace Elektra\SeedBundle\Repositories\SeedUnits;
 
 use Doctrine\ORM\EntityRepository;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel;
+use Elektra\SeedBundle\Repositories\CRUDRepositoryInterface;
 
-class SeedUnitModelRepository extends EntityRepository
+class SeedUnitModelRepository extends EntityRepository implements CRUDRepositoryInterface
 {
+
     public function getCount()
     {
+
         $builder = $this->getEntityManager()->createQueryBuilder();
         $builder->select($builder->expr()->count('m'));
         $builder->from($this->getEntityName(), 'm');
@@ -20,10 +23,12 @@ class SeedUnitModelRepository extends EntityRepository
 
     /**
      * @param SeedUnitModel $model
+     *
      * @return bool
      */
     public function getCanDelete($model)
     {
+
         $builder = $this->getEntityManager()->createQueryBuilder();
         $builder->select($builder->expr()->count('su'));
         $builder->where("su.seedUnitModelId = :sumId");
@@ -35,7 +40,9 @@ class SeedUnitModelRepository extends EntityRepository
 
     public function getEntries($page, $perPage)
     {
+
         $entries = $this->findBy(array(), array(), $perPage, ($page - 1) * $perPage);
+
         return $entries;
     }
 }

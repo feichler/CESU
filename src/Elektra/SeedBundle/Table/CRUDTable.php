@@ -2,6 +2,7 @@
 
 namespace Elektra\SeedBundle\Table;
 
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\ThemeBundle\Table\Cell;
 use Elektra\ThemeBundle\Table\Row;
 use Symfony\Component\Routing\RouterInterface;
@@ -36,6 +37,8 @@ abstract class CRUDTable extends Table
     {
 
         $this->router = $router;
+        $this->pagination->setRouter($router);
+        $this->pagination->setRoute($this->getRoute('browse'));
     }
 
     public function prepare($entries)
@@ -119,6 +122,17 @@ abstract class CRUDTable extends Table
         $link = $this->router->generate($route, $params);
 
         return $link;
+    }
+
+    protected function generateIdCell(Row $row, $entry)
+    {
+
+        $cell = $row->addCell();
+        $cell->addClass('id');
+
+        if ($entry instanceof CRUDEntityInterface) {
+            $cell->addHtmlContent($entry->getId());
+        }
     }
 
     protected function generateAuditCell(Row $row, $entry)

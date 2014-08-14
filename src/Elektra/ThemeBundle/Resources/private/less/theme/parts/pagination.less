@@ -1,0 +1,32 @@
+
+span.page-link {
+
+	&.page-first,
+	&.page-prev,
+	&.page-next,
+	&.page-last {
+		.fa();
+		.fa-fw();
+	}
+
+	&.page-first {
+		&:before {
+			content : @fa-var-angle-double-left;
+		}
+	}
+	&.page-prev {
+		&:before {
+			content : @fa-var-angle-left;
+		}
+	}
+	&.page-next {
+		&:before {
+			content : @fa-var-angle-right;
+		}
+	}
+	&.page-last {
+		&:before {
+			content : @fa-var-angle-double-right;
+		}
+	}
+}
