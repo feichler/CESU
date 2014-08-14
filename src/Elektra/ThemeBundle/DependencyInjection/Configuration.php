@@ -1,6 +1,6 @@
 <?php
 
-namespace Elektra\SeedBundle\DependencyInjection;
+namespace Elektra\ThemeBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -9,9 +9,7 @@ class Configuration implements ConfigurationInterface
 {
 
     /**
-     * Generates the configuration tree builder.
-     *
-     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
+     * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
@@ -20,8 +18,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode = $treeBuilder->root('elektra_theme');
 
-        // NOTE: add configuration options for list limits?
-        // NOTE: add any other configuration?
+        // NOTE: configuration options for the theme bundle needed?
 
         return $treeBuilder;
     }

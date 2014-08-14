@@ -2,148 +2,255 @@
 
 namespace Elektra\SeedBundle\Controller;
 
+use Elektra\ThemeBundle\Table\Table;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 abstract class CRUDController extends Controller
 {
 
-    /**
-     * Prefixes for
-     *      - routing
-     *      - views
-     *
-     * @var array
-     */
-    protected $prefixes = array(
-        'routing' => '',
-        'view'    => '',
-    );
-
-    /**
-     * language keys for
-     *      - type (entity type)
-     *      - section (for heading translation)
-     *
-     * @var array
-     */
-    protected $langKeys = array(
-        'type'    => '',
-        'section' => '',
-    );
-
-    /**
-     * classes used for the CRUD actions
-     *
-     * @var array
-     */
-    protected $classes = array(
-        'entity'     => '',
-        'table'      => '',
-        'form'       => '',
-        'repository' => '',
-    );
-
-    /**
-     * @var int
-     */
-    // TODO src: make "per-page" display a parameter
-    protected $perPage = 25;
-
     /*************************************************************************
-     * Setters to configure this CRUD controller
+     * Process of the CRUDController:
+     *      - starting point: <type>Action() -> calls initialise(<type>)
+     *          - calls the abstract setup(<type>) method
+     *              the setup method is required to set all:
+     *                  - prefixes
+     *                  - classes
+     *                  - language keys
+     *          - checks if all variables are set up
+     *          - gets the default options for the page initialisation
+     *          - defines required overrides based on <type>
+     *          - calls the initialiseAdminPage method on the global page obj.
+     *      - continue to standard processing
      *************************************************************************/
 
     /**
-     * @param $type
-     * @param $class
-     *
-     * @throws \InvalidArgumentException
+     * @var CRUDControllerOptions
      */
-    protected function setClass($type, $class)
+    protected $crudOptions;
+
+    /*************************************************************************
+     * Controller Functions
+     *************************************************************************/
+    /**
+     * @param Request $request
+     * @param int     $page
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function browseAction(Request $request, $page)
     {
 
-        if (!array_key_exists($type, $this->classes)) {
-            throw new \InvalidArgumentException('Unknown class type "' . $type . '"');
-        }
+        // Initialise the controller (does initialise the page as well)
+        $this->initialise('browse');
 
-        $this->classes[$type] = $class;
+        // save the page number
+        $this->setPage($page);
+
+        // get the required classes for this action
+        $repositoryClass = $this->crudOptions->getClass('repository');
+        $tableClass      = $this->crudOptions->getClass('table');
+
+        // execute the required actions for this controller
+        $repository = $this->getDoctrine()->getRepository($repositoryClass);
+        $entries    = $repository->getEntries($page, $this->crudOptions->getViewLimit());
+        $table      = new $tableClass();
+        $table->setRouter($this->get('router'));
+        $table->prepare($entries);
+
+        // generate the view name
+        $viewName = $this->getView('browse');
+
+        // return the response
+        return $this->render($viewName, array('table' => $table));
     }
 
     /**
-     * @param $type
-     * @param $key
+     * @param Request $request
+     * @param int     $id
      *
-     * @throws \InvalidArgumentException
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function setLangKey($type, $key)
+    public function viewAction(Request $request, $id)
     {
 
-        if (!array_key_exists($type, $this->langKeys)) {
-            throw new \InvalidArgumentException('Unknown lang key type "' . $type . '"');
-        }
+        // Initialise the controller (does initialise the page as well)
+        $this->initialise('view');
 
-        $this->langKeys[$type] = $key;
+        // get the required classes for this action
+        $repositoryClass = $this->crudOptions->getClass('repository');
+        $formClass       = $this->crudOptions->getClass('form');
+
+        // execute the required actions for this controller
+        $repository = $this->getDoctrine()->getRepository($repositoryClass);
+        $entity     = $repository->find($id);
+        $form       = $this->createForm(new $formClass, $entity);
+
+        // generate the view & view name
+        $view     = $form->createView();
+        $viewName = $this->getView('view');
+
+        // return the response
+        return $this->render($viewName, array('form' => $view));
     }
 
     /**
-     * @param $type
-     * @param $prefix
+     * @param Request $request
      *
-     * @throws \InvalidArgumentException
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function setPrefix($type, $prefix)
+    public function addAction(Request $request)
     {
 
-        if (!array_key_exists($type, $this->prefixes)) {
-            throw new \InvalidArgumentException('Unknown prefix type "' . $type . '"');
+        // Initialise the controller (does initialise the page as well)
+        $this->initialise('add');
+
+        // get the required classes for this action
+        $entityClass = $this->crudOptions->getClass('entity');
+        $formClass   = $this->crudOptions->getClass('form');
+
+        // execute the required actions for this controller
+        $entity = new $entityClass();
+        $form   = $this->createForm(new $formClass, $entity);
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->get('actions')->get('save')->isClicked()) {
+            // save the entity and redirect to browsing
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($entity);
+            $manager->flush();
+
+            $this->addSuccessMessage('add', $entity->getId());
+
+            return $this->redirectToBrowse();
+        } else if ($form->get('actions')->get('cancel')->isClicked()) {
+            // do nothing (discard the form) and redirect to browsing
+            return $this->redirectToBrowse();
         }
 
-        $this->prefixes[$type] = $prefix;
+        // generate the view & view name
+        $view     = $form->createView();
+        $viewName = $this->getView('form');
+
+        // return the response
+        return $this->render($viewName, array('form' => $view));
     }
+
+    /**
+     * @param Request $request
+     * @param int     $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editAction(Request $request, $id)
+    {
+
+        // Initialise the controller (does initialise the page as well)
+        $this->initialise('edit');
+
+        // get the required classes for this action
+        $repositoryClass = $this->crudOptions->getClass('repository');
+        $formClass       = $this->crudOptions->getClass('form');
+
+        // execute the required actions for this controller
+        $repository = $this->getDoctrine()->getRepository($repositoryClass);
+        $entity     = $repository->find($id);
+        $form       = $this->createForm(new $formClass, $entity);
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->get('actions')->get('save')->isClicked()) {
+            // save the entity and redirect to browsing
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+
+            $this->addSuccessMessage('add', $entity->getId());
+
+            return $this->redirectToBrowse();
+        } else if ($form->get('actions')->get('cancel')->isClicked()) {
+            // do nothing (discard the form) and redirect to browsing
+            return $this->redirectToBrowse();
+        }
+
+        // generate the view & view name
+        $view     = $form->createView();
+        $viewName = $this->getView('form');
+
+        // return the response
+        return $this->render($viewName, array('form' => $view));
+    }
+
+    /**
+     * @param Request $request
+     * @param int     $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteAction(Request $request, $id)
+    {
+
+        // Initialise the controller (does initialise the page as well)
+        $this->initialise('delete');
+
+        // get the required classes for this action
+        $repositoryClass = $this->crudOptions->getClass('repository');
+
+        // execute the required actions for this controller
+        $repository = $this->getDoctrine()->getRepository($repositoryClass);
+        $entity     = $repository->find($id);
+
+        // remove the entity
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($entity);
+        $manager->flush();
+
+        $this->addSuccessMessage('delete', $id);
+
+        // redirect to browsing
+        return $this->redirectToBrowse();
+    }
+
+    /*************************************************************************
+     * Controller Initialisation
+     *************************************************************************/
+
+    /**
+     * @param $action
+     */
+    protected final function initialise($action)
+    {
+
+        $this->crudOptions = new CRUDControllerOptions();
+        $this->crudOptions->setAction($action);
+
+        $this->initialiseCRUD();
+        $this->crudOptions->check();
+
+        $options = $this->getInitialiseOptions();
+
+        $page = $this->container->get('page');
+        $page->initialiseAdminPage('admin', $action, $options);
+    }
+
+    /**
+     * @return array
+     */
+    protected final function getInitialiseOptions()
+    {
+
+        $options = parent::getInitialiseOptions();
+
+        // TODO add overrides
+
+        return $options;
+    }
+
+    /**
+     *
+     */
+    protected abstract function initialiseCRUD();
 
     /*************************************************************************
      * Generic Helper functions
      *************************************************************************/
-
-    /**
-     * Initialise the controller
-     *
-     * @param string $action
-     *
-     * @throws \BadMethodCallException
-     */
-    private function initialise($action = '')
-    {
-
-        // let the inheriting controller set the required variables
-        $this->initialiseVariables();
-
-        // Check if all required values have been set by the last call
-        foreach ($this->prefixes as $type => $prefix) {
-            if ($prefix === '') {
-                throw new \BadMethodCallException('Initialisation not complete - prefix "' . $type . '" is missing');
-            }
-        }
-
-        foreach ($this->langKeys as $type => $key) {
-            if ($key === '') {
-                throw new \BadMethodCallException('Initialisation not complete - language key "' . $type . '" is missing');
-            }
-        }
-
-        foreach ($this->classes as $type => $class) {
-            if ($class === '') {
-                throw new \BadMethodCallException('Initialisation not complete - class "' . $type . '" is missing');
-            }
-        }
-
-        if ($action != '') { // usually only for the deleteAction no theme is required as this action redirects
-            // initialise the theme
-            $theme = $this->get('site');
-            $theme->initialiseCRUDPage('admin', $this->langKeys['type'], $this->langKeys['section'], $action);
-        }
-    }
 
     /**
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -151,10 +258,39 @@ abstract class CRUDController extends Controller
     private function redirectToBrowse()
     {
 
-        $page  = $this->get('session')->get($this->prefixes['routing'] . '.page');
-        $route = $this->prefixes['routing'] . '_browse';
+        $page  = $this->getPage();
+        $route = $this->crudOptions->getPrefix('route') . '_browse';
 
         return $this->redirect($this->generateUrl($route, array('page' => $page)));
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return string
+     * @throws \RuntimeException
+     */
+    private function getView($type)
+    {
+
+        $templateService = $this->get('templating');
+        $prefix          = $this->crudOptions->getPrefix('view');
+        $prefixCommon    = $this->crudOptions->getPrefix('viewCommon');
+
+        // First check if the specific view exists
+        $specific = $prefix . ':' . $type . '.html.twig';
+        if ($templateService->exists($specific)) {
+            return $specific;
+        } else {
+            // if the specific view does not exist, try to get a common view
+            $common = $prefixCommon . 'base-' . $type . '.html.twig';
+            if ($templateService->exists($common)) {
+                return $common;
+            } else {
+                // if neither specific nor common view are found, we have a RuntimeException
+                throw new \RuntimeException('Fatal Error: View of type "' . $type . '" could not be located');
+            }
+        }
     }
 
     /*************************************************************************
@@ -166,7 +302,7 @@ abstract class CRUDController extends Controller
      * @param int|null    $id
      * @param string|null $name
      */
-    private function addSuccessMessage($action, $id = null, $name = null)
+    protected function addSuccessMessage($action, $id = null, $name = null)
     {
 
         $this->addActionMessage('success', $action, $id, $name);
@@ -177,7 +313,7 @@ abstract class CRUDController extends Controller
      * @param int|null    $id
      * @param string|null $name
      */
-    private function addErrorMessage($action, $id = null, $name = null)
+    protected function addErrorMessage($action, $id = null, $name = null)
     {
 
         $this->addActionMessage('error', $action, $id, $name);
@@ -189,165 +325,51 @@ abstract class CRUDController extends Controller
      * @param int|null    $id
      * @param string|null $name
      */
-    private function addActionMessage($type, $action, $id = null, $name = null)
+    protected function addActionMessage($type, $action, $id = null, $name = null)
     {
 
-        $translator = $this->get('translator');
+        $message = '';
 
-        $replacements = array(
-            '%type%' => $translator->transChoice('site.admin.entities.' . $this->langKeys['type'] . '.type', 1)
-        );
-        if ($id !== null) {
-            $replacements['%id%'] = $id;
+        // TODO add translations
+        $message = 'MSG action: ' . $action;
+        if ($id != null) {
+            $message .= ' - ID: ' . $id;
         }
-        if ($name !== null) {
-            $replacements['%name%'] = $name;
+        if ($name != null) {
+            $message .= ' - Name: ' . $name;
         }
-
-        $message = $translator->trans('site.admin.messages.' . $type . '.' . $action, $replacements);
 
         $this->addMessage($type, $message);
     }
 
-    private function addMessage($type, $message)
-    {
-
-        $this->get('session')->getFlashBag()->add($type, $message);
-    }
-
-
-
     /*************************************************************************
-     * Now the actions themselves follow
+     * Standard Getters / Setters
      *************************************************************************/
 
     /**
-     * @param Request $request
-     * @param int     $page
-     *
-     * @return Response
+     * @return CRUDControllerOptions
      */
-    public function browseAction(Request $request, $page)
+    protected function getOptions()
     {
 
-        $this->initialise('browse');
-
-        // save the page into the session for returning to the list view
-        $this->get('session')->set($this->prefixes['routing'] . '.page', $page);
-
-        $repositoryClass = $this->classes['repository'];
-        $tableClass      = $this->classes['table'];
-
-        $repository = $this->getDoctrine()->getRepository($repositoryClass);
-        $entries    = $repository->getEntries($page, $this->perPage);
-        $table      = new $tableClass($this->get('router'), $entries);
-
-        // TODO src implement pagination and add to the table / view
-        $viewName = $this->prefixes['view'] . ':browse.html.twig';
-
-        return $this->render($viewName, array('table' => $table));
+        return $this->crudOptions;
     }
 
     /**
-     * @param Request $request
-     * @param int     $id
-     *
-     * @return Response
+     * @return int
      */
-    public function viewAction(Request $request, $id)
+    private function getPage()
     {
 
-        $this->initialise('view');
-
-        return new Response();
+        return $this->get('session')->get($this->crudOptions->getPrefix('route') . '.page');
     }
 
-    public function addAction(Request $request)
-    {
-
-        $this->initialise('add');
-
-        $entityClass = $this->classes['entity'];
-        $formClass   = $this->classes['form'];
-
-        $entity = new $entityClass();
-        $form   = $this->createForm(new $formClass(), $entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid() && $form->get('actions')->get('save')->isClicked()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            $this->addSuccessMessage('add', $entity->getId());
-
-            return $this->redirectToBrowse();
-        } else if ($form->get('actions')->get('cancel')->isClicked()) {
-            // on "cancel" event, discard anything and redirect to the browse page
-            return $this->redirectToBrowse();
-        }
-
-        $view     = $form->createView();
-        $viewName = $this->prefixes['view'] . ':form.html.twig';
-
-        return $this->render($viewName, array('form' => $view));
-    }
-
-    public function editAction(Request $request, $id)
-    {
-
-        $this->initialise('edit');
-
-        $repositoryClass = $this->classes['repository'];
-        $formClass       = $this->classes['form'];
-
-        $repository = $this->getDoctrine()->getRepository($repositoryClass);
-        $entity     = $repository->find($id);
-        $form       = $this->createForm(new $formClass(), $entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid() && $form->get('actions')->get('save')->isClicked()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-
-            $this->addSuccessMessage('edit', $entity->getId());
-
-            return $this->redirectToBrowse();
-        } else if ($form->get('actions')->get('cancel')->isClicked()) {
-            // on "cancel" event, discard anything and redirect to the browse page
-            return $this->redirectToBrowse();
-        }
-
-        $view     = $form->createView();
-        $viewName = $this->prefixes['view'] . ':form.html.twig';
-
-        return $this->render($viewName, array('form' => $view));
-    }
-
-    public function deleteAction(Request $request, $id)
-    {
-
-        $this->initialise();
-
-        $repositoryClass = $this->classes['repository'];
-
-        $repository = $this->getDoctrine()->getRepository($repositoryClass);
-        $entity     = $repository->find($id);
-
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($entity);
-        $em->flush();
-
-        $this->addSuccessMessage('delete');
-
-        return $this->redirectToBrowse();
-    }
-
-    /*************************************************************************
-     * initialisation methods to be implemented by the inheriting controller
-     *************************************************************************/
     /**
-     * @return void
+     * @param int $page
      */
-    protected abstract function initialiseVariables();
+    private function setPage($page)
+    {
+
+        $this->get('session')->set($this->crudOptions->getPrefix('route') . '.page', $page);
+    }
 }

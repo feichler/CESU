@@ -1,66 +1,149 @@
-{# ElektraThemeBundle - basic html template #}
-{# Defines the basic html file structure #}
+{#############################################################################
+ # Elektra Theme Bundle - Basic HTML template
+ #############################################################################}
+{% import "ElektraThemeBundle:Macros:messages.html.twig" as messages %}
+{% import "ElektraThemeBundle:Macros:actions.html.twig" as actions %}
+{% import "ElektraThemeBundle:Macros:tables.html.twig" as tables %}
+
 <!DOCTYPE html>
 <html>
 <head>
-    {# character set #}
-    {% block head_charset %}
-        <meta charset="UTF-8"/>
-    {% endblock head_charset %}
+    {#########################################################################
+     # HTML Head
+     #      - character set
+     #      - metadata
+     #          * viewport
+     #      - favicon
+     #      - page title
+     #      - stylesheets
+     #      - javascripts
+     #########################################################################}
 
-    {# metadata #}
-    {% block head_metadata %}
-    {% endblock head_metadata %}
-
-    {# viewport #}
-    {% block head_viewport %}
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% endblock head_viewport %}
-
-    {# page title #}
-    <title>{% block title %}Elektra ThemeBundle Base Template{% endblock %}</title>
+    {# character set and metadata #}
+    <meta charset="{{ page.characterSet }}">
+    {% for name, content in page.metadata %}
+        <meta name="{{ name }}" content="{{ content }}">
+    {% endfor %}
 
     {# favicon #}
-    {% block head_favicon %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
-    {% endblock head_favicon %}
+    <link rel="icon" type="image/x-icon" href="{{ asset(page.favIcon) }}"/>
 
-    {# stylesheets #}
+    {# page title #}
+    {% block page_title %}
+        <title>
+            {#- title.prefix - title - title.suffix -#}
+            {%- set needDash = false -%}
+            {%- if page.lang('title_prefix') is not empty -%}
+                {%- set needDash = true -%}
+                {{- page.lang('title_prefix') -}}
+            {%- endif -%}
+            {%- if page.lang('title') is not empty -%}
+                {%- if needDash %} - {% endif -%}
+                {%- set needDash = true -%}
+                {{- page.lang('title') -}}
+            {%- endif -%}
+            {%- if page.lang('title_suffix') is not empty -%}
+                {%- if needDash %} - {% endif -%}
+                {{- page.lang('title_suffix') -}}
+            {%- endif -%}
+        </title>
+    {% endblock page_title %}
+
+    {# style sheets #}
     {% block head_stylesheets %}
-        {# bootstrap styles #}
-        {% if theme.getStylesheet('bootstrap') %}
-            {% include "ElektraThemeBundle:Basic/Styles:bootstrap.html.twig" %}
-        {% endif %}
-        {# font-awesome styles #}
-        {% if theme.getStylesheet('fontAwesome') %}
-            {% include "ElektraThemeBundle:Basic/Styles:fontAwesome.html.twig" %}
-        {% endif %}
-        {# theme styles #}
-        {% include "ElektraThemeBundle:Basic/Styles:theme.html.twig" %}
+        {% for name, active in page.stylesheets %}
+            {% if active %}
+                {% include "ElektraThemeBundle:Includes/Styles:"~name~".html.twig" %}
+            {% endif %}
+        {% endfor %}
     {% endblock head_stylesheets %}
 
-    {# javascripts (head part) #}
+    {# scripts (header) #}
     {% block head_javascripts %}
         {% javascripts %}
         {% endjavascripts %}
     {% endblock head_javascripts %}
 </head>
 <body>
-{# body content -> every application output goes in here #}
-{% block body_content %}
 
-{% endblock %}
+{#############################################################################
+ # HTML Content Area
+ #############################################################################}
 
-{# javascripts (body part) #}
+{# Navigation Bar - Header #}
+{% if page.area('navbar') is not empty %}
+    {% block navbar %}
+        {% include page.area('navbar') %}
+    {% endblock navbar %}
+{% endif %}
+
+{# Messages container #}
+{% if page.hasMessages %}
+    <div class="container">
+        {% if page.area('messages') is not empty %}
+            {% block messages %}
+                {% include page.area('messages') %}
+            {% endblock messages %}
+        {% else %}
+            <div class="container">{{ messages.show('error', 'No Template for Messages found', false) }}</div>
+        {% endif %}
+    </div>
+{% endif %}
+
+{# Page Heading and section #}
+{% if page.lang('heading') or page.lang('section') %}
+    {% block page_heading %}
+        <div class="container">
+            <h1 class="page_heading clearfix">
+                {% if page.lang('heading') %}
+                    <small class="pull-left">
+                        {{ page.lang('heading') }}
+                    </small>
+                {% endif %}
+                {% if page.lang('section') %}
+                    <span class="pull-right">
+                        {{ page.lang('section') }}
+                    </span>
+                {% endif %}
+            </h1>
+        </div>
+    {% endblock page_heading %}
+{% endif %}
+
+{# TODO src: add breadcrumbs to the template? #}
+{# TODO src: add filters / search directly to the template? #}
+
+{# Main content container #}
+<div class="container">
+    {% block content %}
+        {# NOTE the inheriting templates need to override this block - everything else should be already handled by this template #}
+    {% endblock content %}
+</div>
+
+{% block debug %}
+    {% if page.showDebug %}
+        <div class="container debugtheme">
+            {% block debug_content %}
+                Theme::base.html.twig
+            {% endblock debug_content %}
+        </div>
+    {% endif %}
+{% endblock debug %}
+
+{# Footer - 2nd Navigation Bar #}
+{% if page.area('footer') is not empty %}
+    {% block footer %}
+        {% include page.area('footer') %}
+    {% endblock footer %}
+{% endif %}
+
+{# scripts (end of content) #}
 {% block body_javascripts %}
-    {# jQuery script include #}
-    {% if theme.getScript('jquery') %}
-        {% include "ElektraThemeBundle:Basic/Scripts:jquery.html.twig" %}
-    {% endif %}
-    {# bootstrap scripts include #}
-    {% if theme.getScript('bootstrap') %}
-        {% include "ElektraThemeBundle:Basic/Scripts:bootstrap.html.twig" %}
-    {% endif %}
+    {% for name, active in page.scripts %}
+        {% if active %}
+            {% include "ElektraThemeBundle:Includes/Scripts:"~name~".html.twig" %}
+        {% endif %}
+    {% endfor %}
 {% endblock body_javascripts %}
 </body>
 </html>

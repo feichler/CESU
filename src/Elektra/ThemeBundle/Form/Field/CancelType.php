@@ -19,16 +19,22 @@ class CancelType extends AbstractType implements SubmitButtonTypeInterface
         return 'cancel';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getParent()
     {
 
         return 'button';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
 
-        $view->vars['clicked'] = $form->isClicked();
+        $view->vars['clicked']                = $form->isClicked();
         $view->vars['attr']['formnovalidate'] = true;
     }
 }

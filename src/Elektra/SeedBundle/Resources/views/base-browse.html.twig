@@ -1,0 +1,11 @@
+{% extends "ElektraSiteBundle::base.html.twig" %}
+
+{% import "ElektraThemeBundle:Macros:tables.html.twig" as tables %}
+
+{% block content %}
+    {{ tables.show(table) }}
+{% endblock content %}
+
+{% block debug_content %}
+    Seed::base-browse.html.twig
+{% endblock debug_content %}

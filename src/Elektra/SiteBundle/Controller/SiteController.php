@@ -2,60 +2,44 @@
 
 namespace Elektra\SiteBundle\Controller;
 
+use Elektra\ThemeBundle\Page\Overrides\LanguageSimple;
+use Elektra\ThemeBundle\Table\Table;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class SiteController extends Controller
 {
 
-    public function homeAction(Request $request)
+    private function initialise($action)
     {
 
-        $this->container->get('elektra.menu')->initialize();
-        //        $session = $this->container->get('session');
-        //        $session->getFlashBag()->add('error',':test: test');
-        //        $session->getFlashBag()->add('warning', ':test: test');
-        //        $session->getFlashBag()->add('info',':test: test');
-        //        $session->getFlashBag()->add('success',':test: test');
-        $page = $this->container->get('theme.page');
-        $page->setBundle('ElektraSiteBundle');
-        $page->includeEverything();
-        //        $page->includeBootstrapComplete();
-        //        $page->includeFontAwesomeStyles();
-        //        $page->includeThemeStyles();
-        $page->setHeading('Home');
+        $options = $this->getInitialiseOptions();
 
-        $this->container->get('theme.page')->setBodyId('asdf');
-        $pagination = $this->container->get('theme.pagination');
+        $options['language']['title']   = new LanguageSimple('lang.site.pages.' . $action . '.title', 'ElektraSite');
+        $options['language']['heading'] = new LanguageSimple('lang.site.pages.' . $action . '.heading', 'ElektraSite');
+        $options['language']['section'] = new LanguageSimple('lang.site.pages.' . $action . '.section', 'ElektraSite');
 
-        return $this->render('ElektraSiteBundle::layout.html.twig');
-        //        return new Response('asdf');
-    }
-
-    public function aboutAction(Request $request)
-    {
-
-        $this->container->get('elektra.menu')->initialize();
-
-        $page = $this->container->get('theme.page');
-        $page->setBundle('ElektraSiteBundle');
-        $page->includeEverything();
-        $page->setHeading('About Us');
-
-        return $this->render('ElektraSiteBundle:Static:about.html.twig');
+        $page = $this->container->get('page');
+        $page->initialiseSitePage('site', $action, $options);
     }
 
     public function termsAction(Request $request)
     {
 
-        $this->container->get('elektra.menu')->initialize();
+        $this->initialise('terms');
 
-        $page = $this->container->get('theme.page');
-        $page->setBundle('ElektraSiteBundle');
-        $page->includeEverything();
-        $page->setHeading('Terms & Conditions');
+        // TODO define and implement content to be displayed
 
-        return $this->render('ElektraSiteBundle:Static:terms.html.twig');
+        return $this->render('ElektraSiteBundle:Site:terms.html.twig');
+    }
+
+    public function aboutAction(Request $request)
+    {
+
+        $this->initialise('about');
+
+        // TODO define and implement content to be displayed
+
+        return $this->render('ElektraSiteBundle:Site:about.html.twig');
     }
 }

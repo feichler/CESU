@@ -1,0 +1,19 @@
+{% extends "ElektraSiteBundle:Areas:navbar.html.twig" %}
+
+{% import "ElektraSiteBundle:Macros:site.html.twig" as site %}
+
+{# if at the login form -> do not display any navbar #}
+{% if page.variable('action') == 'login' %}
+    {% block navbar_left %}
+    {% endblock navbar_left %}
+    {% block navbar_right %}
+    {% endblock navbar_right %}
+{% else %}
+    {# TODO implement #}
+    {% block navbar_left_content %}
+    {% endblock navbar_left_content %}
+    {% block navbar_right_content %}
+    {% endblock navbar_right_content %}
+{% endif %}
+
+

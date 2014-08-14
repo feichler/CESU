@@ -17,6 +17,11 @@ monolog:
             type:   stream
             path:   "%kernel.logs_dir%/%kernel.environment%.log"
             level:  debug
+        dev_debug:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%_debug.log"
+            level:  debug
+            channels: [app]
         console:
             type:   console
             bubble: false

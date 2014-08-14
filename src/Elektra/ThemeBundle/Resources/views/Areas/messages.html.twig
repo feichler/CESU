@@ -1,0 +1,12 @@
+{% import "ElektraThemeBundle:Macros:messages.html.twig" as macros %}
+
+{% set types = ['error','warning','info','success'] %}
+
+{% for type in types %}
+    {% set messages = app.session.flashbag.get(type) %}
+    {% if messages|length > 0 %}
+        {% for message in messages %}
+            {{ macros.show(type, message, (type=='error' ? false : true)) }}
+        {% endfor %}
+    {% endif %}
+{% endfor %}

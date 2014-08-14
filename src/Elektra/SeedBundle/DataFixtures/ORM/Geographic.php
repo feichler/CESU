@@ -2,21 +2,13 @@
 
 namespace Elektra\SeedBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\Doctrine;
 use Doctrine\Common\Persistence\ObjectManager;
-use Elektra\SeedBundle\DataFixtures\AbstractFixture;
-use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\Companies\Country;
-use Elektra\SeedBundle\Entity\Companies\Region;
-use Elektra\UserBundle\Entity\User;
+use Elektra\SeedBundle\DataFixtures\SeedBundleFixture;
 
-class Geographic extends AbstractFixture
+class Geographic extends SeedBundleFixture
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    function doLoad(ObjectManager $manager)
+    protected function doLoad(ObjectManager $manager)
     {
 
         $regions = array();
@@ -38,8 +30,18 @@ class Geographic extends AbstractFixture
             $this->createCountry($manager, $regions, $row);
         }
 
-        $manager->flush();
         fclose($csvFile);
+
+        $manager->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrder()
+    {
+
+        return 1001; // first in seed bundle
     }
 
     protected function createRegion(ObjectManager $manager, $name)
@@ -64,11 +66,5 @@ class Geographic extends AbstractFixture
         $country->setRegion($regions[$params[4]]);
 
         $manager->persist($country);
-    }
-
-    public function getOrder()
-    {
-
-        return 1001;
     }
 }

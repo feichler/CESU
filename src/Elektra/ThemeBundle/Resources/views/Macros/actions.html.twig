@@ -1,45 +1,57 @@
-{% macro action(type, href, text, render, confirmMsg) %}
-    {% set render = render|default('button') %}
-    {% set classes = 'action action-'~type %}
-    {% set confirm = '' %}
-    {% if confirmMsg|default('') != '' %}
-        {% set confirm = ' onclick=\"return confirm(\''~confirmMsg|escape~'\');\"'|raw %}
+{% macro action(type, href, text, options) %}
+    {% set render = 'button' %}
+    {% set classes = 'action action-' ~ type %}
+    {% set confirmMsg = '' %}
+    {% if options.render is defined %}
+        {% set render = options.render %}
     {% endif %}
     {% if render == 'button' %}
         {% set classes = classes ~ ' action-btn' %}
     {% endif %}
-
-    <a href="{{ href }}" class="{{ classes }}"
-            {% if confirmMsg|default('') != '' %}
-                onclick="return confirm('{{ confirmMsg }}');"
-            {% endif %}
+    {% if options.confirmMsg is defined %}
+        {% set confirmMsg = ' onclick="return confirm(\'' ~ options.confirmMsg|escape ~ '\')"' %}
+    {% endif %}
+    <a
+            href="{{ href }}"
+            class="{{ classes }}"
+            {{ confirmMsg|raw }}
             >
         <span class="icon"></span>
-        <span class="text">{{ text|trans }}</span>
+        <span class="text">{{ text }}</span>
     </a>
 {% endmacro %}
 
-{% macro view(href, text, render) %}
+{% macro view(href, text, options) %}
     {% import _self as actions %}
-    {% set text = text|default('site.admin.actions.view') %}
-    {% set render = render|default('link') %}
-    {{ actions.action('view', href, text, render) }}
+    {% set text = text|default(page.lang('action.view')) %}
+    {% set options = options|default({}) %}
+    {% if options.render is not defined %}
+        {% set options = options|merge({'render': 'link'}) %}
+    {% endif %}
+
+    {{ actions.action('view', href, text, options) }}
 {% endmacro %}
 
-{% macro add(href, text, render) %}
+{% macro add(href, text, options) %}
     {% import _self as actions %}
-    {% set text = text|default('site.admin.actions.add') %}
-    {{ actions.action('add', href, text, render) }}
+    {% set text = text|default(page.lang('action.add')) %}
+    {% set options = options|default({}) %}
+    {{ actions.action('add', href, text, options) }}
 {% endmacro %}
 
-{% macro edit(href, text, render) %}
+{% macro edit(href, text, options) %}
     {% import _self as actions %}
-    {% set text = text|default('site.admin.actions.edit') %}
-    {{ actions.action('edit', href, text, render) }}
+    {% set text = text|default(page.lang('action.edit')) %}
+    {% set options = options|default({}) %}
+    {{ actions.action('edit', href, text, options) }}
 {% endmacro %}
 
-{% macro delete(href, text, render) %}
+{% macro delete(href, text, options) %}
     {% import _self as actions %}
-    {% set text = text|default('site.admin.actions.delete') %}
-    {{ actions.action('delete', href, text, render, 'site.generic.confirm_delete'|trans) }}
+    {% set text = text|default(page.lang('action.delete')) %}
+    {% set options = options|default({}) %}
+    {% if options.confirmMsg is not defined %}
+        {% set options = options|merge({'confirmMsg': page.lang('confirm_delete')}) %}
+    {% endif %}
+    {{ actions.action('delete', href, text, options) }}
 {% endmacro %}

@@ -1,6 +1,5 @@
 
-ElektraSeedBundle:
-    resource: .
-    prefix: /admin
-    type: routing
-
+ElektraSeedBundle: # seed bundle routing loaded by a routing loader service
+    resource:   .
+    prefix:     /admin
+    type:       routing

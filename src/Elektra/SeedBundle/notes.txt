@@ -1,1 +1,0 @@
-TODO src: add generic getId() method to entities (for easier access)

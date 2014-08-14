@@ -12,50 +12,20 @@ class ElektraSeedExtension extends Extension
 {
 
     /**
-     * Loads a specific configuration.
-     *
-     * @param array            $configs   An array of configuration values
-     * @param ContainerBuilder $container A ContainerBuilder instance
-     *
-     * @throws \InvalidArgumentException When provided tag is not defined in this extension
-     *
-     * @api
+     * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $config, ContainerBuilder $container)
     {
 
+        // load and process the configuration - only useful if a configuration tree is defined
         $processor     = new Processor();
         $configuration = new Configuration();
+        $newConfig     = $processor->processConfiguration($configuration, $config);
 
-        $config = $processor->processConfiguration($configuration, $configs);
+        // NOTE: if configuration tree is defined, the $newConfig needs to be parsed and stored in the container
 
-        $this->parseParameters($container, $config, 'elektra_seed');
-
+        // load the configuration files from the bundle
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
-    }
-
-    private function parseParameters(ContainerBuilder $container, array $config, $pathPrefix = '')
-    {
-
-        foreach ($config as $key => $value) {
-            $path = $pathPrefix . '.' . $key;
-            $container->setParameter($path, $value);
-            if (is_array($value)) {
-                $this->parseParameters($container, $value, $path);
-            }
-        }
-    }
-
-    public function getXsdValidationBasePath()
-    {
-
-        return __DIR__ . '/../Resources/config/';
-    }
-
-    public function getNamespace()
-    {
-
-        return 'http://www.example.com/symfony/schema/';
     }
 }

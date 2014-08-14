@@ -1,7 +1,7 @@
-
+# Define the services provided by the SeedBundle
 services:
     elektra_seed.routing_loader:
-        class: Elektra\SeedBundle\Routing\RoutingLoader
+        class: Elektra\SeedBundle\Routing\Loader
         tags:
             - { name: routing.loader }
 
@@ -10,5 +10,3 @@ services:
         arguments: ["@service_container"]
         tags:
             - { name: doctrine.event_listener, event: onFlush }
-
-

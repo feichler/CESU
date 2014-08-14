@@ -1,6 +1,6 @@
-{% macro show(text, type, dismissable) %}
-    <div class="system-messages system-messages-{{ type }} {{ (dismissable|default('yes') == 'yes') ? 'system-messages-dismissable' :'' }} ">
-        {% if dismissable|default('yes') == 'yes' %}
+{% macro show(type, text, dismissable) %}
+    <div class="system-messages system-messages-{{ type }} {{ (dismissable) ? 'system-messages-dismissable' : '' }} ">
+        {% if dismissable %}
             <button type="button" class="close" data-dismiss="alert">
             <span aria-hidden="true">
                 &times;

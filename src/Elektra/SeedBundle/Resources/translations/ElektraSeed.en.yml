@@ -1,0 +1,47 @@
+
+# TODO add translations
+lang:
+    seed:
+        menu:
+            master_data:
+                title: Master Data
+                seed_units:
+                    title: Seed Units
+                    seed_unit_models: Models
+                    seed_unit_power_cord_types: Power Cord Types
+                geographic:
+                    title: Geographic
+                    countries: Countries
+        sections:
+            master_data: Master Data
+        types:
+            seed_unit: Seed Unit|Seed Units
+            seed_unit_model: Seed Unit Model|Seed Unit Models
+            seed_unit_power_cord_type: Seed Unit Power Cord Type|Seed Unit Power Cord Types
+
+        pages:
+            crud:
+                master_data:
+                    section: Master Data
+                    seed_unit_models:
+                        title:
+                            browse: Browse Seed Unit Models
+                            view: View Seed Unit Model
+                            add: Add Seed Unit Model
+                            edit: Edit Seed Unit Model
+                        heading:
+                            browse: Browse Seed Unit Models
+                            view: View Seed Unit Model
+                            add: Add Seed Unit Model
+                            edit: Edit Seed Unit Model
+                    seed_unit_power_cord_types:
+                        title:
+                            browse: Browse Seed Unit Power Cord Types
+                            view: View Seed Unit Power Cord Type
+                            add: Add Seed Unit Power Cord Type
+                            edit: Edit Seed Unit Power Cord Type
+                        heading:
+                            browse: Browse Seed Unit Power Cord Types
+                            view: View Seed Unit Power Cord Type
+                            add: Add Seed Unit Power Cord Type
+                            edit: Edit Seed Unit Power Cord type

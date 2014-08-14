@@ -2,46 +2,31 @@
 
 namespace Elektra\SiteBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Elektra\ThemeBundle\Table\Table;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller
 {
 
-    private function initialise()
+    private function initialise($action)
     {
 
-        $theme = $this->get('site');
-        $theme->initialiseAdminPage();
+        $options = $this->getInitialiseOptions();
+
+        // TODO add language overrides
+
+        $page = $this->container->get('page');
+        $page->initialiseAdminPage('admin', $action, $options);
     }
 
     public function indexAction(Request $request)
     {
 
-        $this->initialise();
+        $this->initialise('index');
 
-        //        $site= $this->container->get('site');
-        //        $site->initializeAdminPage('Home', 'Administration');
-
-        //        $theme = $this->initializeTheme();
-        //        $theme->setPageVar('navbar.brand.name', 'CESU Admin');
-        //        $theme->setPageVar('navbar.brand.route', 'admin_home');
-        //        $theme->setPageVar('title', 'Home - CESU Administration');
-        //        $theme->setPageVar('heading', 'Cisco Elektra Seed Unit Administration');
-        //
-        //        $theme->setSubTemplate('navbar', 'ElektraSiteBundle:Parts/Navigation:admin-navbar.html.twig');
-        //        $theme->setSubTemplate('footer', 'ElektraSiteBundle:Parts/Footer:admin-footer.html.twig');
+        // TODO src define and implement content to be displayed
 
         return $this->render('ElektraSiteBundle:Admin:index.html.twig');
-    }
-
-    protected function initializeTheme()
-    {
-
-        $this->container->get('elektra.twig.theme_extension')->initializeComplete();
-        $theme = $this->container->get('theme');
-
-        return $theme;
     }
 }

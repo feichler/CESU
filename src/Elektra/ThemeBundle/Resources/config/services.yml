@@ -1,26 +1,26 @@
-
+# Define the services provided by the ThemeBundle
 services:
-    theme:
-        class: Elektra\ThemeBundle\Theme\Theme
+    # Form Fields
+    elektra_theme.form.type.cancel: # Cancel Form Field
+        class: Elektra\ThemeBundle\Form\Field\CancelType
+        tags:
+            - { name: form.type, alias: cancel }
 
-    elektra_theme.twig.theme_extension:
-        class: Elektra\ThemeBundle\Twig\ThemeExtension
+    elektra_theme.form.type.buttongroup: # Button Group for Forms
+        class: Elektra\ThemeBundle\Form\Field\ButtonGroupType
+        tags:
+            - { name: form.type, alias: buttonGroup }
+
+    # Global page object for theme-specific data
+    page:
+        class: Elektra\ThemeBundle\Page\Page
         arguments:
-            - "@theme"
+            - "@service_container"
+
+    # Twig extensions
+    elektra_theme.twig.page_extension:
+        class: Elektra\ThemeBundle\Twig\PageExtension
+        arguments:
+            - "@page"
         tags:
             - { name: twig.extension }
-
-    elektra_theme.form.type.link:
-        class: Elektra\ThemeBundle\Form\Field\LinkType
-        tags:
-            - { name: form.type, alias: link }
-
-    elektra_theme.form.type.cancel:
-            class: Elektra\ThemeBundle\Form\Field\CancelType
-            tags:
-                - { name: form.type, alias: cancel }
-
-    elektra_theme.form.type.buttongroup:
-            class: Elektra\ThemeBundle\Form\Field\ButtonGroupType
-            tags:
-                - { name: form.type, alias: buttongroup }

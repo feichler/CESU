@@ -9,34 +9,18 @@ class Configuration implements ConfigurationInterface
 {
 
     /**
-     * Generates the configuration tree builder.
-     *
-     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
+     * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
 
         $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('elektra_seed');
 
-        $rootNode->children()
-            ->arrayNode('lists')
-                ->addDefaultsIfNotSet()
-                ->canBeUnset()
-                ->children()
-                    ->arrayNode('limits')
-                        ->addDefaultsIfNotSet()
-                        ->canBeUnset()
-                        ->children()
-                            ->scalarNode('unit_model')->defaultNull()->end()
-                            ->scalarNode('unit_power')->defaultNull()->end()
-                    ->end()
-                ->end()
-            ->end()
-            ;
+        $rootNode = $treeBuilder->root('elektra_seed');
+
+        // NOTE: configuration options for the seed bundle needed?
+        // NOTE: list limit configuration in cleanup folder
 
         return $treeBuilder;
     }
-
-
 }

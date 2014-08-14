@@ -1,0 +1,14 @@
+
+lang:
+    theme:
+        generic:
+            toggle_navbar: Toggle Navigation
+            toggle_footer: Toogle Footer
+            confirm_delete: Do you really want to delete this entry?
+            table_empty: No entries found
+            actions:
+                browse: Browse
+                view: View
+                add: Add
+                edit: Edit
+                delete: Delete

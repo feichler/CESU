@@ -1,2 +1,3 @@
-
-# NOTE: SiteBundle currently has no defined services
+# Define the services provided by the UserBundle
+services:
+# NOTE: UserBundle currently has no defined services

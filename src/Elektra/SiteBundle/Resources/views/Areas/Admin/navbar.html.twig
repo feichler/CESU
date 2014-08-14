@@ -1,0 +1,62 @@
+{% extends "ElektraSiteBundle:Areas:navbar.html.twig" %}
+
+{% import "ElektraSiteBundle:Macros:site.html.twig" as site %}
+
+{% trans_default_domain "ElektraSeed" %}
+
+{% block navbar_left_content %}
+    <ul class="nav navbar-nav">
+        <li>
+            <a href="#">TODO: Define Menu - left</a>
+        </li>
+    </ul>
+{% endblock navbar_left_content %}
+
+
+{% block navbar_right_content %}
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                {% trans from 'ElektraSeed' %}lang.seed.menu.master_data.title{% endtrans %}
+                <span class="dropdown-indicator"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li class="dropdown-header">
+                    <span class="dropdown-header-title">
+                        {% trans %}lang.seed.menu.master_data.seed_units.title{% endtrans %}
+                    </span>
+                </li>
+                <li>
+                    <a href="{{ path("ElektraSeedBundle_MasterData_SeedUnits_Model_browse") }}">
+                        {% trans %}lang.seed.menu.master_data.seed_units.seed_unit_models{% endtrans %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path("ElektraSeedBundle_MasterData_SeedUnits_PowerCordType_browse") }}">
+                        {% trans %}lang.seed.menu.master_data.seed_units.seed_unit_power_cord_types{% endtrans %}
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li class="dropdown-header">
+                    <span class="dropdown-header-title">
+                        {% trans %}lang.seed.menu.master_data.geographic.title{% endtrans %}
+                    </span>
+                </li>
+                <li>
+                    <a href="{{ path("ElektraSeedBundle_MasterData_Geographic_Country_browse") }}">
+                        {% trans %}lang.seed.menu.master_data.geographic.countries{% endtrans %}
+                    </a>
+                </li>
+                {#<li>#}
+                {#<a href="{{ path('ElektraSeedBundle_seedunits_models_browse') }}">#}
+                {#{% trans %}site.admin.menu.seedunit_models{% endtrans %}#}
+                {#</a>#}
+                {#</li>#}
+                {#<li>#}
+                {#<a href="{{ path('ElektraSeedBundle_seedunits_powerCordTypes_browse') }}">#}
+                {#{% trans %}site.admin.menu.seedunit_powercordtypes{% endtrans %}#}
+                {#</a>#}
+                {#</li>#}
+            </ul>
+        </li>
+    </ul>
+{% endblock navbar_right_content %}

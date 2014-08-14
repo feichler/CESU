@@ -1,11 +1,12 @@
-{% extends "ElektraThemeBundle::layout.html.twig" %}
+{% extends "ElektraSiteBundle::base.html.twig" %}
 
-{% block main_content %}
+{% block debug_content %}
+    User::layout.html.twig
+{% endblock debug_content %}
 
-
-    <div>
+{% block content %}
+    {#<div>#}
         {% block fos_user_content %}
         {% endblock fos_user_content %}
-    </div>
-
-{% endblock main_content %}
+    {#</div>#}
+{% endblock content %}
