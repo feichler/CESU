@@ -31,6 +31,6 @@ class SeedUnitPowerCordTypeFixture extends SeedBundleFixture
     function getOrder()
     {
 
-        return 1002; // second in seed bundle
+        return 1003;
     }
 }

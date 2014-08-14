@@ -24,7 +24,7 @@ class Loader extends BaseLoader
         'SeedUnits'                          => 'SeedUnits/SeedUnit',
         'MasterData_SeedUnits_Model'         => 'SeedUnits/SeedUnitModel',
         'MasterData_SeedUnits_PowerCordType' => 'SeedUnits/SeedUnitPowerCordType',
-        'MasterData_Geographic_Country'    => 'Companies/Country',
+        'MasterData_Geographic_Country'      => 'Companies/Country',
     );
 
     /**

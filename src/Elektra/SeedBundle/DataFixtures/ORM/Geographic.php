@@ -4,6 +4,8 @@ namespace Elektra\SeedBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\DataFixtures\SeedBundleFixture;
+use Elektra\SeedBundle\Entity\Companies\Country;
+use Elektra\SeedBundle\Entity\Companies\Region;
 
 class Geographic extends SeedBundleFixture
 {
@@ -13,7 +15,7 @@ class Geographic extends SeedBundleFixture
 
         $regions = array();
 
-        $csvPath = dirname(__DIR__) . '/countries.csv';
+        $csvPath = dirname(__DIR__) . '/Data/countries.csv';
         $csvFile = fopen($csvPath, 'r+');
 
         while (($row = fgetcsv($csvFile, 1000, ';', '"'))) {
@@ -41,7 +43,7 @@ class Geographic extends SeedBundleFixture
     public function getOrder()
     {
 
-        return 1001; // first in seed bundle
+        return 1001;
     }
 
     protected function createRegion(ObjectManager $manager, $name)
