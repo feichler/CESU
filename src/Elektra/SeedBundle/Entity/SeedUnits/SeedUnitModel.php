@@ -162,7 +162,6 @@ class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
     {
 
         $audits = $this->getAudits();
-
-        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
+       return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
     }
 }

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\SeedBundle\Entity\Requests\CompletedRequest;
 
 /**
@@ -17,7 +18,7 @@ use Elektra\SeedBundle\Entity\Requests\CompletedRequest;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitRepository")
  * @ORM\Table(name="seedUnits")
  */
-class SeedUnit implements AuditableInterface, AnnotableInterface
+class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
     /**
      * @var int
@@ -122,7 +123,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @param PowerCordType $powerCordType
+     * @param SeedUnitPowerCordType $powerCordType
      */
     public function setPowerCordType($powerCordType)
     {
@@ -130,7 +131,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return PowerCordType
+     * @return SeedUnitPowerCordType
      */
     public function getPowerCordType()
     {
@@ -216,5 +217,15 @@ class SeedUnit implements AuditableInterface, AnnotableInterface
     {
         $audits = $this->getAudits();
         return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+    }
+
+    /**
+     * Return the representative title of the entity
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->getSerialNumber();
     }
 }

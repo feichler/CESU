@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 
 /**
  * Class Training
@@ -16,7 +17,7 @@ use Elektra\SeedBundle\Entity\AnnotableInterface;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Trainings\TrainingRepository")
  * @ORM\Table("trainings")
  */
-class Training implements AuditableInterface, AnnotableInterface
+class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
     /**
      * @var int
@@ -260,5 +261,15 @@ class Training implements AuditableInterface, AnnotableInterface
     {
         $audits = $this->getAudits();
         return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+    }
+
+    /**
+     * Return the representative title of the entity
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->getName();
     }
 }

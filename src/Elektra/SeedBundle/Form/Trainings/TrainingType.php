@@ -1,6 +1,6 @@
 <?php
 
-namespace Elektra\SeedBundle\Form\SeedUnits;
+namespace Elektra\SeedBundle\Form\Trainings;
 
 use Elektra\SeedBundle\Form\CRUDForm;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class SeedUnitType extends CRUDForm
+class TrainingType extends CRUDForm
 {
 
     /**
@@ -16,7 +16,7 @@ class SeedUnitType extends CRUDForm
      */
     public function getName()
     {
-        return "seedunit";
+        return "training";
     }
 
     /**
@@ -24,15 +24,23 @@ class SeedUnitType extends CRUDForm
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $serialNumberOptions = array(
+
+        $nameOptions = array(
             'constraints' => array(
                 new NotBlank(array('message' => 'error.constraint.required')),
             )
         );
-        $builder->add('name', 'text', $serialNumberOptions);
+        $builder->add('name', 'text', $nameOptions);
 
-        //TODO: lookup for power cord type
-        //TODO: lookup for seed unit model
+        $locationOptions = array(
+            'required' => false
+        );
+        $builder->add('location', 'text', $locationOptions);
+
+        //TODO: datetime input for startedAt
+        //TODO: datetime input for endedAt
+        //TODO: list input for registrations
+        //TODO: list input for attendances
 
         $this->addFormActions($builder);
     }
