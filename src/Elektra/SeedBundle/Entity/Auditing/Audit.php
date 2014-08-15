@@ -1,8 +1,16 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\Auditing;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\UserBundle\Entity\User;
 
 /**
@@ -10,11 +18,14 @@ use Elektra\UserBundle\Entity\User;
  *
  * @package Elektra\SeedBundle\Entity\Auditing
  *
+ * @version 0.1-dev
+ *
  * @ORM\Entity
  * @ORM\Table(name="audits")
  */
-class Audit
+class Audit implements EntityInterface
 {
+
     /**
      * @var int
      *
@@ -39,15 +50,19 @@ class Audit
      */
     protected $timestamp;
 
+    /**
+     *
+     */
     public function __construct()
     {
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
+
         return $this->auditId;
     }
 
@@ -56,6 +71,7 @@ class Audit
      */
     public function getAuditId()
     {
+
         return $this->auditId;
     }
 
@@ -64,6 +80,7 @@ class Audit
      */
     public function setTimestamp($timestamp)
     {
+
         $this->timestamp = $timestamp;
     }
 
@@ -72,6 +89,7 @@ class Audit
      */
     public function getTimestamp()
     {
+
         return $this->timestamp;
     }
 
@@ -80,6 +98,7 @@ class Audit
      */
     public function setUser($user)
     {
+
         $this->user = $user;
     }
 
@@ -88,6 +107,7 @@ class Audit
      */
     public function getUser()
     {
+
         return $this->user;
     }
 }

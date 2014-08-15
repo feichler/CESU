@@ -1,20 +1,41 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Table\Trainings;
 
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel;
 use Elektra\SeedBundle\Table\CRUDTable;
 use Elektra\ThemeBundle\Table\Row;
 
+/**
+ * Class TrainingTable
+ *
+ * @package Elektra\SeedBundle\Table\Trainings
+ *
+ * @version 0.1-dev
+ */
 class TrainingTable extends CRUDTable
 {
 
+    /**
+     * {@inheritdoc}
+     */
     protected function setupType()
     {
 
         $this->setParam('routePrefix', 'ElektraSeedBundle_MasterData_Trainings_Training');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function setupHeader(Row $header)
     {
 
@@ -35,7 +56,10 @@ class TrainingTable extends CRUDTable
         //        $actionsCell->setWidth(150);
     }
 
-    protected function setupContentRow(Row $content, $entry)
+    /**
+     * {@inheritdoc}
+     */
+    protected function setupContentRow(Row $content, CRUDEntityInterface $entry)
     {
 
         if (!$entry instanceof SeedUnitModel) {

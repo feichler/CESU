@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\Requests;
 
@@ -13,11 +20,14 @@ use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
  *
  * @package Elektra\SeedBundle\Entity\Requests
  *
+ * @version 0.1-dev
+ *
  * @ORM\Entity
  * @ORM\Table(name="completedRequests")
  */
 class CompletedRequest extends Request
 {
+
     /**
      * @var CompanyPerson
      *
@@ -49,71 +59,84 @@ class CompletedRequest extends Request
      */
     protected $seedUnits;
 
+    /**
+     *
+     */
     public function __construct()
     {
+
+        $this->seedUnits = new ArrayCollection();
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Companies\CompanyPerson $receiverPerson
+     * @param CompanyPerson $receiverPerson
      */
     public function setReceiverPerson($receiverPerson)
     {
+
         $this->receiverPerson = $receiverPerson;
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Companies\CompanyPerson
+     * @return CompanyPerson
      */
     public function getReceiverPerson()
     {
+
         return $this->receiverPerson;
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Companies\CompanyPerson $requesterPerson
+     * @param CompanyPerson $requesterPerson
      */
     public function setRequesterPerson($requesterPerson)
     {
+
         $this->requesterPerson = $requesterPerson;
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Companies\CompanyPerson
+     * @return CompanyPerson
      */
     public function getRequesterPerson()
     {
+
         return $this->requesterPerson;
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Companies\CompanyLocation $shippingLocation
+     * @param CompanyLocation $shippingLocation
      */
     public function setShippingLocation($shippingLocation)
     {
+
         $this->shippingLocation = $shippingLocation;
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Companies\CompanyLocation
+     * @return \CompanyLocation
      */
     public function getShippingLocation()
     {
+
         return $this->shippingLocation;
     }
 
     /**
-     * @param \Doctrine\Common\Collections\ArrayCollection $seedUnits
+     * @param ArrayCollection $seedUnits
      */
     public function setSeedUnits($seedUnits)
     {
+
         $this->seedUnits = $seedUnits;
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection
      */
     public function getSeedUnits()
     {
+
         return $this->seedUnits;
     }
 }

@@ -1,9 +1,23 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\ThemeBundle\Table;
 
 use Elektra\ThemeBundle\Pagination\Pagination;
 
+/**
+ * Class Table
+ *
+ * @package Elektra\ThemeBundle\Table
+ *
+ * @version 0.1-dev
+ */
 class Table
 {
 
@@ -60,6 +74,9 @@ class Table
         return $this->style;
     }
 
+    /**
+     * @return Pagination
+     */
     public function getPagination()
     {
 
@@ -233,12 +250,18 @@ class Table
         return null;
     }
 
+    /**
+     * @return array
+     */
     public function getParameters()
     {
 
         return $this->params;
     }
 
+    /**
+     * @param string $id
+     */
     public function setId($id)
     {
 

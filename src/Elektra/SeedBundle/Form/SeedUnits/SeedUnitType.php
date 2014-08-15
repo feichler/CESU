@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Form\SeedUnits;
 
@@ -8,6 +15,13 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Class SeedUnitType
+ *
+ * @package Elektra\SeedBundle\Form\SeedUnits
+ *
+ *          @version 0.1-dev
+ */
 class SeedUnitType extends CRUDForm
 {
 

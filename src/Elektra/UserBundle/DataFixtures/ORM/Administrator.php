@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\UserBundle\DataFixtures\ORM;
 
@@ -9,6 +16,13 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\UserBundle\Entity\User;
 
+/**
+ * Class Administrator
+ *
+ * @package Elektra\UserBundle\DataFixtures\ORM
+ *
+ * @version 0.1-dev
+ */
 class Administrator extends AbstractFixture implements OrderedFixtureInterface
 {
 
@@ -31,7 +45,7 @@ class Administrator extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->flush();
 
-        $this->addReference('admin-user',$admin);
+        $this->addReference('admin-user', $admin);
     }
 
     /**

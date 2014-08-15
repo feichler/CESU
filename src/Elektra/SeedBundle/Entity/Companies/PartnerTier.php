@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
@@ -6,16 +13,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 
 /**
  * Class PartnerTier
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
+ *          @version 0.1-dev
+ *
  * @ORM\Entity
  * @ORM\Table(name="partnerTiers")
  */
-class PartnerTier implements AuditableInterface
+class PartnerTier implements AuditableInterface,CRUDEntityInterface
 {
     /**
      * @var int
@@ -52,13 +62,16 @@ class PartnerTier implements AuditableInterface
      */
     protected $audits;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->audits = new ArrayCollection();
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -106,7 +119,7 @@ class PartnerTier implements AuditableInterface
     }
 
     /**
-     * @param ArrayCollection
+     * {@inheritdoc}
      */
     public function setAudits($audits)
     {
@@ -114,7 +127,7 @@ class PartnerTier implements AuditableInterface
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getAudits()
     {
@@ -122,7 +135,7 @@ class PartnerTier implements AuditableInterface
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getCreationAudit()
     {
@@ -130,11 +143,19 @@ class PartnerTier implements AuditableInterface
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getLastModifiedAudit()
     {
         $audits = $this->getAudits();
         return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTitle()
+    {
+        // URGENT: Implement getTitle() method.
     }
 }

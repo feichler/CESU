@@ -1,20 +1,39 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Table\SeedUnits;
 
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType;
 use Elektra\SeedBundle\Table\CRUDTable;
 use Elektra\ThemeBundle\Table\Row;
 
+/**
+ * Class SeedUnitPowerCordTypeTable
+ *
+ * @package Elektra\SeedBundle\Table\SeedUnits
+ *
+ *          @version 0.1-dev
+ */
 class SeedUnitPowerCordTypeTable extends CRUDTable
 {
-
+    /**
+     * {@inheritdoc}
+     */
     protected function setupType()
     {
 
         $this->setParam('routePrefix', 'ElektraSeedBundle_MasterData_SeedUnits_PowerCordType');
     }
-
+    /**
+     * {@inheritdoc}
+     */
     protected function setupHeader(Row $header)
     {
 
@@ -34,8 +53,10 @@ class SeedUnitPowerCordTypeTable extends CRUDTable
         //        $actionsCell = $header->addCell();
         //        $actionsCell->setWidth(150);
     }
-
-    protected function setupContentRow(Row $content, $entry)
+    /**
+     * {@inheritdoc}
+     */
+    protected function setupContentRow(Row $content,CRUDEntityInterface $entry)
     {
 
         if (!$entry instanceof SeedUnitPowerCordType) {

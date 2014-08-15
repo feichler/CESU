@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\SeedUnits;
 
@@ -12,6 +19,8 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  * Class SeedUnitPowerTypes
  *
  * @package Elektra\SeedBundle\Entity\SeedUnits
+ *
+ *          @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitPowerCordTypeRepository")
  * @ORM\Table(name="powerCordTypes")
@@ -54,6 +63,9 @@ class SeedUnitPowerCordType implements AuditableInterface, CRUDEntityInterface
      */
     protected $audits;
 
+    /**
+     *
+     */
     public function __construct()
     {
 
@@ -124,7 +136,7 @@ class SeedUnitPowerCordType implements AuditableInterface, CRUDEntityInterface
     }
 
     /**
-     * @param ArrayCollection
+     * {@inheritdoc}
      */
     public function setAudits($audits)
     {
@@ -133,7 +145,7 @@ class SeedUnitPowerCordType implements AuditableInterface, CRUDEntityInterface
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getAudits()
     {
@@ -142,7 +154,7 @@ class SeedUnitPowerCordType implements AuditableInterface, CRUDEntityInterface
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getCreationAudit()
     {
@@ -151,7 +163,7 @@ class SeedUnitPowerCordType implements AuditableInterface, CRUDEntityInterface
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getLastModifiedAudit()
     {

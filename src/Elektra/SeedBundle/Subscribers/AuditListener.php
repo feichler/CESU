@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Alexander
- * Date: 11.08.14
- * Time: 11:54
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
  */
 
 namespace Elektra\SeedBundle\Subscribers;
@@ -11,9 +12,17 @@ namespace Elektra\SeedBundle\Subscribers;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\UserBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+/**
+ * Class AuditListener
+ *
+ * @package Elektra\SeedBundle\Subscribers
+ *
+ *          @version 0.1-dev
+ */
 class AuditListener
 {
     /**
@@ -21,11 +30,17 @@ class AuditListener
      */
     protected $container;
 
+    /**
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
+    /**
+     * @param OnFlushEventArgs $args
+     */
     public function onFlush(OnFlushEventArgs $args)
     {
         $em  = $args->getEntityManager();
@@ -45,6 +60,9 @@ class AuditListener
         $uow->computeChangeSets();
     }
 
+    /**
+     * @return User
+     */
     private function getUser()
     {
         $token = $this->container->get('security.context')->getToken();

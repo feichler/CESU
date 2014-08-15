@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SiteBundle\Controller;
 
@@ -7,9 +14,19 @@ use Elektra\ThemeBundle\Table\Table;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class SiteController
+ *
+ * @package Elektra\SiteBundle\Controller
+ *
+ *          @version 0.1-dev
+ */
 class SiteController extends Controller
 {
 
+    /**
+     * @param string $action
+     */
     private function initialise($action)
     {
 
@@ -23,6 +40,11 @@ class SiteController extends Controller
         $page->initialiseSitePage('site', $action, $options);
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
     public function termsAction(Request $request)
     {
 
@@ -33,6 +55,11 @@ class SiteController extends Controller
         return $this->render('ElektraSiteBundle:Site:terms.html.twig');
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
     public function aboutAction(Request $request)
     {
 

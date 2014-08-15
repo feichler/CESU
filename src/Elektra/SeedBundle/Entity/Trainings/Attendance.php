@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\Trainings;
 
@@ -8,16 +15,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
+use Elektra\SeedBundle\Entity\EntityInterface;
 
 /**
  * Class Attendance
  *
  * @package Elektra\SeedBundle\Entity\Trainings
  *
+ *          @version 0.1-dev
+ *
  * @ORM\Entity
  * @ORM\Table(name="attendances")
  */
-class Attendance implements AuditableInterface, AnnotableInterface
+class Attendance implements AuditableInterface, AnnotableInterface,EntityInterface
 {
     /**
      * @var int
@@ -68,6 +78,9 @@ class Attendance implements AuditableInterface, AnnotableInterface
      */
     protected $audits;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->notes = new ArrayCollection();
@@ -75,7 +88,7 @@ class Attendance implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -123,7 +136,7 @@ class Attendance implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @param ArrayCollection $notes
+     * {@inheritdoc}
      */
     public function setNotes($notes)
     {
@@ -131,7 +144,7 @@ class Attendance implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getNotes()
     {
@@ -139,7 +152,7 @@ class Attendance implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @param ArrayCollection
+     * {@inheritdoc}
      */
     public function setAudits($audits)
     {
@@ -147,7 +160,7 @@ class Attendance implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getAudits()
     {
@@ -155,7 +168,7 @@ class Attendance implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getCreationAudit()
     {
@@ -163,7 +176,7 @@ class Attendance implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getLastModifiedAudit()
     {

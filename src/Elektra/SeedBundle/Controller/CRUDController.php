@@ -1,10 +1,24 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Controller;
 
 use Elektra\ThemeBundle\Table\Table;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class CRUDController
+ *
+ * @package Elektra\SeedBundle\Controller
+ *
+ * @version 0.1-dev
+ */
 abstract class CRUDController extends Controller
 {
 
@@ -31,6 +45,7 @@ abstract class CRUDController extends Controller
     /*************************************************************************
      * Controller Functions
      *************************************************************************/
+
     /**
      * @param Request $request
      * @param int     $page
@@ -164,7 +179,7 @@ abstract class CRUDController extends Controller
             $manager = $this->getDoctrine()->getManager();
             $manager->flush();
 
-            $this->addSuccessMessage('add', $entity->getId());
+            $this->addSuccessMessage('edit', $entity->getId());
 
             return $this->redirectToBrowse();
         } else if ($form->get('actions')->get('cancel')->isClicked()) {

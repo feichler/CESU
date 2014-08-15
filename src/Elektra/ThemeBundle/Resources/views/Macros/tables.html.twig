@@ -1,3 +1,11 @@
+{#############################################################################
+ # @author    Florian Eichler <florian@eichler.co.at>
+ # @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ # @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ # @license   MINOR add a license
+ # @version   0.1-dev
+ #############################################################################}
+
 {% macro show(table) %}
 
     {% import _self as tables %}
@@ -166,6 +174,6 @@
     {% endif %}
 
 <li{{ liClass|raw }}>
-    <{{ tag }}{{ href }}>{{ text|raw }}</{{ tag }}>
+    <{{ tag }}{{ href|raw }}>{{ text|raw }}</{{ tag }}>
     </li>
 {% endmacro %}

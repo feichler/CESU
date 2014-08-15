@@ -1,18 +1,26 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Alexander
- * Date: 11.08.14
- * Time: 11:14
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
  */
 
 namespace Elektra\SeedBundle\Entity;
 
-
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * Interface AnnotableInterface
+ *
+ * @package Elektra\SeedBundle\Entity
+ *
+ * @version 0.1-dev
+ */
 interface AnnotableInterface
 {
+
     /**
      * @param ArrayCollection $notes
      */
@@ -22,4 +30,5 @@ interface AnnotableInterface
      * @return ArrayCollection
      */
     public function getNotes();
+    // CHECK: maybe an addNodes() method would be convenient
 }

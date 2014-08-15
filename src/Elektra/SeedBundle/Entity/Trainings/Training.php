@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\Trainings;
 
@@ -13,6 +20,8 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  * Class Training
  *
  * @package Elektra\SeedBundle\Entity\Trainings
+ *
+ *          @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Trainings\TrainingRepository")
  * @ORM\Table("trainings")
@@ -94,6 +103,9 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     protected $audits;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->attendances = new ArrayCollection();
@@ -103,7 +115,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -215,7 +227,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * @param ArrayCollection $notes
+     * {@inheritdoc}
      */
     public function setNotes($notes)
     {
@@ -223,7 +235,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getNotes()
     {
@@ -231,7 +243,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * @param ArrayCollection
+     * {@inheritdoc}
      */
     public function setAudits($audits)
     {
@@ -239,7 +251,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getAudits()
     {
@@ -247,7 +259,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getCreationAudit()
     {
@@ -255,7 +267,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getLastModifiedAudit()
     {
@@ -264,9 +276,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * Return the representative title of the entity
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle()
     {

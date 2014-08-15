@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
@@ -7,16 +14,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 
 /**
  * Class ContactInfo
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
+ *          @version 0.1-dev
+ *
  * @ORM\Entity
  * @ORM\Table(name="contactInfo")
  */
-class ContactInfo implements AuditableInterface, AnnotableInterface
+class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
     /**
      * @var int
@@ -73,6 +83,9 @@ class ContactInfo implements AuditableInterface, AnnotableInterface
      */
     protected $audits;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->notes = new ArrayCollection();
@@ -80,7 +93,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -144,7 +157,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @param ArrayCollection $notes
+     * {@inheritdoc}
      */
     public function setNotes($notes)
     {
@@ -152,15 +165,14 @@ class ContactInfo implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getNotes()
     {
         return $this->notes;
     }
-
     /**
-     * @param ArrayCollection
+     * {@inheritdoc}
      */
     public function setAudits($audits)
     {
@@ -168,7 +180,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getAudits()
     {
@@ -176,7 +188,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getCreationAudit()
     {
@@ -184,11 +196,19 @@ class ContactInfo implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getLastModifiedAudit()
     {
         $audits = $this->getAudits();
         return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTitle()
+    {
+        // URGENT: Implement getTitle() method.
     }
 }

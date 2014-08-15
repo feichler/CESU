@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Repositories\SeedUnits;
 
@@ -6,9 +13,18 @@ use Doctrine\ORM\EntityRepository;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel;
 use Elektra\SeedBundle\Repositories\CRUDRepositoryInterface;
 
+/**
+ * Class SeedUnitModelRepository
+ *
+ * @package Elektra\SeedBundle\Repositories\SeedUnits
+ *
+ *          @version 0.1-dev
+ */
 class SeedUnitModelRepository extends EntityRepository implements CRUDRepositoryInterface
 {
-
+    /**
+     * {@inheritdoc}
+     */
     public function getCount()
     {
 
@@ -22,9 +38,7 @@ class SeedUnitModelRepository extends EntityRepository implements CRUDRepository
     }
 
     /**
-     * @param SeedUnitModel $model
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function getCanDelete($model)
     {
@@ -37,7 +51,9 @@ class SeedUnitModelRepository extends EntityRepository implements CRUDRepository
 
         return $builder->getQuery()->getSingleScalarResult() == 0;
     }
-
+    /**
+     * {@inheritdoc}
+     */
     public function getEntries($page, $perPage)
     {
 

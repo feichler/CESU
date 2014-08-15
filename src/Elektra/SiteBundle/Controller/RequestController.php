@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SiteBundle\Controller;
 
@@ -9,9 +16,20 @@ use Elektra\ThemeBundle\Table\Table;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class RequestController
+ *
+ * @package Elektra\SiteBundle\Controller
+ *
+ *          @version 0.1-dev
+ */
 class RequestController extends Controller
 {
 
+    /**
+     * @param string $action
+     * @param int $step
+     */
     private function initialise($action, $step)
     {
 
@@ -27,6 +45,13 @@ class RequestController extends Controller
         $page->initialiseSitePage('request', $action, $options);
     }
 
+    /**
+     * @param Request $request
+     * @param string        $step
+     * @param int        $number
+     *
+     * @return Response
+     */
     public function indexAction(Request $request, $step, $number)
     {
 

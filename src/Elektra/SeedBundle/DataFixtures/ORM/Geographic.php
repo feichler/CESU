@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\DataFixtures\ORM;
 
@@ -7,9 +14,19 @@ use Elektra\SeedBundle\DataFixtures\SeedBundleFixture;
 use Elektra\SeedBundle\Entity\Companies\Country;
 use Elektra\SeedBundle\Entity\Companies\Region;
 
+/**
+ * Class Geographic
+ *
+ * @package Elektra\SeedBundle\DataFixtures\ORM
+ *
+ * @version 0.1-dev
+ */
 class Geographic extends SeedBundleFixture
 {
 
+    /**
+     * {@inheritdoc}
+     */
     protected function doLoad(ObjectManager $manager)
     {
 
@@ -46,6 +63,12 @@ class Geographic extends SeedBundleFixture
         return 1001;
     }
 
+    /**
+     * @param ObjectManager $manager
+     * @param string        $name
+     *
+     * @return Region
+     */
     protected function createRegion(ObjectManager $manager, $name)
     {
 
@@ -57,6 +80,11 @@ class Geographic extends SeedBundleFixture
         return $region;
     }
 
+    /**
+     * @param ObjectManager $manager
+     * @param array         $regions
+     * @param array         $params
+     */
     protected function createCountry(ObjectManager $manager, $regions, $params)
     {
 

@@ -1,13 +1,29 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Repositories\SeedUnits;
 
 use Doctrine\ORM\EntityRepository;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType;
 
+/**
+ * Class SeedUnitPowerCordTypeRepository
+ *
+ * @package Elektra\SeedBundle\Repositories\SeedUnits
+ *
+ *          @version 0.1-dev
+ */
 class SeedUnitPowerCordTypeRepository extends EntityRepository
 {
-
+    /**
+     * {@inheritdoc}
+     */
     public function getCount()
     {
 
@@ -21,9 +37,7 @@ class SeedUnitPowerCordTypeRepository extends EntityRepository
     }
 
     /**
-     * @param PowerCordType $powerCordType
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function getCanDelete($powerCordType)
     {
@@ -36,7 +50,9 @@ class SeedUnitPowerCordTypeRepository extends EntityRepository
 
         return $builder->getQuery()->getSingleScalarResult() == 0;
     }
-
+    /**
+     * {@inheritdoc}
+     */
     public function getEntries($page, $perPage)
     {
 

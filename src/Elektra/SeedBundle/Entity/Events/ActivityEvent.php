@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\Events;
 
@@ -10,11 +17,14 @@ use Elektra\SeedBundle\Entity\Companies\ContactInfo;
  *
  * @package Elektra\SeedBundle\Entity\Events
  *
+ * @version 0.1-dev
+ *
  * @ORM\Entity
  * @ORM\Table(name="activityEvents")
  */
 class ActivityEvent extends StatusEvent
 {
+
     /**
      * @var ContactInfo
      *
@@ -30,8 +40,12 @@ class ActivityEvent extends StatusEvent
      */
     protected $responseEvent;
 
+    /**
+     *
+     */
     public function __construct()
     {
+
         parent::__construct();
     }
 
@@ -40,6 +54,7 @@ class ActivityEvent extends StatusEvent
      */
     public function setContactInfo($contactInfo)
     {
+
         $this->contactInfo = $contactInfo;
     }
 
@@ -48,6 +63,7 @@ class ActivityEvent extends StatusEvent
      */
     public function getContactInfo()
     {
+
         return $this->contactInfo;
     }
 
@@ -56,6 +72,7 @@ class ActivityEvent extends StatusEvent
      */
     public function setResponseEvent($responseEvent)
     {
+
         $this->responseEvent = $responseEvent;
     }
 
@@ -64,6 +81,7 @@ class ActivityEvent extends StatusEvent
      */
     public function getResponseEvent()
     {
+
         return $this->responseEvent;
     }
 }

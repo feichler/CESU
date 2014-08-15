@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\SeedUnits;
 
@@ -14,6 +21,8 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  * Class SeedUnitModels
  *
  * @package Elektra\SeedBundle\Entity\SeedUnits
+ *
+ *          @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitModelRepository")
  * @ORM\Table(name="seedUnitModels")
@@ -129,7 +138,7 @@ class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
     }
 
     /**
-     * @param ArrayCollection
+     * {@inheritdoc}
      */
     public function setAudits($audits)
     {
@@ -138,7 +147,7 @@ class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getAudits()
     {
@@ -147,7 +156,7 @@ class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getCreationAudit()
     {
@@ -156,7 +165,7 @@ class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getLastModifiedAudit()
     {

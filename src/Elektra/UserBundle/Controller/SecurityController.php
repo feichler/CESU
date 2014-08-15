@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\UserBundle\Controller;
 
@@ -6,9 +13,19 @@ use Elektra\ThemeBundle\Page\Overrides\LanguageSimple;
 use FOS\UserBundle\Controller\SecurityController as BaseController;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class SecurityController
+ *
+ * @package Elektra\UserBundle\Controller
+ *
+ * @version 0.1-dev
+ */
 class SecurityController extends BaseController
 {
 
+    /**
+     * @param $action
+     */
     private function initialise($action)
     {
 
@@ -27,6 +44,11 @@ class SecurityController extends BaseController
         //        $theme->initialiseAdminPage($action, true);
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function loginAction(Request $request)
     {
 
@@ -37,6 +59,11 @@ class SecurityController extends BaseController
         return parent::loginAction($request);
     }
 
+    /**
+     * @param array $data
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     protected function renderLogin(array $data)
     {
 

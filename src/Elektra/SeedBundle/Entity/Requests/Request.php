@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\Requests;
 
@@ -10,17 +17,21 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 
 /**
  * Class Request
  *
  * @package Elektra\SeedBundle\Entity\Requests
  *
+ * @version 0.1-dev
+ *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Requests\RequestRepository")
  * @ORM\Table(name="requests")
  */
-abstract class Request implements AuditableInterface, AnnotableInterface
+abstract class Request implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -137,17 +148,22 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     protected $audits;
 
+    /**
+     *
+     */
     public function __construct()
     {
-        $this->notes = new ArrayCollection();
+
+        $this->notes  = new ArrayCollection();
         $this->audits = new ArrayCollection();
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
+
         return $this->requestId;
     }
 
@@ -156,6 +172,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function getRequestId()
     {
+
         return $this->requestId;
     }
 
@@ -164,6 +181,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function setRequestNumber($name)
     {
+
         $this->requestNumber = $name;
     }
 
@@ -172,6 +190,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function getRequestNumber()
     {
+
         return $this->requestNumber;
     }
 
@@ -180,6 +199,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function setClientIpAddress($clientIpAddress)
     {
+
         $this->clientIpAddress = $clientIpAddress;
     }
 
@@ -188,22 +208,25 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function getClientIpAddress()
     {
+
         return $this->clientIpAddress;
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Companies\Address $companyAddress
+     * @param Address $companyAddress
      */
     public function setCompanyAddress($companyAddress)
     {
+
         $this->companyAddress = $companyAddress;
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Companies\Address
+     * @return Address
      */
     public function getCompanyAddress()
     {
+
         return $this->companyAddress;
     }
 
@@ -212,6 +235,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function setNumberOfUnitsRequested($numberOfUnitsRequested)
     {
+
         $this->numberOfUnitsRequested = $numberOfUnitsRequested;
     }
 
@@ -220,6 +244,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function getNumberOfUnitsRequested()
     {
+
         return $this->numberOfUnitsRequested;
     }
 
@@ -228,6 +253,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function setObjectivesAgreedAt($objectivesAgreedAt)
     {
+
         $this->objectivesAgreedAt = $objectivesAgreedAt;
     }
 
@@ -236,6 +262,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function getObjectivesAgreedAt()
     {
+
         return $this->objectivesAgreedAt;
     }
 
@@ -244,6 +271,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function setPartnerTier($partnerTier)
     {
+
         $this->partnerTier = $partnerTier;
     }
 
@@ -252,6 +280,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function getPartnerTier()
     {
+
         return $this->partnerTier;
     }
 
@@ -260,6 +289,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function setReceiverPerson($receiverPerson)
     {
+
         $this->receiverPerson = $receiverPerson;
     }
 
@@ -268,6 +298,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function getReceiverPerson()
     {
+
         return $this->receiverPerson;
     }
 
@@ -276,6 +307,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function setRequestStatus($requestStatus)
     {
+
         $this->requestStatus = $requestStatus;
     }
 
@@ -284,6 +316,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function getRequestStatus()
     {
+
         return $this->requestStatus;
     }
 
@@ -292,6 +325,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function setRequesterPerson($requesterPerson)
     {
+
         $this->requesterPerson = $requesterPerson;
     }
 
@@ -300,6 +334,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function getRequesterPerson()
     {
+
         return $this->requesterPerson;
     }
 
@@ -308,6 +343,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function setShippingAddress($shippingAddress)
     {
+
         $this->shippingAddress = $shippingAddress;
     }
 
@@ -316,6 +352,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function getShippingAddress()
     {
+
         return $this->shippingAddress;
     }
 
@@ -324,6 +361,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function setTocAgreedAt($tocAgreedAt)
     {
+
         $this->tocAgreedAt = $tocAgreedAt;
     }
 
@@ -332,55 +370,71 @@ abstract class Request implements AuditableInterface, AnnotableInterface
      */
     public function getTocAgreedAt()
     {
+
         return $this->tocAgreedAt;
     }
 
     /**
-     * @param ArrayCollection $notes
+     * {@inheritdoc}
      */
     public function setNotes($notes)
     {
+
         $this->notes = $notes;
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getNotes()
     {
+
         return $this->notes;
     }
 
     /**
-     * @param ArrayCollection
+     * {@inheritdoc}
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getCreationAudit()
     {
+
         return $this->getAudits()->slice(0, 1)[0];
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+
+        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTitle()
+    {
+        // URGENT: Implement getTitle() method.
     }
 }

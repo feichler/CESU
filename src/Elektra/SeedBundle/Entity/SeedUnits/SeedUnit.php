@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\SeedUnits;
 
@@ -15,11 +22,14 @@ use Elektra\SeedBundle\Entity\Requests\CompletedRequest;
  *
  * @package Elektra\SeedBundle\Entity\SeedUnits
  *
+ * @version 0.1-dev
+ *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitRepository")
  * @ORM\Table(name="seedUnits")
  */
 class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -84,17 +94,22 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     protected $audits;
 
+    /**
+     *
+     */
     function __construct()
     {
-        $this->notes = new ArrayCollection();
+
+        $this->notes  = new ArrayCollection();
         $this->audits = new ArrayCollection();
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
+
         return $this->seedUnitId;
     }
 
@@ -103,6 +118,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getSeedUnitId()
     {
+
         return $this->seedUnitId;
     }
 
@@ -111,6 +127,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setModel($model)
     {
+
         $this->model = $model;
     }
 
@@ -119,6 +136,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getModel()
     {
+
         return $this->model;
     }
 
@@ -127,6 +145,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setPowerCordType($powerCordType)
     {
+
         $this->powerCordType = $powerCordType;
     }
 
@@ -135,6 +154,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getPowerCordType()
     {
+
         return $this->powerCordType;
     }
 
@@ -143,6 +163,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setRequest($request)
     {
+
         $this->request = $request;
     }
 
@@ -151,6 +172,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getRequest()
     {
+
         return $this->request;
     }
 
@@ -159,6 +181,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setSerialNumber($serialNumber)
     {
+
         $this->serialNumber = $serialNumber;
     }
 
@@ -167,65 +190,72 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getSerialNumber()
     {
+
         return $this->serialNumber;
     }
 
     /**
-     * @param ArrayCollection $notes
+     * {@inheritdoc}
      */
     public function setNotes($notes)
     {
+
         $this->notes = $notes;
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getNotes()
     {
+
         return $this->notes;
     }
 
     /**
-     * @param ArrayCollection
+     * {@inheritdoc}
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getCreationAudit()
     {
+
         return $this->getAudits()->slice(0, 1)[0];
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+
+        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
     }
 
     /**
-     * Return the representative title of the entity
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle()
     {
+
         return $this->getSerialNumber();
     }
 }

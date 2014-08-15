@@ -1,10 +1,25 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
+
 namespace Elektra\SeedBundle\Routing;
 
 use Symfony\Component\Config\Loader\Loader as BaseLoader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
+/**
+ * Class Loader
+ *
+ * @package Elektra\SeedBundle\Routing
+ *
+ * @version 0.1-dev
+ */
 class Loader extends BaseLoader
 {
 
@@ -26,6 +41,7 @@ class Loader extends BaseLoader
         'MasterData_SeedUnits_PowerCordType' => 'SeedUnits/SeedUnitPowerCordType',
         'MasterData_Trainings_Training'      => 'Trainings/Training',
         'MasterData_Geographic_Country'      => 'Companies/Country',
+        'MasterData_Geographic_Region'       => 'Companies/Region',
     );
 
     /**
@@ -61,6 +77,12 @@ class Loader extends BaseLoader
         return 'routing' === $type;
     }
 
+    /**
+     * @param string $path
+     * @param string $controller
+     *
+     * @return Route
+     */
     private function getBrowseRoute($path, $controller)
     {
 
@@ -72,6 +94,12 @@ class Loader extends BaseLoader
         return $route;
     }
 
+    /**
+     * @param string $path
+     * @param string $controller
+     *
+     * @return Route
+     */
     private function getViewRoute($path, $controller)
     {
 
@@ -82,6 +110,12 @@ class Loader extends BaseLoader
         return $route;
     }
 
+    /**
+     * @param string $path
+     * @param string $controller
+     *
+     * @return Route
+     */
     private function getAddRoute($path, $controller)
     {
 
@@ -91,6 +125,12 @@ class Loader extends BaseLoader
         return $route;
     }
 
+    /**
+     * @param string $path
+     * @param string $controller
+     *
+     * @return Route
+     */
     private function getEditRoute($path, $controller)
     {
 
@@ -101,6 +141,12 @@ class Loader extends BaseLoader
         return $route;
     }
 
+    /**
+     * @param string $path
+     * @param string $controller
+     *
+     * @return Route
+     */
     private function getDeleteRoute($path, $controller)
     {
 

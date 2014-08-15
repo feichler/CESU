@@ -1,17 +1,28 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\Events;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+
 /**
  * Class Event
  *
  * @package Elektra\SeedBundle\Entity\Events
+ *
+ * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Events\EventRepository")
  * @ORM\Table(name="events")
@@ -22,8 +33,9 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *  "sales" = "SalesEvent"
  * })
  */
-abstract class Event implements AuditableInterface, AnnotableInterface
+abstract class Event implements AuditableInterface, AnnotableInterface,CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -94,17 +106,22 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      */
     protected $audits;
 
+    /**
+     *
+     */
     public function __construct()
     {
-        $this->notes = new ArrayCollection();
+
+        $this->notes  = new ArrayCollection();
         $this->audits = new ArrayCollection();
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
+
         return $this->eventId;
     }
 
@@ -113,6 +130,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      */
     public function getEventId()
     {
+
         return $this->eventId;
     }
 
@@ -121,6 +139,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      */
     public function setEventType($eventType)
     {
+
         $this->eventType = $eventType;
     }
 
@@ -129,6 +148,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      */
     public function getEventType()
     {
+
         return $this->eventType;
     }
 
@@ -137,6 +157,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      */
     public function setSeedUnit($seedUnit)
     {
+
         $this->seedUnit = $seedUnit;
     }
 
@@ -145,6 +166,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      */
     public function getSeedUnit()
     {
+
         return $this->seedUnit;
     }
 
@@ -153,6 +175,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      */
     public function setText($body)
     {
+
         $this->text = $body;
     }
 
@@ -161,6 +184,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      */
     public function getText()
     {
+
         return $this->text;
     }
 
@@ -169,6 +193,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      */
     public function setTitle($subject)
     {
+
         $this->title = $subject;
     }
 
@@ -177,6 +202,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      */
     public function getTitle()
     {
+
         return $this->title;
     }
 
@@ -185,6 +211,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      */
     public function setTimestamp($timestamp)
     {
+
         $this->timestamp = $timestamp;
     }
 
@@ -193,55 +220,63 @@ abstract class Event implements AuditableInterface, AnnotableInterface
      */
     public function getTimestamp()
     {
+
         return $this->timestamp;
     }
 
     /**
-     * @param ArrayCollection $notes
+     * {@inheritdoc}
      */
     public function setNotes($notes)
     {
+
         $this->notes = $notes;
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getNotes()
     {
+
         return $this->notes;
     }
 
     /**
-     * @param ArrayCollection
+     * {@inheritdoc}
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getCreationAudit()
     {
+
         return $this->getAudits()->slice(0, 1)[0];
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+
+        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
     }
 }

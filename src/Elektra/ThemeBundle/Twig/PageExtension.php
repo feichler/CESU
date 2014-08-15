@@ -1,9 +1,23 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\ThemeBundle\Twig;
 
 use Elektra\ThemeBundle\Page\Page;
 
+/**
+ * Class PageExtension
+ *
+ * @package Elektra\ThemeBundle\Twig
+ *
+ * @version 0.1-dev
+ */
 class PageExtension extends \Twig_Extension
 {
 
@@ -15,7 +29,7 @@ class PageExtension extends \Twig_Extension
     private $page;
 
     /**
-     * Constructor
+     *
      *
      * @param Page $page
      */

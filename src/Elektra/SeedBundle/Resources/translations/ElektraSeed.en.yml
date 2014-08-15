@@ -1,3 +1,10 @@
+###############################################################################
+# @author    Florian Eichler <florian@eichler.co.at>
+# @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+# @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+# @license   MINOR add a license
+# @version   0.1-dev
+###############################################################################
 
 # TODO add translations
 lang:
@@ -11,6 +18,7 @@ lang:
                     seed_unit_power_cord_types: Power Cord Types
                 geographic:
                     title: Geographic
+                    regions: Regions
                     countries: Countries
         sections:
             master_data: Master Data

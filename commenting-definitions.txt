@@ -1,0 +1,57 @@
+Definitions for different To Do and comment tags used within the source code
+(should be defined within the used IDE for convenience)
+
+
+TODO
+		marks open tasks (common todo tag)
+URGENT
+		marks an urgent todo
+		- critical for functionality
+		- missing implementations of required methods
+MINOR
+		marks a minor / not very important todo
+ENHANCE
+		marks some parts of the code to enhance / improve
+		- static values that should be configurable
+		- performance needs to be improved
+		- etc
+NOTE
+		marks some notice, description or explanation
+CHECK
+		marks some parts of code to check
+TRANSLATE
+		marks parts where translations are needed
+DEFINE
+		marks an internal definition
+
+For convenience this should be defined in the used IDE for highlighting:
+PHPStorm: File -> Settings -> IDE Settings - TODO
+Patterns:
+	TODO.*
+		case sensitive
+	URGENT.*
+	 	case sensitive
+	 	bold & italic
+	 	foreground: #FF0000
+	MINOR.*
+		case sensitive
+		bold & italic
+		foreground: #8888FF
+	ENHANCE.*
+		case sensitive
+		italic
+		foreground: #8800FF
+	NOTE.*
+		case sensitive
+		bold & italic
+		foreground: #0088FF
+		background: #CCCCCC
+	CHECK.*
+		case sensitive
+		bold & italic
+		foreground: #FF8800
+	DEFINE[\s\S]* - option for multiline
+		case sensitive
+		bold & italic
+		foreground: #00FF00
+		background: #666666

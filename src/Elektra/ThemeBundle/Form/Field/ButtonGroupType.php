@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\ThemeBundle\Form\Field;
 
@@ -10,6 +17,13 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * Class ButtonGroupType
+ *
+ * @package Elektra\ThemeBundle\Form\Field
+ *
+ * @version 0.1-dev
+ */
 class ButtonGroupType extends AbstractType
 {
 
@@ -47,6 +61,13 @@ class ButtonGroupType extends AbstractType
         array_map(array($this, 'validateButton'), $form->all());
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param string               $name
+     * @param array                $config
+     *
+     * @return FormBuilderInterface
+     */
     protected function addButton(FormBuilderInterface $builder, $name, $config)
     {
 
@@ -67,6 +88,11 @@ class ButtonGroupType extends AbstractType
         return $button;
     }
 
+    /**
+     * @param FormInterface $field
+     *
+     * @throws \InvalidArgumentException
+     */
     protected function validateButton(FormInterface $field)
     {
 

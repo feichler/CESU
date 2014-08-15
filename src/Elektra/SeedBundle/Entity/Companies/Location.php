@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
@@ -7,11 +14,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 
 /**
  * Class Location
  *
  * @package Elektra\SeedBundle\Entity\Companies
+ *
+ *          @version 0.1-dev
  *
  * @ORM\Entity
  * @ORM\Table(name="locations")
@@ -23,7 +33,7 @@ use Elektra\SeedBundle\Entity\AnnotableInterface;
  *  "generic" = "GenericLocation"
  * })
  */
-abstract class Location implements AuditableInterface, AnnotableInterface
+abstract class Location implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
     /**
      * @var int
@@ -79,6 +89,9 @@ abstract class Location implements AuditableInterface, AnnotableInterface
      */
     protected $audits;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
@@ -87,7 +100,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -151,7 +164,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @param ArrayCollection $notes
+     * {@inheritdoc}
      */
     public function setNotes($notes)
     {
@@ -159,7 +172,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getNotes()
     {
@@ -167,7 +180,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @param ArrayCollection
+     * {@inheritdoc}
      */
     public function setAudits($audits)
     {
@@ -175,7 +188,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getAudits()
     {
@@ -183,7 +196,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getCreationAudit()
     {
@@ -191,11 +204,19 @@ abstract class Location implements AuditableInterface, AnnotableInterface
     }
 
     /**
-     * @return Audit
+     * {@inheritdoc}
      */
     public function getLastModifiedAudit()
     {
         $audits = $this->getAudits();
         return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTitle()
+    {
+        // URGENT: Implement getTitle() method.
     }
 }

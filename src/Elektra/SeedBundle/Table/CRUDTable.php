@@ -1,12 +1,27 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Table;
 
+use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
-use Elektra\ThemeBundle\Table\Cell;
+use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\ThemeBundle\Table\Row;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Class CRUDTable
+ *
+ * @package Elektra\SeedBundle\Table
+ *
+ * @version 0.1-dev
+ */
 abstract class CRUDTable extends Table
 {
 
@@ -15,24 +30,84 @@ abstract class CRUDTable extends Table
      */
     protected $router;
 
+    /**
+     * CHECK is this variable used in any way?
+     *
+     * @var
+     */
     protected $crudParams;
 
+    /**
+     * @var array
+     */
+    protected $allowedActions;
+
+    /**
+     *
+     */
     public function __construct()
     {
 
         parent::__construct();
 
-        // Set the default styling
+        $this->crudParams     = array();
+        $this->allowedActions = array(
+            'view'   => true,
+            'add'    => true,
+            'edit'   => true,
+            'delete' => true,
+        );
 
+        // Set the default styling
         $this->getStyle()->setFullWidth();
         $this->getStyle()->setVariant('striped');
         $this->getStyle()->setVariant('bordered');
         $this->getStyle()->setVariant('responsive');
-        // TODO src: condensed?
+        // MINOR: set table styling to condensed?
 
         $this->setupType();
     }
 
+    /**
+     * @param string $action
+     *
+     * @return bool
+     */
+    protected function isAllowed($action)
+    {
+
+        if (array_key_exists($action, $this->allowedActions)) {
+            return $this->allowedActions[$action];
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $action
+     */
+    protected function allowAction($action)
+    {
+
+        if (array_key_exists($action, $this->allowedActions)) {
+            $this->allowedActions[$action] = true;
+        }
+    }
+
+    /**
+     * @param string $action
+     */
+    protected function disallowAction($action)
+    {
+
+        if (array_key_exists($action, $this->allowedActions)) {
+            $this->allowedActions[$action] = false;
+        }
+    }
+
+    /**
+     * @param RouterInterface $router
+     */
     public function setRouter(RouterInterface $router)
     {
 
@@ -41,6 +116,9 @@ abstract class CRUDTable extends Table
         $this->pagination->setRoute($this->getRoute('browse'));
     }
 
+    /**
+     * @param array $entries
+     */
     public function prepare($entries)
     {
 
@@ -56,6 +134,10 @@ abstract class CRUDTable extends Table
         }
     }
 
+    /**
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     protected function getRoutePrefix()
     {
 
@@ -68,41 +150,73 @@ abstract class CRUDTable extends Table
         return $prefix;
     }
 
+    /**
+     * @param string $type
+     *
+     * @return mixed
+     */
     public function getParam($type)
     {
 
-        if (array_key_exists($type, $this->params)) {
-            return $this->params[$type];
+        if (array_key_exists($type, $this->crudParams)) {
+            return $this->crudParams[$type];
         }
 
         return null;
     }
 
+    /**
+     * @param string $type
+     * @param mixed  $value
+     */
     public function setParam($type, $value)
     {
 
-        $this->params[$type] = $value;
+        $this->crudParams[$type] = $value;
     }
 
+    /**
+     *
+     */
     protected abstract function setupType();
 
+    /**
+     * @param Row $footer
+     */
     protected function setupFooter(Row $footer)
     {
 
         // NOTE: default footer row implmentation - if needed, override it
 
-        $link = $this->router->generate($this->getRoute('add'));
+        if ($this->isAllowed('add')) {
 
-        $cell = $footer->addCell();
-        $cell->setColumnSpan($this->getColumnCount());
-        $cell->addClass('text-right');
-        $cell->addActionContent('add', $link);
+            $cell = $footer->addCell();
+            $cell->setColumnSpan($this->getColumnCount());
+            $cell->addClass('text-right');
+
+            $link = $this->router->generate($this->getRoute('add'));
+            $cell->addActionContent('add', $link);
+        }
     }
 
+    /**
+     * @param Row $header
+     *
+     */
     protected abstract function setupHeader(Row $header);
 
-    protected abstract function setupContentRow(Row $content, $entry);
+    /**
+     * @param Row                 $content
+     * @param CRUDEntityInterface $entry
+     *
+     */
+    protected abstract function setupContentRow(Row $content, CRUDEntityInterface $entry);
 
+    /**
+     * @param string $action
+     *
+     * @return string
+     */
     protected function getRoute($action)
     {
 
@@ -111,6 +225,12 @@ abstract class CRUDTable extends Table
         return $route;
     }
 
+    /**
+     * @param string   $route
+     * @param int|null $id
+     *
+     * @return string
+     */
     protected function generateLink($route, $id = null)
     {
 
@@ -124,18 +244,24 @@ abstract class CRUDTable extends Table
         return $link;
     }
 
-    protected function generateIdCell(Row $row, $entry)
+    /**
+     * @param Row             $row
+     * @param EntityInterface $entry
+     */
+    protected function generateIdCell(Row $row, EntityInterface $entry)
     {
 
         $cell = $row->addCell();
         $cell->addClass('id');
 
-        if ($entry instanceof CRUDEntityInterface) {
-            $cell->addHtmlContent($entry->getId());
-        }
+        $cell->addHtmlContent($entry->getId());
     }
 
-    protected function generateAuditCell(Row $row, $entry)
+    /**
+     * @param Row                $row
+     * @param AuditableInterface $entry
+     */
+    protected function generateAuditCell(Row $row, AuditableInterface $entry)
     {
 
         $cell = $row->addCell();
@@ -144,19 +270,27 @@ abstract class CRUDTable extends Table
 
     }
 
-    protected function generateActionsCell(Row $row, $entry)
+    /**
+     * @param Row                 $row
+     * @param CRUDEntityInterface $entry
+     */
+    protected function generateActionsCell(Row $row, CRUDEntityInterface $entry)
     {
 
         $cell = $row->addCell();
         $cell->addClass('actions');
         $cell->addClass('text-right');
 
-        // TODO check if edit is possible (privileges)
-        $editLink = $this->generateLink($this->getRoute('edit'), $entry->getId());
-        $cell->addActionContent('edit', $editLink);
+        if ($this->isAllowed('edit')) {
+            // TODO check if edit is possible (privileges)
+            $editLink = $this->generateLink($this->getRoute('edit'), $entry->getId());
+            $cell->addActionContent('edit', $editLink);
+        }
 
-        // TODO check if delete is possible (privileges & references)
-        $deleteLink = $this->generateLink($this->getRoute('delete'), $entry->getId());
-        $cell->addActionContent('delete', $deleteLink);
+        if ($this->isAllowed('delete')) {
+            // TODO check if delete is possible (privileges & references)
+            $deleteLink = $this->generateLink($this->getRoute('delete'), $entry->getId());
+            $cell->addActionContent('delete', $deleteLink);
+        }
     }
 }

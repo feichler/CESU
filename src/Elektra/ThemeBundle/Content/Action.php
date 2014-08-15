@@ -1,18 +1,47 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\ThemeBundle\Content;
 
+/**
+ * Class Action
+ *
+ * @package Elektra\ThemeBundle\Content
+ *
+ * @version 0.1-dev
+ */
 class Action extends Content
 {
 
+    /**
+     * @var string
+     */
     protected $action;
 
+    /**
+     * @var string
+     */
     protected $link;
 
+    /**
+     * @var string
+     */
     protected $text;
 
+    /**
+     * @var array
+     */
     protected $options;
 
+    /**
+     *
+     */
     public function __construct()
     {
 
@@ -78,6 +107,10 @@ class Action extends Content
         return $this->text;
     }
 
+    /**
+     * @param string $option
+     * @param mixed  $value
+     */
     public function addOption($option, $value)
     {
 
@@ -92,20 +125,4 @@ class Action extends Content
 
         return $this->options;
     }
-
-//    protected function prepareContent()
-//    {
-//
-////        $content = 'actions.' . $this->action . '(';
-////        $content .= '"' . $this->link . '",';
-////        $content .= '"' . $this->text . '",';
-////
-////        $content .= '{';
-////        foreach ($this->options as $key => $value) {
-////            $content .= '"' . $key . '": "' . $value . '",';
-////        }
-////        $content .= '}';
-////
-////        $content .= ')';
-//    }
 }

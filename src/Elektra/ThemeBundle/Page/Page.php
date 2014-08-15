@@ -1,10 +1,24 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\ThemeBundle\Page;
 
 use Elektra\ThemeBundle\Page\Overrides\Language;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class Page
+ *
+ * @package Elektra\ThemeBundle\Page
+ *
+ * @version 0.1-dev
+ */
 class Page
 {
 
@@ -30,7 +44,7 @@ class Page
     protected $language;
 
     /**
-     * Constructor
+     *
      *
      * @param ContainerInterface $container
      */
@@ -58,32 +72,32 @@ class Page
             'activeRoute'   => '',
         );
         $this->language       = array();
-        //        $translator            = $this->container->get('translator.default');
-        //        $test = $translator->trans('lang.theme.generic.toggle_navbar');
-        //        echo $test;
-        //        $this->setLang('title', 'title');
-        //        $this->setLang('title.prefix', 'prefix');
-        //        $this->setLang('title.suffix', 'suffix');
-        //        $this->setLang('heading', 'test heading');
-        //        $this->setLang('section', 'test section');
-        //        $this->setSubTemplate('messages', 'ElektraThemeBundle:Areas:messages.html.twig');
-        //        $this->addArea('navbar');
-        //        $this->addArea('footer');
-        //        $this->addArea('heading');
     }
 
+    /**
+     * @param string $route
+     */
     public function setActiveRoute($route)
     {
 
         $this->pageParameters['activeRoute'] = $route;
     }
 
+    /**
+     * @return string
+     */
     public function getActiveRoute()
     {
 
         return $this->pageParameters['activeRoute'];
     }
 
+    /**
+     * @param string $name
+     * @param string $string
+     * @param bool   $translate
+     * @param null   $domain
+     */
     public function setLang($name, $string, $translate = false, $domain = null)
     {
 
@@ -235,6 +249,7 @@ class Page
 
     /**
      * @param string $name
+     * @param string $template
      */
     public function addArea($name, $template)
     {
@@ -306,40 +321,22 @@ class Page
         return null;
     }
 
-    //    public function setSubTemplate($type, $template)
-    //    {
-    //
-    //        $this->pageParameters['templates'][$type] = $template;
-    //    }
-    //
-    //    public function getSubTemplate($type)
-    //    {
-    //
-    //        if (array_key_exists($type, $this->pageParameters['templates'])) {
-    //            return $this->pageParameters['templates'][$type];
-    //        }
-    //
-    //        return null;
-    //    }
-
+    /**
+     * @param string $langSection
+     * @param string $controller
+     * @param string $action
+     * @param array  $options
+     */
     protected function initialise($langSection, $controller, $action, $options)
     {
-
-        //        echo '<div class="container">';
-        //        echo 'langSection: ' . $langSection . '<br />';
-        //        echo 'controller: ' . $controller . '<br />';
-        //        echo 'action: ' . $action . '<br />';
-        //        echo '</div>';
 
         // This function sets all defaults for the site - the calling functions need to override any specifics
 
         $this->initialiseBase();
 
-        //        if ($areaKey != '') {
         $areaPrefix = 'ElektraSiteBundle:Areas/' . ucfirst($controller) . ':';
         $this->addArea('navbar', $areaPrefix . 'navbar.html.twig');
         $this->addArea('footer', $areaPrefix . 'footer.html.twig');
-        //        }
 
         // store the parameters in the variables, if the rendering needs it
         $this->setVariable('langSection', $langSection);
@@ -374,6 +371,9 @@ class Page
         }
     }
 
+    /**
+     *
+     */
     private function initialiseBase()
     {
 
@@ -406,6 +406,11 @@ class Page
         $this->setLang('action.delete', 'lang.theme.generic.actions.delete', true, 'ElektraTheme');
     }
 
+    /**
+     * @param string $controller
+     * @param string $action
+     * @param array  $options
+     */
     public function initialiseAdminPage($controller, $action, $options = array())
     {
 
@@ -418,6 +423,11 @@ class Page
         }
     }
 
+    /**
+     * @param string $controller
+     * @param string $action
+     * @param array  $options
+     */
     public function initialiseSitePage($controller, $action, $options = array())
     {
 
@@ -430,6 +440,9 @@ class Page
         }
     }
 
+    /**
+     * @param array $overrides
+     */
     protected function initialiseLanguageOverrides($overrides)
     {
 
@@ -454,42 +467,23 @@ class Page
                 echo 'INVALID OVERRIDE!<br />';
             }
         }
-
-        //        return;
-        //
-        //        $domain = null;
-        //        if (isset($options['override_domain'])) {
-        //            $domain = $options['override_domain'];
-        //        }
-        //
-        //        if (isset($options['overrides'])) {
-        //            $overrides = $options['overrides'];
-        //
-        //            // check for title related overrides
-        //            if (isset($overrides['title'])) {
-        //                $this->setLang('title', $overrides['title'], true, $domain);
-        //            }
-        //            if (isset($overrides['title_prefix'])) {
-        //                $this->setLang('title_prefix', $overrides['title_prefix'], true, $domain);
-        //            }
-        //            if (isset($overrides['title_suffix'])) {
-        //                $this->setLang('title_suffix', $overrides['title_suffix'], true, $domain);
-        //            }
-        //
-        //            // check for heading related overrides
-        //            if (isset($overrides['heading'])) {
-        //                $this->setLang('heading', $overrides['heading'], true, $domain);
-        //            }
-        //            if (isset($overrides['section'])) {
-        //                $this->setLang('section', $overrides['section'], true, $domain);
-        //            }
-        //        }
     }
 
+    /**
+     * CHECK method used / required?
+     *
+     * @param       $key
+     * @param       $override
+     * @param       $domain
+     * @param array $params
+     */
     protected function addLanguageOverride($key, $override, $domain, $params = array())
     {
     }
 
+    /**
+     * @return bool
+     */
     public function getShowDebug()
     {
 

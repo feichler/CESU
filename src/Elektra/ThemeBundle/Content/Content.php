@@ -1,14 +1,37 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\ThemeBundle\Content;
 
+/**
+ * Class Content
+ *
+ * @package Elektra\ThemeBundle\Content
+ *
+ *          @version 0.1-dev
+ */
 abstract class Content
 {
 
+    /**
+     * @var string
+     */
     protected $type;
 
+    /**
+     * @var string
+     */
     protected $content;
 
+    /**
+     * @var string|null
+     */
     protected $container;
 
     public function __construct($type)
@@ -19,12 +42,18 @@ abstract class Content
         $this->container = null;
     }
 
+    /**
+     * @param string $content
+     */
     public function setContent($content)
     {
 
         $this->content = $content;
     }
 
+    /**
+     * @return string
+     */
     public function getContent()
     {
 
@@ -33,6 +62,9 @@ abstract class Content
         return $this->content;
     }
 
+    /**
+     *
+     */
     protected function prepareContent()
     {
 
@@ -68,12 +100,18 @@ abstract class Content
         }
     }
 
+    /**
+     * @param string $container
+     */
     public function setContainer($container)
     {
 
         $this->container = $container;
     }
 
+    /**
+     * @return null|string
+     */
     public function getContainer()
     {
 

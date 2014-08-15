@@ -1,9 +1,23 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\ThemeBundle\Pagination;
 
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Class Pagination
+ *
+ * @package Elektra\ThemeBundle\Pagination
+ *
+ * @version 0.1-dev
+ */
 class Pagination
 {
 
@@ -17,6 +31,9 @@ class Pagination
      */
     protected $router;
 
+    /**
+     *
+     */
     public function __construct()
     {
 
@@ -29,12 +46,18 @@ class Pagination
         );
     }
 
+    /**
+     * @param RouterInterface $router
+     */
     public function setRouter(RouterInterface $router)
     {
 
         $this->router = $router;
     }
 
+    /**
+     * @param int $limit
+     */
     public function setLimit($limit)
     {
 
@@ -42,24 +65,36 @@ class Pagination
         $this->refreshPages();
     }
 
+    /**
+     * @return int
+     */
     public function getLimit()
     {
 
         return $this->getParameter('limit');
     }
 
+    /**
+     * @param int $page
+     */
     public function setPage($page)
     {
 
         $this->setParameter('page', $page);
     }
 
+    /**
+     * @return int
+     */
     public function getPage()
     {
 
         return $this->getParameter('page');
     }
 
+    /**
+     * @param int $count
+     */
     public function setCount($count)
     {
 
@@ -67,12 +102,20 @@ class Pagination
         $this->refreshPages();
     }
 
+    /**
+     * @return int
+     */
     public function getCount()
     {
 
         return $this->getParameter('count');
     }
 
+    /**
+     * @param string $name
+     *
+     * @return mixed|null
+     */
     public function getParameter($name)
     {
 
@@ -83,24 +126,37 @@ class Pagination
         return null;
     }
 
+    /**
+     * @param string $name
+     * @param mixed  $value
+     */
     public function setParameter($name, $value)
     {
 
         $this->parameters[$name] = $value;
     }
 
+    /**
+     * @param string $route
+     */
     public function setRoute($route)
     {
 
         $this->setParameter('route', $route);
     }
 
+    /**
+     * @return int
+     */
     public function getPages()
     {
 
         return $this->getParameter('pages');
     }
 
+    /**
+     * @return null|string
+     */
     public function getFirst()
     {
 
@@ -111,6 +167,9 @@ class Pagination
         return null;
     }
 
+    /**
+     * @return null|string
+     */
     public function getPrevious()
     {
 
@@ -121,6 +180,9 @@ class Pagination
         return null;
     }
 
+    /**
+     * @return null|string
+     */
     public function getNext()
     {
 
@@ -131,6 +193,9 @@ class Pagination
         return null;
     }
 
+    /**
+     * @return null|string
+     */
     public function getLast()
     {
 
@@ -141,6 +206,9 @@ class Pagination
         return null;
     }
 
+    /**
+     * @return bool
+     */
     public function getPreviousSpace()
     {
 
@@ -156,6 +224,9 @@ class Pagination
         return true;
     }
 
+    /**
+     * @return array
+     */
     public function getPageLinks()
     {
 
@@ -183,6 +254,9 @@ class Pagination
         return $links;
     }
 
+    /**
+     * @return bool
+     */
     public function getNextSpace()
     {
 
@@ -199,6 +273,11 @@ class Pagination
         return true;
     }
 
+    /**
+     * @param int $page
+     *
+     * @return string
+     */
     protected function getPageLink($page)
     {
 
@@ -207,6 +286,9 @@ class Pagination
         return $link;
     }
 
+    /**
+     *
+     */
     protected function refreshPages()
     {
 

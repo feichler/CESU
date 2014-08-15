@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Form;
 
@@ -6,9 +13,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 
+/**
+ * Class CRUDForm
+ *
+ * @package Elektra\SeedBundle\Form
+ *
+ * @version 0.1-dev
+ */
 abstract class CRUDForm extends AbstractType
 {
 
+    /**
+     * @param FormBuilderInterface $builder
+     */
     protected function addFormActions(FormBuilderInterface $builder)
     {
 
@@ -55,12 +72,21 @@ abstract class CRUDForm extends AbstractType
         );
     }
 
+    /**
+     * @param FormView $view
+     */
     protected function setFormHorizontal(FormView $view)
     {
 
         $this->addFormClass($view, 'form-horizontal');
     }
 
+    /**
+     * @param FormView $view
+     * @param string   $size
+     * @param int      $span
+     * @param int      $offset
+     */
     protected function addFormWidthClasses(FormView $view, $size, $span = 12, $offset = 0)
     {
 
@@ -71,12 +97,12 @@ abstract class CRUDForm extends AbstractType
             $classOffset = 'col-' . $size . '-offset-' . $offset;
             $this->addFormClass($view, $classOffset);
         }
-        //        $classes = '';
-        //        if (!array_key_exists('elektra', $view->vars)) {
-        //            $view->vars['elektra'] = array();
-        //        }
     }
 
+    /**
+     * @param FormView $view
+     * @param string   $class
+     */
     private function addFormClass(FormView $view, $class)
     {
 

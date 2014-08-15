@@ -1,8 +1,16 @@
 <?php
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\Entity\Notes;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\UserBundle\Entity\User;
 
 /**
@@ -10,10 +18,12 @@ use Elektra\UserBundle\Entity\User;
  *
  * @package Elektra\SeedBundle\Entity\Notes
  *
+ *          @version 0.1-dev
+ *
  * @ORM\Entity
  * @ORM\Table(name="notes")
  */
-class Note
+class Note implements CRUDEntityInterface
 {
     /**
      * @var int
@@ -53,12 +63,15 @@ class Note
      */
     protected $text;
 
+    /**
+     *
+     */
     public function __construct()
     {
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {

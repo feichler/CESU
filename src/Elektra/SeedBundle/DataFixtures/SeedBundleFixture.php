@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ */
 
 namespace Elektra\SeedBundle\DataFixtures;
 
@@ -10,6 +16,13 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
+/**
+ * Class SeedBundleFixture
+ *
+ * @package Elektra\SeedBundle\DataFixtures
+ *
+ * @version 0.1-dev
+ */
 abstract class SeedBundleFixture extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
 
@@ -37,6 +50,9 @@ abstract class SeedBundleFixture extends AbstractFixture implements OrderedFixtu
         $this->doLoad($manager);
     }
 
+    /**
+     *
+     */
     protected function loadReferences()
     {
 
@@ -47,5 +63,8 @@ abstract class SeedBundleFixture extends AbstractFixture implements OrderedFixtu
         $this->container->get('security.context')->setToken($adminUserToken);
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
     protected abstract function doLoad(ObjectManager $manager);
 }
