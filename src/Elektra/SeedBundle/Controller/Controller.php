@@ -1,4 +1,10 @@
 <?php
+/**
+ * @author  Florian Eichler <florian@eichler.co.at>
+ * @author  Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @license MINOR add a license
+ * @version $ID$
+ */
 
 namespace Elektra\SeedBundle\Controller;
 
