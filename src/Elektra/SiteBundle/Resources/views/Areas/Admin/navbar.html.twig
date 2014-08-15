@@ -1,5 +1,38 @@
 {% extends "ElektraSiteBundle:Areas:navbar.html.twig" %}
 
+{#
+DEFINE menu structure for the admin area:
+    Left Menu:
+        Requests CHECK define required menu items for the Requests sub-menu
+            List
+        Companies (whole menu may need better spellings)
+            Parnters
+                List
+                Locations
+                Contacts
+            Divider
+            Customers
+                List
+                Locations
+                Contacts
+        Trainings
+            Registrants
+            Attandees
+        Reports (to be defined) CHECK definition of reports menu
+
+    Right Menu:
+        Master Data
+            Seed Units
+                Models
+                Power Cord Types
+            Divider
+            Trainings
+                Dates
+            Divider
+            Geographic (maybe better word needed)
+                Countries
+#}
+
 {% import "ElektraSiteBundle:Macros:site.html.twig" as site %}
 
 {% trans_default_domain "ElektraSeed" %}
@@ -7,7 +40,102 @@
 {% block navbar_left_content %}
     <ul class="nav navbar-nav">
         <li>
-            <a href="#">TODO: Define Menu - left</a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Requests  {# TRANSLATE #}
+                <span class="dropdown-indicator"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="#">
+                        List {# TRANSLATE #}
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        TODO {# TRANSLATE #}
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Companies  {# TRANSLATE #}
+                <span class="dropdown-indicator"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li class="dropdown-header">
+                    <span class="dropdown-header-title">
+                        Partners {# TRANSLATE #}
+                    </span>
+                </li>
+                <li>
+                    <a href="#">
+                        List {# TRANSLATE #}
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Locations {# TRANSLATE #}
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Contacts {# TRANSLATE #}
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li class="dropdown-header">
+                    <span class="dropdown-header-title">
+                        Customers {# TRANSLATE #}
+                    </span>
+                </li>
+                <li>
+                    <a href="#">
+                        List {# TRANSLATE #}
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Locations {# TRANSLATE #}
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Contacts {# TRANSLATE #}
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Trainings  {# TRANSLATE #}
+                <span class="dropdown-indicator"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="#">
+                        Registrations {# TRANSLATE #}
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Attendances {# TRANSLATE #}
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Reports  {# TRANSLATE #}
+                <span class="dropdown-indicator"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="#">
+                        TODO {# TRANSLATE #}
+                    </a>
+                </li>
+            </ul>
         </li>
     </ul>
 {% endblock navbar_left_content %}
@@ -18,7 +146,8 @@
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 {% trans from 'ElektraSeed' %}lang.seed.menu.master_data.title{% endtrans %}
-                <span class="dropdown-indicator"></span></a>
+                <span class="dropdown-indicator"></span>
+            </a>
             <ul class="dropdown-menu" role="menu">
                 <li class="dropdown-header">
                     <span class="dropdown-header-title">
@@ -38,6 +167,17 @@
                 <li class="divider"></li>
                 <li class="dropdown-header">
                     <span class="dropdown-header-title">
+                        Trainings {# TRANSLATE #}
+                    </span>
+                </li>
+                <li>
+                    <a href="{{ path("ElektraSeedBundle_MasterData_Trainings_Training_browse") }}">
+                        Dates {# TRANSLATE #}
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li class="dropdown-header">
+                    <span class="dropdown-header-title">
                         {% trans %}lang.seed.menu.master_data.geographic.title{% endtrans %}
                     </span>
                 </li>
@@ -46,16 +186,6 @@
                         {% trans %}lang.seed.menu.master_data.geographic.countries{% endtrans %}
                     </a>
                 </li>
-                {#<li>#}
-                {#<a href="{{ path('ElektraSeedBundle_seedunits_models_browse') }}">#}
-                {#{% trans %}site.admin.menu.seedunit_models{% endtrans %}#}
-                {#</a>#}
-                {#</li>#}
-                {#<li>#}
-                {#<a href="{{ path('ElektraSeedBundle_seedunits_powerCordTypes_browse') }}">#}
-                {#{% trans %}site.admin.menu.seedunit_powercordtypes{% endtrans %}#}
-                {#</a>#}
-                {#</li>#}
             </ul>
         </li>
     </ul>
