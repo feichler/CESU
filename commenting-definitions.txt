@@ -1,7 +1,6 @@
 Definitions for different To Do and comment tags used within the source code
 (should be defined within the used IDE for convenience)
 
-
 TODO
 		marks open tasks (common todo tag)
 URGENT
@@ -15,6 +14,8 @@ ENHANCE
 		- static values that should be configurable
 		- performance needs to be improved
 		- etc
+WORKAROUND
+		should be self-describing
 NOTE
 		marks some notice, description or explanation
 CHECK
@@ -41,6 +42,10 @@ Patterns:
 		case sensitive
 		italic
 		foreground: #8800FF
+	WORKAROUND.*
+		case sensitive
+		bold & italic
+		foreground: #FF00FF
 	NOTE.*
 		case sensitive
 		bold & italic
