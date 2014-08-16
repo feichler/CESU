@@ -104,6 +104,7 @@ class SeedUnitTable extends CRUDTable
         if ($status != null)
         {
             $statusCell->addHtmlContent($status->getUnitStatus()->getName());
+            $statusCell->addHtmlContent(" (since " . date("D, m/j/Y", $status->getTimestamp()) . ")");
         }
 
         $requestCell = $content->addCell();
