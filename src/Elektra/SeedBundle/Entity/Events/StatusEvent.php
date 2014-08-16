@@ -22,7 +22,7 @@ use Elektra\SeedBundle\Entity\Companies\ContactInfo;
  * @ORM\Entity
  * @ORM\Table(name="statusEvents")
  * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="eventType",type="string")
+ * @ORM\DiscriminatorColumn(name="type",type="string")
  * @ORM\DiscriminatorMap({
  *  "shipping" = "ShippingEvent",
  *  "partner" = "PartnerEvent",

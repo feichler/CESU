@@ -28,7 +28,7 @@ class SeedUnitController extends CRUDController
     {
 
         // Set the prefixes
-        $this->getOptions()->setPrefix('route', 'ElektraSeedBundle_MasterData_SeedUnits_SeedUnit');
+        $this->getOptions()->setPrefix('route', 'ElektraSeedBundle_SeedUnit');
         $this->getOptions()->setPrefix('view', 'ElektraSeedBundle:SeedUnits/SeedUnit');
 
         // Set the classes

@@ -9,7 +9,9 @@
 
 namespace Elektra\SeedBundle\Table\SeedUnits;
 
+use Doctrine\Common\Collections\Criteria;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
+use Elektra\SeedBundle\Entity\Events\StatusEvent;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Elektra\SeedBundle\Table\CRUDTable;
 use Elektra\ThemeBundle\Table\Row;
@@ -29,7 +31,7 @@ class SeedUnitTable extends CRUDTable
     protected function setupType()
     {
 
-        $this->setParam('routePrefix', 'ElektraSeedBundle_MasterData_SeedUnits_SeedUnit');
+        $this->setParam('routePrefix', 'ElektraSeedBundle_SeedUnit');
     }
     /**
      * {@inheritdoc}
@@ -51,6 +53,12 @@ class SeedUnitTable extends CRUDTable
 
         $powerCordTypeCell = $header->addCell();
         $powerCordTypeCell->addHtmlContent('Power Cord Type');
+
+        $statusCell = $header->addCell();
+        $statusCell->addHtmlContent('Status');
+
+        $requestCell = $header->addCell();
+        $requestCell->addHtmlContent('Request');
 
         // TODO src should audits and actions have an own header cell?
         //        $auditCell = $header->addCell();
@@ -76,13 +84,33 @@ class SeedUnitTable extends CRUDTable
         $seedUnitCell = $content->addCell();
         $seedUnitCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
 
-        $viewModelLink  = $this->generateLink($this->getRoute('view'), $entry->getModel()->getId());
         $modelCell = $content->addCell();
-        $modelCell->addActionContent('view', $viewModelLink, array('text' => $entry->getModel()->getTitle(), 'render' => 'link'));
+        $modelCell->addHtmlContent($entry->getModel()->getTitle());
 
-        $viewPowerCordTypeLink = $this->generateLink($this->getRoute('view'), $entry->getPowerCordType()->getId());
-        $modelCell = $content->addCell();
-        $modelCell->addActionContent('view', $viewPowerCordTypeLink, array('text' => $entry->getPowerCordType()->getTitle(), 'render' => 'link'));
+        $powerCordTypeCell = $content->addCell();
+        $powerCordTypeCell->addHtmlContent($entry->getPowerCordType()->getTitle());
+
+        //$statusCriteria = Criteria::create();
+        //$statusCriteria->where(Criteria::expr()->eq('type', 'StatusEvent'));
+        //$status = $entry->getEvents()->matching($statusCriteria);
+
+        //HACK: using filter() instead of matching() (see above) because being unable to match by subtype/discriminator
+        //--> forces EAGER LOADING!!
+        $status = $entry->getEvents()->filter(function($event) {
+            return $event instanceof StatusEvent;
+        })->first();
+
+        $statusCell = $content->addCell();
+        if ($status != null)
+        {
+            $statusCell->addHtmlContent($status->getUnitStatus()->getName());
+        }
+
+        $requestCell = $content->addCell();
+        if ($entry->getRequest() != null)
+        {
+            $requestCell->addHtmlContent($entry->getRequest()->getId());
+        }
 
         // Audits
         $this->generateAuditCell($content, $entry);

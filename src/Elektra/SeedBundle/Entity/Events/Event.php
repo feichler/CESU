@@ -27,7 +27,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Events\EventRepository")
  * @ORM\Table(name="events")
  * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="eventType",type="string")
+ * @ORM\DiscriminatorColumn(name="type",type="string")
  * @ORM\DiscriminatorMap({
  *  "status" = "StatusEvent",
  *  "sales" = "SalesEvent"

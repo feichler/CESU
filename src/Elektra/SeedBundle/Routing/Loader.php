@@ -36,7 +36,7 @@ class Loader extends BaseLoader
      * @var array
      */
     protected $routes = array(
-        'SeedUnits'                          => 'SeedUnits/SeedUnit',
+        'SeedUnit'                           => 'SeedUnits/SeedUnit',
         'MasterData_SeedUnits_Model'         => 'SeedUnits/SeedUnitModel',
         'MasterData_SeedUnits_PowerCordType' => 'SeedUnits/SeedUnitPowerCordType',
         'MasterData_Trainings_Training'      => 'Trainings/Training',

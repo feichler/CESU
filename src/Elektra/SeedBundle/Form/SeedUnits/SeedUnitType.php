@@ -43,10 +43,17 @@ class SeedUnitType extends CRUDForm
                 new NotBlank(array('message' => 'error.constraint.required')),
             )
         );
-        $builder->add('name', 'text', $serialNumberOptions);
+        $builder->add('serialNumber', 'text', $serialNumberOptions);
 
-        //TODO: lookup for power cord type
-        //TODO: lookup for seed unit model
+        $builder->add('model', 'entity', array(
+           'class' => 'Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel',
+            'property' => 'name'
+        ));
+
+        $builder->add('powerCordType', 'entity', array(
+            'class' => 'Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType',
+            'property' => 'name'
+        ));
 
         $this->addFormActions($builder);
     }
