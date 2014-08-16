@@ -21,7 +21,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity
  * @ORM\Table(name="locations")
@@ -35,6 +35,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  */
 abstract class Location implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -94,9 +95,10 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function __construct()
     {
+
         $this->addresses = new ArrayCollection();
-        $this->notes = new ArrayCollection();
-        $this->audits = new ArrayCollection();
+        $this->notes     = new ArrayCollection();
+        $this->audits    = new ArrayCollection();
     }
 
     /**
@@ -104,6 +106,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function getId()
     {
+
         return $this->locationId;
     }
 
@@ -112,6 +115,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function getLocationId()
     {
+
         return $this->locationId;
     }
 
@@ -120,6 +124,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function setAddresses($addresses)
     {
+
         $this->addresses = $addresses;
     }
 
@@ -128,6 +133,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function getAddresses()
     {
+
         return $this->addresses;
     }
 
@@ -136,6 +142,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function setName($name)
     {
+
         $this->name = $name;
     }
 
@@ -144,6 +151,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function getName()
     {
+
         return $this->name;
     }
 
@@ -152,6 +160,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function setShortName($shortName)
     {
+
         $this->shortName = $shortName;
     }
 
@@ -160,6 +169,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function getShortName()
     {
+
         return $this->shortName;
     }
 
@@ -168,6 +178,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function setNotes($notes)
     {
+
         $this->notes = $notes;
     }
 
@@ -176,6 +187,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function getNotes()
     {
+
         return $this->notes;
     }
 
@@ -184,6 +196,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -192,6 +205,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -200,6 +214,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function getCreationAudit()
     {
+
         return $this->getAudits()->slice(0, 1)[0];
     }
 
@@ -208,8 +223,10 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+
+        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
     }
 
     /**
@@ -217,6 +234,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function getTitle()
     {
-        // URGENT: Implement getTitle() method.
+
+        return $this->getName();
     }
 }

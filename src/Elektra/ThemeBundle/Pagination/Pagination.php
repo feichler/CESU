@@ -49,7 +49,7 @@ class Pagination
     {
 
         $this->parameters = array(
-            'limit'     => 25, // TODO src make this a configurable parameter (config file + session)
+            'limit'     => 25, // TODO make this a configurable parameter (config file + session)
             'page'      => 0,
             'count'     => 0,
             'prevLinks' => 5,

@@ -79,7 +79,7 @@ class ButtonGroupType extends AbstractType
         $button = $builder->add($name, $config['type'], $options);
 
         if (!$button instanceof ButtonBuilder) {
-            // TODO check this error handling
+            // CHECK this error handling
             //            var_dump($button->getType());
             //            $builder->remove('name');
             //            echo 'INVALID TYPE ' . $config['type'] . ' at ' . $name . '<br />';

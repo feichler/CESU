@@ -46,7 +46,7 @@ class SeedUnitRepository extends EntityRepository implements CRUDRepositoryInter
      */
     public function getCanDelete($entry)
     {
-        // URGENT Implement getCanDelete() method.
+        // URGENT: Implement getCanDelete() method.
     }
 
     /**

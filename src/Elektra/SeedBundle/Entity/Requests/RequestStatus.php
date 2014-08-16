@@ -20,13 +20,14 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @package Elektra\SeedBundle\Entity\Requests
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity
  * @ORM\Table(name="requestStatuses")
  */
 class RequestStatus implements AuditableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -60,6 +61,7 @@ class RequestStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function __construct()
     {
+
         $this->audits = new ArrayCollection();
     }
 
@@ -68,6 +70,7 @@ class RequestStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getId()
     {
+
         return $this->requestStatusId;
     }
 
@@ -76,6 +79,7 @@ class RequestStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getRequestStatusId()
     {
+
         return $this->requestStatusId;
     }
 
@@ -84,6 +88,7 @@ class RequestStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function setName($name)
     {
+
         $this->name = $name;
     }
 
@@ -92,6 +97,7 @@ class RequestStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getName()
     {
+
         return $this->name;
     }
 
@@ -100,6 +106,7 @@ class RequestStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -108,6 +115,7 @@ class RequestStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -116,6 +124,7 @@ class RequestStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getCreationAudit()
     {
+
         return $this->getAudits()->slice(0, 1);
     }
 
@@ -124,8 +133,10 @@ class RequestStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1) : null;
+
+        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1) : null;
     }
 
     /**
@@ -133,6 +144,7 @@ class RequestStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getTitle()
     {
-        // URGENT: Implement getTitle() method.
+
+        return $this->getName();
     }
 }

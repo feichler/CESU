@@ -252,7 +252,7 @@ abstract class CRUDController extends Controller
         $this->crudOptions->setAction($action);
 
         $this->loadDefinition();
-//        $this->initialiseCRUD();
+        //        $this->initialiseCRUD();
         //        $this->crudOptions->check();
 
         $options = $this->getInitialiseOptions();
@@ -269,7 +269,7 @@ abstract class CRUDController extends Controller
 
         $options = parent::getInitialiseOptions();
 
-        // TODO add overrides
+        // TODO add overrides?
 
         return $options;
     }
@@ -373,7 +373,7 @@ abstract class CRUDController extends Controller
 
         $message = '';
 
-        // TODO add translations
+        // TRANSLATE add default message translations
         $message = 'MSG action: ' . $action;
         if ($id != null) {
             $message .= ' - ID: ' . $id;

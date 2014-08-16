@@ -133,6 +133,6 @@ class AddressType implements AuditableInterface, CRUDEntityInterface
      */
     public function getTitle()
     {
-        // URGENT: Implement getTitle() method.
+        return $this->getName();
     }
 }

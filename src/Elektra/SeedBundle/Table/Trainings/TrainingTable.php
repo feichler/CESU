@@ -40,7 +40,7 @@ class TrainingTable extends CRUDTable
     protected function setupHeader(Row $header)
     {
 
-        // TODO add translations
+        // TRANSLATE add translations for the table headers
         $idCell = $header->addCell();
         $idCell->setWidth(40);
         $idCell->addHtmlContent('ID');
@@ -61,7 +61,7 @@ class TrainingTable extends CRUDTable
         $registrationsCell->addHtmlContent('# Reg');
         $registrationsCell->setColumnSpan(3);
 
-        // TODO src should audits and actions have an own header cell?
+        // CHECK should audits and actions have an own header cell?
         //        $auditCell = $header->addCell();
         //        $auditCell->setWidth(100);
         //

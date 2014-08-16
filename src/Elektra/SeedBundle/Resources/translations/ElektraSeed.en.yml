@@ -6,7 +6,7 @@
 # @version   0.1-dev
 ###############################################################################
 
-# TODO add translations
+# TRANSLATE: add the required translations for the Seed Bundle
 lang:
     seed:
         menu:
