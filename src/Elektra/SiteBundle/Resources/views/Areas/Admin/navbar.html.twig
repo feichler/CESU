@@ -7,7 +7,14 @@
  #############################################################################}
 
 {% extends "ElektraSiteBundle:Areas:navbar.html.twig" %}
-
+{#
+DEFINE: define the links using the global "navigator" object - this has multiple options to generate the link:
+ - {{ navigator.link(['<vendor>', '<bundle>' ,'<group>', '<type>']) }}
+ - {{ navigator.link(['<vendor>', '<bundle>' ,'<group>', '<type>'], 'browse') }}
+ - {{ path(navigator.route(['<vendor>', '<bundle>' ,'<group>', '<type>'])) }}
+ - {{ path(navigator.route(['<vendor>', '<bundle>' ,'<group>', '<type>'], 'browse')) }}
+In any option: if the second parameter is not defined, the navigator assumes the "browse" route
+#}
 {#
 DEFINE menu structure for the admin area:
     Left Menu:
@@ -164,12 +171,14 @@ DEFINE menu structure for the admin area:
                     </span>
                 </li>
                 <li>
-                    <a href="{{ path("ElektraSeedBundle_MasterData_SeedUnits_Model_browse") }}">
+                    {#<a href="{{ path("ElektraSeedBundle_SeedUnits_SeedUnitModel_browse") }}">#}
+                    <a href="{{ navigator.link(['Elektra','Seed','SeedUnits','SeedUnitModel'], 'browse') }}">
                         {% trans %}lang.seed.menu.master_data.seed_units.seed_unit_models{% endtrans %}
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path("ElektraSeedBundle_MasterData_SeedUnits_PowerCordType_browse") }}">
+                    {#<a href="{{ path("ElektraSeedBundle_SeedUnits_SeedUnitPowerCordType_browse") }}">#}
+                    <a href="{{ path(navigator.route(['Elektra','Seed','SeedUnits','SeedUnitPowerCordType'],'browse')) }}">
                         {% trans %}lang.seed.menu.master_data.seed_units.seed_unit_power_cord_types{% endtrans %}
                     </a>
                 </li>
@@ -180,7 +189,7 @@ DEFINE menu structure for the admin area:
                     </span>
                 </li>
                 <li>
-                    <a href="{{ path("ElektraSeedBundle_MasterData_Trainings_Training_browse") }}">
+                    <a href="{{ path("ElektraSeedBundle_Trainings_Training_browse") }}">
                         Dates {# TRANSLATE #}
                     </a>
                 </li>
@@ -191,12 +200,12 @@ DEFINE menu structure for the admin area:
                     </span>
                 </li>
                 <li>
-                    <a href="{{ path("ElektraSeedBundle_MasterData_Geographic_Region_browse") }}">
+                    <a href="{{ path("ElektraSeedBundle_Companies_Region_browse") }}">
                         {% trans %}lang.seed.menu.master_data.geographic.regions{% endtrans %}
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path("ElektraSeedBundle_MasterData_Geographic_Country_browse") }}">
+                    <a href="{{ path("ElektraSeedBundle_Companies_Country_browse") }}">
                         {% trans %}lang.seed.menu.master_data.geographic.countries{% endtrans %}
                     </a>
                 </li>

@@ -83,7 +83,8 @@ class TrainingTable extends CRUDTable
         $this->generateIdCell($content, $entry);
 
         // Name
-        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
+//        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
+        $viewLink  = $this->generateLink('view', $entry->getId());
         $titleCell = $content->addCell();
         $titleCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
 

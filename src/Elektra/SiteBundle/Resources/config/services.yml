@@ -8,4 +8,15 @@
 
 # Define the services provided by the SiteBundle
 services:
-# NOTE: SiteBundle currently has no defined services
+    navigator:
+        class: Elektra\SiteBundle\Navigator\Navigator
+        arguments:
+            - "@router"
+
+    # Twig extensions
+    elektra_theme.twig.navigator_extension:
+        class: Elektra\SiteBundle\Twig\NavigatorExtension
+        arguments:
+            - "@navigator"
+        tags:
+            - { name: twig.extension }

@@ -16,10 +16,19 @@ use Elektra\SeedBundle\Controller\CRUDController;
  *
  * @package Elektra\SeedBundle\Controller\Trainings
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class TrainingController extends CRUDController
 {
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function loadDefinition()
+    {
+
+        $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Trainings', 'Training');
+    }
 
     /**
      * {@inheritdoc}

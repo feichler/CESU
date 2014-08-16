@@ -24,6 +24,15 @@ class SeedUnitPowerCordTypeController extends CRUDController
     /**
      * {@inheritdoc}
      */
+    protected function loadDefinition()
+    {
+
+        $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnitPowerCordType');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function initialiseCRUD()
     {
 

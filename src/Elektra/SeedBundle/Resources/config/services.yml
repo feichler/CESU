@@ -10,6 +10,8 @@
 services:
     elektra_seed.routing_loader:
         class: Elektra\SeedBundle\Routing\Loader
+        arguments:
+            - "@navigator"
         tags:
             - { name: routing.loader }
 

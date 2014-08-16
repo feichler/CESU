@@ -80,7 +80,8 @@ class SeedUnitTable extends CRUDTable
         // ID
         $this->generateIdCell($content, $entry);
 
-        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
+//        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
+        $viewLink  = $this->generateLink('view', $entry->getId());
         $seedUnitCell = $content->addCell();
         $seedUnitCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
 

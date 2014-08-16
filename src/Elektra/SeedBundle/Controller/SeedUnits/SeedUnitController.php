@@ -24,6 +24,15 @@ class SeedUnitController extends CRUDController
     /**
      * {@inheritdoc}
      */
+    protected function loadDefinition()
+    {
+
+        $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function initialiseCRUD()
     {
 
