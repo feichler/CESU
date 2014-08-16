@@ -52,7 +52,6 @@ class TrainingRepository extends EntityRepository implements CRUDRepositoryInter
     {
 
         $entries = $this->findBy(array(), array(), $perPage, ($page - 1) * $perPage);
-
         return $entries;
     }
 }

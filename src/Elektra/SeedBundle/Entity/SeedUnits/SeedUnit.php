@@ -63,6 +63,15 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     protected $powerCordType;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\Events\Event", mappedBy="seedUnit", fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"timestamp" = "DESC"})
+     * )
+     */
+    protected $events;
+
+    /**
      * @var CompletedRequest
      *
      * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Requests\CompletedRequest", inversedBy="seedUnits", fetch="EXTRA_LAZY")
@@ -102,6 +111,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
 
         $this->notes  = new ArrayCollection();
         $this->audits = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     /**
@@ -156,6 +166,22 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     {
 
         return $this->powerCordType;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection $events
+     */
+    public function setEvents($events)
+    {
+        $this->events = $events;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getEvents()
+    {
+        return $this->events;
     }
 
     /**

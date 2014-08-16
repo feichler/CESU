@@ -25,7 +25,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  * @ORM\Entity
  * @ORM\Table(name="unitStatuses")
  */
-class UnitStatus implements AuditableInterface,CRUDEntityInterface
+class UnitStatus implements AuditableInterface, CRUDEntityInterface
 {
     /**
      * @var int
@@ -42,6 +42,20 @@ class UnitStatus implements AuditableInterface,CRUDEntityInterface
      * @ORM\Column(type="string", length=50, unique=true)
      */
     protected $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=3, unique=true)
+     */
+    protected $abbreviation;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=25, unique=true)
+     */
+    protected $internalName;
 
     /**
      * @var ArrayCollection
@@ -133,6 +147,38 @@ class UnitStatus implements AuditableInterface,CRUDEntityInterface
      */
     public function getTitle()
     {
-        // URGENT: Implement getTitle() method.
+        return $this->getName();
+    }
+
+    /**
+     * @param string $abbreviation
+     */
+    public function setAbbreviation($abbreviation)
+    {
+        $this->abbreviation = $abbreviation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAbbreviation()
+    {
+        return $this->abbreviation;
+    }
+
+    /**
+     * @param string $internalName
+     */
+    public function setInternalName($internalName)
+    {
+        $this->internalName = $internalName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInternalName()
+    {
+        return $this->internalName;
     }
 }

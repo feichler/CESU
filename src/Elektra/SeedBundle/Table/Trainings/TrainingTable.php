@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Table\Trainings;
 
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel;
+use Elektra\SeedBundle\Entity\Trainings\Training;
 use Elektra\SeedBundle\Table\CRUDTable;
 use Elektra\ThemeBundle\Table\Row;
 
@@ -45,8 +46,20 @@ class TrainingTable extends CRUDTable
         $idCell->addHtmlContent('ID');
 
         $titleCell = $header->addCell();
-        $titleCell->addHtmlContent('Model');
-        $titleCell->setColumnSpan(3);
+        $titleCell->addHtmlContent('Name');
+
+        $startedAtCell = $header->addCell();
+        $startedAtCell->addHtmlContent('Start');
+
+        $endedAtCell = $header->addCell();
+        $endedAtCell->addHtmlContent('End');
+
+        $attendancesCell = $header->addCell();
+        $attendancesCell->addHtmlContent('# Att');
+
+        $registrationsCell = $header->addCell();
+        $registrationsCell->addHtmlContent('# Reg');
+        $registrationsCell->setColumnSpan(3);
 
         // TODO src should audits and actions have an own header cell?
         //        $auditCell = $header->addCell();
@@ -62,8 +75,8 @@ class TrainingTable extends CRUDTable
     protected function setupContentRow(Row $content, CRUDEntityInterface $entry)
     {
 
-        if (!$entry instanceof SeedUnitModel) {
-            throw new \InvalidArgumentException('Can only display entries of type "SeedUnitModel"');
+        if (!$entry instanceof Training) {
+            throw new \InvalidArgumentException('Can only display entries of type "Training"');
         }
 
         // ID
@@ -74,11 +87,17 @@ class TrainingTable extends CRUDTable
         $titleCell = $content->addCell();
         $titleCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
 
-        $startetAt = $content->addCell();
-        $startetAt->addHtmlContent($entry->getStartedAt());
+        $startedAt = $content->addCell();
+        $startedAt->addHtmlContent(date('D, m/j/Y,g:i A', $entry->getStartedAt()));
 
         $endedAt = $content->addCell();
-        $endedAt->addHtmlContent($entry->getEndedAt());
+        $endedAt->addHtmlContent(date('D, m/j/Y,g:i A', $entry->getEndedAt()));
+
+        $attendances = $content->addCell();
+        $attendances->addHtmlContent(count($entry->getAttendances()));
+
+        $registrations = $content->addCell();
+        $registrations->addHtmlContent(count($entry->getRegistrations()));
 
         // Audits
         $this->generateAuditCell($content, $entry);

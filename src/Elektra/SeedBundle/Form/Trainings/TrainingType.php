@@ -51,8 +51,13 @@ class TrainingType extends CRUDForm
         );
         $builder->add('location', 'text', $locationOptions);
 
-        //TODO: datetime input for startedAt
-        //TODO: datetime input for endedAt
+        $dateOptions = array(
+            'required' => true,
+            'input' => 'timestamp'
+        );
+
+        $builder->add('startedAt', 'datetime', $dateOptions);
+        $builder->add('endedAt', 'datetime', $dateOptions);
         //TODO: list input for registrations
         //TODO: list input for attendances
 
