@@ -22,7 +22,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\PartnerTierRepository")
  * @ORM\Table(name="partnerTiers")
  */
 class PartnerTier implements AuditableInterface, CRUDEntityInterface

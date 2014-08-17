@@ -9,19 +9,22 @@
 
 namespace Elektra\SeedBundle\Table\Companies;
 
-use Elektra\SeedBundle\Entity\Companies\Region;
+use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
+use Elektra\SeedBundle\Entity\Companies\Country;
+use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\SeedBundle\Table\CRUDTable;
+use Elektra\SeedBundle\Table\TableHelper;
 use Elektra\ThemeBundle\Table\Row;
 
 /**
- * Class RegionTable
+ * Class WarehouseLocationTable
  *
  * @package Elektra\SeedBundle\Table\Companies
  *
  * @version 0.1-dev
  */
-class RegionTable extends CRUDTable
+class WarehouseLocationTable extends CRUDTable
 {
 
     /**
@@ -30,7 +33,7 @@ class RegionTable extends CRUDTable
     protected function setupType()
     {
 
-        $this->setParam('routePrefix', 'ElektraSeedBundle_MasterData_Geographic_Region');
+        $this->setParam('routePrefix', 'ElektraSeedBundle_MasterData_Companies_WarehouseLocation');
     }
 
     /**
@@ -44,9 +47,13 @@ class RegionTable extends CRUDTable
         $idCell->setWidth(40);
         $idCell->addHtmlContent('ID');
 
-        $titleCell = $header->addCell();
-        $titleCell->addHtmlContent('Region');
-        $titleCell->setColumnSpan(3);
+        $header->addCell()->addHtmlContent("Identifier");
+        $header->addCell()->addHtmlContent("Short Name");
+        $header->addCell()->addHtmlContent("Name");
+
+        $addressCell = $header->addCell();
+        $addressCell->addHtmlContent("Address");
+        $addressCell->setColumnSpan(3);
 
         // CHECK should audits and actions have an own header cell?
         //        $auditCell = $header->addCell();
@@ -62,18 +69,26 @@ class RegionTable extends CRUDTable
     protected function setupContentRow(Row $content, CRUDEntityInterface $entry)
     {
 
-        if (!$entry instanceof Region) {
-            throw new \InvalidArgumentException('Can only display entries of type "Region"');
+        if (!$entry instanceof WarehouseLocation) {
+            throw new \InvalidArgumentException('Can only display entries of type "WarehouseLocation"');
         }
 
         // ID
         $this->generateIdCell($content, $entry);
 
-        // Name & Description
-//        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
         $viewLink  = $this->generateLink('view', $entry->getId());
-        $modelCell = $content->addCell();
-        $modelCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
+        $identifier = $content->addCell();
+        $identifier->addActionContent('view', $viewLink, array('text' => $entry->getLocationIdentifier(), 'render' => 'link'));
+
+        $content->addCell()->addHtmlContent($entry->getShortName());
+        $content->addCell()->addHtmlContent($entry->getName());
+
+        $addressCell = $content->addCell();
+/*        $address = $entry->getAddresses()->first();
+        if ($address != null)
+        {
+            $addressCell->addHtmlContent(TableHelper::renderAddress($address));
+        }*/
 
         // Audits
         $this->generateAuditCell($content, $entry);

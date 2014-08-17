@@ -56,7 +56,6 @@ class PartnerTable extends CRUDTable
 
         $unitsLimitCell = $header->addCell();
         $unitsLimitCell->addHtmlContent('Units Limit');
-        $unitsLimitCell->setColumnSpan(3);
 
         $primaryLocationCell = $header->addCell();
         $primaryLocationCell->addHtmlContent('Prim. Location');
@@ -66,6 +65,7 @@ class PartnerTable extends CRUDTable
 
         $countUnitsCell = $header->addCell();
         $countUnitsCell->addHtmlContent('# Seed Units');
+        $countUnitsCell->setColumnSpan(3);
 
         // CHECK should audits and actions have an own header cell?
         //        $auditCell = $header->addCell();

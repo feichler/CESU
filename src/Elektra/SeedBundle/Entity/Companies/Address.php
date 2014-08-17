@@ -26,6 +26,12 @@ use Elektra\SeedBundle\Entity\Notes\Note;
  *
  * @ORM\Entity
  * @ORM\Table("addresses")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="type",type="string")
+ * @ORM\DiscriminatorMap({
+ *  "location" = "LocationAddress"
+ * })
+
  */
 class Address implements AuditableInterface, AnnotableInterface, EntityInterface
 {

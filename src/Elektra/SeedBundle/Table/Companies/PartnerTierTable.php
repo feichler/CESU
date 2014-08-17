@@ -9,19 +9,19 @@
 
 namespace Elektra\SeedBundle\Table\Companies;
 
-use Elektra\SeedBundle\Entity\Companies\Region;
+use Elektra\SeedBundle\Entity\Companies\PartnerTier;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\SeedBundle\Table\CRUDTable;
 use Elektra\ThemeBundle\Table\Row;
 
 /**
- * Class RegionTable
+ * Class PartnerTierTable
  *
  * @package Elektra\SeedBundle\Table\Companies
  *
  * @version 0.1-dev
  */
-class RegionTable extends CRUDTable
+class PartnerTierTable extends CRUDTable
 {
 
     /**
@@ -30,7 +30,7 @@ class RegionTable extends CRUDTable
     protected function setupType()
     {
 
-        $this->setParam('routePrefix', 'ElektraSeedBundle_MasterData_Geographic_Region');
+        $this->setParam('routePrefix', 'ElektraSeedBundle_MasterData_Companies_PartnerTier');
     }
 
     /**
@@ -45,8 +45,11 @@ class RegionTable extends CRUDTable
         $idCell->addHtmlContent('ID');
 
         $titleCell = $header->addCell();
-        $titleCell->addHtmlContent('Region');
-        $titleCell->setColumnSpan(3);
+        $titleCell->addHtmlContent('Name');
+
+        $unitsLimitCell = $header->addCell();
+        $unitsLimitCell->addHtmlContent('Units Limit');
+        $unitsLimitCell->setColumnSpan(3);
 
         // CHECK should audits and actions have an own header cell?
         //        $auditCell = $header->addCell();
@@ -62,8 +65,8 @@ class RegionTable extends CRUDTable
     protected function setupContentRow(Row $content, CRUDEntityInterface $entry)
     {
 
-        if (!$entry instanceof Region) {
-            throw new \InvalidArgumentException('Can only display entries of type "Region"');
+        if (!$entry instanceof PartnerTier) {
+            throw new \InvalidArgumentException('Can only display entries of type "PartnerTier"');
         }
 
         // ID
@@ -74,6 +77,9 @@ class RegionTable extends CRUDTable
         $viewLink  = $this->generateLink('view', $entry->getId());
         $modelCell = $content->addCell();
         $modelCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
+
+        $unitsLimitCell = $content->addCell();
+        $unitsLimitCell->addHtmlContent($entry->getUnitsLimit());
 
         // Audits
         $this->generateAuditCell($content, $entry);

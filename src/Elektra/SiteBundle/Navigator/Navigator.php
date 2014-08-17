@@ -52,14 +52,17 @@ class Navigator
         $this->addDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
         $this->addDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnitModel');
         $this->addDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnitPowerCordType');
-        $this->addDefinition('Elektra', 'Seed', 'Companies', 'Region');
+        $this->addDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation');
         $this->addDefinition('Elektra', 'Seed', 'Companies', 'Country');
-        $this->addDefinition('Elektra', 'Seed', 'Companies', 'Partner');
-        $this->addDefinition('Elektra', 'Seed', 'Companies', 'SalesTeam');
         $this->addDefinition('Elektra', 'Seed', 'Companies', 'Customer');
-        $this->addDefinition('Elektra', 'Seed', 'Trainings', 'Training');
+        $this->addDefinition('Elektra', 'Seed', 'Companies', 'Partner');
+        $this->addDefinition('Elektra', 'Seed', 'Companies', 'PartnerTier');
+        $this->addDefinition('Elektra', 'Seed', 'Companies', 'Region');
+        $this->addDefinition('Elektra', 'Seed', 'Companies', 'SalesTeam');
+        $this->addDefinition('Elektra', 'Seed', 'Companies', 'WarehouseLocation');
         $this->addDefinition('Elektra', 'Seed', 'Trainings', 'Attendance');
         $this->addDefinition('Elektra', 'Seed', 'Trainings', 'Registration');
+        $this->addDefinition('Elektra', 'Seed', 'Trainings', 'Training');
     }
 
     /**
@@ -167,7 +170,6 @@ class Navigator
      */
     public function getLink($definition, $type = '', $parameters = array())
     {
-
 
         $route = $this->getRoute($definition, $type);
         $link  = $this->router->generate($route, $parameters);

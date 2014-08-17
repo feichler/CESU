@@ -63,7 +63,7 @@ abstract class Company implements AuditableInterface, AnnotableInterface, CRUDEn
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Location", mappedBy="company", fetch="EXTRA_LAZY", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="CompanyLocation", mappedBy="company", fetch="EXTRA_LAZY", cascade={"remove"})
      */
     protected $locations;
 
