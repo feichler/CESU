@@ -84,9 +84,11 @@ class SeedUnitTable extends CRUDTable
         $seedUnitCell = $content->addCell();
         $seedUnitCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
 
+        //TODO: add link to entity
         $modelCell = $content->addCell();
         $modelCell->addHtmlContent($entry->getModel()->getTitle());
 
+        //TODO: add link to entity
         $powerCordTypeCell = $content->addCell();
         $powerCordTypeCell->addHtmlContent($entry->getPowerCordType()->getTitle());
 

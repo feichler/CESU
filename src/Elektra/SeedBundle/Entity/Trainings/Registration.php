@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\SeedBundle\Entity\EntityInterface;
 
 /**
@@ -24,10 +25,10 @@ use Elektra\SeedBundle\Entity\EntityInterface;
  *
  *          @version 0.1-dev
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Trainings\RegistrationRepository")
  * @ORM\Table(name="registrations")
  */
-class Registration implements AuditableInterface, AnnotableInterface,EntityInterface
+class Registration implements AuditableInterface, AnnotableInterface, EntityInterface, CRUDEntityInterface
 {
     /**
      * @var int
@@ -41,7 +42,7 @@ class Registration implements AuditableInterface, AnnotableInterface,EntityInter
     /**
      * @var CompanyPerson
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Person", inversedBy="registrations", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\CompanyPerson", inversedBy="registrations", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="personId", referencedColumnName="personId", nullable=false)
      */
     protected $person;
@@ -183,4 +184,17 @@ class Registration implements AuditableInterface, AnnotableInterface,EntityInter
         $audits = $this->getAudits();
         return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
     }
+
+    /**
+     * Return the representative title of the entity
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        //TODO: define title (there actually is no primary field)
+        return "???";
+    }
+
+
 }
