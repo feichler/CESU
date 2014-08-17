@@ -21,13 +21,14 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\PersonRepository")
  * @ORM\Table("people")
  */
-class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterface
+class Person implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -101,9 +102,10 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function __construct()
     {
+
         $this->contactInfo = new ArrayCollection();
-        $this->notes = new ArrayCollection();
-        $this->audits = new ArrayCollection();
+        $this->notes       = new ArrayCollection();
+        $this->audits      = new ArrayCollection();
     }
 
     /**
@@ -111,6 +113,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function getId()
     {
+
         return $this->personId;
     }
 
@@ -119,6 +122,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function getPersonId()
     {
+
         return $this->personId;
     }
 
@@ -127,6 +131,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function setContactInfo($contactInfo)
     {
+
         $this->contactInfo = $contactInfo;
     }
 
@@ -135,6 +140,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function getContactInfo()
     {
+
         return $this->contactInfo;
     }
 
@@ -143,6 +149,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function setFirstName($firstName)
     {
+
         $this->firstName = $firstName;
     }
 
@@ -151,6 +158,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function getFirstName()
     {
+
         return $this->firstName;
     }
 
@@ -159,6 +167,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function setJobTitle($jobTitle)
     {
+
         $this->jobTitle = $jobTitle;
     }
 
@@ -167,6 +176,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function getJobTitle()
     {
+
         return $this->jobTitle;
     }
 
@@ -175,6 +185,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function setLastName($lastName)
     {
+
         $this->lastName = $lastName;
     }
 
@@ -183,6 +194,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function getLastName()
     {
+
         return $this->lastName;
     }
 
@@ -191,6 +203,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function setSalutation($salutation)
     {
+
         $this->salutation = $salutation;
     }
 
@@ -199,6 +212,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function getSalutation()
     {
+
         return $this->salutation;
     }
 
@@ -207,6 +221,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function setNotes($notes)
     {
+
         $this->notes = $notes;
     }
 
@@ -215,6 +230,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function getNotes()
     {
+
         return $this->notes;
     }
 
@@ -223,6 +239,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -231,6 +248,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -239,6 +257,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function getCreationAudit()
     {
+
         return $this->getAudits()->slice(0, 1)[0];
     }
 
@@ -247,8 +266,10 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+
+        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
     }
 
     /**
@@ -256,6 +277,7 @@ class Person implements AuditableInterface, AnnotableInterface,CRUDEntityInterfa
      */
     public function getTitle()
     {
-        // URGENT: Implement getTitle() method.
+
+        return $this->getFirstName() . ' ' . $this->getLastName();
     }
 }

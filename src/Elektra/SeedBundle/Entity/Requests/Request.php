@@ -435,6 +435,6 @@ abstract class Request implements AuditableInterface, AnnotableInterface, CRUDEn
      */
     public function getTitle()
     {
-        // URGENT: Implement getTitle() method.
+        return $this->getRequestNumber();
     }
 }

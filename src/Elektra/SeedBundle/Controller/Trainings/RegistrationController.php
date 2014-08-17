@@ -41,4 +41,12 @@ class RegistrationController extends CRUDController
         $this->getOptions()->setSection('todo');
         $this->getOptions()->setType('training');
     }
+
+    /**
+     *
+     */
+    protected function loadDefinition()
+    {
+        $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration');
+    }
 }

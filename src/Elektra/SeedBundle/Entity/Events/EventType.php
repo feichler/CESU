@@ -20,13 +20,14 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @package Elektra\SeedBundle\Entity\Events
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity
  * @ORM\Table(name="eventTypes")
  */
-class EventType implements AuditableInterface,CRUDEntityInterface
+class EventType implements AuditableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -60,6 +61,7 @@ class EventType implements AuditableInterface,CRUDEntityInterface
      */
     public function __construct()
     {
+
         $this->audits = new ArrayCollection();
     }
 
@@ -68,6 +70,7 @@ class EventType implements AuditableInterface,CRUDEntityInterface
      */
     public function getId()
     {
+
         return $this->eventTypeId;
     }
 
@@ -76,6 +79,7 @@ class EventType implements AuditableInterface,CRUDEntityInterface
      */
     public function getEventTypeId()
     {
+
         return $this->eventTypeId;
     }
 
@@ -84,6 +88,7 @@ class EventType implements AuditableInterface,CRUDEntityInterface
      */
     public function setName($name)
     {
+
         $this->name = $name;
     }
 
@@ -92,6 +97,7 @@ class EventType implements AuditableInterface,CRUDEntityInterface
      */
     public function getName()
     {
+
         return $this->name;
     }
 
@@ -100,6 +106,7 @@ class EventType implements AuditableInterface,CRUDEntityInterface
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -108,6 +115,7 @@ class EventType implements AuditableInterface,CRUDEntityInterface
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -116,15 +124,19 @@ class EventType implements AuditableInterface,CRUDEntityInterface
      */
     public function getCreationAudit()
     {
+
         return $this->getAudits()->slice(0, 1)[0];
     }
+
     /**
      * {@inheritdoc}
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+
+        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
     }
 
     /**
@@ -132,6 +144,7 @@ class EventType implements AuditableInterface,CRUDEntityInterface
      */
     public function getTitle()
     {
-        // URGENT: Implement getTitle() method.
+
+        return $this->getName();
     }
 }

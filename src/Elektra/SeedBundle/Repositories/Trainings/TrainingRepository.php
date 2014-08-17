@@ -42,7 +42,7 @@ class TrainingRepository extends EntityRepository implements CRUDRepositoryInter
      */
     public function getCanDelete($entry)
     {
-        // TODO: Implement this method
+        // URGENT: Implement getCanDelete() method.
     }
 
     /**

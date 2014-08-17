@@ -209,6 +209,6 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function getTitle()
     {
-        // URGENT: Implement getTitle() method.
+        return $this->getName();
     }
 }

@@ -20,13 +20,14 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity
  * @ORM\Table(name="partnerTiers")
  */
-class PartnerTier implements AuditableInterface,CRUDEntityInterface
+class PartnerTier implements AuditableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -67,6 +68,7 @@ class PartnerTier implements AuditableInterface,CRUDEntityInterface
      */
     public function __construct()
     {
+
         $this->audits = new ArrayCollection();
     }
 
@@ -75,6 +77,7 @@ class PartnerTier implements AuditableInterface,CRUDEntityInterface
      */
     public function getId()
     {
+
         return $this->partnerTierId;
     }
 
@@ -83,6 +86,7 @@ class PartnerTier implements AuditableInterface,CRUDEntityInterface
      */
     public function getPartnerTierId()
     {
+
         return $this->partnerTierId;
     }
 
@@ -91,6 +95,7 @@ class PartnerTier implements AuditableInterface,CRUDEntityInterface
      */
     public function setName($name)
     {
+
         $this->name = $name;
     }
 
@@ -99,6 +104,7 @@ class PartnerTier implements AuditableInterface,CRUDEntityInterface
      */
     public function getName()
     {
+
         return $this->name;
     }
 
@@ -107,6 +113,7 @@ class PartnerTier implements AuditableInterface,CRUDEntityInterface
      */
     public function setUnitsLimit($unitsLimit)
     {
+
         $this->unitsLimit = $unitsLimit;
     }
 
@@ -115,6 +122,7 @@ class PartnerTier implements AuditableInterface,CRUDEntityInterface
      */
     public function getUnitsLimit()
     {
+
         return $this->unitsLimit;
     }
 
@@ -123,6 +131,7 @@ class PartnerTier implements AuditableInterface,CRUDEntityInterface
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -131,6 +140,7 @@ class PartnerTier implements AuditableInterface,CRUDEntityInterface
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -139,6 +149,7 @@ class PartnerTier implements AuditableInterface,CRUDEntityInterface
      */
     public function getCreationAudit()
     {
+
         return $this->getAudits()->slice(0, 1)[0];
     }
 
@@ -147,8 +158,10 @@ class PartnerTier implements AuditableInterface,CRUDEntityInterface
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+
+        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
     }
 
     /**
@@ -156,6 +169,7 @@ class PartnerTier implements AuditableInterface,CRUDEntityInterface
      */
     public function getTitle()
     {
-        // URGENT: Implement getTitle() method.
+
+        return $this->getName();
     }
 }

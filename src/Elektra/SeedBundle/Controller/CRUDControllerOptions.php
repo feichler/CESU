@@ -12,9 +12,11 @@ namespace Elektra\SeedBundle\Controller;
 /**
  * Class CRUDControllerOptions
  *
+ * CHECK: is this class needed anymore?
+ *
  * @package Elektra\SeedBundle\Controller
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class CRUDControllerOptions
 {
@@ -42,7 +44,6 @@ class CRUDControllerOptions
     /**
      * @var int
      */
-    // TODO src: make viewLimit configurable (default & session)
     protected $viewLimit = 25;
 
     /**

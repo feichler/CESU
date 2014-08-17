@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @package Elektra\SiteBundle\Controller
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class AdminController extends Controller
 {
@@ -31,7 +31,7 @@ class AdminController extends Controller
 
         $options = $this->getInitialiseOptions();
 
-        // TODO add language overrides
+        // TRANSLATE add language overrides
 
         $page = $this->container->get('page');
         $page->initialiseAdminPage('admin', $action, $options);
@@ -47,7 +47,7 @@ class AdminController extends Controller
 
         $this->initialise('index');
 
-        // TODO src define and implement content to be displayed
+        // TODO define and implement content to be displayed
 
         return $this->render('ElektraSiteBundle:Admin:index.html.twig');
     }

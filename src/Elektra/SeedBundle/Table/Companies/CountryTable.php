@@ -39,7 +39,7 @@ class CountryTable extends CRUDTable
     protected function setupHeader(Row $header)
     {
 
-        // TODO add translations
+        // TRANSLATE add translations for the table headers
         $idCell = $header->addCell();
         $idCell->setWidth(40);
         $idCell->addHtmlContent('ID');
@@ -51,7 +51,7 @@ class CountryTable extends CRUDTable
         $titleCell->addHtmlContent('Country');
         $titleCell->setColumnSpan(3);
 
-        // TODO src should audits and actions have an own header cell?
+        // CHECK should audits and actions have an own header cell?
         //        $auditCell = $header->addCell();
         //        $auditCell->setWidth(100);
         //
@@ -77,7 +77,8 @@ class CountryTable extends CRUDTable
         $regionCell->addHtmlContent($entry->getRegion()->getName());
 
         // Name & Description
-        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
+        //        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
+        $viewLink  = $this->generateLink('view', $entry->getId());
         $modelCell = $content->addCell();
         $modelCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
 

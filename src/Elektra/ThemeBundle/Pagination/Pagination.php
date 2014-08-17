@@ -9,6 +9,7 @@
 
 namespace Elektra\ThemeBundle\Pagination;
 
+use Elektra\SiteBundle\Navigator\Navigator;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -32,13 +33,23 @@ class Pagination
     protected $router;
 
     /**
+     * @var Navigator
+     */
+    protected $navigator;
+
+    /**
+     * @var string
+     */
+    protected $definitionKey;
+
+    /**
      *
      */
     public function __construct()
     {
 
         $this->parameters = array(
-            'limit'     => 25, // TODO src make this a configurable parameter (config file + session)
+            'limit'     => 25, // TODO make this a configurable parameter (config file + session)
             'page'      => 0,
             'count'     => 0,
             'prevLinks' => 5,
@@ -53,6 +64,13 @@ class Pagination
     {
 
         $this->router = $router;
+    }
+
+    public function setNavigator(Navigator $navigator, $definitionKey)
+    {
+
+        $this->navigator     = $navigator;
+        $this->definitionKey = $definitionKey;
     }
 
     /**
@@ -281,7 +299,8 @@ class Pagination
     protected function getPageLink($page)
     {
 
-        $link = $this->router->generate($this->getParameter('route'), array('page' => $page));
+        $link = $this->navigator->getLink($this->definitionKey,'browse',array('page'=>$page));
+//        $link = $this->router->generate($this->getParameter('route'), array('page' => $page));
 
         return $link;
     }

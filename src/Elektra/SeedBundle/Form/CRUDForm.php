@@ -29,7 +29,7 @@ abstract class CRUDForm extends AbstractType
     protected function addFormActions(FormBuilderInterface $builder)
     {
 
-        // TODO add translations
+        // TRANSLATE add translations for the form labels
 
         $saveButton   = array(
             'type'    => 'submit',

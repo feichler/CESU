@@ -39,7 +39,7 @@ class SeedUnitTable extends CRUDTable
     protected function setupHeader(Row $header)
     {
 
-        // TODO add translations
+        // TRANSLATE add translations for the table headers
         $idCell = $header->addCell();
         $idCell->setWidth(40);
         $idCell->addHtmlContent('ID');
@@ -60,7 +60,7 @@ class SeedUnitTable extends CRUDTable
         $requestCell = $header->addCell();
         $requestCell->addHtmlContent('Request');
 
-        // TODO src should audits and actions have an own header cell?
+        // CHECK should audits and actions have an own header cell?
         //        $auditCell = $header->addCell();
         //        $auditCell->setWidth(100);
         //
@@ -80,7 +80,8 @@ class SeedUnitTable extends CRUDTable
         // ID
         $this->generateIdCell($content, $entry);
 
-        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
+//        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
+        $viewLink  = $this->generateLink('view', $entry->getId());
         $seedUnitCell = $content->addCell();
         $seedUnitCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
 

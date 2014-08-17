@@ -24,6 +24,15 @@ class RegionController extends CRUDController
     /**
      * {@inheritdoc}
      */
+    protected function loadDefinition()
+    {
+
+        $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'Region');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function initialiseCRUD()
     {
 

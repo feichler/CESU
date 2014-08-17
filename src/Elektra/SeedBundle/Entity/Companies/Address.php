@@ -9,25 +9,27 @@
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\AuditableInterface;
+use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
+use Elektra\SeedBundle\Entity\AuditableInterface;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SeedBundle\Entity\Notes\Note;
+
 /**
  * Class Address
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity
  * @ORM\Table("addresses")
  */
-class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
+class Address implements AuditableInterface, AnnotableInterface, EntityInterface
 {
+
     /**
      * @var int
      *
@@ -124,7 +126,8 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function __construct()
     {
-        $this->notes = new ArrayCollection();
+
+        $this->notes  = new ArrayCollection();
         $this->audits = new ArrayCollection();
     }
 
@@ -133,6 +136,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getId()
     {
+
         return $this->addressId;
     }
 
@@ -141,6 +145,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getAddressId()
     {
+
         return $this->addressId;
     }
 
@@ -149,6 +154,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function setAddressType($addressType)
     {
+
         $this->addressType = $addressType;
     }
 
@@ -157,6 +163,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getAddressType()
     {
+
         return $this->addressType;
     }
 
@@ -165,6 +172,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function setCountry($country)
     {
+
         $this->country = $country;
     }
 
@@ -173,6 +181,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getCountry()
     {
+
         return $this->country;
     }
 
@@ -181,6 +190,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function setCity($city)
     {
+
         $this->city = $city;
     }
 
@@ -189,6 +199,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getCity()
     {
+
         return $this->city;
     }
 
@@ -197,6 +208,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function setPostalCode($postalCode)
     {
+
         $this->postalCode = $postalCode;
     }
 
@@ -205,6 +217,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getPostalCode()
     {
+
         return $this->postalCode;
     }
 
@@ -213,6 +226,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function setState($state)
     {
+
         $this->state = $state;
     }
 
@@ -221,6 +235,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getState()
     {
+
         return $this->state;
     }
 
@@ -229,6 +244,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function setStreet1($street1)
     {
+
         $this->street1 = $street1;
     }
 
@@ -237,6 +253,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getStreet1()
     {
+
         return $this->street1;
     }
 
@@ -245,6 +262,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function setStreet2($street2)
     {
+
         $this->street2 = $street2;
     }
 
@@ -253,6 +271,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getStreet2()
     {
+
         return $this->street2;
     }
 
@@ -261,6 +280,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function setStreet3($street3)
     {
+
         $this->street3 = $street3;
     }
 
@@ -269,6 +289,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getStreet3()
     {
+
         return $this->street3;
     }
 
@@ -277,6 +298,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function setNotes($notes)
     {
+
         $this->notes = $notes;
     }
 
@@ -285,6 +307,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getNotes()
     {
+
         return $this->notes;
     }
 
@@ -293,6 +316,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -301,6 +325,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -309,6 +334,7 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getCreationAudit()
     {
+
         return $this->getAudits()->slice(0, 1)[0];
     }
 
@@ -317,15 +343,9 @@ class Address implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      */
     public function getLastModifiedAudit()
     {
-        $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getTitle()
-    {
-        // URGENT: Implement getTitle() method.
+        $audits = $this->getAudits();
+
+        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
     }
 }
