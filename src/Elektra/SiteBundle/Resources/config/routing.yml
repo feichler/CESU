@@ -8,29 +8,40 @@
 
 # Admin Index page
 ElektraSiteBundle_admin_index:
-    path:               /admin
+    path:               /admin{slash}
     defaults:
         _controller:     ElektraSiteBundle:Admin:index
+        slash:          /
+    requirements:
+        slash:          "[/]{0,1}"
 
 # Seed Unit Request page
 ElektraSiteBundle_site_request:
     # NOTE: currently only 4 steps are defined - if more are needed, these regex needs to be changed
     # NOTE: steps: "Agree objectives", "Agree T&C", "Enter request data", "Check and submit request data"
-    path:               /{step}/{number}
+    path:               /{step}/{number}{slash}
     defaults:
         _controller:    ElektraSiteBundle:Request:index
         step:           step
         number:         1
+        slash:          /
     requirements:
         step:           step
         number:         "[1-4]"
+        slash:          "[/]{0,1}"
 
 ElektraSiteBundle_site_about:
-    path:               /about
+    path:               /about{slash}
     defaults:
         _controller:    ElektraSiteBundle:Site:about
+        slash:          /
+    requirements:
+        slash:          "[/]{0,1}"
 
 ElektraSiteBundle_site_terms:
-    path:               /terms
+    path:               /terms{slash}
     defaults:
         _controller:    ElektraSiteBundle:Site:terms
+        slash:          /
+    requirements:
+        slash:          "[/]{0,1}"
