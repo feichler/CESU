@@ -29,25 +29,4 @@ class RegionController extends CRUDController
 
         $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'Region');
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function initialiseCRUD()
-    {
-
-        // Set the prefixes
-        $this->getOptions()->setPrefix('route', 'ElektraSeedBundle_MasterData_Geographic_Region');
-        $this->getOptions()->setPrefix('view', 'ElektraSeedBundle:Companies/Region');
-
-        // Set the classes
-        $this->getOptions()->setClass('entity', 'Elektra\SeedBundle\Entity\Companies\Region');
-        $this->getOptions()->setClass('repository', 'ElektraSeedBundle:Companies\Region');
-        $this->getOptions()->setClass('form', 'Elektra\SeedBundle\Form\Companies\RegionType');
-        $this->getOptions()->setClass('table', 'Elektra\SeedBundle\Table\Companies\RegionTable');
-
-        // Set the crud section
-        $this->getOptions()->setSection('master_data');
-        $this->getOptions()->setType('region');
-    }
 }

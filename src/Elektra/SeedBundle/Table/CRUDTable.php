@@ -28,11 +28,6 @@ abstract class CRUDTable extends Table
 {
 
     /**
-     * @var RouterInterface
-     */
-    protected $router;
-
-    /**
      * @var Navigator
      */
     protected $navigator;
@@ -41,13 +36,6 @@ abstract class CRUDTable extends Table
      * @var string
      */
     protected $definitionKey;
-
-    /**
-     * CHECK is this variable used in any way?
-     *
-     * @var
-     */
-    protected $crudParams;
 
     /**
      * @var array
@@ -77,7 +65,6 @@ abstract class CRUDTable extends Table
         $this->getStyle()->setVariant('responsive');
         // MINOR: set table styling to condensed?
 
-        $this->setupType();
     }
 
     /**
@@ -117,18 +104,6 @@ abstract class CRUDTable extends Table
         }
     }
 
-    /**
-     * @param RouterInterface $router
-     * // TODO remove after modification & testing of Definition
-     */
-    public function setRouter(RouterInterface $router)
-    {
-
-        $this->router = $router;
-        $this->pagination->setRouter($router);
-        $this->pagination->setRoute($this->getRoute('browse'));
-    }
-
     public function setNavigator(Navigator $navigator, $definitionKey)
     {
 
@@ -136,12 +111,6 @@ abstract class CRUDTable extends Table
         $this->definitionKey = $definitionKey;
         $this->pagination->setNavigator($navigator, $definitionKey);
     }
-
-    //    public function setNavigationDefinition(Definition $definition)
-    //    {
-    //
-    //        $this->navigatorDefinition = $definition;
-    //    }
 
     /**
      * @param array $entries
@@ -162,52 +131,6 @@ abstract class CRUDTable extends Table
     }
 
     /**
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    protected function getRoutePrefix()
-    {
-
-        $prefix = $this->getParam('routePrefix');
-
-        if ($prefix == '' || $prefix === null) {
-            throw new \InvalidArgumentException('Parameter "routePrefix" is missing');
-        }
-
-        return $prefix;
-    }
-
-    /**
-     * @param string $type
-     *
-     * @return mixed
-     */
-    public function getParam($type)
-    {
-
-        if (array_key_exists($type, $this->crudParams)) {
-            return $this->crudParams[$type];
-        }
-
-        return null;
-    }
-
-    /**
-     * @param string $type
-     * @param mixed  $value
-     */
-    public function setParam($type, $value)
-    {
-
-        $this->crudParams[$type] = $value;
-    }
-
-    /**
-     *
-     */
-    protected abstract function setupType();
-
-    /**
      * @param Row $footer
      */
     protected function setupFooter(Row $footer)
@@ -221,8 +144,7 @@ abstract class CRUDTable extends Table
             $cell->setColumnSpan($this->getColumnCount());
             $cell->addClass('text-right');
 
-            $link = $this->navigator->getLink($this->definitionKey,'add');
-//            $link = $this->router->generate($this->getRoute('add'));
+            $link = $this->navigator->getLink($this->definitionKey, 'add');
 
             $cell->addActionContent('add', $link);
         }
@@ -268,8 +190,7 @@ abstract class CRUDTable extends Table
             $params['id'] = $id;
         }
 
-        $link = $this->navigator->getLink($this->definitionKey,$route,$params);
-//        $link = $this->router->generate($route, $params);
+        $link = $this->navigator->getLink($this->definitionKey, $route, $params);
 
         return $link;
     }
@@ -313,14 +234,12 @@ abstract class CRUDTable extends Table
 
         if ($this->isAllowed('edit')) {
             // TODO check if edit is possible (privileges)
-//            $editLink = $this->generateLink($this->getRoute('edit'), $entry->getId());
             $editLink = $this->generateLink('edit', $entry->getId());
             $cell->addActionContent('edit', $editLink);
         }
 
         if ($this->isAllowed('delete')) {
             // TODO check if delete is possible (privileges & references)
-//            $deleteLink = $this->generateLink($this->getRoute('delete'), $entry->getId());
             $deleteLink = $this->generateLink('delete', $entry->getId());
             $cell->addActionContent('delete', $deleteLink);
         }

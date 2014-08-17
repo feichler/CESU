@@ -27,15 +27,6 @@ class SeedUnitModelTable extends CRUDTable
     /**
      * {@inheritdoc}
      */
-    protected function setupType()
-    {
-
-        $this->setParam('routePrefix', 'ElektraSeedBundle_MasterData_SeedUnits_Model');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setupHeader(Row $header)
     {
 
@@ -70,7 +61,6 @@ class SeedUnitModelTable extends CRUDTable
         $this->generateIdCell($content, $entry);
 
         // Name & Description
-//        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
         $viewLink  = $this->generateLink('view', $entry->getId());
         $modelCell = $content->addCell();
         $modelCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));

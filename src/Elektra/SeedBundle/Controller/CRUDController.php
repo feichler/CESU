@@ -10,7 +10,6 @@
 namespace Elektra\SeedBundle\Controller;
 
 use Elektra\SiteBundle\Navigator\Definition;
-use Elektra\ThemeBundle\Table\Table;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -39,9 +38,9 @@ abstract class CRUDController extends Controller
      *************************************************************************/
 
     /**
-     * @var CRUDControllerOptions
+     * @var Definition
      */
-    protected $crudOptions;
+    protected $definition;
 
     /*************************************************************************
      * Controller Functions
@@ -63,20 +62,16 @@ abstract class CRUDController extends Controller
         $this->setPage($page);
 
         // get the required classes for this action
-        //        $repositoryClass = $this->crudOptions->getClass('repository');
         $repositoryClass = $this->definition->getClassRepository();
-        //        $tableClass       = $this->crudOptions->getClass('table');
-        $tableClass = $this->definition->getClassTable();
+        $tableClass      = $this->definition->getClassTable();
 
         // execute the required actions for this controller
         $repository = $this->getDoctrine()->getRepository($repositoryClass);
         $table      = new $tableClass();
         $table->setNavigator($this->get('navigator'), $this->definition->getKey());
 
-        //        $entries    = $repository->getEntries($page, $this->crudOptions->getViewLimit());
         $entries = $repository->getEntries($page, $table->getPagination()->getLimit());
 
-        //        $table->setRouter($this->get('router'));
         $table->getPagination()->setPage($page);
         $table->getPagination()->setCount($repository->getCount());
         $table->prepare($entries);
@@ -101,10 +96,8 @@ abstract class CRUDController extends Controller
         $this->initialise('view');
 
         // get the required classes for this action
-        //        $repositoryClass = $this->crudOptions->getClass('repository');
         $repositoryClass = $this->definition->getClassRepository();
-        //        $formClass       = $this->crudOptions->getClass('form');
-        $formClass = $this->definition->getClassForm();
+        $formClass       = $this->definition->getClassForm();
 
         // execute the required actions for this controller
         $repository = $this->getDoctrine()->getRepository($repositoryClass);
@@ -131,10 +124,8 @@ abstract class CRUDController extends Controller
         $this->initialise('add');
 
         // get the required classes for this action
-        //        $entityClass = $this->crudOptions->getClass('entity');
         $entityClass = $this->definition->getClassEntity();
-        //        $formClass   = $this->crudOptions->getClass('form');
-        $formClass = $this->definition->getClassForm();
+        $formClass   = $this->definition->getClassForm();
 
         // execute the required actions for this controller
         $entity = new $entityClass();
@@ -148,51 +139,6 @@ abstract class CRUDController extends Controller
             $manager->flush();
 
             $this->addSuccessMessage('add', $entity->getId());
-
-            return $this->redirectToBrowse();
-        } else if ($form->get('actions')->get('cancel')->isClicked()) {
-            // do nothing (discard the form) and redirect to browsing
-            return $this->redirectToBrowse();
-        }
-
-        // generate the view & view name
-        $view     = $form->createView();
-        $viewName = $this->getView('form');
-
-        // return the response
-        return $this->render($viewName, array('form' => $view));
-    }
-
-    /**
-     * @param Request $request
-     * @param int     $id
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function editAction(Request $request, $id)
-    {
-
-        // Initialise the controller (does initialise the page as well)
-        $this->initialise('edit');
-
-        // get the required classes for this action
-        //        $repositoryClass = $this->crudOptions->getClass('repository');
-        $repositoryClass = $this->definition->getClassRepository();
-        //        $formClass       = $this->crudOptions->getClass('form');
-        $formClass = $this->definition->getClassForm();
-
-        // execute the required actions for this controller
-        $repository = $this->getDoctrine()->getRepository($repositoryClass);
-        $entity     = $repository->find($id);
-        $form       = $this->createForm(new $formClass, $entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid() && $form->get('actions')->get('save')->isClicked()) {
-            // save the entity and redirect to browsing
-            $manager = $this->getDoctrine()->getManager();
-            $manager->flush();
-
-            $this->addSuccessMessage('edit', $entity->getId());
 
             return $this->redirectToBrowse();
         } else if ($form->get('actions')->get('cancel')->isClicked()) {
@@ -238,6 +184,49 @@ abstract class CRUDController extends Controller
         return $this->redirectToBrowse();
     }
 
+    /**
+     * @param Request $request
+     * @param int     $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editAction(Request $request, $id)
+    {
+
+        // Initialise the controller (does initialise the page as well)
+        $this->initialise('edit');
+
+        // get the required classes for this action
+        $repositoryClass = $this->definition->getClassRepository();
+        $formClass       = $this->definition->getClassForm();
+
+        // execute the required actions for this controller
+        $repository = $this->getDoctrine()->getRepository($repositoryClass);
+        $entity     = $repository->find($id);
+        $form       = $this->createForm(new $formClass, $entity);
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->get('actions')->get('save')->isClicked()) {
+            // save the entity and redirect to browsing
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+
+            $this->addSuccessMessage('edit', $entity->getId());
+
+            return $this->redirectToBrowse();
+        } else if ($form->get('actions')->get('cancel')->isClicked()) {
+            // do nothing (discard the form) and redirect to browsing
+            return $this->redirectToBrowse();
+        }
+
+        // generate the view & view name
+        $view     = $form->createView();
+        $viewName = $this->getView('form');
+
+        // return the response
+        return $this->render($viewName, array('form' => $view));
+    }
+
     /*************************************************************************
      * Controller Initialisation
      *************************************************************************/
@@ -248,12 +237,7 @@ abstract class CRUDController extends Controller
     protected final function initialise($action)
     {
 
-        $this->crudOptions = new CRUDControllerOptions();
-        $this->crudOptions->setAction($action);
-
         $this->loadDefinition();
-        //        $this->initialiseCRUD();
-        //        $this->crudOptions->check();
 
         $options = $this->getInitialiseOptions();
 
@@ -279,16 +263,6 @@ abstract class CRUDController extends Controller
      */
     protected abstract function loadDefinition();
 
-    /**
-     *
-     */
-    protected abstract function initialiseCRUD();
-
-    /**
-     * @var Definition
-     */
-    protected $definition;
-
     /*************************************************************************
      * Generic Helper functions
      *************************************************************************/
@@ -300,7 +274,6 @@ abstract class CRUDController extends Controller
     {
 
         $page = $this->getPage();
-        //        $route = $this->crudOptions->getPrefix('route') . '_browse';
         $link = $this->get('navigator')->getLink($this->definition->getKey(), 'browse', array('page' => $page));
 
         return $this->redirect($link);
@@ -316,9 +289,8 @@ abstract class CRUDController extends Controller
     {
 
         $templateService = $this->get('templating');
-        $prefix          = $this->crudOptions->getPrefix('view');
+        $prefix          = $this->definition->getViewPrefix();
         $prefixCommon    = 'ElektraSeedBundle::';
-        //        $prefixCommon    = $this->crudOptions->getPrefix('viewCommon');
 
         // First check if the specific view exists
         $specific = $prefix . ':' . $type . '.html.twig';
@@ -390,21 +362,12 @@ abstract class CRUDController extends Controller
      *************************************************************************/
 
     /**
-     * @return CRUDControllerOptions
-     */
-    protected function getOptions()
-    {
-
-        return $this->crudOptions;
-    }
-
-    /**
      * @return int
      */
     private function getPage()
     {
 
-        return $this->get('session')->get($this->crudOptions->getPrefix('route') . '.page');
+        return $this->get('session')->get($this->definition->getRouteNamePrefix() . '.page');
     }
 
     /**
@@ -413,6 +376,6 @@ abstract class CRUDController extends Controller
     private function setPage($page)
     {
 
-        $this->get('session')->set($this->crudOptions->getPrefix('route') . '.page', $page);
+        $this->get('session')->set($this->definition->getRouteNamePrefix() . '.page', $page);
     }
 }

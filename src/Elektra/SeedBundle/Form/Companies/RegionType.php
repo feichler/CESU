@@ -46,9 +46,7 @@ class RegionType extends CRUDForm
                 new NotBlank(array('message' => 'error.constraint.required')),
             )
         );
-        $builder->add($builder->create('name','text',$nameOptions)->addModelTransformer(new ToUppercaseTransformer()));
-
-//        $builder->add('name', 'text', $nameOptions)->addd;
+        $builder->add($builder->create('name', 'text', $nameOptions)->addModelTransformer(new ToUppercaseTransformer()));
 
         $this->addFormActions($builder);
     }
@@ -76,6 +74,4 @@ class RegionType extends CRUDForm
 
         parent::finishView($view, $form, $options);
     }
-
-
 }

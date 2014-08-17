@@ -66,7 +66,7 @@ class Loader extends BaseLoader
 
             foreach ($routes as $name => $route) {
                 $route->setPath($route->getPath() . '{slash}');
-                $route->setDefault('slash','/');
+                $route->setDefault('slash', '/');
                 $route->setRequirement('slash', '[/]{0,1}');
                 $collection->add($definition->getRouteNamePrefix() . '_' . $name, $route);
             }

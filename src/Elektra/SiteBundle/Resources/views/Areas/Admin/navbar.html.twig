@@ -15,39 +15,6 @@ DEFINE: define the links using the global "navigator" object - this has multiple
  - {{ path(navigator.route(['<vendor>', '<bundle>' ,'<group>', '<type>'], 'browse')) }}
 In any option: if the second parameter is not defined, the navigator assumes the "browse" route
 #}
-{#
-DEFINE menu structure for the admin area:
-    Left Menu:
-        Requests CHECK define required menu items for the Requests sub-menu
-            List
-        Companies (whole menu may need better spellings)
-            Parnters
-                List
-                Locations
-                Contacts
-            Divider
-            Customers
-                List
-                Locations
-                Contacts
-        Trainings
-            Registrants
-            Attandees
-        Reports (to be defined) CHECK definition of reports menu
-
-    Right Menu:
-        Master Data
-            Seed Units
-                Models
-                Power Cord Types
-            Divider
-            Trainings
-                Dates
-            Divider
-            Geographic (maybe better word needed)
-                Regions
-                Countries
-#}
 
 {% import "ElektraSiteBundle:Macros:site.html.twig" as site %}
 
@@ -56,102 +23,20 @@ DEFINE menu structure for the admin area:
 {% block navbar_left_content %}
     <ul class="nav navbar-nav">
         <li>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Requests  {# TRANSLATE #}
-                <span class="dropdown-indicator"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a href="#">
-                        List {# TRANSLATE #}
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        TODO {# TRANSLATE #}
-                    </a>
-                </li>
-            </ul>
+            {#<a href="#" class="dropdown-toggle" data-toggle="dropdown">Requests &#123;&#35; TRANSLATE &#35;&#125;<span class="dropdown-indicator"></span></a>#}
+            {#<ul class="dropdown-menu">#}
+            {#<li>#} {# CHECK comment out if submenu needed #}
+            <a href="{{ navigator.link(['Elektra', 'Seed' ,'Requests', 'Request']) }}">Requests {# TRANSLATE #}</a>
+            {#</li>#}
+            {#</ul>#}
         </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Companies  {# TRANSLATE #}
-                <span class="dropdown-indicator"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-                <li class="dropdown-header">
-                    <span class="dropdown-header-title">
-                        Partners {# TRANSLATE #}
-                    </span>
-                </li>
-                <li>
-                    <a href="#">
-                        List {# TRANSLATE #}
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        Locations {# TRANSLATE #}
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        Contacts {# TRANSLATE #}
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li class="dropdown-header">
-                    <span class="dropdown-header-title">
-                        Customers {# TRANSLATE #}
-                    </span>
-                </li>
-                <li>
-                    <a href="#">
-                        List {# TRANSLATE #}
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        Locations {# TRANSLATE #}
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        Contacts {# TRANSLATE #}
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Trainings  {# TRANSLATE #}
-                <span class="dropdown-indicator"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a href="#">
-                        Registrations {# TRANSLATE #}
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        Attendances {# TRANSLATE #}
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Reports  {# TRANSLATE #}
-                <span class="dropdown-indicator"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a href="#">
-                        TODO {# TRANSLATE #}
-                    </a>
-                </li>
-            </ul>
+        <li>
+            {#<a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports &#123;&#35; TRANSLATE &#35;&#125;<span class="dropdown-indicator"></span></a>#}
+            {#<ul class="dropdown-menu">#}
+            {#<li>#} {# CHECK comment out if submenu needed #}
+            <a href="{{ '#' }}">Reports {# TRANSLATE TODO route needed#}</a>
+            {#</li>#}
+            {#</ul>#}
         </li>
     </ul>
 {% endblock navbar_left_content %}
@@ -159,55 +44,80 @@ DEFINE menu structure for the admin area:
 
 {% block navbar_right_content %}
     <ul class="nav navbar-nav">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                {% trans from 'ElektraSeed' %}lang.seed.menu.master_data.title{% endtrans %}
-                <span class="dropdown-indicator"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
+        <li>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Companies {# TRANSLATE #}<span class="dropdown-indicator"></span></a>
+            <ul class="dropdown-menu">
                 <li class="dropdown-header">
-                    <span class="dropdown-header-title">
-                        {% trans %}lang.seed.menu.master_data.seed_units.title{% endtrans %}
-                    </span>
+                    <span class="dropdown-header-title">Partners {# TRANSLATE #}</span>
                 </li>
                 <li>
-                    {#<a href="{{ path("ElektraSeedBundle_SeedUnits_SeedUnitModel_browse") }}">#}
-                    <a href="{{ navigator.link(['Elektra','Seed','SeedUnits','SeedUnitModel'], 'browse') }}">
-                        {% trans %}lang.seed.menu.master_data.seed_units.seed_unit_models{% endtrans %}
-                    </a>
+                    <a href="{{ navigator.link(['Elektra', 'Seed' ,'Companies', 'Partner']) }}">Partners {# TRANSLATE #}</a>
                 </li>
                 <li>
-                    {#<a href="{{ path("ElektraSeedBundle_SeedUnits_SeedUnitPowerCordType_browse") }}">#}
-                    <a href="{{ path(navigator.route(['Elektra','Seed','SeedUnits','SeedUnitPowerCordType'],'browse')) }}">
-                        {% trans %}lang.seed.menu.master_data.seed_units.seed_unit_power_cord_types{% endtrans %}
-                    </a>
+                    <a href="{{ '#' }}">Locations (route){# TRANSLATE TODO route with filter needed#}</a>
+                </li>
+                <li>
+                    <a href="{{ '#' }}">Contacts (route){# TRANSLATE TODO route with filter needed #}</a>
                 </li>
                 <li class="divider"></li>
                 <li class="dropdown-header">
-                    <span class="dropdown-header-title">
-                        Trainings {# TRANSLATE #}
-                    </span>
+                    <span class="dropdown-header-title">Sales Teams {# TRANSLATE #}</span>
                 </li>
                 <li>
-                    <a href="{{ path("ElektraSeedBundle_Trainings_Training_browse") }}">
-                        Dates {# TRANSLATE #}
-                    </a>
+                    <a href="{{ navigator.link(['Elektra', 'Seed' ,'Companies', 'SalesTeam']) }}">Sales Teams {# TRANSLATE #}</a>
                 </li>
                 <li class="divider"></li>
                 <li class="dropdown-header">
-                    <span class="dropdown-header-title">
-                        {% trans %}lang.seed.menu.master_data.geographic.title{% endtrans %}
-                    </span>
+                    <span class="dropdown-header-title">Customers {# TRANSLATE #}</span>
                 </li>
                 <li>
-                    <a href="{{ path("ElektraSeedBundle_Companies_Region_browse") }}">
-                        {% trans %}lang.seed.menu.master_data.geographic.regions{% endtrans %}
-                    </a>
+                    <a href="{{ navigator.link(['Elektra', 'Seed' ,'Companies', 'Customer']) }}">Customers {# TRANSLATE #}</a>
                 </li>
                 <li>
-                    <a href="{{ path("ElektraSeedBundle_Companies_Country_browse") }}">
-                        {% trans %}lang.seed.menu.master_data.geographic.countries{% endtrans %}
-                    </a>
+                    <a href="{{ '#' }}">Locations (route){# TRANSLATE TODO route with filter needed#}</a>
+                </li>
+                <li>
+                    <a href="{{ '#' }}">Contacts (route){# TRANSLATE TODO route with filter needed #}</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Master Data {# TRANSLATE #}<span class="dropdown-indicator"></span></a>
+            <ul class="dropdown-menu">
+                <li class="dropdown-header">
+                    <span class="dropdown-header-title">Seed Units {# TRANSLATE #}</span>
+                </li>
+                <li>
+                    <a href="{{ navigator.link(['Elektra', 'Seed' ,'SeedUnits', 'SeedUnit']) }}">Seed Units {# TRANSLATE #}</a>
+                </li>
+                <li>
+                    <a href="{{ navigator.link(['Elektra', 'Seed' ,'SeedUnits', 'SeedUnitModel']) }}">Models {# TRANSLATE #}</a>
+                </li>
+                <li>
+                    <a href="{{ navigator.link(['Elektra', 'Seed' ,'SeedUnits', 'SeedUnitPowerCordType']) }}">Power Cord Types {# TRANSLATE #}</a>
+                </li>
+                <li class="divider"></li>
+                <li class="dropdown-header">
+                    <span class="dropdown-header-title">Trainings {# TRANSLATE #}</span>
+                </li>
+                <li>
+                    <a href="{{ navigator.link(['Elektra', 'Seed' ,'Trainings', 'Training']) }}">Trainings {# TRANSLATE #}</a>
+                </li>
+                <li>
+                    <a href="{{ navigator.link(['Elektra', 'Seed' ,'Trainings', 'Registration']) }}">Registrations{# TRANSLATE #}</a>
+                </li>
+                <li>
+                    <a href="{{ navigator.link(['Elektra', 'Seed' ,'Trainings', 'Attendance']) }}">Attendances {# TRANSLATE #}</a>
+                </li>
+                <li class="divider"></li>
+                <li class="dropdown-header">
+                    <span class="dropdown-header-title">Geographic {# TRANSLATE #}</span>
+                </li>
+                <li>
+                    <a href="{{ navigator.link(['Elektra', 'Seed' ,'Companies', 'Region']) }}">Regions {# TRANSLATE #}</a>
+                </li>
+                <li>
+                    <a href="{{ navigator.link(['Elektra', 'Seed' ,'Companies', 'Country']) }}">Countries {# TRANSLATE #}</a>
                 </li>
             </ul>
         </li>

@@ -30,15 +30,6 @@ class AttendanceTable extends CRUDTable
     /**
      * {@inheritdoc}
      */
-    protected function setupType()
-    {
-
-        $this->setParam('routePrefix', 'ElektraSeedBundle_Trainings_Attendance');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setupHeader(Row $header)
     {
 
@@ -79,9 +70,9 @@ class AttendanceTable extends CRUDTable
         $this->generateIdCell($content, $entry);
 
         $training = $content->addCell();
-        $training->addHtmlContent($entry->getTraining()->getName() . "(" .
-            date('D, m/j/Y,g:i A', $entry->getTraining()->getStartedAt()) . " - " .
-            date('D, m/j/Y,g:i A', $entry->getTraining()->getEndedAt()) . ")");
+        $training->addHtmlContent(
+            $entry->getTraining()->getName() . "(" . date('D, m/j/Y,g:i A', $entry->getTraining()->getStartedAt()) . " - " . date('D, m/j/Y,g:i A', $entry->getTraining()->getEndedAt()) . ")"
+        );
 
         $registrant = $content->addCell();
         $registrant->addHtmlContent($entry->getPerson()->getTitle());

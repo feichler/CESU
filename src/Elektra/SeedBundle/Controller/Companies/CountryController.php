@@ -29,25 +29,4 @@ class CountryController extends CRUDController
 
         $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'Country');
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function initialiseCRUD()
-    {
-
-        // Set the prefixes
-        $this->getOptions()->setPrefix('route', 'ElektraSeedBundle_MasterData_Geographic_Country');
-        $this->getOptions()->setPrefix('view', 'ElektraSeedBundle:Companies/Country');
-
-        // Set the classes
-        $this->getOptions()->setClass('entity', 'Elektra\SeedBundle\Entity\Companies\Country');
-        $this->getOptions()->setClass('repository', 'ElektraSeedBundle:Companies\Country');
-        $this->getOptions()->setClass('form', 'Elektra\SeedBundle\Form\Companies\CountryType');
-        $this->getOptions()->setClass('table', 'Elektra\SeedBundle\Table\Companies\CountryTable');
-
-        // Set the crud section
-        $this->getOptions()->setSection('master_data');
-        $this->getOptions()->setType('country');
-    }
 }

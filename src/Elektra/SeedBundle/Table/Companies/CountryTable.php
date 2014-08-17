@@ -27,15 +27,6 @@ class CountryTable extends CRUDTable
     /**
      * {@inheritdoc}
      */
-    protected function setupType()
-    {
-
-        $this->setParam('routePrefix', 'ElektraSeedBundle_MasterData_Geographic_Country');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setupHeader(Row $header)
     {
 
