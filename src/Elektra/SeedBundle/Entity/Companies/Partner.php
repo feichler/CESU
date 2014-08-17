@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  *          @version 0.1-dev
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\PartnerRepository")
  * @ORM\Table(name="partnerCompanies")
  */
 class Partner extends Company
@@ -30,6 +30,13 @@ class Partner extends Company
      * @ORM\JoinColumn(name="partnerTierId", referencedColumnName="partnerTierId", nullable=false)
      */
     protected $partnerTier;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $unitsLimit = 1;
 
     /**
      *
@@ -53,5 +60,21 @@ class Partner extends Company
     public function getPartnerTier()
     {
         return $this->partnerTier;
+    }
+
+    /**
+     * @param int $unitsLimit
+     */
+    public function setUnitsLimit($unitsLimit)
+    {
+        $this->unitsLimit = $unitsLimit;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUnitsLimit()
+    {
+        return $this->unitsLimit;
     }
 }

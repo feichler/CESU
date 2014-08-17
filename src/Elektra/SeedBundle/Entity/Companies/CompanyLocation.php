@@ -41,6 +41,13 @@ class CompanyLocation extends Location
     protected $persons;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $isPrimary;
+
+    /**
      *
      */
     public function __construct()
@@ -79,5 +86,21 @@ class CompanyLocation extends Location
     public function getPersons()
     {
         return $this->persons;
+    }
+
+    /**
+     * @param boolean $isPrimary
+     */
+    public function setIsPrimary($isPrimary)
+    {
+        $this->isPrimary = $isPrimary;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsPrimary()
+    {
+        return $this->isPrimary;
     }
 }

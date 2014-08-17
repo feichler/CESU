@@ -9,6 +9,7 @@
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
@@ -235,5 +236,16 @@ abstract class Company implements AuditableInterface, AnnotableInterface, CRUDEn
     public function getTitle()
     {
         return $this->getShortName();
+    }
+
+    /**
+     * @return CompanyLocation
+     */
+    public function getPrimaryLocation()
+    {
+        $primaryLocation = $this->getLocations()->matching(Criteria::create()
+            ->where(Criteria::expr()->eq("isPrimary", true))->setMaxResults(1))->first();
+
+        return $primaryLocation;
     }
 }

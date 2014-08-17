@@ -39,7 +39,7 @@ class RegistrationController extends CRUDController
         // Set the crud section
         // TODO: set correct section
         $this->getOptions()->setSection('todo');
-        $this->getOptions()->setType('training');
+        $this->getOptions()->setType('registration');
     }
 
     /**

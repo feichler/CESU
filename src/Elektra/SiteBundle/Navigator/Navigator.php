@@ -54,6 +54,9 @@ class Navigator
         $this->addDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnitPowerCordType');
         $this->addDefinition('Elektra', 'Seed', 'Companies', 'Region');
         $this->addDefinition('Elektra', 'Seed', 'Companies', 'Country');
+        $this->addDefinition('Elektra', 'Seed', 'Companies', 'Partner');
+        $this->addDefinition('Elektra', 'Seed', 'Companies', 'SalesTeam');
+        $this->addDefinition('Elektra', 'Seed', 'Companies', 'Customer');
         $this->addDefinition('Elektra', 'Seed', 'Trainings', 'Training');
         $this->addDefinition('Elektra', 'Seed', 'Trainings', 'Attendance');
         $this->addDefinition('Elektra', 'Seed', 'Trainings', 'Registration');

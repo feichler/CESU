@@ -12,7 +12,7 @@ namespace Elektra\SeedBundle\Controller\Companies;
 use Elektra\SeedBundle\Controller\CRUDController;
 
 /**
- * Class SeedUnitModelController
+ * Class RegionController
  *
  * @package   Elektra\SeedBundle\Controller\Companies
  *
