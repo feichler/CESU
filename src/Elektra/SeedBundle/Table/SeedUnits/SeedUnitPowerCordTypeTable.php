@@ -19,18 +19,11 @@ use Elektra\ThemeBundle\Table\Row;
  *
  * @package Elektra\SeedBundle\Table\SeedUnits
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class SeedUnitPowerCordTypeTable extends CRUDTable
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function setupType()
-    {
 
-        $this->setParam('routePrefix', 'ElektraSeedBundle_MasterData_SeedUnits_PowerCordType');
-    }
     /**
      * {@inheritdoc}
      */
@@ -53,10 +46,11 @@ class SeedUnitPowerCordTypeTable extends CRUDTable
         //        $actionsCell = $header->addCell();
         //        $actionsCell->setWidth(150);
     }
+
     /**
      * {@inheritdoc}
      */
-    protected function setupContentRow(Row $content,CRUDEntityInterface $entry)
+    protected function setupContentRow(Row $content, CRUDEntityInterface $entry)
     {
 
         if (!$entry instanceof SeedUnitPowerCordType) {
@@ -67,7 +61,6 @@ class SeedUnitPowerCordTypeTable extends CRUDTable
         $this->generateIdCell($content, $entry);
 
         // Name & Description
-//        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
         $viewLink  = $this->generateLink('view', $entry->getId());
         $modelCell = $content->addCell();
         $modelCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));

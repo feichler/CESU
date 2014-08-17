@@ -29,26 +29,4 @@ class CustomerController extends CRUDController
 
         $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'Customer');
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function initialiseCRUD()
-    {
-
-        // Set the prefixes
-        $this->getOptions()->setPrefix('route', 'ElektraSeedBundle_Companies_Customer');
-        $this->getOptions()->setPrefix('view', 'ElektraSeedBundle:Companies/Customer');
-
-        // Set the classes
-        $this->getOptions()->setClass('entity', 'Elektra\SeedBundle\Entity\Companies\Customer');
-        $this->getOptions()->setClass('repository', 'ElektraSeedBundle:Companies\Customer');
-        $this->getOptions()->setClass('form', 'Elektra\SeedBundle\Form\Companies\CustomerType');
-        $this->getOptions()->setClass('table', 'Elektra\SeedBundle\Table\Companies\CustomerTable');
-
-        // Set the crud section
-        // TODO: set correct section
-        $this->getOptions()->setSection('todo');
-        $this->getOptions()->setType('customer');
-    }
 }

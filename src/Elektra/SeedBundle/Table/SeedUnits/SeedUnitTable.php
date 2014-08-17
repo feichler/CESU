@@ -21,18 +21,11 @@ use Elektra\ThemeBundle\Table\Row;
  *
  * @package Elektra\SeedBundle\Table\SeedUnits
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class SeedUnitTable extends CRUDTable
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function setupType()
-    {
 
-        $this->setParam('routePrefix', 'ElektraSeedBundle_SeedUnit');
-    }
     /**
      * {@inheritdoc}
      */
@@ -67,10 +60,11 @@ class SeedUnitTable extends CRUDTable
         //        $actionsCell = $header->addCell();
         //        $actionsCell->setWidth(150);
     }
+
     /**
      * {@inheritdoc}
      */
-    protected function setupContentRow(Row $content,CRUDEntityInterface $entry)
+    protected function setupContentRow(Row $content, CRUDEntityInterface $entry)
     {
 
         if (!$entry instanceof SeedUnit) {
@@ -80,8 +74,7 @@ class SeedUnitTable extends CRUDTable
         // ID
         $this->generateIdCell($content, $entry);
 
-//        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
-        $viewLink  = $this->generateLink('view', $entry->getId());
+        $viewLink     = $this->generateLink('view', $entry->getId());
         $seedUnitCell = $content->addCell();
         $seedUnitCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
 
@@ -97,22 +90,23 @@ class SeedUnitTable extends CRUDTable
         //$statusCriteria->where(Criteria::expr()->eq('type', 'StatusEvent'));
         //$status = $entry->getEvents()->matching($statusCriteria);
 
-        //HACK: using filter() instead of matching() (see above) because being unable to match by subtype/discriminator
+        // WORKAROUND: using filter() instead of matching() (see above) because being unable to match by subtype/discriminator
         //--> forces EAGER LOADING!!
-        $status = $entry->getEvents()->filter(function($event) {
-            return $event instanceof StatusEvent;
-        })->first();
+        $status = $entry->getEvents()->filter(
+            function ($event) {
+
+                return $event instanceof StatusEvent;
+            }
+        )->first();
 
         $statusCell = $content->addCell();
-        if ($status != null)
-        {
+        if ($status != null) {
             $statusCell->addHtmlContent($status->getUnitStatus()->getName());
             $statusCell->addHtmlContent(" (since " . date("D, m/j/Y", $status->getTimestamp()) . ")");
         }
 
         $requestCell = $content->addCell();
-        if ($entry->getRequest() != null)
-        {
+        if ($entry->getRequest() != null) {
             $requestCell->addHtmlContent($entry->getRequest()->getId());
         }
 

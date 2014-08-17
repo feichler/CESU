@@ -28,15 +28,6 @@ class TrainingTable extends CRUDTable
     /**
      * {@inheritdoc}
      */
-    protected function setupType()
-    {
-
-        $this->setParam('routePrefix', 'ElektraSeedBundle_MasterData_Trainings_Training');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setupHeader(Row $header)
     {
 
@@ -83,7 +74,6 @@ class TrainingTable extends CRUDTable
         $this->generateIdCell($content, $entry);
 
         // Name
-//        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
         $viewLink  = $this->generateLink('view', $entry->getId());
         $titleCell = $content->addCell();
         $titleCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));

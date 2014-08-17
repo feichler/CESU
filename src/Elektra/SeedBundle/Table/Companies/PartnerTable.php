@@ -28,15 +28,6 @@ class PartnerTable extends CRUDTable
     /**
      * {@inheritdoc}
      */
-    protected function setupType()
-    {
-
-        $this->setParam('routePrefix', 'ElektraSeedBundle_Companies_Partner');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setupHeader(Row $header)
     {
 
@@ -89,7 +80,7 @@ class PartnerTable extends CRUDTable
         $this->generateIdCell($content, $entry);
 
         // Name
-        $viewLink  = $this->generateLink('view', $entry->getId());
+        $viewLink      = $this->generateLink('view', $entry->getId());
         $shortNameCell = $content->addCell();
         $shortNameCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
 
@@ -104,10 +95,9 @@ class PartnerTable extends CRUDTable
         $unitsLimit->addHtmlContent($entry->getUnitsLimit());
 
         $primaryLocationCell = $content->addCell();
-        $location = $entry->getPrimaryLocation();
-        $address = $location != null ? $location->getAddresses()->first() : null;
-        if ($address != null)
-        {
+        $location            = $entry->getPrimaryLocation();
+        $address             = $location != null ? $location->getAddresses()->first() : null;
+        if ($address != null) {
             $primaryLocationCell->addHtmlContent(TableHelper::renderAddress($address));
         }
 
