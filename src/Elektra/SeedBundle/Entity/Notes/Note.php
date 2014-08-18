@@ -18,13 +18,14 @@ use Elektra\UserBundle\Entity\User;
  *
  * @package Elektra\SeedBundle\Entity\Notes
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity
  * @ORM\Table(name="notes")
  */
 class Note implements CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -75,6 +76,7 @@ class Note implements CRUDEntityInterface
      */
     public function getId()
     {
+
         return $this->noteId;
     }
 
@@ -83,6 +85,7 @@ class Note implements CRUDEntityInterface
      */
     public function getNoteId()
     {
+
         return $this->noteId;
     }
 
@@ -91,6 +94,7 @@ class Note implements CRUDEntityInterface
      */
     public function setText($text)
     {
+
         $this->text = $text;
     }
 
@@ -99,6 +103,7 @@ class Note implements CRUDEntityInterface
      */
     public function getText()
     {
+
         return $this->text;
     }
 
@@ -107,6 +112,7 @@ class Note implements CRUDEntityInterface
      */
     public function setTimestamp($timestamp)
     {
+
         $this->timestamp = $timestamp;
     }
 
@@ -115,6 +121,7 @@ class Note implements CRUDEntityInterface
      */
     public function getTimestamp()
     {
+
         return $this->timestamp;
     }
 
@@ -123,6 +130,7 @@ class Note implements CRUDEntityInterface
      */
     public function setTitle($title)
     {
+
         $this->title = $title;
     }
 
@@ -131,6 +139,7 @@ class Note implements CRUDEntityInterface
      */
     public function getTitle()
     {
+
         return $this->title;
     }
 
@@ -139,6 +148,7 @@ class Note implements CRUDEntityInterface
      */
     public function setUser($user)
     {
+
         $this->user = $user;
     }
 
@@ -147,6 +157,7 @@ class Note implements CRUDEntityInterface
      */
     public function getUser()
     {
+
         return $this->user;
     }
 }

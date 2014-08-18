@@ -17,13 +17,14 @@ use Elektra\SeedBundle\Entity\Companies\Location;
  *
  * @package Elektra\SeedBundle\Entity\Events
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity
  * @ORM\Table(name="shippingEvents")
  */
 class ShippingEvent extends StatusEvent
 {
+
     /**
      * @var Location
      *
@@ -37,6 +38,7 @@ class ShippingEvent extends StatusEvent
      */
     public function __construct()
     {
+
         parent::__construct();
     }
 
@@ -45,6 +47,7 @@ class ShippingEvent extends StatusEvent
      */
     public function setLocation($location)
     {
+
         $this->location = $location;
     }
 
@@ -53,6 +56,7 @@ class ShippingEvent extends StatusEvent
      */
     public function getLocation()
     {
+
         return $this->location;
     }
 }

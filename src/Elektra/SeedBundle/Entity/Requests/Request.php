@@ -29,7 +29,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Requests\RequestRepository")
  * @ORM\Table(name="requests")
  */
-abstract class Request implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
+class Request implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
 
     /**
@@ -416,7 +416,9 @@ abstract class Request implements AuditableInterface, AnnotableInterface, CRUDEn
     public function getCreationAudit()
     {
 
-        return $this->getAudits()->slice(0, 1)[0];
+        $audits = $this->getAudits()->slice(0, 1);
+
+        return $audits[0];
     }
 
     /**
@@ -426,8 +428,13 @@ abstract class Request implements AuditableInterface, AnnotableInterface, CRUDEn
     {
 
         $audits = $this->getAudits();
+        if ($audits->count() > 1) {
+            $audits = $audits->slice($audits->count() - 1, 1);
 
-        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
+            return $audits[0];
+        }
+
+        return null;
     }
 
     /**
@@ -435,6 +442,7 @@ abstract class Request implements AuditableInterface, AnnotableInterface, CRUDEn
      */
     public function getTitle()
     {
+
         return $this->getRequestNumber();
     }
 }

@@ -21,13 +21,14 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\ContactInfoRepository")
  * @ORM\Table(name="contactInfo")
  */
 class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -96,7 +97,8 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function __construct()
     {
-        $this->notes = new ArrayCollection();
+
+        $this->notes  = new ArrayCollection();
         $this->audits = new ArrayCollection();
     }
 
@@ -105,6 +107,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function getId()
     {
+
         return $this->contactInfoId;
     }
 
@@ -113,6 +116,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function getContactInfoId()
     {
+
         return $this->contactInfoId;
     }
 
@@ -121,6 +125,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function setContactInfoType($contactInfoType)
     {
+
         $this->contactInfoType = $contactInfoType;
     }
 
@@ -129,6 +134,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function getContactInfoType()
     {
+
         return $this->contactInfoType;
     }
 
@@ -137,6 +143,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function setName($name)
     {
+
         $this->name = $name;
     }
 
@@ -145,6 +152,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function getName()
     {
+
         return $this->name;
     }
 
@@ -153,6 +161,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function setText($text)
     {
+
         $this->text = $text;
     }
 
@@ -161,6 +170,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function getText()
     {
+
         return $this->text;
     }
 
@@ -169,6 +179,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function setNotes($notes)
     {
+
         $this->notes = $notes;
     }
 
@@ -177,13 +188,16 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function getNotes()
     {
+
         return $this->notes;
     }
+
     /**
      * {@inheritdoc}
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -192,6 +206,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function setPerson($person)
     {
+
         $this->person = $person;
     }
 
@@ -200,6 +215,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function getPerson()
     {
+
         return $this->person;
     }
 
@@ -208,6 +224,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -216,7 +233,10 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function getCreationAudit()
     {
-        return $this->getAudits()->slice(0, 1)[0];
+
+        $audits = $this->getAudits()->slice(0, 1);
+
+        return $audits[0];
     }
 
     /**
@@ -224,8 +244,15 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+        if ($audits->count() > 1) {
+            $audits = $audits->slice($audits->count() - 1, 1);
+
+            return $audits[0];
+        }
+
+        return null;
     }
 
     /**
@@ -233,6 +260,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      */
     public function getTitle()
     {
+
         return $this->getName();
     }
 }

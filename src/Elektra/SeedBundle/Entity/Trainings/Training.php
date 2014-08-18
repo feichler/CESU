@@ -21,13 +21,14 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @package Elektra\SeedBundle\Entity\Trainings
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Trainings\TrainingRepository")
  * @ORM\Table("trainings")
  */
 class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -108,10 +109,11 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function __construct()
     {
-        $this->attendances = new ArrayCollection();
+
+        $this->attendances   = new ArrayCollection();
         $this->registrations = new ArrayCollection();
-        $this->notes = new ArrayCollection();
-        $this->audits = new ArrayCollection();
+        $this->notes         = new ArrayCollection();
+        $this->audits        = new ArrayCollection();
     }
 
     /**
@@ -119,6 +121,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getId()
     {
+
         return $this->trainingId;
     }
 
@@ -127,6 +130,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getTrainingId()
     {
+
         return $this->trainingId;
     }
 
@@ -135,6 +139,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setAttendances($attendances)
     {
+
         $this->attendances = $attendances;
     }
 
@@ -143,6 +148,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getAttendances()
     {
+
         return $this->attendances;
     }
 
@@ -151,6 +157,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setRegistrations($registrations)
     {
+
         $this->registrations = $registrations;
     }
 
@@ -159,6 +166,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getRegistrations()
     {
+
         return $this->registrations;
     }
 
@@ -167,6 +175,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setStartedAt($startedAt)
     {
+
         $this->startedAt = $startedAt;
     }
 
@@ -175,6 +184,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getStartedAt()
     {
+
         return $this->startedAt;
     }
 
@@ -183,6 +193,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setLocation($location)
     {
+
         $this->location = $location;
     }
 
@@ -191,6 +202,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getLocation()
     {
+
         return $this->location;
     }
 
@@ -199,6 +211,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setName($name)
     {
+
         $this->name = $name;
     }
 
@@ -207,6 +220,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getName()
     {
+
         return $this->name;
     }
 
@@ -215,6 +229,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setEndedAt($endedAt)
     {
+
         $this->endedAt = $endedAt;
     }
 
@@ -223,6 +238,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getEndedAt()
     {
+
         return $this->endedAt;
     }
 
@@ -231,6 +247,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setNotes($notes)
     {
+
         $this->notes = $notes;
     }
 
@@ -239,6 +256,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getNotes()
     {
+
         return $this->notes;
     }
 
@@ -247,6 +265,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -255,6 +274,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -263,7 +283,10 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getCreationAudit()
     {
-        return $this->getAudits()->slice(0, 1)[0];
+
+        $audits = $this->getAudits()->slice(0, 1);
+
+        return $audits[0];
     }
 
     /**
@@ -271,8 +294,15 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+        if ($audits->count() > 1) {
+            $audits = $audits->slice($audits->count() - 1, 1);
+
+            return $audits[0];
+        }
+
+        return null;
     }
 
     /**
@@ -280,6 +310,7 @@ class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getTitle()
     {
+
         return $this->getName();
     }
 }

@@ -20,7 +20,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @package Elektra\SeedBundle\Entity\SeedUnits
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitPowerCordTypeRepository")
  * @ORM\Table(name="powerCordTypes")
@@ -159,7 +159,9 @@ class SeedUnitPowerCordType implements AuditableInterface, CRUDEntityInterface
     public function getCreationAudit()
     {
 
-        return $this->getAudits()->slice(0, 1)[0];
+        $audits = $this->getAudits()->slice(0, 1);
+
+        return $audits[0];
     }
 
     /**
@@ -169,7 +171,12 @@ class SeedUnitPowerCordType implements AuditableInterface, CRUDEntityInterface
     {
 
         $audits = $this->getAudits();
+        if ($audits->count() > 1) {
+            $audits = $audits->slice($audits->count() - 1, 1);
 
-        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
+            return $audits[0];
+        }
+
+        return null;
     }
 }

@@ -32,7 +32,6 @@ use Elektra\SeedBundle\Entity\Notes\Note;
  * @ORM\DiscriminatorMap({
  *  "location" = "LocationAddress"
  * })
-
  */
 class Address implements AuditableInterface, AnnotableInterface, EntityInterface, CRUDEntityInterface
 {
@@ -342,7 +341,9 @@ class Address implements AuditableInterface, AnnotableInterface, EntityInterface
     public function getCreationAudit()
     {
 
-        return $this->getAudits()->slice(0, 1)[0];
+        $audits = $this->getAudits()->slice(0, 1);
+
+        return $audits[0];
     }
 
     /**
@@ -352,8 +353,13 @@ class Address implements AuditableInterface, AnnotableInterface, EntityInterface
     {
 
         $audits = $this->getAudits();
+        if ($audits->count() > 1) {
+            $audits = $audits->slice($audits->count() - 1, 1);
 
-        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
+            return $audits[0];
+        }
+
+        return null;
     }
 
     /**
@@ -363,8 +369,7 @@ class Address implements AuditableInterface, AnnotableInterface, EntityInterface
      */
     public function getTitle()
     {
+
         return "???";
     }
-
-
 }

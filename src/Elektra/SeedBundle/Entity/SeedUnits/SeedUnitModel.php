@@ -22,7 +22,7 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  *
  * @package Elektra\SeedBundle\Entity\SeedUnits
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitModelRepository")
  * @ORM\Table(name="seedUnitModels")
@@ -161,7 +161,9 @@ class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
     public function getCreationAudit()
     {
 
-        return $this->getAudits()->slice(0, 1)[0];
+        $audits = $this->getAudits()->slice(0, 1);
+
+        return $audits[0];
     }
 
     /**
@@ -171,6 +173,12 @@ class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
     {
 
         $audits = $this->getAudits();
-       return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
+        if ($audits->count() > 1) {
+            $audits = $audits->slice($audits->count() - 1, 1);
+
+            return $audits[0];
+        }
+
+        return null;
     }
 }

@@ -17,13 +17,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\CompanyPersonRepository")
  * @ORM\Table("companyPersons")
  */
 class CompanyPerson extends Person
 {
+
     /**
      * @var Location
      *
@@ -59,8 +60,9 @@ class CompanyPerson extends Person
      */
     public function __construct()
     {
+
         parent::__construct();
-        $this->attendances = new ArrayCollection();
+        $this->attendances   = new ArrayCollection();
         $this->registrations = new ArrayCollection();
     }
 
@@ -69,6 +71,7 @@ class CompanyPerson extends Person
      */
     public function setLocation($location)
     {
+
         $this->location = $location;
     }
 
@@ -77,6 +80,7 @@ class CompanyPerson extends Person
      */
     public function getLocation()
     {
+
         return $this->location;
     }
 
@@ -85,6 +89,7 @@ class CompanyPerson extends Person
      */
     public function setAttendances($attendances)
     {
+
         $this->attendances = $attendances;
     }
 
@@ -93,6 +98,7 @@ class CompanyPerson extends Person
      */
     public function getAttendances()
     {
+
         return $this->attendances;
     }
 
@@ -101,6 +107,7 @@ class CompanyPerson extends Person
      */
     public function setRegistrations($registrations)
     {
+
         $this->registrations = $registrations;
     }
 
@@ -109,6 +116,7 @@ class CompanyPerson extends Person
      */
     public function getRegistrations()
     {
+
         return $this->registrations;
     }
 
@@ -117,6 +125,7 @@ class CompanyPerson extends Person
      */
     public function setIsPrimary($isPrimary)
     {
+
         $this->isPrimary = $isPrimary;
     }
 
@@ -125,6 +134,7 @@ class CompanyPerson extends Person
      */
     public function getIsPrimary()
     {
+
         return $this->isPrimary;
     }
 }

@@ -20,13 +20,14 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity
  * @ORM\Table(name="addressTypes")
  */
 class AddressType implements AuditableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -60,6 +61,7 @@ class AddressType implements AuditableInterface, CRUDEntityInterface
      */
     public function __construct()
     {
+
         $this->audits = new ArrayCollection();
     }
 
@@ -68,6 +70,7 @@ class AddressType implements AuditableInterface, CRUDEntityInterface
      */
     public function getId()
     {
+
         return $this->addressTypeId;
     }
 
@@ -76,6 +79,7 @@ class AddressType implements AuditableInterface, CRUDEntityInterface
      */
     public function getAddressTypeId()
     {
+
         return $this->addressTypeId;
     }
 
@@ -84,6 +88,7 @@ class AddressType implements AuditableInterface, CRUDEntityInterface
      */
     public function setName($name)
     {
+
         $this->name = $name;
     }
 
@@ -92,6 +97,7 @@ class AddressType implements AuditableInterface, CRUDEntityInterface
      */
     public function getName()
     {
+
         return $this->name;
     }
 
@@ -100,6 +106,7 @@ class AddressType implements AuditableInterface, CRUDEntityInterface
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -108,6 +115,7 @@ class AddressType implements AuditableInterface, CRUDEntityInterface
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -116,7 +124,10 @@ class AddressType implements AuditableInterface, CRUDEntityInterface
      */
     public function getCreationAudit()
     {
-        return $this->getAudits()->slice(0, 1)[0];
+
+        $audits = $this->getAudits()->slice(0, 1);
+
+        return $audits[0];
     }
 
     /**
@@ -124,8 +135,15 @@ class AddressType implements AuditableInterface, CRUDEntityInterface
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+        if ($audits->count() > 1) {
+            $audits = $audits->slice($audits->count() - 1, 1);
+
+            return $audits[0];
+        }
+
+        return null;
     }
 
     /**
@@ -133,6 +151,7 @@ class AddressType implements AuditableInterface, CRUDEntityInterface
      */
     public function getTitle()
     {
+
         return $this->getName();
     }
 }

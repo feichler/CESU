@@ -16,13 +16,14 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\LocationAddressRepository")
  * @ORM\Table("locationAddresses")
  */
 class LocationAddress extends Address
 {
+
     /**
      * @var string
      *
@@ -51,6 +52,7 @@ class LocationAddress extends Address
      */
     public function __construct()
     {
+
         parent::__construct();
     }
 
@@ -59,6 +61,7 @@ class LocationAddress extends Address
      */
     public function setLocation($location)
     {
+
         $this->location = $location;
     }
 
@@ -67,6 +70,7 @@ class LocationAddress extends Address
      */
     public function getLocation()
     {
+
         return $this->location;
     }
 
@@ -75,6 +79,7 @@ class LocationAddress extends Address
      */
     public function setIsPrimary($isPrimary)
     {
+
         $this->isPrimary = $isPrimary;
     }
 
@@ -83,6 +88,7 @@ class LocationAddress extends Address
      */
     public function getIsPrimary()
     {
+
         return $this->isPrimary;
     }
 
@@ -91,6 +97,7 @@ class LocationAddress extends Address
      */
     public function setName($name)
     {
+
         $this->name = $name;
     }
 
@@ -99,6 +106,7 @@ class LocationAddress extends Address
      */
     public function getName()
     {
+
         return $this->name;
     }
 }
