@@ -35,7 +35,7 @@ class ContactInfoTypeFixture extends SeedBundleFixture
         foreach($statuses as $data)
         {
             $status = new ContactInfoType();
-            $status->setName($data[0]);
+            $status->setName($data);
             $manager->persist($status);
         }
 

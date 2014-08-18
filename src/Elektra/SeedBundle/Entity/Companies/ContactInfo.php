@@ -23,7 +23,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  *          @version 0.1-dev
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\ContactInfoRepository")
  * @ORM\Table(name="contactInfo")
  */
 class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
@@ -57,7 +57,7 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
      * @ORM\ManyToOne(targetEntity="Person", inversedBy="contactInfo", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="personId", referencedColumnName="personId", nullable=false)
      */
-    protected $contact;
+    protected $person;
 
     /**
      * @var ContactInfoType
@@ -185,6 +185,22 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
     public function setAudits($audits)
     {
         $this->audits = $audits;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Companies\Person $person
+     */
+    public function setPerson($person)
+    {
+        $this->person = $person;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Companies\Person
+     */
+    public function getPerson()
+    {
+        return $this->person;
     }
 
     /**
