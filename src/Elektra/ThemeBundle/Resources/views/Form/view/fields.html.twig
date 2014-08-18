@@ -90,7 +90,7 @@
 
 {# CANCEL_WIDGET (custom button type) #}
 {% block cancel_widget %}
-{#{{ returnLink }}#}
+    {#{{ returnLink }}#}
     {#{% set link = path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) %}#}
     <a
             href="{{ returnLink }}"
@@ -102,8 +102,8 @@
             {{- attrname }}="{{ attrvalue }}"
         {%- endif -%}
     {%- endfor -%}
-            >
-        {{ label|trans({}, translation_domain) }}
+    >
+    {{ label|trans({}, translation_domain) }}
     </a>
 
     {##}
@@ -149,3 +149,20 @@
 {% block buttonGroup_row %}
     {{ block('button_row') }}
 {% endblock buttonGroup_row %}
+
+{# CHOICE_WIDGET_COLLAPSED #}
+{% block choice_widget_collapsed -%}
+    <span class="form-control" {{ block('widget_attributes') }}>
+        {% set options = choices -%}
+        {{ block('choice_widget_options') }}
+    </span>
+{%- endblock choice_widget_collapsed %}
+
+{# CHOICE_WIDGET_OPTIONS #}
+{% block choice_widget_options -%}
+    {% for group_label, choice in options %}
+        {% if choice is selectedchoice(value) %}
+            {{ choice.label|trans({}, translation_domain) }}
+        {% endif %}
+    {% endfor %}
+{%- endblock choice_widget_options %}

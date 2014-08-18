@@ -62,6 +62,13 @@
     {% endif %}
 {%- endblock form_widget %}
 
+{# FORM_ROWS #}
+{% block form_rows -%}
+    {% for child in form %}
+        {{- form_row(child) -}}
+    {% endfor %}
+{%- endblock form_rows %}
+
 {# FORM_ROW #}
 {% block form_row %}
     {% set class = 'form-group' %}
@@ -76,6 +83,25 @@
         </div>
     </div>
 {% endblock form_row %}
+
+{# FORM_REST #}
+{% block form_rest -%}
+    {% for child in form -%}
+        {% if not child.rendered %}
+            {{- form_row(child) -}}
+        {% endif %}
+    {%- endfor %}
+{% endblock form_rest %}
+
+{# FORM_ERRORS #}
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+        {%- for error in errors -%}
+            <span class="help-block">{{ error.message|trans }}</span>
+        {%- endfor -%}
+    {%- endif %}
+{%- endblock form_errors %}
 
 {#############################################################################
  # Form widgets
@@ -112,6 +138,19 @@
             />
 {%- endblock form_widget_simple %}
 
+{# FORM_WIDGET_COMPOUND #}
+{% block form_widget_compound -%}
+    <div {{ block('widget_container_attributes') }}>
+        {%- if form.parent is empty -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+    </div>
+{%- endblock form_widget_compound %}
+
+
+
 {# TEXTAREA_WIDGET #}
 {% block textarea_widget -%}
     <textarea class="form-control" {{ block('widget_attributes') }}>{{ value }}</textarea>
@@ -143,3 +182,24 @@
         {{- form_widget(form) -}}
     </div>
 {%- endblock button_row %}
+
+{# CHOICE_WIDGET_COLLAPSED #}
+{% block choice_widget_collapsed -%}
+    {% if required and empty_value is none and not empty_value_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <select class="form-control" {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {% if empty_value is not none -%}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ empty_value|trans({}, translation_domain) }}</option>
+        {%- endif %}
+        {%- if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {{- block('choice_widget_options') -}}
+            {% if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif %}
+        {%- endif -%}
+        {% set options = choices -%}
+        {{- block('choice_widget_options') -}}
+    </select>
+{%- endblock choice_widget_collapsed %}
