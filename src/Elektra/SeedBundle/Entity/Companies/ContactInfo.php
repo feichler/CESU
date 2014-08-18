@@ -52,6 +52,14 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CRUDEntityI
     protected $text;
 
     /**
+     * @var Person
+     *
+     * @ORM\ManyToOne(targetEntity="Person", inversedBy="contactInfo", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="personId", referencedColumnName="personId", nullable=false)
+     */
+    protected $contact;
+
+    /**
      * @var ContactInfoType
      *
      * @ORM\ManyToOne(targetEntity="ContactInfoType", fetch="EXTRA_LAZY")
