@@ -80,8 +80,10 @@ class Navigator
 
         $definition = new Definition($vendor, $this->checkBundle($bundle), $group, $name);
         $definition->setKey($this->getKey($definition));
-        //$definition->show();
+
         $this->definitions[$this->getKey($definition)] = $definition;
+
+        return $definition;
     }
 
     /**

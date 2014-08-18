@@ -89,10 +89,10 @@ abstract class CRUDForm extends AbstractType
                 ),
             ),
         );
-        $backButton   = array(
+        $closeButton  = array(
             'type'    => 'cancel',
             'options' => array(
-                'label'      => 'Back',
+                'label'      => 'Close',
                 'attr'       => array(
                     'class' => 'btn btn-primary',
                 ),
@@ -110,7 +110,7 @@ abstract class CRUDForm extends AbstractType
                     'save'   => $saveButton,
                     'reset'  => $resetButton,
                     'cancel' => $cancelButton,
-                    'back'   => $backButton,
+                    'close'  => $closeButton,
                 ),
             )
         );
