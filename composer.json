@@ -26,7 +26,8 @@
 		"frameworks/jquery": "1.11.x",
 		"yiisoft/jquery": "1.11.x",
 		"mrclay/minify": "~2.2",
-		"natxet/CssMin": "~3.0"
+		"natxet/CssMin": "~3.0",
+		"craue/formflow-bundle": "3.0.*@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
