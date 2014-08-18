@@ -47,7 +47,9 @@ class CompanyLocationType extends CRUDForm
         );
         $builder->add('shortName', 'text', $nameOptions);
         $builder->add('name', 'text');
-        $builder->add('isPrimary', 'checkbox');
+        $builder->add('isPrimary', 'checkbox', array(
+            'required' => false
+        ));
 
         $builder->add('company', 'entity', array(
             'class' => 'Elektra\SeedBundle\Entity\Companies\Company',
