@@ -56,7 +56,7 @@ class RegistrationType extends CRUDForm
             )
         ));
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

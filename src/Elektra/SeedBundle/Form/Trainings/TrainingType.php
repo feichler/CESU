@@ -61,7 +61,7 @@ class TrainingType extends CRUDForm
         //TODO: list input for registrations
         //TODO: list input for attendances
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

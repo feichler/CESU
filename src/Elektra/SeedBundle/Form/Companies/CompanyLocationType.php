@@ -64,7 +64,7 @@ class CompanyLocationType extends CRUDForm
             )
         ));
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

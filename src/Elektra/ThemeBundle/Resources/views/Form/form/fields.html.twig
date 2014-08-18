@@ -1,0 +1,145 @@
+{#############################################################################
+ # Form containers
+ #############################################################################}
+
+{# FORM #}
+{% block form %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock form %}
+
+{# FORM_START #}
+{% block form_start %}
+    {# check the form method #}
+    {% set method = method|upper %}
+    {%- if method in ["GET", "POST"] -%}
+        {% set form_method = method %}
+    {%- else -%}
+        {% set form_method = "POST" %}
+    {%- endif -%}
+    {# perpare the form classes #}
+    {% set class = "" %}
+    {% if form.vars.elektra is defined %}
+        {% if form.vars.elektra.classes is defined %}
+            {% set class = form.vars.elektra.classes|join(' ') %}
+        {% endif %}
+    {% endif %}
+    {# output the HTML #}
+    <form
+            role="form"
+            name="{{ form.vars.name }}"
+            method="{{ form_method }}"
+            action="{{ action }}"
+            class="{{ class }}"
+    {% for attrname, attrvalue in attr %}
+        {{ attrname }}="{{ attrvalue }}"
+    {% endfor %}
+    {% if multipart %}
+        enctype="multipart/form-data"
+    {% endif %}
+    >
+    {# add the _method input #}
+    {% if form_method != method %}
+        <input type="hidden" name="_method" value="{{ method }}"/>
+    {% endif %}
+{% endblock form_start %}
+
+{# FORM_END #}
+{% block form_end %}
+    {% if not render_rest is defined or render_rest %}
+        {{ form_rest(form) }}
+    {% endif %}
+    </form>
+{% endblock form_end %}
+
+{# FORM_WIDGET #}
+{% block form_widget %}
+    {% if compound %}
+        {{ block('form_widget_compound') }}
+    {% else %}
+        {{ block('form_widget_simple') }}
+    {% endif %}
+{%- endblock form_widget %}
+
+{# FORM_ROW #}
+{% block form_row %}
+    {% set class = 'form-group' %}
+    {% if errors|length > 0 %}
+        {% set class = class ~ ' has-error has-feedback' %}
+    {% endif %}
+    <div class="{{ class }}">
+        {{ form_label(form) }}
+        <div class="col-sm-10">
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endblock form_row %}
+
+{#############################################################################
+ # Form widgets
+ #############################################################################}
+
+{# FORM_LABEL #}
+{% block form_label %}
+    {% if label is not sameas(false) %}
+        {% if not compound %}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {% endif %}
+        {% if required %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {% endif %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <label class="col-md-2 control-label"{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+        {{ label|trans({}, translation_domain) }}
+        </label>
+    {% endif %}
+{% endblock form_label %}
+
+{# FORM_WIDGET_SIMPLE #}
+{% block form_widget_simple -%}
+    {% set type = type|default('text') -%}
+    <input
+            class="form-control"
+            type="{{ type }}"
+            {{ block('widget_attributes') }}
+            {% if value is not empty %}
+                value="{{ value }}"
+            {% endif %}
+            />
+{%- endblock form_widget_simple %}
+
+{# TEXTAREA_WIDGET #}
+{% block textarea_widget -%}
+    <textarea class="form-control" {{ block('widget_attributes') }}>{{ value }}</textarea>
+{%- endblock textarea_widget %}
+
+{# CANCEL_WIDGET (custom button type) #}
+{% block cancel_widget %}
+    {% set type = type|default('submit') %}
+    {{ block('button_widget') }}
+{% endblock cancel_widget %}
+
+{# BUTTONGROUP_WIDGET #}
+{% block buttonGroup_widget %}
+    {% for button in form.children %}
+        {% if (button.vars.showForm is defined and button.vars.showForm == true) or button.vars.showForm is not defined %}
+            {{ form_widget(button) }}
+        {% endif %}
+    {% endfor %}
+{% endblock buttonGroup_widget %}
+
+{# BUTTONGROUP_ROW #}
+{% block buttonGroup_row %}
+    {{ block('button_row') }}
+{% endblock buttonGroup_row %}
+
+{# BUTTON_ROW #}
+{% block button_row -%}
+    <div class="form-group text-center">
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock button_row %}

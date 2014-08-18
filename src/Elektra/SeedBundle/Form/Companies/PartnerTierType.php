@@ -50,7 +50,7 @@ class PartnerTierType extends CRUDForm
 
         $builder->add('unitsLimit', 'integer', $nameOptions);
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

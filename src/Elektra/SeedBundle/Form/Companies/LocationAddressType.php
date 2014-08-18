@@ -81,7 +81,7 @@ class LocationAddressType extends CRUDForm
             )
         ));
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

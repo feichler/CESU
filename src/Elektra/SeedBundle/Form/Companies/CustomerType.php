@@ -48,7 +48,7 @@ class CustomerType extends CRUDForm
         $builder->add('shortName', 'text', $nameOptions);
         $builder->add('name', 'text');
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

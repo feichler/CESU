@@ -55,7 +55,7 @@ class SeedUnitType extends CRUDForm
             'property' => 'name'
         ));
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

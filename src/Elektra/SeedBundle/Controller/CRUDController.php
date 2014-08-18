@@ -102,7 +102,12 @@ abstract class CRUDController extends Controller
         // execute the required actions for this controller
         $repository = $this->getDoctrine()->getRepository($repositoryClass);
         $entity     = $repository->find($id);
-        $form       = $this->createForm(new $formClass, $entity);
+        $returnLink = $this->get('navigator')->getLink($this->definition, 'browse', array('page' => $this->getPage()));
+        $form       = $this->createForm(
+            new $formClass(),
+            $entity,
+            array('returnLink' => $returnLink)
+        );
 
         // generate the view & view name
         $view     = $form->createView();
@@ -160,36 +165,6 @@ abstract class CRUDController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deleteAction(Request $request, $id)
-    {
-
-        // Initialise the controller (does initialise the page as well)
-        $this->initialise('delete');
-
-        // get the required classes for this action
-        $repositoryClass = $this->definition->getClassRepository();
-
-        // execute the required actions for this controller
-        $repository = $this->getDoctrine()->getRepository($repositoryClass);
-        $entity     = $repository->find($id);
-
-        // remove the entity
-        $manager = $this->getDoctrine()->getManager();
-        $manager->remove($entity);
-        $manager->flush();
-
-        $this->addSuccessMessage('delete', $id);
-
-        // redirect to browsing
-        return $this->redirectToBrowse();
-    }
-
-    /**
-     * @param Request $request
-     * @param int     $id
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function editAction(Request $request, $id)
     {
 
@@ -227,6 +202,35 @@ abstract class CRUDController extends Controller
         return $this->render($viewName, array('form' => $view));
     }
 
+    /**
+     * @param Request $request
+     * @param int     $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteAction(Request $request, $id)
+    {
+
+        // Initialise the controller (does initialise the page as well)
+        $this->initialise('delete');
+
+        // get the required classes for this action
+        $repositoryClass = $this->definition->getClassRepository();
+
+        // execute the required actions for this controller
+        $repository = $this->getDoctrine()->getRepository($repositoryClass);
+        $entity     = $repository->find($id);
+
+        // remove the entity
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($entity);
+        $manager->flush();
+
+        $this->addSuccessMessage('delete', $id);
+
+        // redirect to browsing
+        return $this->redirectToBrowse();
+    }
     /*************************************************************************
      * Controller Initialisation
      *************************************************************************/

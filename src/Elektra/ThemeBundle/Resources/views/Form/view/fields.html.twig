@@ -1,0 +1,151 @@
+{#############################################################################
+ # Form containers
+ #############################################################################}
+
+{# FORM #}
+{% block form %}
+    {% form_theme form _self %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock form %}
+
+{# FORM_START #}
+{% block form_start %}
+    {# perpare the form classes #}
+    {% set class = "form-view" %}
+    {% if form.vars.elektra is defined %}
+        {% if form.vars.elektra.classes is defined %}
+            {% set class = class ~ ' ' ~ form.vars.elektra.classes|join(' ') %}
+        {% endif %}
+    {% endif %}
+    {# output the HTML #}
+    <div
+            name="{{ form.vars.name }}"
+            class="{{ class }}"
+    {% for attrname, attrvalue in attr %}
+        {{ attrname }}="{{ attrvalue }}"
+    {% endfor %}
+    >
+{% endblock form_start %}
+
+{# FORM_END #}
+{% block form_end %}
+    {% form_theme form _self %}
+    {% if not render_rest is defined or render_rest %}
+        {{ form_rest(form) }}
+    {% endif %}
+    </div>
+{% endblock form_end %}
+
+
+{#############################################################################
+ # Form widgets
+ #############################################################################}
+
+{# FORM_LABEL #}
+{% block form_label %}
+    {% if label is not sameas(false) %}
+        {% if not compound %}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {% endif %}
+        {% if required %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {% endif %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <span class="col-md-2 control-label"{% for attrname, attrvalue in label_attr %}{% if attrname != 'for' %} {{ attrname }}="{{ attrvalue }}"{% endif %}{% endfor %}>
+        {{ label|trans({}, translation_domain) }}
+        </span>
+    {% endif %}
+{% endblock form_label %}
+
+{# FORM_WIDGET_SIMPLE #}
+{% block form_widget_simple %}
+    {% set type = type|default('text') %}
+    <div
+            class="form-control"
+            {#type="{{ type }}"#}
+            {{ block('widget_attributes') }}
+            {% if value is not empty %}
+                value="{{ value }}"
+            {% endif %}
+            >
+        {% if value is not empty %}
+            {{ value }}
+        {% endif %}
+    </div>
+{% endblock form_widget_simple %}
+
+{# TEXTAREA_WIDGET #}
+{% block textarea_widget -%}
+    <div class="form-control" {{ block('widget_attributes') }}>{{ value }}</div>
+{%- endblock textarea_widget %}
+
+
+{# HIDDEN_WIDGET -> not displaying in view theme #}
+{% block hidden_widget %}
+{% endblock hidden_widget %}
+
+{# CANCEL_WIDGET (custom button type) #}
+{% block cancel_widget %}
+{#{{ returnLink }}#}
+    {#{% set link = path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) %}#}
+    <a
+            href="{{ returnLink }}"
+            id="{{ id }}"
+            name="{{ full_name }}"
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrvalue is not sameas(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+            >
+        {{ label|trans({}, translation_domain) }}
+    </a>
+
+    {##}
+    {#<a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) }}" class="btn btn-primary">Back</a>#}
+    {#&#123;&#35;{{  }}&#35;&#125;#}
+    {#{% set type = type|default('submit') %}#}
+    {#{{ block('button_widget') }}#}
+{% endblock cancel_widget %}
+
+{% block button_attributes -%}
+    id="{{ id }}" name="{{ full_name }}"{% if disabled %} disabled="disabled"{% endif -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is sameas(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not sameas(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock button_attributes %}
+
+
+
+{% block button_widget -%}
+    {% if label is empty -%}
+        {% set label = name|humanize %}
+    {%- endif -%}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+{%- endblock button_widget %}
+
+{# BUTTONGROUP_WIDGET #}
+{% block buttonGroup_widget %}
+    {% for button in form.children %}
+        {% if (button.vars.showView is defined and button.vars.showView == true) or button.vars.showView is not defined %}
+            {{ form_widget(button) }}
+        {% endif %}
+    {% endfor %}
+{% endblock buttonGroup_widget %}
+
+{# BUTTONGROUP_ROW #}
+{% block buttonGroup_row %}
+    {{ block('button_row') }}
+{% endblock buttonGroup_row %}

@@ -66,7 +66,7 @@ class ContactInfoType extends CRUDForm
             )
         ));
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

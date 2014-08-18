@@ -53,7 +53,7 @@ class CountryType extends CRUDForm
         );
         $builder->add('region', 'entity', $regionOptions);
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

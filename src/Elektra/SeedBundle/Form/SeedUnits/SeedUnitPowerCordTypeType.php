@@ -52,7 +52,7 @@ class SeedUnitPowerCordTypeType extends CRUDForm
         );
         $builder->add('description', 'textarea', $descriptionOptions);
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

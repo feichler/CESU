@@ -62,7 +62,7 @@ class CompanyPersonType extends CRUDForm
             )
         ));
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

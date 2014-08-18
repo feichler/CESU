@@ -14,6 +14,16 @@ services:
         tags:
             - { name: form.type, alias: cancel }
 
+    elektra_theme.form.type.submit: # Submit Form Field
+        class: Elektra\ThemeBundle\Form\Field\SubmitType
+        tags:
+            - { name: form.type, alias: submit }
+
+    elektra_theme.form.type.reset: # Reset Form Field
+        class: Elektra\ThemeBundle\Form\Field\ResetType
+        tags:
+            - { name: form.type, alias: reset }
+
     elektra_theme.form.type.buttongroup: # Button Group for Forms
         class: Elektra\ThemeBundle\Form\Field\ButtonGroupType
         tags:

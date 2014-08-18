@@ -62,7 +62,7 @@ class PartnerType extends CRUDForm
             "required" => false
         ));
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**
