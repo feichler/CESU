@@ -1,0 +1,2 @@
+
+URGENT: check integrity constraints in table inheritance. Example: Add a partner with the same short name as a customer -> SQL ERROR
