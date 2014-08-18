@@ -34,6 +34,7 @@ class GenericLocationFixture extends SeedBundleFixture
         foreach($statuses as $data)
         {
             $status = new GenericLocation();
+            $status->setShortName($data[0]);
             $status->setName($data[0]);
             $manager->persist($status);
         }
