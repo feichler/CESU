@@ -27,7 +27,7 @@ class CompanyLocation extends Location
     /**
      * @var Company
      *
-     * @ORM\ManyToOne(targetEntity="Company", inversedBy="companyLocations", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Company", inversedBy="locations", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="companyId", referencedColumnName="companyId")
      *
      */
