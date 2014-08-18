@@ -48,7 +48,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $name;
 
@@ -235,6 +235,6 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
     public function getTitle()
     {
 
-        return $this->getName();
+        return $this->getShortName();
     }
 }

@@ -49,7 +49,7 @@ abstract class Company implements AuditableInterface, AnnotableInterface, CRUDEn
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $name;
 

@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SeedBundle\Entity\Notes\Note;
 
@@ -24,7 +25,7 @@ use Elektra\SeedBundle\Entity\Notes\Note;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\AddressRepository")
  * @ORM\Table("addresses")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type",type="string")
@@ -33,7 +34,7 @@ use Elektra\SeedBundle\Entity\Notes\Note;
  * })
 
  */
-class Address implements AuditableInterface, AnnotableInterface, EntityInterface
+class Address implements AuditableInterface, AnnotableInterface, EntityInterface, CRUDEntityInterface
 {
 
     /**
@@ -48,7 +49,7 @@ class Address implements AuditableInterface, AnnotableInterface, EntityInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $state;
 
@@ -354,4 +355,16 @@ class Address implements AuditableInterface, AnnotableInterface, EntityInterface
 
         return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
     }
+
+    /**
+     * Return the representative title of the entity
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return "???";
+    }
+
+
 }

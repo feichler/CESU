@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  *          @version 0.1-dev
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\LocationAddressRepository")
  * @ORM\Table("locationAddresses")
  */
 class LocationAddress extends Address
@@ -26,7 +26,7 @@ class LocationAddress extends Address
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     protected $name;
 

@@ -35,7 +35,7 @@ class AddressTypeFixture extends SeedBundleFixture
         foreach($statuses as $data)
         {
             $status = new AddressType();
-            $status->setName($data[0]);
+            $status->setName($data);
             $manager->persist($status);
         }
 

@@ -16,13 +16,13 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class CompanyLocationType
+ * Class LocationAddressType
  *
  * @package Elektra\SeedBundle\Form\Companies
  *
  * @version 0.1-dev
  */
-class CompanyLocationType extends CRUDForm
+class LocationAddressType extends CRUDForm
 {
 
     /**
@@ -31,7 +31,7 @@ class CompanyLocationType extends CRUDForm
     public function getName()
     {
 
-        return 'companylocation';
+        return 'locationaddress';
     }
 
     /**
@@ -45,19 +45,36 @@ class CompanyLocationType extends CRUDForm
                 new NotBlank(array('message' => 'error.constraint.required')),
             )
         );
+        $builder->add('name', 'text', $nameOptions);
 
-        $builder->add('shortName', 'text', $nameOptions);
-        $builder->add('name', 'text', array(
-            'required' => false
+        $builder->add('location', 'entity', array(
+            'class' => 'Elektra\SeedBundle\Entity\Companies\Location',
+            'property' => 'title',
+            'required' => true,
+            'constraints' => array(
+                new NotBlank(array('message' => 'error.constraint.required')),
+            )
         ));
 
-        $builder->add('isPrimary', 'checkbox', array(
-            'required' => false
+        $builder->add('addressType', 'entity', array(
+            'class' => 'Elektra\SeedBundle\Entity\Companies\AddressType',
+            'property' => 'title',
+            'required' => true,
+            'constraints' => array(
+                new NotBlank(array('message' => 'error.constraint.required')),
+            )
         ));
 
-        $builder->add('company', 'entity', array(
-            'class' => 'Elektra\SeedBundle\Entity\Companies\Company',
-            'property' => 'shortName',
+        $builder->add('isPrimary', 'checkbox', array('required' => false));
+        $builder->add('street1', 'text', $nameOptions);
+        $builder->add('street2', 'text', array('required' => false));
+        $builder->add('street3', 'text', array('required' => false));
+        $builder->add('postalCode', 'text', $nameOptions);
+        $builder->add('city', 'text', $nameOptions);
+        $builder->add('state', 'text', array('required' => false));
+        $builder->add('country', 'entity', array(
+            'class' => 'Elektra\SeedBundle\Entity\Companies\Country',
+            'property' => 'title',
             'required' => true,
             'constraints' => array(
                 new NotBlank(array('message' => 'error.constraint.required')),
