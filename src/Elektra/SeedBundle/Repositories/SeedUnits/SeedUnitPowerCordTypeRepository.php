@@ -17,10 +17,11 @@ use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType;
  *
  * @package Elektra\SeedBundle\Repositories\SeedUnits
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class SeedUnitPowerCordTypeRepository extends EntityRepository
 {
+
     /**
      * {@inheritdoc}
      */
@@ -50,6 +51,7 @@ class SeedUnitPowerCordTypeRepository extends EntityRepository
 
         return $builder->getQuery()->getSingleScalarResult() == 0;
     }
+
     /**
      * {@inheritdoc}
      */

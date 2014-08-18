@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * @package Elektra\SiteBundle\DependencyInjection
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class ElektraSiteExtension extends Extension
 {

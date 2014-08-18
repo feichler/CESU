@@ -9,16 +9,16 @@
 
 namespace Elektra\SeedBundle\Repositories\Companies;
 
-
 /**
  * Class WarehouseLocationRepository
  *
  * @package Elektra\SeedBundle\Repositories\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class WarehouseLocationRepository extends LocationRepository
 {
+
     /**
      * {@inheritdoc}
      */
@@ -33,6 +33,7 @@ class WarehouseLocationRepository extends LocationRepository
 
         return $query->getSingleScalarResult();
     }
+
     /**
      * {@inheritdoc}
      */

@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @package Elektra\SiteBundle\Controller
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class SiteController extends Controller
 {

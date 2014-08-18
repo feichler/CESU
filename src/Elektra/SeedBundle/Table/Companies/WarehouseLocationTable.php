@@ -76,7 +76,7 @@ class WarehouseLocationTable extends CRUDTable
         // ID
         $this->generateIdCell($content, $entry);
 
-        $viewLink  = $this->generateLink('view', $entry->getId());
+        $viewLink   = $this->generateLink('view', $entry->getId());
         $identifier = $content->addCell();
         $identifier->addActionContent('view', $viewLink, array('text' => $entry->getLocationIdentifier(), 'render' => 'link'));
 
@@ -84,11 +84,11 @@ class WarehouseLocationTable extends CRUDTable
         $content->addCell()->addHtmlContent($entry->getName());
 
         $addressCell = $content->addCell();
-/*        $address = $entry->getAddresses()->first();
-        if ($address != null)
-        {
-            $addressCell->addHtmlContent(TableHelper::renderAddress($address));
-        }*/
+        /*        $address = $entry->getAddresses()->first();
+                if ($address != null)
+                {
+                    $addressCell->addHtmlContent(TableHelper::renderAddress($address));
+                }*/
 
         // Audits
         $this->generateAuditCell($content, $entry);

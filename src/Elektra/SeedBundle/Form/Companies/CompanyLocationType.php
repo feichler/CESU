@@ -47,22 +47,34 @@ class CompanyLocationType extends CRUDForm
         );
 
         $builder->add('shortName', 'text', $nameOptions);
-        $builder->add('name', 'text', array(
-            'required' => false
-        ));
-
-        $builder->add('isPrimary', 'checkbox', array(
-            'required' => false
-        ));
-
-        $builder->add('company', 'entity', array(
-            'class' => 'Elektra\SeedBundle\Entity\Companies\Company',
-            'property' => 'shortName',
-            'required' => true,
-            'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
+        $builder->add(
+            'name',
+            'text',
+            array(
+                'required' => false
             )
-        ));
+        );
+
+        $builder->add(
+            'isPrimary',
+            'checkbox',
+            array(
+                'required' => false
+            )
+        );
+
+        $builder->add(
+            'company',
+            'entity',
+            array(
+                'class'       => 'Elektra\SeedBundle\Entity\Companies\Company',
+                'property'    => 'shortName',
+                'required'    => true,
+                'constraints' => array(
+                    new NotBlank(array('message' => 'error.constraint.required')),
+                )
+            )
+        );
 
         $this->addFormActions($builder, $options);
     }

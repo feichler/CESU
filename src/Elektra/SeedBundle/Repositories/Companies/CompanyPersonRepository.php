@@ -9,16 +9,16 @@
 
 namespace Elektra\SeedBundle\Repositories\Companies;
 
-
 /**
  * Class CompanyPersonRepository
  *
  * @package Elektra\SeedBundle\Repositories\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class CompanyPersonRepository extends PersonRepository
 {
+
     /**
      * {@inheritdoc}
      */
@@ -33,6 +33,7 @@ class CompanyPersonRepository extends PersonRepository
 
         return $query->getSingleScalarResult();
     }
+
     /**
      * {@inheritdoc}
      */

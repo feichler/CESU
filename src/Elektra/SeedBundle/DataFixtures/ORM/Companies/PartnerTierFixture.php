@@ -18,22 +18,23 @@ use Elektra\SeedBundle\Entity\Companies\PartnerTier;
  *
  * @package Elektra\SeedBundle\DataFixtures\ORM\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class PartnerTierFixture extends SeedBundleFixture
 {
+
     /**
      * {@inheritdoc}
      */
     protected function doLoad(ObjectManager $manager)
     {
+
         $statuses = array(
             array("Tier 1", 5),
-            array("Tier 2",  1)
+            array("Tier 2", 1)
         );
 
-        foreach($statuses as $data)
-        {
+        foreach ($statuses as $data) {
             $status = new PartnerTier();
             $status->setName($data[0]);
             $status->setUnitsLimit($data[1]);
@@ -48,6 +49,7 @@ class PartnerTierFixture extends SeedBundleFixture
      */
     function getOrder()
     {
+
         return 1002;
     }
 }

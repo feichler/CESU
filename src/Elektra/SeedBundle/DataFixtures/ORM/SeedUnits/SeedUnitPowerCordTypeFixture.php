@@ -18,10 +18,11 @@ use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType;
  *
  * @package Elektra\SeedBundle\DataFixtures\ORM\SeedUnits
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class SeedUnitPowerCordTypeFixture extends SeedBundleFixture
 {
+
     /**
      * {@inheritdoc}
      */

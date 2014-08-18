@@ -18,21 +18,22 @@ use Elektra\SeedBundle\Entity\Companies\GenericLocation;
  *
  * @package Elektra\SeedBundle\DataFixtures\ORM\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class GenericLocationFixture extends SeedBundleFixture
 {
+
     /**
      * {@inheritdoc}
      */
     protected function doLoad(ObjectManager $manager)
     {
+
         $statuses = array(
             "In transit"
         );
 
-        foreach($statuses as $data)
-        {
+        foreach ($statuses as $data) {
             $status = new GenericLocation();
             $status->setShortName($data);
             $manager->persist($status);
@@ -46,6 +47,7 @@ class GenericLocationFixture extends SeedBundleFixture
      */
     function getOrder()
     {
+
         return 1002;
     }
 }

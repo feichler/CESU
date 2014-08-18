@@ -81,14 +81,13 @@ class LocationAddressTable extends CRUDTable
         $this->generateIdCell($content, $entry);
 
         $companyCell = $content->addCell();
-        if ($entry->getLocation() instanceof CompanyLocation)
-        {
+        if ($entry->getLocation() instanceof CompanyLocation) {
             $companyCell->addHtmlContent($entry->getLocation()->getCompany()->getTitle());
         }
 
         $content->addCell()->addHtmlContent($entry->getLocation()->getTitle());
 
-        $viewLink  = $this->generateLink('view', $entry->getId());
+        $viewLink = $this->generateLink('view', $entry->getId());
         $nameCell = $content->addCell();
         $nameCell->addActionContent('view', $viewLink, array('text' => $entry->getName(), 'render' => 'link'));
 

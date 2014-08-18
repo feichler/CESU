@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  *
  * @package Elektra\SeedBundle\Form\SeedUnits
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class SeedUnitType extends CRUDForm
 {
@@ -30,6 +30,7 @@ class SeedUnitType extends CRUDForm
      */
     public function getName()
     {
+
         return "seedunit";
     }
 
@@ -38,6 +39,7 @@ class SeedUnitType extends CRUDForm
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $serialNumberOptions = array(
             'constraints' => array(
                 new NotBlank(array('message' => 'error.constraint.required')),
@@ -45,15 +47,23 @@ class SeedUnitType extends CRUDForm
         );
         $builder->add('serialNumber', 'text', $serialNumberOptions);
 
-        $builder->add('model', 'entity', array(
-           'class' => 'Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel',
-            'property' => 'name'
-        ));
+        $builder->add(
+            'model',
+            'entity',
+            array(
+                'class'    => 'Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel',
+                'property' => 'name'
+            )
+        );
 
-        $builder->add('powerCordType', 'entity', array(
-            'class' => 'Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType',
-            'property' => 'name'
-        ));
+        $builder->add(
+            'powerCordType',
+            'entity',
+            array(
+                'class'    => 'Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType',
+                'property' => 'name'
+            )
+        );
 
         $this->addFormActions($builder, $options);
     }

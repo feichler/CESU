@@ -52,6 +52,7 @@ class PartnerTierRepository extends EntityRepository implements CRUDRepositoryIn
     {
 
         $entries = $this->findBy(array(), array(), $perPage, ($page - 1) * $perPage);
+
         return $entries;
     }
 }

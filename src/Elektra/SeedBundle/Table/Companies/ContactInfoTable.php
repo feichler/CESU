@@ -74,7 +74,7 @@ class ContactInfoTable extends CRUDTable
 
         $content->addCell()->addHtmlContent($entry->getPerson()->getTitle());
 
-        $viewLink  = $this->generateLink('view', $entry->getId());
+        $viewLink = $this->generateLink('view', $entry->getId());
         $nameCell = $content->addCell();
         $nameCell->addActionContent('view', $viewLink, array('text' => $entry->getName(), 'render' => 'link'));
         $content->addCell()->addHtmlContent($entry->getText());

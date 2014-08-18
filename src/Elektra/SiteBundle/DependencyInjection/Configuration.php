@@ -17,7 +17,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *
  * @package Elektra\SiteBundle\DependencyInjection
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class Configuration implements ConfigurationInterface
 {

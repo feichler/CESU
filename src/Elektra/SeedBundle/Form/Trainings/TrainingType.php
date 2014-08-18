@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  *
  * @package Elektra\SeedBundle\Form\Trainings
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class TrainingType extends CRUDForm
 {
@@ -30,6 +30,7 @@ class TrainingType extends CRUDForm
      */
     public function getName()
     {
+
         return "training";
     }
 
@@ -53,7 +54,7 @@ class TrainingType extends CRUDForm
 
         $dateOptions = array(
             'required' => true,
-            'input' => 'timestamp'
+            'input'    => 'timestamp'
         );
 
         $builder->add('startedAt', 'datetime', $dateOptions);

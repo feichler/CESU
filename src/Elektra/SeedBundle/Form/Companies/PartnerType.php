@@ -46,21 +46,33 @@ class PartnerType extends CRUDForm
             )
         );
         $builder->add('shortName', 'text', $nameOptions);
-        $builder->add('name', 'text', array(
-            "required" => false
-        ));
-
-        $builder->add('partnerTier', 'entity', array(
-            'class' => 'Elektra\SeedBundle\Entity\Companies\PartnerTier',
-            'property' => 'name',
-            'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
+        $builder->add(
+            'name',
+            'text',
+            array(
+                "required" => false
             )
-        ));
+        );
 
-        $builder->add('unitsLimit', 'integer', array(
-            "required" => false
-        ));
+        $builder->add(
+            'partnerTier',
+            'entity',
+            array(
+                'class'       => 'Elektra\SeedBundle\Entity\Companies\PartnerTier',
+                'property'    => 'name',
+                'constraints' => array(
+                    new NotBlank(array('message' => 'error.constraint.required')),
+                )
+            )
+        );
+
+        $builder->add(
+            'unitsLimit',
+            'integer',
+            array(
+                "required" => false
+            )
+        );
 
         $this->addFormActions($builder, $options);
     }

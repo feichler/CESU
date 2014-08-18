@@ -49,18 +49,26 @@ class CompanyPersonType extends CRUDForm
         $builder->add('lastName', 'text', $nameOptions);
         $builder->add('salutation', 'text');
         $builder->add('jobTitle', 'text');
-        $builder->add('isPrimary', 'checkbox', array(
-            'required' => false
-        ));
-
-        $builder->add('location', 'entity', array(
-            'class' => 'Elektra\SeedBundle\Entity\Companies\CompanyLocation',
-            'property' => 'title',
-            'required' => true,
-            'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
+        $builder->add(
+            'isPrimary',
+            'checkbox',
+            array(
+                'required' => false
             )
-        ));
+        );
+
+        $builder->add(
+            'location',
+            'entity',
+            array(
+                'class'       => 'Elektra\SeedBundle\Entity\Companies\CompanyLocation',
+                'property'    => 'title',
+                'required'    => true,
+                'constraints' => array(
+                    new NotBlank(array('message' => 'error.constraint.required')),
+                )
+            )
+        );
 
         $this->addFormActions($builder, $options);
     }

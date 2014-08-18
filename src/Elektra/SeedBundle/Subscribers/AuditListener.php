@@ -21,10 +21,11 @@ use Symfony\Component\HttpFoundation\Session\Session;
  *
  * @package Elektra\SeedBundle\Subscribers
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class AuditListener
 {
+
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
@@ -35,6 +36,7 @@ class AuditListener
      */
     public function __construct(ContainerInterface $container)
     {
+
         $this->container = $container;
     }
 
@@ -43,13 +45,12 @@ class AuditListener
      */
     public function onFlush(OnFlushEventArgs $args)
     {
+
         $em  = $args->getEntityManager();
         $uow = $em->getUnitOfWork();
 
-        foreach (array_merge($uow->getScheduledEntityInsertions(), $uow->getScheduledEntityUpdates()) as $updated)
-        {
-            if ($updated instanceof AuditableInterface)
-            {
+        foreach (array_merge($uow->getScheduledEntityInsertions(), $uow->getScheduledEntityUpdates()) as $updated) {
+            if ($updated instanceof AuditableInterface) {
                 $audit = new Audit();
                 $audit->setTimestamp(time());
                 $audit->setUser($this->getUser());
@@ -65,7 +66,9 @@ class AuditListener
      */
     private function getUser()
     {
+
         $token = $this->container->get('security.context')->getToken();
+
         return $token != null ? $token->getUser() : null;
     }
 }

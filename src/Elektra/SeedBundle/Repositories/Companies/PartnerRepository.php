@@ -16,10 +16,11 @@ use Doctrine\ORM\EntityRepository;
  *
  * @package Elektra\SeedBundle\Repositories\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class PartnerRepository extends CompanyRepository
 {
+
     /**
      * {@inheritdoc}
      */
@@ -34,6 +35,7 @@ class PartnerRepository extends CompanyRepository
 
         return $query->getSingleScalarResult();
     }
+
     /**
      * {@inheritdoc}
      */

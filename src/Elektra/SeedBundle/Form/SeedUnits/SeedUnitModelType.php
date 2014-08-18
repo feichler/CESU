@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  *
  * @package Elektra\SeedBundle\Form\SeedUnits
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class SeedUnitModelType extends CRUDForm
 {
