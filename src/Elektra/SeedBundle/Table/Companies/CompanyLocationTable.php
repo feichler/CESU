@@ -87,7 +87,7 @@ class CompanyLocationTable extends CRUDTable
         $content->addCell()->addHtmlContent($entry->getName());
 
         $addressCell = $content->addCell();
-        $address = $entry->getAddresses()->first();
+        $address = !$entry->getAddresses()->isEmpty() ? $entry->getAddresses()->first() : null;
         if ($address != null)
         {
             $addressCell->addHtmlContent(TableHelper::renderAddress($address));
