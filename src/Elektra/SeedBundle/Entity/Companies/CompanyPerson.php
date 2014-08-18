@@ -19,7 +19,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  *          @version 0.1-dev
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\CompanyPersonRepository")
  * @ORM\Table("companyPersons")
  */
 class CompanyPerson extends Person
@@ -59,6 +59,7 @@ class CompanyPerson extends Person
      */
     public function __construct()
     {
+        parent::__construct();
         $this->attendances = new ArrayCollection();
         $this->registrations = new ArrayCollection();
     }

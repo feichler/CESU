@@ -51,6 +51,7 @@ class LocationAddress extends Address
      */
     public function __construct()
     {
+        parent::__construct();
     }
 
     /**

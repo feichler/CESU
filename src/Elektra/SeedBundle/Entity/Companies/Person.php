@@ -25,6 +25,11 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\PersonRepository")
  * @ORM\Table("people")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({
+ *  "company" = "CompanyPerson"
+ * })
  */
 class Person implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {

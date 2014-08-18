@@ -9,17 +9,15 @@
 
 namespace Elektra\SeedBundle\Repositories\Companies;
 
-use Doctrine\ORM\EntityRepository;
-use Elektra\SeedBundle\Repositories\CRUDRepositoryInterface;
 
 /**
- * Class PersonRepository
+ * Class CompanyPersonRepository
  *
  * @package Elektra\SeedBundle\Repositories\Companies
  *
  *          @version 0.1-dev
  */
-class PersonRepository extends EntityRepository implements CRUDRepositoryInterface
+class CompanyPersonRepository extends PersonRepository
 {
     /**
      * {@inheritdoc}
@@ -28,22 +26,13 @@ class PersonRepository extends EntityRepository implements CRUDRepositoryInterfa
     {
 
         $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select($builder->expr()->count('p'));
-        $builder->from($this->getEntityName(), 'p');
+        $builder->select($builder->expr()->count('cp'));
+        $builder->from($this->getEntityName(), 'cp');
 
         $query = $builder->getQuery();
 
         return $query->getSingleScalarResult();
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCanDelete($entry)
-    {
-        // URGENT: Implement getCanDelete() method.
-    }
-
     /**
      * {@inheritdoc}
      */

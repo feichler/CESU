@@ -53,6 +53,7 @@ class Navigator
         $this->addDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnitModel');
         $this->addDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnitPowerCordType');
         $this->addDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation');
+        $this->addDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson');
         $this->addDefinition('Elektra', 'Seed', 'Companies', 'Country');
         $this->addDefinition('Elektra', 'Seed', 'Companies', 'Customer');
         $this->addDefinition('Elektra', 'Seed', 'Companies', 'Partner');
