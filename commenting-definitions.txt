@@ -28,34 +28,34 @@ DEFINE
 For convenience this should be defined in the used IDE for highlighting:
 PHPStorm: File -> Settings -> IDE Settings - TODO
 Patterns:
-	TODO.*
+	TODO(\:)? .*
 		case sensitive
-	URGENT.*
+	URGENT(\:)? .*
 	 	case sensitive
 	 	bold & italic
 	 	foreground: #FF0000
-	MINOR.*
+	MINOR(\:)? .*
 		case sensitive
 		bold & italic
 		foreground: #8888FF
-	ENHANCE.*
+	ENHANCE(\:)? .*
 		case sensitive
 		italic
 		foreground: #8800FF
-	WORKAROUND.*
+	WORKAROUND(\:)? .*
 		case sensitive
 		bold & italic
 		foreground: #FF00FF
-	NOTE.*
+	NOTE(\:)? .*
 		case sensitive
 		bold & italic
 		foreground: #0088FF
 		background: #CCCCCC
-	CHECK.*
+	CHECK(\:)? .*
 		case sensitive
 		bold & italic
 		foreground: #FF8800
-	DEFINE[\s\S]* - option for multiline
+	DEFINE(\:)? [\s\S]* - option for multiline
 		case sensitive
 		bold & italic
 		foreground: #00FF00
