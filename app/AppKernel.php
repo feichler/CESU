@@ -21,6 +21,8 @@ class AppKernel extends Kernel
             // Common third-party bundles
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new Craue\FormFlowBundle\CraueFormFlowBundle(),
+            new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
             // Specific Elektra Bundles
             new Elektra\UserBundle\ElektraUserBundle(),
             new Elektra\ThemeBundle\ElektraThemeBundle(),

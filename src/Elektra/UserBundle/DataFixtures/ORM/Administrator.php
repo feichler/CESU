@@ -43,6 +43,15 @@ class Administrator extends AbstractFixture implements OrderedFixtureInterface
         $admin->setSuperAdmin(true);
         $manager->persist($admin);
 
+        $anon = new User();
+        $anon->setUsername('anonymous');
+        $anon->setPlainPassword('anonymous');
+        $anon->setFirstName('Anonymous');
+        $anon->setLastName('User');
+        $anon->setEmail('anonymous@elektra.aurealis.at');
+        $anon->setEnabled(false);
+        $manager->persist($anon);
+
         $manager->flush();
 
         $this->addReference('admin-user', $admin);

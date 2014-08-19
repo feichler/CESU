@@ -1,0 +1,43 @@
+{% use 'ElektraSiteBundle:Site:request-steplist_blocks.html.twig' %}
+
+{% if flow.getStepLabels() is not empty %}
+    <ul class="nav nav-tabs" role="tablist">
+        {% for label in flow.getStepLabels() %}
+            <li{{ block('stepListLiClass') }}>
+                {%- if craue_isStepLinkable(flow, loop.index) -%}
+                <a{{ block('stepListAClass') }} href="{{ path(app.request.attributes.get('_route'), app.request.query.all
+                | merge(app.request.attributes.get('_route_params'))
+                | craue_addDynamicStepNavigationParameters(flow, loop.index)) }}">
+                    {% else %}
+                    <a>
+                        {% endif %}
+                        {{ label|trans }}
+                        {%- if craue_isStepLinkable(flow, loop.index) -%}
+                    </a>
+                    {% else %}
+                </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{#{% block stepListLiClass %}#}
+    {#&#123;&#35;{%- if loop.index == flow.getCurrentStepNumber() -%}&#35;&#125;#}
+    {#&#123;&#35;{{ ' class="active"' }}&#35;&#125;#}
+    {#&#123;&#35;{%- elseif flow.isStepSkipped(loop.index) -%}&#35;&#125;#}
+    {#&#123;&#35;{{ ' class=""' }}&#35;&#125;#}
+    {#&#123;&#35;{%- elseif flow.isStepDone(loop.index) -%}&#35;&#125;#}
+    {#&#123;&#35;{{ ' class=""' }}&#35;&#125;#}
+    {#&#123;&#35;{%- endif -%}&#35;&#125;#}
+{#{% endblock %}#}
+
+{#{% block stepListAClass %}#}
+    {#&#123;&#35;{%- if loop.index == flow.getCurrentStepNumber() -%}&#35;&#125;#}
+    {#&#123;&#35;{{ ' class=""' }}&#35;&#125;#}
+    {#&#123;&#35;{%- elseif flow.isStepSkipped(loop.index) -%}&#35;&#125;#}
+    {#&#123;&#35;{{ ' class="text-muted"' }}&#35;&#125;#}
+    {#&#123;&#35;{%- elseif flow.isStepDone(loop.index) -%}&#35;&#125;#}
+    {#&#123;&#35;{{ ' class="text-success"' }}&#35;&#125;#}
+    {#&#123;&#35;{%- endif -%}&#35;&#125;#}
+{#{% endblock %}#}

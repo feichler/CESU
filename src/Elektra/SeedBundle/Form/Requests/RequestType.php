@@ -4,6 +4,7 @@ namespace Elektra\SeedBundle\Form\Requests;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\EqualTo;
 
 class RequestType extends AbstractType
 {
@@ -42,18 +43,43 @@ class RequestType extends AbstractType
     protected function buildTnCForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('test1', 'text', array('mapped' => false));
+        //        $builder->add('test1', 'text', array('mapped' => false));
+        $builder->add(
+            'agreeTerms',
+            'checkbox',
+            array(
+                'mapped'            => false,
+                'required'          => false,
+                'validation_groups' => 'flow_request_step1',
+                'constraints'       => array(
+                    new EqualTo(array('value' => true, 'message' => 'Must agree toc', 'groups' => 'flow_request_step1')),
+                )
+            )
+        );
     }
 
     protected function buildObjectivesForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('test2', 'text', array('mapped' => false));
+        $builder->add('requestNumber', 'text', array('read_only' => true));
+        $builder->add(
+            'agreeObjectives',
+            'checkbox',
+            array(
+                'mapped'            => false,
+                'required'          => false,
+                'validation_groups' => 'flow_request_step1',
+                'constraints'       => array(
+                    new EqualTo(array('value' => true, 'message' => 'Must agree objectives', 'groups' => 'flow_request_step1')),
+                )
+            )
+        );
     }
 
     protected function buildDataForm(FormBuilderInterface $builder, array $options)
     {
 
+        $builder->add('requestNumber', 'text', array('read_only' => true));
         $builder->add('test3', 'text', array('mapped' => false));
     }
 

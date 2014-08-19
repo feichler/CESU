@@ -71,18 +71,35 @@
 
 {# FORM_ROW #}
 {% block form_row %}
-    {% set class = 'form-group' %}
-    {% if errors|length > 0 %}
-        {% set class = class ~ ' has-error has-feedback' %}
+    {% set class = class|default('') %}
+    {% set addclass = addclass|default('') %}
+    {% set shown = true %}
+    {% if form.vars.hideForm is defined and form.vars.hideForm == true %}
+        {% set shown = false %}
     {% endif %}
-    <div class="{{ class }}">
-        {{ form_label(form) }}
-        <div class="col-sm-10">
-            {{ form_widget(form) }}
-            {{ form_errors(form) }}
+    {% if shown == true %}
+        {% set class = class ~ ' form-group' %}
+        {% if errors|length > 0 %}
+            {% set class = class ~ ' has-error has-feedback' %}
+        {% endif %}
+        <div class="{{ class }}">
+            {{ form_label(form) }}
+            <div class="col-sm-10 {{ addclass }}">
+                {{ form_widget(form) }}
+                {{ form_errors(form) }}
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock form_row %}
+
+{% block checkbox_row %}
+    {% set addclass = ' col-sm-offset-2' %}
+    {{- block('form_row') -}}
+{% endblock checkbox_row %}
+
+{% block checkbox_label %}
+    {# NO Label to show at the default position #}
+{% endblock checkbox_label %}
 
 {# FORM_REST #}
 {% block form_rest -%}
@@ -150,7 +167,6 @@
 {%- endblock form_widget_compound %}
 
 
-
 {# TEXTAREA_WIDGET #}
 {% block textarea_widget -%}
     <textarea class="form-control" {{ block('widget_attributes') }}>{{ value }}</textarea>
@@ -203,3 +219,23 @@
         {{- block('choice_widget_options') -}}
     </select>
 {%- endblock choice_widget_collapsed %}
+
+{# CHECKBOX_WIDGET #}
+{% block checkbox_widget -%}
+    {% if label is empty -%}
+        {% set label = name|humanize %}
+    {%- endif -%}
+    <div class="checkbox">
+    <label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    <b>{{ label|trans({}, translation_domain) }}</b>
+    </label>
+    </div>
+{%- endblock checkbox_widget %}
+
+
+
+{#&#123;&#35; ENTITYLIST_WIDGET &#35;&#125;#}
+{#{% block entityList_widget %}#}
+    {#&#123;&#35; nothing to display in form &#35;&#125;#}
+{#{% endblock entityList_widget %}#}

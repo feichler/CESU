@@ -69,6 +69,12 @@ class AuditListener
 
         $token = $this->container->get('security.context')->getToken();
 
-        return $token != null ? $token->getUser() : null;
+        // WORKAROUND if no user is logged in, get the "anonymous" user account (required for the audits in the seed unit request page)
+        $user = $token != null ? $token->getUser() : null;
+        if ($user == 'anon.' || $user == null) {
+            $user = $this->container->get('fos_user.user_manager')->findUserByUsername('anonymous');
+        }
+
+        return $user;
     }
 }
