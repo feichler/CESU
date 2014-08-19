@@ -16,13 +16,13 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class LocationAddressType
+ * Class AddressType
  *
  * @package Elektra\SeedBundle\Form\Companies
  *
  * @version 0.1-dev
  */
-class LocationAddressType extends CRUDForm
+class AddressType extends CRUDForm
 {
 
     /**
@@ -31,7 +31,7 @@ class LocationAddressType extends CRUDForm
     public function getName()
     {
 
-        return 'locationaddress';
+        return 'address';
     }
 
     /**
@@ -45,27 +45,7 @@ class LocationAddressType extends CRUDForm
                 new NotBlank(array('message' => 'error.constraint.required')),
             )
         );
-        $builder->add('name', 'text', $nameOptions);
 
-        $builder->add('location', 'entity', array(
-            'class' => 'Elektra\SeedBundle\Entity\Companies\Location',
-            'property' => 'title',
-            'required' => true,
-            'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
-            )
-        ));
-
-        $builder->add('addressType', 'entity', array(
-            'class' => 'Elektra\SeedBundle\Entity\Companies\AddressType',
-            'property' => 'title',
-            'required' => true,
-            'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
-            )
-        ));
-
-        $builder->add('isPrimary', 'checkbox', array('required' => false));
         $builder->add('street1', 'text', $nameOptions);
         $builder->add('street2', 'text', array('required' => false));
         $builder->add('street3', 'text', array('required' => false));
@@ -80,6 +60,7 @@ class LocationAddressType extends CRUDForm
                 new NotBlank(array('message' => 'error.constraint.required')),
             )
         ));
+
 
         $this->addFormActions($builder);
     }

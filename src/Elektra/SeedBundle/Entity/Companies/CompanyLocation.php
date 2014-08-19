@@ -22,8 +22,16 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\CompanyLocationRepository")
  * @ORM\Table(name="companyLocations")
  */
-class CompanyLocation extends Location
+class CompanyLocation extends PhysicalLocation
 {
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $name;
+
     /**
      * @var Company
      *
@@ -46,6 +54,14 @@ class CompanyLocation extends Location
      * @ORM\Column(type="boolean")
      */
     protected $isPrimary;
+
+    /**
+     * @var AddressType
+     *
+     * @ORM\ManyToOne(targetEntity="AddressType", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="addressTypeId", referencedColumnName="addressTypeId")
+     */
+    protected $addressType;
 
     /**
      *
@@ -102,5 +118,37 @@ class CompanyLocation extends Location
     public function getIsPrimary()
     {
         return $this->isPrimary;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Companies\AddressType $addressType
+     */
+    public function setAddressType($addressType)
+    {
+        $this->addressType = $addressType;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Companies\AddressType
+     */
+    public function getAddressType()
+    {
+        return $this->addressType;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

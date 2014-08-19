@@ -17,7 +17,7 @@ namespace Elektra\SeedBundle\Repositories\Companies;
  *
  *          @version 0.1-dev
  */
-class WarehouseLocationRepository extends LocationRepository
+class WarehouseLocationRepository extends PhysicalLocationRepository
 {
     /**
      * {@inheritdoc}

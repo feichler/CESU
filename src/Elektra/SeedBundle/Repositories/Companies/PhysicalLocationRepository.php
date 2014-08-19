@@ -9,19 +9,16 @@
 
 namespace Elektra\SeedBundle\Repositories\Companies;
 
-use Doctrine\ORM\EntityRepository;
-use Elektra\SeedBundle\Repositories\CRUDRepositoryInterface;
 
 /**
- * Class LocationAddressRepository
+ * Class PhysicalLocationRepository
  *
  * @package Elektra\SeedBundle\Repositories\Companies
  *
- * @version 0.1-dev
+ *          @version 0.1-dev
  */
-class LocationAddressRepository extends AddressRepository
+class PhysicalLocationRepository extends LocationRepository
 {
-
     /**
      * {@inheritdoc}
      */
@@ -29,22 +26,13 @@ class LocationAddressRepository extends AddressRepository
     {
 
         $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select($builder->expr()->count('la'));
-        $builder->from($this->getEntityName(), 'la');
+        $builder->select($builder->expr()->count('pl'));
+        $builder->from($this->getEntityName(), 'pl');
 
         $query = $builder->getQuery();
 
         return $query->getSingleScalarResult();
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCanDelete($entry)
-    {
-        // URGENT: Implement getCanDelete() method.
-    }
-
     /**
      * {@inheritdoc}
      */

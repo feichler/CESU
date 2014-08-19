@@ -27,12 +27,6 @@ use Elektra\SeedBundle\Entity\Notes\Note;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\AddressRepository")
  * @ORM\Table("addresses")
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="type",type="string")
- * @ORM\DiscriminatorMap({
- *  "location" = "LocationAddress"
- * })
-
  */
 class Address implements AuditableInterface, AnnotableInterface, EntityInterface, CRUDEntityInterface
 {
@@ -97,14 +91,6 @@ class Address implements AuditableInterface, AnnotableInterface, EntityInterface
     protected $country;
 
     /**
-     * @var AddressType
-     *
-     * @ORM\ManyToOne(targetEntity="AddressType", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="addressTypeId", referencedColumnName="addressTypeId")
-     */
-    protected $addressType;
-
-    /**
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -154,24 +140,6 @@ class Address implements AuditableInterface, AnnotableInterface, EntityInterface
     {
 
         return $this->addressId;
-    }
-
-    /**
-     * @param AddressType $addressType
-     */
-    public function setAddressType($addressType)
-    {
-
-        $this->addressType = $addressType;
-    }
-
-    /**
-     * @return AddressType
-     */
-    public function getAddressType()
-    {
-
-        return $this->addressType;
     }
 
     /**

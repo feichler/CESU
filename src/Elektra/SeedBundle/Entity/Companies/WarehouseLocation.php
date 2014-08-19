@@ -21,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\WarehouseLocationRepository")
  * @ORM\Table(name="warehouseLocations")
  */
-class WarehouseLocation extends Location
+class WarehouseLocation extends PhysicalLocation
 {
     /**
      * @var string
@@ -35,6 +35,7 @@ class WarehouseLocation extends Location
      */
     public function __construct()
     {
+
         parent::__construct();
     }
 
@@ -43,6 +44,7 @@ class WarehouseLocation extends Location
      */
     public function setLocationIdentifier($locationIdentifier)
     {
+
         $this->locationIdentifier = $locationIdentifier;
     }
 
@@ -51,6 +53,7 @@ class WarehouseLocation extends Location
      */
     public function getLocationIdentifier()
     {
+
         return $this->locationIdentifier;
     }
 }

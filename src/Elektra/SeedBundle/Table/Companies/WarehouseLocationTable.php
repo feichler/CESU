@@ -49,12 +49,15 @@ class WarehouseLocationTable extends CRUDTable
 
         $header->addCell()->addHtmlContent("Identifier");
         $header->addCell()->addHtmlContent("Short Name");
-        $header->addCell()->addHtmlContent("Name");
+
+        $header->addCell()->addHtmlContent("Street 1");
+        $header->addCell()->addHtmlContent("Postal Code");
+        $header->addCell()->addHtmlContent("City");
+        $header->addCell()->addHtmlContent("State");
 
         $addressCell = $header->addCell();
-        $addressCell->addHtmlContent("Address");
+        $addressCell->addHtmlContent("Country");
         $addressCell->setColumnSpan(3);
-
         // CHECK should audits and actions have an own header cell?
         //        $auditCell = $header->addCell();
         //        $auditCell->setWidth(100);
@@ -81,14 +84,12 @@ class WarehouseLocationTable extends CRUDTable
         $identifier->addActionContent('view', $viewLink, array('text' => $entry->getLocationIdentifier(), 'render' => 'link'));
 
         $content->addCell()->addHtmlContent($entry->getShortName());
-        $content->addCell()->addHtmlContent($entry->getName());
 
-        $addressCell = $content->addCell();
-/*        $address = $entry->getAddresses()->first();
-        if ($address != null)
-        {
-            $addressCell->addHtmlContent(TableHelper::renderAddress($address));
-        }*/
+        $content->addCell()->addHtmlContent($entry->getAddress()->getStreet1());
+        $content->addCell()->addHtmlContent($entry->getAddress()->getPostalCode());
+        $content->addCell()->addHtmlContent($entry->getAddress()->getCity());
+        $content->addCell()->addHtmlContent($entry->getAddress()->getState());
+        $content->addCell()->addHtmlContent($entry->getAddress()->getCountry()->getName());
 
         // Audits
         $this->generateAuditCell($content, $entry);

@@ -46,6 +46,15 @@ class CompanyLocationType extends CRUDForm
             )
         );
 
+        $builder->add('company', 'entity', array(
+            'class' => 'Elektra\SeedBundle\Entity\Companies\Company',
+            'property' => 'shortName',
+            'required' => true,
+            'constraints' => array(
+                new NotBlank(array('message' => 'error.constraint.required')),
+            )
+        ));
+
         $builder->add('shortName', 'text', $nameOptions);
         $builder->add('name', 'text', array(
             'required' => false
@@ -55,14 +64,16 @@ class CompanyLocationType extends CRUDForm
             'required' => false
         ));
 
-        $builder->add('company', 'entity', array(
-            'class' => 'Elektra\SeedBundle\Entity\Companies\Company',
-            'property' => 'shortName',
+        $builder->add('addressType', 'entity', array(
+            'class' => 'Elektra\SeedBundle\Entity\Companies\AddressType',
+            'property' => 'title',
             'required' => true,
             'constraints' => array(
                 new NotBlank(array('message' => 'error.constraint.required')),
             )
         ));
+
+        $builder->add("address", new AddressType());
 
         $this->addFormActions($builder);
     }
