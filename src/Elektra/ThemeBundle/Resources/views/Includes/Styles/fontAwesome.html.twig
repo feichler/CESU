@@ -6,8 +6,15 @@
  # @version   0.1-dev
  #############################################################################}
 
-{% stylesheets filter="less" output='css/fontAwesome.css'
-"@ElektraThemeBundle/Resources/private/less/font-awesome/core.less"
-"@ElektraThemeBundle/Resources/private/less/font-awesome/extensions.less" %}
-<link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
-{% endstylesheets %}
+{# WORKAROUND less filter not working at server, so this is a workaround #}
+{% if app.request.server.get("SERVER_NAME") == 'elektra.aurealis.at' %}
+    {% stylesheets 'css/fontAwesome.css' output='css/fontAwesome.css' %}
+    <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% else %}
+    {% stylesheets filter="less" output='css/fontAwesome.css'
+    "@ElektraThemeBundle/Resources/private/less/font-awesome/core.less"
+    "@ElektraThemeBundle/Resources/private/less/font-awesome/extensions.less" %}
+    <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endif %}

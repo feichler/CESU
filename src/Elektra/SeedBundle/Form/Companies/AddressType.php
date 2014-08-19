@@ -52,17 +52,20 @@ class AddressType extends CRUDForm
         $builder->add('postalCode', 'text', $nameOptions);
         $builder->add('city', 'text', $nameOptions);
         $builder->add('state', 'text', array('required' => false));
-        $builder->add('country', 'entity', array(
-            'class' => 'Elektra\SeedBundle\Entity\Companies\Country',
-            'property' => 'title',
-            'required' => true,
-            'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
+        $builder->add(
+            'country',
+            'entity',
+            array(
+                'class'       => 'Elektra\SeedBundle\Entity\Companies\Country',
+                'property'    => 'title',
+                'required'    => true,
+                'constraints' => array(
+                    new NotBlank(array('message' => 'error.constraint.required')),
+                )
             )
-        ));
+        );
 
-
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

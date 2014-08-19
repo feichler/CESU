@@ -14,7 +14,7 @@ namespace Elektra\SeedBundle\Repositories;
  *
  * @package Elektra\SeedBundle\Repositories
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 interface CRUDRepositoryInterface
 {

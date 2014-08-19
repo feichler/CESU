@@ -69,13 +69,13 @@ class CompanyLocationType extends CRUDForm
             'property' => 'title',
             'required' => true,
             'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
+                new NotBlank(array('message' => 'error.constraint.required'))
             )
         ));
 
         $builder->add("address", new AddressType());
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

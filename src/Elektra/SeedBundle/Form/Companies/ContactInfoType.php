@@ -48,25 +48,33 @@ class ContactInfoType extends CRUDForm
         $builder->add('name', 'text', $nameOptions);
         $builder->add('text', 'text', $nameOptions);
 
-        $builder->add('contactInfoType', 'entity', array(
-            'class' => 'Elektra\SeedBundle\Entity\Companies\ContactInfoType',
-            'property' => 'title',
-            'required' => true,
-            'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
+        $builder->add(
+            'contactInfoType',
+            'entity',
+            array(
+                'class'       => 'Elektra\SeedBundle\Entity\Companies\ContactInfoType',
+                'property'    => 'title',
+                'required'    => true,
+                'constraints' => array(
+                    new NotBlank(array('message' => 'error.constraint.required')),
+                )
             )
-        ));
+        );
 
-        $builder->add('person', 'entity', array(
-            'class' => 'Elektra\SeedBundle\Entity\Companies\Person',
-            'property' => 'title',
-            'required' => true,
-            'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
+        $builder->add(
+            'person',
+            'entity',
+            array(
+                'class'       => 'Elektra\SeedBundle\Entity\Companies\Person',
+                'property'    => 'title',
+                'required'    => true,
+                'constraints' => array(
+                    new NotBlank(array('message' => 'error.constraint.required')),
+                )
             )
-        ));
+        );
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

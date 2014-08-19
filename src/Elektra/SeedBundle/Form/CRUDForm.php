@@ -12,6 +12,7 @@ namespace Elektra\SeedBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Class CRUDForm
@@ -24,9 +25,39 @@ abstract class CRUDForm extends AbstractType
 {
 
     /**
-     * @param FormBuilderInterface $builder
+     * @var string
      */
-    protected function addFormActions(FormBuilderInterface $builder)
+    protected $returnLink;
+
+    /**
+     * @param string $link
+     */
+    public function setReturnLink($link)
+    {
+
+        $this->returnLink = $link;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+
+        parent::setDefaultOptions($resolver);
+
+        $resolver->setDefaults(
+            array(
+                'returnLink' => '',
+            )
+        );
+    }
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
+    protected function addFormActions(FormBuilderInterface $builder, array $options)
     {
 
         // TRANSLATE add translations for the form labels
@@ -58,6 +89,18 @@ abstract class CRUDForm extends AbstractType
                 ),
             ),
         );
+        $closeButton  = array(
+            'type'    => 'cancel',
+            'options' => array(
+                'label'      => 'Close',
+                'attr'       => array(
+                    'class' => 'btn btn-primary',
+                ),
+                'showView'   => true,
+                'showForm'   => false,
+                'returnLink' => $options['returnLink'],
+            ),
+        );
 
         $builder->add(
             'actions',
@@ -66,7 +109,8 @@ abstract class CRUDForm extends AbstractType
                 'buttons' => array(
                     'save'   => $saveButton,
                     'reset'  => $resetButton,
-                    'cancel' => $cancelButton
+                    'cancel' => $cancelButton,
+                    'close'  => $closeButton,
                 ),
             )
         );

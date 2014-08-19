@@ -55,7 +55,7 @@ class CompletedRequest extends Request
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\SeedUnit", mappedBy="requestCompletion", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\SeedUnit", mappedBy="request", fetch="EXTRA_LAZY")
      */
     protected $seedUnits;
 

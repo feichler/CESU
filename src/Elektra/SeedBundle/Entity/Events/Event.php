@@ -33,7 +33,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *  "sales" = "SalesEvent"
  * })
  */
-abstract class Event implements AuditableInterface, AnnotableInterface,CRUDEntityInterface
+abstract class Event implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
 
     /**
@@ -266,7 +266,9 @@ abstract class Event implements AuditableInterface, AnnotableInterface,CRUDEntit
     public function getCreationAudit()
     {
 
-        return $this->getAudits()->slice(0, 1)[0];
+        $audits = $this->getAudits()->slice(0, 1);
+
+        return $audits[0];
     }
 
     /**
@@ -276,7 +278,12 @@ abstract class Event implements AuditableInterface, AnnotableInterface,CRUDEntit
     {
 
         $audits = $this->getAudits();
+        if ($audits->count() > 1) {
+            $audits = $audits->slice($audits->count() - 1, 1);
 
-        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
+            return $audits[0];
+        }
+
+        return null;
     }
 }

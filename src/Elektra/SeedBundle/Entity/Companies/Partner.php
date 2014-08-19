@@ -16,13 +16,14 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\PartnerRepository")
  * @ORM\Table(name="partnerCompanies")
  */
 class Partner extends Company
 {
+
     /**
      * @var PartnerTier
      *
@@ -43,6 +44,7 @@ class Partner extends Company
      */
     public function __construct()
     {
+
         parent::__construct();
     }
 
@@ -51,6 +53,7 @@ class Partner extends Company
      */
     public function setPartnerTier($partnerTier)
     {
+
         $this->partnerTier = $partnerTier;
     }
 
@@ -59,6 +62,7 @@ class Partner extends Company
      */
     public function getPartnerTier()
     {
+
         return $this->partnerTier;
     }
 
@@ -67,6 +71,7 @@ class Partner extends Company
      */
     public function setUnitsLimit($unitsLimit)
     {
+
         $this->unitsLimit = $unitsLimit;
     }
 
@@ -75,6 +80,7 @@ class Partner extends Company
      */
     public function getUnitsLimit()
     {
+
         return $this->unitsLimit;
     }
 }

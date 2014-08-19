@@ -8,24 +8,24 @@
 
 namespace Elektra\SeedBundle\Table;
 
-
 use Elektra\SeedBundle\Entity\Companies\Address;
 
-class TableHelper {
+class TableHelper
+{
 
     /**
      * @param Address $address
+     *
      * @return string
      */
     public static function renderAddress(Address $address)
     {
+
         $text = $address->getStreet1();
-        if ($address->getStreet2() != null)
-        {
+        if ($address->getStreet2() != null) {
             $text = $text . "\r\n" . $address->getStreet2();
         }
-        if ($address->getStreet3() != null)
-        {
+        if ($address->getStreet3() != null) {
             $text = $text . "\r\n" . $address->getStreet3();
         }
         $text = $text . "\r\n" . $address->getPostalCode() . $address->getCity();

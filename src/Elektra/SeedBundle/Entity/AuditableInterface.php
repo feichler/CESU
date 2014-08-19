@@ -9,7 +9,6 @@
 
 namespace Elektra\SeedBundle\Entity;
 
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 
@@ -18,10 +17,11 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *
  * @package Elektra\SeedBundle\Entity
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 interface AuditableInterface
 {
+
     /**
      * @param ArrayCollection
      */

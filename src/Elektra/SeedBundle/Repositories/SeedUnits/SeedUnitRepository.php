@@ -54,7 +54,9 @@ class SeedUnitRepository extends EntityRepository implements CRUDRepositoryInter
      */
     public function getEntries($page, $perPage)
     {
+
         $entries = $this->findBy(array(), array(), $perPage, ($page - 1) * $perPage);
+
         return $entries;
     }
 }

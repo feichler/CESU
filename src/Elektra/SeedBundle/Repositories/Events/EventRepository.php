@@ -16,14 +16,17 @@ use Doctrine\ORM\EntityRepository;
  *
  * @package Elektra\SeedBundle\Repositories\Events
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class EventRepository extends EntityRepository
-{/**
- * {@inheritdoc}
- */
+{
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCount()
     {
+
         $builder = $this->getEntityManager()->createQueryBuilder();
         $builder->select($builder->expr()->count('e'));
         $builder->from($this->getEntityName(), 'e');

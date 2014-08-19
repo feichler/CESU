@@ -85,7 +85,7 @@ class CompanyLocationTable extends CRUDTable
         $content->addCell()->addHtmlContent($entry->getCompany()->getTitle());
         $content->addCell()->addHtmlContent($entry->getIsPrimary());
 
-        $viewLink  = $this->generateLink('view', $entry->getId());
+        $viewLink      = $this->generateLink('view', $entry->getId());
         $shortNameCell = $content->addCell();
         $shortNameCell->addActionContent('view', $viewLink, array('text' => $entry->getShortName(), 'render' => 'link'));
 

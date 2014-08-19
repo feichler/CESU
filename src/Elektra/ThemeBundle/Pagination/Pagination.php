@@ -299,8 +299,9 @@ class Pagination
     protected function getPageLink($page)
     {
 
-        $link = $this->navigator->getLink($this->definitionKey,'browse',array('page'=>$page));
-//        $link = $this->router->generate($this->getParameter('route'), array('page' => $page));
+        $link = $this->navigator->getLink($this->definitionKey, 'browse', array('page' => $page));
+
+        //        $link = $this->router->generate($this->getParameter('route'), array('page' => $page));
 
         return $link;
     }

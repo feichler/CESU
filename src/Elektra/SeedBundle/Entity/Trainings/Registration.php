@@ -23,13 +23,14 @@ use Elektra\SeedBundle\Entity\EntityInterface;
  *
  * @package Elektra\SeedBundle\Entity\Trainings
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Trainings\RegistrationRepository")
  * @ORM\Table(name="registrations")
  */
 class Registration implements AuditableInterface, AnnotableInterface, EntityInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -84,7 +85,8 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function __construct()
     {
-        $this->notes = new ArrayCollection();
+
+        $this->notes  = new ArrayCollection();
         $this->audits = new ArrayCollection();
     }
 
@@ -93,6 +95,7 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function getId()
     {
+
         return $this->registrationId;
     }
 
@@ -101,6 +104,7 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function getRegistrationId()
     {
+
         return $this->registrationId;
     }
 
@@ -109,6 +113,7 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function setPerson($person)
     {
+
         $this->person = $person;
     }
 
@@ -117,6 +122,7 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function getPerson()
     {
+
         return $this->person;
     }
 
@@ -125,6 +131,7 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function setTraining($training)
     {
+
         $this->training = $training;
     }
 
@@ -133,6 +140,7 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function getTraining()
     {
+
         return $this->training;
     }
 
@@ -141,6 +149,7 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function setNotes($notes)
     {
+
         $this->notes = $notes;
     }
 
@@ -149,6 +158,7 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function getNotes()
     {
+
         return $this->notes;
     }
 
@@ -157,6 +167,7 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -165,6 +176,7 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -173,7 +185,10 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function getCreationAudit()
     {
-        return $this->getAudits()->slice(0, 1)[0];
+
+        $audits = $this->getAudits()->slice(0, 1);
+
+        return $audits[0];
     }
 
     /**
@@ -181,8 +196,15 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+        if ($audits->count() > 1) {
+            $audits = $audits->slice($audits->count() - 1, 1);
+
+            return $audits[0];
+        }
+
+        return null;
     }
 
     /**
@@ -192,9 +214,8 @@ class Registration implements AuditableInterface, AnnotableInterface, EntityInte
      */
     public function getTitle()
     {
+
         //TODO: define title (there actually is no primary field)
         return "???";
     }
-
-
 }

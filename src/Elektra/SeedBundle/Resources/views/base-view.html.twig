@@ -9,7 +9,8 @@
 {% extends "ElektraSiteBundle::base.html.twig" %}
 
 {% block content %}
-    TODO display the form as "view"
+    {% form_theme form "ElektraThemeBundle:Form/view:fields.html.twig" %}
+    {{ form(form) }}
 {% endblock content %}
 
 {% block debug_content %}

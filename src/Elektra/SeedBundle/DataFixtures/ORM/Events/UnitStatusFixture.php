@@ -19,18 +19,20 @@ use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel;
  *
  * @package Elektra\SeedBundle\DataFixtures\ORM\SeedUnits
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class UnitStatusFixture extends SeedBundleFixture
 {
+
     /**
      * {@inheritdoc}
      */
     protected function doLoad(ObjectManager $manager)
     {
+
         $statuses = array(
             array("Available", "A", "available"),
-            array("Reserved",  "R", "reserved"),
+            array("Reserved", "R", "reserved"),
             array("Exception", "E", "exception"),
             array("In transit", "I", "inTransit"),
             array("Delivered", "D", "delivered"),
@@ -44,8 +46,7 @@ class UnitStatusFixture extends SeedBundleFixture
             array("Unit installed at customer", "PIC", "unitInstalledAtCustomer")
         );
 
-        foreach($statuses as $data)
-        {
+        foreach ($statuses as $data) {
             $status = new UnitStatus();
             $status->setName($data[0]);
             $status->setAbbreviation($data[1]);
@@ -61,6 +62,7 @@ class UnitStatusFixture extends SeedBundleFixture
      */
     function getOrder()
     {
+
         return 1002;
     }
 }

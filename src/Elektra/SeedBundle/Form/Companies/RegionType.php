@@ -48,7 +48,7 @@ class RegionType extends CRUDForm
         );
         $builder->add($builder->create('name', 'text', $nameOptions)->addModelTransformer(new ToUppercaseTransformer()));
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**

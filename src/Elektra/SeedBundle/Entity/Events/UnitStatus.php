@@ -20,13 +20,14 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @package Elektra\SeedBundle\Entity\Events
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity
  * @ORM\Table(name="unitStatuses")
  */
 class UnitStatus implements AuditableInterface, CRUDEntityInterface
 {
+
     /**
      * @var int
      *
@@ -74,6 +75,7 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function __construct()
     {
+
         $this->audits = new ArrayCollection();
     }
 
@@ -82,6 +84,7 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getId()
     {
+
         return $this->unitStatusId;
     }
 
@@ -90,6 +93,7 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getUnitStatusId()
     {
+
         return $this->unitStatusId;
     }
 
@@ -98,6 +102,7 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function setName($name)
     {
+
         $this->name = $name;
     }
 
@@ -106,6 +111,7 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getName()
     {
+
         return $this->name;
     }
 
@@ -114,6 +120,7 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function setAudits($audits)
     {
+
         $this->audits = $audits;
     }
 
@@ -122,6 +129,7 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getAudits()
     {
+
         return $this->audits;
     }
 
@@ -130,7 +138,10 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getCreationAudit()
     {
-        return $this->getAudits()->slice(0, 1)[0];
+
+        $audits = $this->getAudits()->slice(0, 1);
+
+        return $audits[0];
     }
 
     /**
@@ -138,8 +149,15 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getLastModifiedAudit()
     {
+
         $audits = $this->getAudits();
-        return $audits->count() > 1 ? $audits->slice($audits->count()-1, 1)[0] : null;
+        if ($audits->count() > 1) {
+            $audits = $audits->slice($audits->count() - 1, 1);
+
+            return $audits[0];
+        }
+
+        return null;
     }
 
     /**
@@ -147,6 +165,7 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getTitle()
     {
+
         return $this->getName();
     }
 
@@ -155,6 +174,7 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function setAbbreviation($abbreviation)
     {
+
         $this->abbreviation = $abbreviation;
     }
 
@@ -163,6 +183,7 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getAbbreviation()
     {
+
         return $this->abbreviation;
     }
 
@@ -171,6 +192,7 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function setInternalName($internalName)
     {
+
         $this->internalName = $internalName;
     }
 
@@ -179,6 +201,7 @@ class UnitStatus implements AuditableInterface, CRUDEntityInterface
      */
     public function getInternalName()
     {
+
         return $this->internalName;
     }
 }

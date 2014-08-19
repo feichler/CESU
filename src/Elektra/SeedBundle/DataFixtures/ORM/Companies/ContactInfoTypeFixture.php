@@ -18,22 +18,23 @@ use Elektra\SeedBundle\Entity\Companies\ContactInfoType;
  *
  * @package Elektra\SeedBundle\DataFixtures\ORM\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class ContactInfoTypeFixture extends SeedBundleFixture
 {
+
     /**
      * {@inheritdoc}
      */
     protected function doLoad(ObjectManager $manager)
     {
+
         $statuses = array(
             "Email",
             "Phone"
         );
 
-        foreach($statuses as $data)
-        {
+        foreach ($statuses as $data) {
             $status = new ContactInfoType();
             $status->setName($data);
             $manager->persist($status);
@@ -47,6 +48,7 @@ class ContactInfoTypeFixture extends SeedBundleFixture
      */
     function getOrder()
     {
+
         return 1002;
     }
 }

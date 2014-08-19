@@ -18,22 +18,23 @@ use Elektra\SeedBundle\Entity\Companies\AddressType;
  *
  * @package Elektra\SeedBundle\DataFixtures\ORM\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class AddressTypeFixture extends SeedBundleFixture
 {
+
     /**
      * {@inheritdoc}
      */
     protected function doLoad(ObjectManager $manager)
     {
+
         $statuses = array(
             "Billing",
             "Shipping"
         );
 
-        foreach($statuses as $data)
-        {
+        foreach ($statuses as $data) {
             $status = new AddressType();
             $status->setName($data);
             $manager->persist($status);
@@ -47,6 +48,7 @@ class AddressTypeFixture extends SeedBundleFixture
      */
     function getOrder()
     {
+
         return 1002;
     }
 }

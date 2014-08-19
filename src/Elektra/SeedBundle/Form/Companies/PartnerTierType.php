@@ -46,11 +46,11 @@ class PartnerTierType extends CRUDForm
                 new NotBlank(array('message' => 'error.constraint.required')),
             )
         );
-        $builder->add($builder->create('name','text',$nameOptions)->addModelTransformer(new ToUppercaseTransformer()));
+        $builder->add($builder->create('name', 'text', $nameOptions)->addModelTransformer(new ToUppercaseTransformer()));
 
         $builder->add('unitsLimit', 'integer', $nameOptions);
 
-        $this->addFormActions($builder);
+        $this->addFormActions($builder, $options);
     }
 
     /**
@@ -76,6 +76,4 @@ class PartnerTierType extends CRUDForm
 
         parent::finishView($view, $form, $options);
     }
-
-
 }

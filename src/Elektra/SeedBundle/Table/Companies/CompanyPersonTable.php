@@ -53,7 +53,6 @@ class CompanyPersonTable extends CRUDTable
         $header->addCell()->addHtmlContent("Last Name");
         $header->addCell()->addHtmlContent("Salutation");
 
-
         $addressCell = $header->addCell();
         $addressCell->addHtmlContent("Job Title");
         $addressCell->setColumnSpan(3);
@@ -83,7 +82,7 @@ class CompanyPersonTable extends CRUDTable
         $content->addCell()->addHtmlContent($entry->getLocation()->getTitle());
         $content->addCell()->addHtmlContent($entry->getIsPrimary());
 
-        $viewLink  = $this->generateLink('view', $entry->getId());
+        $viewLink      = $this->generateLink('view', $entry->getId());
         $firstNameCell = $content->addCell();
         $firstNameCell->addActionContent('view', $viewLink, array('text' => $entry->getFirstName(), 'render' => 'link'));
         $lastNameCell = $content->addCell();

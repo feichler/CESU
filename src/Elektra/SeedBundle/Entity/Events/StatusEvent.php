@@ -17,7 +17,7 @@ use Elektra\SeedBundle\Entity\Companies\ContactInfo;
  *
  * @package Elektra\SeedBundle\Entity\Events
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity
  * @ORM\Table(name="statusEvents")
@@ -32,6 +32,7 @@ use Elektra\SeedBundle\Entity\Companies\ContactInfo;
  */
 abstract class StatusEvent extends Event
 {
+
     /**
      * @var UnitStatus
      *
@@ -45,6 +46,7 @@ abstract class StatusEvent extends Event
      */
     public function __construct()
     {
+
         parent::__construct();
     }
 
@@ -53,6 +55,7 @@ abstract class StatusEvent extends Event
      */
     public function setUnitStatus($unitStatus)
     {
+
         $this->unitStatus = $unitStatus;
     }
 
@@ -61,6 +64,7 @@ abstract class StatusEvent extends Event
      */
     public function getUnitStatus()
     {
+
         return $this->unitStatus;
     }
 }

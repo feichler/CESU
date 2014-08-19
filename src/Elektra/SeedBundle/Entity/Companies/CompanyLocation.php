@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @package Elektra\SeedBundle\Entity\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\CompanyLocationRepository")
  * @ORM\Table(name="companyLocations")
@@ -68,6 +68,7 @@ class CompanyLocation extends PhysicalLocation
      */
     public function __construct()
     {
+
         parent::__construct();
         $this->persons = new ArrayCollection();
     }
@@ -77,6 +78,7 @@ class CompanyLocation extends PhysicalLocation
      */
     public function setCompany($company)
     {
+
         $this->company = $company;
     }
 
@@ -85,6 +87,7 @@ class CompanyLocation extends PhysicalLocation
      */
     public function getCompany()
     {
+
         return $this->company;
     }
 
@@ -93,6 +96,7 @@ class CompanyLocation extends PhysicalLocation
      */
     public function setPersons($persons)
     {
+
         $this->persons = $persons;
     }
 
@@ -101,6 +105,7 @@ class CompanyLocation extends PhysicalLocation
      */
     public function getPersons()
     {
+
         return $this->persons;
     }
 
@@ -109,6 +114,7 @@ class CompanyLocation extends PhysicalLocation
      */
     public function setIsPrimary($isPrimary)
     {
+
         $this->isPrimary = $isPrimary;
     }
 
@@ -117,6 +123,7 @@ class CompanyLocation extends PhysicalLocation
      */
     public function getIsPrimary()
     {
+
         return $this->isPrimary;
     }
 

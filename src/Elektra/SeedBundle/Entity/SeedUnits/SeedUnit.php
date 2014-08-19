@@ -173,6 +173,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function setEvents($events)
     {
+
         $this->events = $events;
     }
 
@@ -181,6 +182,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      */
     public function getEvents()
     {
+
         return $this->events;
     }
 
@@ -262,7 +264,9 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     public function getCreationAudit()
     {
 
-        return $this->getAudits()->slice(0, 1)[0];
+        $audits = $this->getAudits()->slice(0, 1);
+
+        return $audits[0];
     }
 
     /**
@@ -272,8 +276,13 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     {
 
         $audits = $this->getAudits();
+        if ($audits->count() > 1) {
+            $audits = $audits->slice($audits->count() - 1, 1);
 
-        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1)[0] : null;
+            return $audits[0];
+        }
+
+        return null;
     }
 
     /**

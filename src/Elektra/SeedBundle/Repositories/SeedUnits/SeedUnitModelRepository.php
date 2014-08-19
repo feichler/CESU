@@ -18,10 +18,11 @@ use Elektra\SeedBundle\Repositories\CRUDRepositoryInterface;
  *
  * @package Elektra\SeedBundle\Repositories\SeedUnits
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class SeedUnitModelRepository extends EntityRepository implements CRUDRepositoryInterface
 {
+
     /**
      * {@inheritdoc}
      */
@@ -51,6 +52,7 @@ class SeedUnitModelRepository extends EntityRepository implements CRUDRepository
 
         return $builder->getQuery()->getSingleScalarResult() == 0;
     }
+
     /**
      * {@inheritdoc}
      */

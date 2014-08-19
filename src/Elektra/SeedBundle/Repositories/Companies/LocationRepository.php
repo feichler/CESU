@@ -8,19 +8,20 @@
  */
 
 namespace Elektra\SeedBundle\Repositories\Companies;
+
 use Doctrine\ORM\EntityRepository;
 use Elektra\SeedBundle\Repositories\CRUDRepositoryInterface;
-
 
 /**
  * Class LocationRepository
  *
  * @package Elektra\SeedBundle\Repositories\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class LocationRepository extends EntityRepository implements CRUDRepositoryInterface
 {
+
     /**
      * {@inheritdoc}
      */

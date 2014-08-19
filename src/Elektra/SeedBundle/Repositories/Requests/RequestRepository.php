@@ -16,14 +16,17 @@ use Doctrine\ORM\EntityRepository;
  *
  * @package Elektra\SeedBundle\Repositories\Requests
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class RequestRepository extends EntityRepository
-{/**
- * {@inheritdoc}
- */
+{
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCount()
     {
+
         $builder = $this->getEntityManager()->createQueryBuilder();
         $builder->select($builder->expr()->count('r'));
         $builder->from($this->getEntityName(), 'r');

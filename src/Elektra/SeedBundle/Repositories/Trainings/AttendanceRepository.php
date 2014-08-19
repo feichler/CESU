@@ -17,7 +17,7 @@ use Elektra\SeedBundle\Repositories\CRUDRepositoryInterface;
  *
  * @package Elektra\SeedBundle\Repositories\Trainings
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class AttendanceRepository extends EntityRepository implements CRUDRepositoryInterface
 {
@@ -52,6 +52,7 @@ class AttendanceRepository extends EntityRepository implements CRUDRepositoryInt
     {
 
         $entries = $this->findBy(array(), array(), $perPage, ($page - 1) * $perPage);
+
         return $entries;
     }
 }

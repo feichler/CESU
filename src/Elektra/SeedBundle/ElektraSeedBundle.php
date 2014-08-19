@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  *
  * @package Elektra\SeedBundle
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class ElektraSeedBundle extends Bundle
 {
