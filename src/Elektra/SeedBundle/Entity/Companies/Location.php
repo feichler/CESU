@@ -26,16 +26,16 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  * @ORM\Entity
  * @ORM\Table(name="locations")
  * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="locationType", type="string")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
+ *  "generic" = "GenericLocation",
+ *  "physical" = "PhysicalLocation",
  *  "company" = "CompanyLocation",
- *  "warehouse" = "WarehouseLocation",
- *  "generic" = "GenericLocation"
+ *  "warehouse" = "WarehouseLocation"
  * })
  */
 abstract class Location implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
 {
-
     /**
      * @var int
      *
@@ -48,13 +48,6 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $name;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=50, unique=true)
      */
     protected $shortName;
@@ -62,18 +55,11 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="LocationAddress", mappedBy="location", fetch="EXTRA_LAZY", cascade={"remove"})
-     */
-    protected $addresses;
-
-    /**
-     * @var ArrayCollection
-     *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
-     * @ORM\JoinTable(name = "location_notes",
-     *      joinColumns = {@ORM\JoinColumn(name = "locationId", referencedColumnName = "locationId", onDelete="CASCADE")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true, onDelete="CASCADE")}
+     * @ORM\JoinTable(name = "locations_notes",
+     *      joinColumns = {@ORM\JoinColumn(name = "locationId", referencedColumnName = "locationId")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
      * )
      */
     protected $notes;
@@ -95,19 +81,16 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function __construct()
     {
-
-        $this->addresses = new ArrayCollection();
         $this->notes     = new ArrayCollection();
         $this->audits    = new ArrayCollection();
     }
 
     /**
-     * {@inheritdoc}
+     * @param int $locationId
      */
-    public function getId()
+    public function setLocationId($locationId)
     {
-
-        return $this->locationId;
+        $this->locationId = $locationId;
     }
 
     /**
@@ -115,44 +98,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function getLocationId()
     {
-
         return $this->locationId;
-    }
-
-    /**
-     * @param ArrayCollection $addresses
-     */
-    public function setAddresses($addresses)
-    {
-
-        $this->addresses = $addresses;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getAddresses()
-    {
-
-        return $this->addresses;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-
-        return $this->name;
     }
 
     /**
@@ -160,7 +106,6 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function setShortName($shortName)
     {
-
         $this->shortName = $shortName;
     }
 
@@ -169,8 +114,25 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
      */
     public function getShortName()
     {
-
         return $this->shortName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+
+        return $this->getLocationId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTitle()
+    {
+
+        return $this->getShortName();
     }
 
     /**
@@ -234,14 +196,5 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CRUDE
         }
 
         return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTitle()
-    {
-
-        return $this->getShortName();
     }
 }

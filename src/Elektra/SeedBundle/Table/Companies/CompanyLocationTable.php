@@ -52,8 +52,13 @@ class CompanyLocationTable extends CRUDTable
         $header->addCell()->addHtmlContent("Short Name");
         $header->addCell()->addHtmlContent("Name");
 
+        $header->addCell()->addHtmlContent("Street 1");
+        $header->addCell()->addHtmlContent("Postal Code");
+        $header->addCell()->addHtmlContent("City");
+        $header->addCell()->addHtmlContent("State");
+
         $addressCell = $header->addCell();
-        $addressCell->addHtmlContent("Address");
+        $addressCell->addHtmlContent("Country");
         $addressCell->setColumnSpan(3);
 
         // CHECK should audits and actions have an own header cell?
@@ -86,11 +91,11 @@ class CompanyLocationTable extends CRUDTable
 
         $content->addCell()->addHtmlContent($entry->getName());
 
-        $addressCell = $content->addCell();
-        $address     = !$entry->getAddresses()->isEmpty() ? $entry->getAddresses()->first() : null;
-        if ($address != null) {
-            $addressCell->addHtmlContent(TableHelper::renderAddress($address));
-        }
+        $content->addCell()->addHtmlContent($entry->getAddress()->getStreet1());
+        $content->addCell()->addHtmlContent($entry->getAddress()->getPostalCode());
+        $content->addCell()->addHtmlContent($entry->getAddress()->getCity());
+        $content->addCell()->addHtmlContent($entry->getAddress()->getState());
+        $content->addCell()->addHtmlContent($entry->getAddress()->getCountry()->getName());
 
         // Audits
         $this->generateAuditCell($content, $entry);

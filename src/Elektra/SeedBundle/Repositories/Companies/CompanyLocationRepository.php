@@ -16,7 +16,7 @@ namespace Elektra\SeedBundle\Repositories\Companies;
  *
  * @version 0.1-dev
  */
-class CompanyLocationRepository extends LocationRepository
+class CompanyLocationRepository extends PhysicalLocationRepository
 {
 
     /**
