@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
+            new Liuggio\ExcelBundle\LiuggioExcelBundle(),
             // Specific Elektra Bundles
             new Elektra\UserBundle\ElektraUserBundle(),
             new Elektra\ThemeBundle\ElektraThemeBundle(),

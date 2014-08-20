@@ -60,121 +60,121 @@ class RequestController extends Controller
 
         $this->initialise('index', $number);
 
-        $seedRequest = new SeedRequest();
-        $flow        = $this->get('elektra_seed.form.flow.request');
-        $flow->bind($seedRequest);
-        //        $flow->setGenericFormOptions(
-        //            array(
-        //                'validation_groups' => array(
-        //                    'flow_request_step1',
-        //                    'flow_request_step2',
-        //                    'flow_request_step3',
-        //                )
-        //            )
-        //        );
-        $form = $flow->createForm();
-
-        if ($flow->isValid($form)) {
-
-                        $em2 = $this->getDoctrine()->getRepository('ElektraSeedBundle:Requests\RequestStatus');
-
-            switch ($flow->getCurrentStepNumber()) {
-                case 1:
-                    $numberGenerator = $this->container->get('elektra_seed.request.numberGenerator');
-
-                    $seedRequest->setRequestStatus($em2->findOneBy(array('name' => 'Create - TOC')));
-                    $seedRequest->setTocAgreedAt(time());
-                    $seedRequest->setClientIpAddress($request->getClientIp());
-                    $seedRequest->setRequestNumber($numberGenerator->generate());
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($seedRequest);
-                    $em->flush();
-                    //                    ladybug_dump($seedRequest);
-
-                    //                    $test = clone $seedRequest;
-                    //                    echo '<pre>';
-                    //
-                    //                    $dump = print_r($test, true);
-                    //                    foreach($dump as $key => $value) {
-                    ////                        echo $key.' => ';
-                    ////                        if(is_array($value) || is_object($value)) {
-                    ////
-                    ////                        } else {
-                    ////                            echo $value;
-                    ////                        }
-                    ////
-                    ////                        echo '<br />';
-                    //                    }
-                    //                    echo '</pre>';
-                    //                    $seedRequest->setClientIpAddress($request->getClientIp());
-                    //                    $state = $em2->findOneBy(array('name' => 'Create - TOC'));
-                    //                    $seedRequest->setRequestStatus($state);
-                    //                    $seedRequest->setRequestNumber('12345');
-                    //                    $agreeTerms = $form->get('agreeTerms')->getData();
-                    //                    if ($agreeTerms) {
-                    //                        $seedRequest->setTocAgreedAt(time());
-                    //                    }
-                    //                    //                    var_dump($seedRequest);
-                    //                    $em->persist($seedRequest);
-                    //                    //                    var_dump($seedRequest);
-                    //                    $em->flush();
-
-                    //                    $agreeTerms = $form->get('agreeTerms')->getData();
-                    //                    if($agreeTerms === false) {
-                    //                        $seedRequest = new SeedRequest();
-                    //                        $flow->bind($seedRequest);
-                    //                        $this->get('session')->getFlashBag()->add('error','must agree toc');
-                    //                        $flow->reset();
-                    //
-                    ////                        $flow->invalidateStepData(1);
-                    ////                        $flow->setFormStepKey(0);
-                    ////                        $flow->
-                    //                    }
-                    //                    var_dump($agreeTerms);
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-            }
-
-            $flow->saveCurrentStepData($form);
-
-            //var_dump($flow->getCurrentStepNumber());
-            //
-            //            echo $flow->getCurrentStep();
-            //            $data = $form->getData();
-            //            echo get_class($data);
-            //            var_dump($data === $seedRequest);
-            //            echo $form->get('test1')->getData();
-
-            //            $em = $this->getDoctrine()->getManager();
-
-            if ($flow->nextStep()) {
-                $form = $flow->createForm();
-            } else {
-                // flow finished
-                $em = $this->getDoctrine()->getManager();
-                // TODO process and persist the request
-                //                $em->persist($seedRequest);
-                //                $em->flush();
-
-                $flow->reset();
-
-                // TODO request "thank-you" page
-                return new Response('THANK YOU');
-            }
-        }
-
-        //        $form = $this->createForm(new RequestType(), $seedRequest);
-
-        $view = $form->createView();
-
-        return $this->render('ElektraSiteBundle:Site:request.html.twig', array('form' => $view, 'flow' => $flow));
-
-        return $this->render('ElektraSeedBundle::base-form.html.twig', array('form' => $view, 'flow' => $flow));
+//        $seedRequest = new SeedRequest();
+//        $flow        = $this->get('elektra_seed.form.flow.request');
+//        $flow->bind($seedRequest);
+//        //        $flow->setGenericFormOptions(
+//        //            array(
+//        //                'validation_groups' => array(
+//        //                    'flow_request_step1',
+//        //                    'flow_request_step2',
+//        //                    'flow_request_step3',
+//        //                )
+//        //            )
+//        //        );
+//        $form = $flow->createForm();
+//
+//        if ($flow->isValid($form)) {
+//
+//                        $em2 = $this->getDoctrine()->getRepository('ElektraSeedBundle:Requests\RequestStatus');
+//
+//            switch ($flow->getCurrentStepNumber()) {
+//                case 1:
+//                    $numberGenerator = $this->container->get('elektra_seed.request.numberGenerator');
+//
+//                    $seedRequest->setRequestStatus($em2->findOneBy(array('name' => 'Create - TOC')));
+//                    $seedRequest->setTocAgreedAt(time());
+//                    $seedRequest->setClientIpAddress($request->getClientIp());
+//                    $seedRequest->setRequestNumber($numberGenerator->generate());
+//                    $em = $this->getDoctrine()->getManager();
+//                    $em->persist($seedRequest);
+//                    $em->flush();
+//                    //                    ladybug_dump($seedRequest);
+//
+//                    //                    $test = clone $seedRequest;
+//                    //                    echo '<pre>';
+//                    //
+//                    //                    $dump = print_r($test, true);
+//                    //                    foreach($dump as $key => $value) {
+//                    ////                        echo $key.' => ';
+//                    ////                        if(is_array($value) || is_object($value)) {
+//                    ////
+//                    ////                        } else {
+//                    ////                            echo $value;
+//                    ////                        }
+//                    ////
+//                    ////                        echo '<br />';
+//                    //                    }
+//                    //                    echo '</pre>';
+//                    //                    $seedRequest->setClientIpAddress($request->getClientIp());
+//                    //                    $state = $em2->findOneBy(array('name' => 'Create - TOC'));
+//                    //                    $seedRequest->setRequestStatus($state);
+//                    //                    $seedRequest->setRequestNumber('12345');
+//                    //                    $agreeTerms = $form->get('agreeTerms')->getData();
+//                    //                    if ($agreeTerms) {
+//                    //                        $seedRequest->setTocAgreedAt(time());
+//                    //                    }
+//                    //                    //                    var_dump($seedRequest);
+//                    //                    $em->persist($seedRequest);
+//                    //                    //                    var_dump($seedRequest);
+//                    //                    $em->flush();
+//
+//                    //                    $agreeTerms = $form->get('agreeTerms')->getData();
+//                    //                    if($agreeTerms === false) {
+//                    //                        $seedRequest = new SeedRequest();
+//                    //                        $flow->bind($seedRequest);
+//                    //                        $this->get('session')->getFlashBag()->add('error','must agree toc');
+//                    //                        $flow->reset();
+//                    //
+//                    ////                        $flow->invalidateStepData(1);
+//                    ////                        $flow->setFormStepKey(0);
+//                    ////                        $flow->
+//                    //                    }
+//                    //                    var_dump($agreeTerms);
+//                    break;
+//                case 2:
+//                    break;
+//                case 3:
+//                    break;
+//                case 4:
+//                    break;
+//            }
+//
+//            $flow->saveCurrentStepData($form);
+//
+//            //var_dump($flow->getCurrentStepNumber());
+//            //
+//            //            echo $flow->getCurrentStep();
+//            //            $data = $form->getData();
+//            //            echo get_class($data);
+//            //            var_dump($data === $seedRequest);
+//            //            echo $form->get('test1')->getData();
+//
+//            //            $em = $this->getDoctrine()->getManager();
+//
+//            if ($flow->nextStep()) {
+//                $form = $flow->createForm();
+//            } else {
+//                // flow finished
+//                $em = $this->getDoctrine()->getManager();
+//                // TODO process and persist the request
+//                //                $em->persist($seedRequest);
+//                //                $em->flush();
+//
+//                $flow->reset();
+//
+//                // TODO request "thank-you" page
+//                return new Response('THANK YOU');
+//            }
+//        }
+//
+//        //        $form = $this->createForm(new RequestType(), $seedRequest);
+//
+//        $view = $form->createView();
+//
+//        return $this->render('ElektraSiteBundle:Site:request.html.twig', array('form' => $view, 'flow' => $flow));
+//
+//        return $this->render('ElektraSeedBundle::base-form.html.twig', array('form' => $view, 'flow' => $flow));
 
         //        $repository = $this->getDoctrine()->getRepository('ElektraSeedBundle:Requests\Request');
         //        $ent
