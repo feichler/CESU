@@ -27,8 +27,8 @@
 		"yiisoft/jquery": "1.11.x",
 		"mrclay/minify": "~2.2",
 		"natxet/CssMin": "~3.0",
-		"craue/formflow-bundle": "3.0.*@dev",
-		"raulfraile/ladybug-bundle": "~1.0"
+		"raulfraile/ladybug-bundle": "~1.0",
+		"liuggio/ExcelBundle": "2.0.*@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
