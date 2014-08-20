@@ -24,7 +24,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class CompanyLocation extends PhysicalLocation
 {
-
     /**
      * @var string
      *

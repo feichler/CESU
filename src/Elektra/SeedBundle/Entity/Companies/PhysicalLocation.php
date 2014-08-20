@@ -18,16 +18,15 @@ use Doctrine\ORM\Mapping as ORM;
  *
  *          @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\PhysicalLocationRepository")
- * @ORM\Table(name="physicalLocations")
+ * @ORM\Entity * @ORM\Table(name="physicalLocations")
  */
-abstract class PhysicalLocation extends Location
+class PhysicalLocation extends Location
 {
-    /*
+    /**
      * @var Address
      *
      * @ORM\OneToOne(targetEntity="Address", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="testAddressId", referencedColumnName="addressId", nullable=false)
+     * @ORM\JoinColumn(name="addressId", referencedColumnName="addressId", nullable=false)
      */
     protected $address;
 

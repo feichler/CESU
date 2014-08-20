@@ -21,18 +21,6 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
-    elektra_seed.form.request:
-        class: Elektra\SeedBundle\Form\Requests\RequestType
-        tags:
-            - { name: form.type, alias: request }
-
-    elektra_seed.form.flow.request:
-        class: Elektra\SeedBundle\Form\Requests\RequestFlow
-        parent: craue.form.flow
-        scope: request
-        calls:
-            - [ setFormType, ["@elektra_seed.form.request"] ]
-
     elektra_seed.request.numberGenerator:
         class: Elektra\SeedBundle\Request\NumberGenerator
         arguments:
