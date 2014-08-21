@@ -48,9 +48,11 @@ class PartnerTierRepository extends EntityRepository implements CRUDRepositoryIn
     /**
      * {@inheritdoc}
      */
+//    public function getEntries($page, $perPage, $filters = array())
     public function getEntries($page, $perPage)
     {
 
+//        $entries = $this->findBy($filters, array(), $perPage, ($page - 1) * $perPage);
         $entries = $this->findBy(array(), array(), $perPage, ($page - 1) * $perPage);
 
         return $entries;

@@ -48,6 +48,7 @@ abstract class CRUDForm extends AbstractType
 
         $resolver->setDefaults(
             array(
+                'crudAction'=>'',
                 'returnLink' => '',
             )
         );

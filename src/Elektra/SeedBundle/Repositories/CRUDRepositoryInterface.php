@@ -34,7 +34,8 @@ interface CRUDRepositoryInterface
      *
      * @return array
      */
-    public function getEntries($page, $perPage, $filters = array());
+//    public function getEntries($page, $perPage, $filters = array());
+    public function getEntries($page, $perPage);
 
     /**
      * Checks if an entry can be deleted (no references, no constraint violations, etc)

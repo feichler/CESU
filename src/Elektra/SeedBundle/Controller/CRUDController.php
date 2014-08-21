@@ -9,8 +9,8 @@
 
 namespace Elektra\SeedBundle\Controller;
 
-use Elektra\SeedBundle\Form\CRUDFilters;
-use Elektra\SeedBundle\Table\CRUDTable;
+//use Elektra\SeedBundle\Form\CRUDFilters;
+//use Elektra\SeedBundle\Table\CRUDTable;
 use Elektra\SiteBundle\Navigator\Definition;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -59,7 +59,7 @@ abstract class CRUDController extends Controller
 
         // Initialise the controller (does initialise the page as well)
         $this->initialise('browse');
-$filters = $this->loadFilterData($request);
+//$filters = $this->loadFilterData($request);
         // save the page number
         $this->setPage($page);
 
@@ -72,12 +72,13 @@ $filters = $this->loadFilterData($request);
         $table      = new $tableClass();
         $table->setNavigator($this->get('navigator'), $this->definition->getKey());
 
-        $entries = $repository->getEntries($page, $table->getPagination()->getLimit(),$filters);
+        $entries = $repository->getEntries($page, $table->getPagination()->getLimit());
+//        $entries = $repository->getEntries($page, $table->getPagination()->getLimit(),$filters);
 
         $table->getPagination()->setPage($page);
         $table->getPagination()->setCount($repository->getCount());
         $table->prepare($entries);
-        $this->addBrowseFilters($table,$filters);
+//        $this->addBrowseFilters($table,$filters);
         // generate the view name
         $viewName = $this->getView('browse');
 
@@ -85,34 +86,34 @@ $filters = $this->loadFilterData($request);
         return $this->render($viewName, array('table' => $table));
     }
 
-    protected function loadFilterData(Request $request) {
-
-        echo 'Loading filter data<br />';
-
-        $crudFilters = $request->get('crudfilters', array());
-
-        $filters = array();
-        if(isset($crudFilters['seedunitmodel'])) {
-            $filters['model'] = $crudFilters['seedunitmodel'];
-        }
-return $filters;
-        var_dump($filters);
-//        $test = $request->get('crudfilters');
-//        var_dump($test);
-
-//        $test = $request->get('crudfilters_seedunitmodel');
-//        echo $test;
-    }
-
-    protected function addBrowseFilters(CRUDTable $table, $filters)
-    {
-
-        $crudFilters = new CRUDFilters();
-        $crudFilters->addFilter();
-        $form       = $this->createForm($crudFilters);
-        $filterView = $form->createView();
-        $table->addFilters($filterView);
-    }
+//    protected function loadFilterData(Request $request) {
+//
+//        echo 'Loading filter data<br />';
+//
+//        $crudFilters = $request->get('crudfilters', array());
+//
+//        $filters = array();
+//        if(isset($crudFilters['seedunitmodel'])) {
+//            $filters['model'] = $crudFilters['seedunitmodel'];
+//        }
+//return $filters;
+//        var_dump($filters);
+////        $test = $request->get('crudfilters');
+////        var_dump($test);
+//
+////        $test = $request->get('crudfilters_seedunitmodel');
+////        echo $test;
+//    }
+//
+//    protected function addBrowseFilters(CRUDTable $table, $filters)
+//    {
+//
+//        $crudFilters = new CRUDFilters();
+//        $crudFilters->addFilter();
+//        $form       = $this->createForm($crudFilters);
+//        $filterView = $form->createView();
+//        $table->addFilters($filterView);
+//    }
 
     /**
      * @param Request $request
@@ -134,13 +135,13 @@ return $filters;
         $repository = $this->getDoctrine()->getRepository($repositoryClass);
         $entity     = $repository->find($id);
         $returnLink = $this->get('navigator')->getLink($this->definition, 'browse', array('page' => $this->getPage()));
-        var_dump($returnLink);
+
         $form       = $this->createForm(
             new $formClass(),
             $entity,
             array(
                 'returnLink' => $returnLink,
-                'action'     => 'view',
+                'crudAction'     => 'view',
             )
         );
 
@@ -173,7 +174,7 @@ return $filters;
             new $formClass(),
             $entity,
             array(
-                'action' => 'add',
+                'crudAction' => 'add',
             )
         );
         $form->handleRequest($request);
@@ -223,7 +224,7 @@ return $filters;
             new $formClass(),
             $entity,
             array(
-                'action' => 'edit',
+                'crudAction' => 'edit',
             )
         );
         $form->handleRequest($request);
