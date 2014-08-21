@@ -164,17 +164,17 @@ abstract class CRUDTable extends Table
     protected abstract function setupContentRow(Row $content, CRUDEntityInterface $entry);
 
     /**
-     * @param string $action
-     *
-     * @return string
-     */
-    protected function getRoute($action)
-    {
-
-        $route = $this->getRoutePrefix() . '_' . $action;
-
-        return $route;
-    }
+     * //     * @param string $action
+     * //     *
+     * //     * @return string
+     * //     */
+    //    protected function getRoute($action)
+    //    {
+    //
+    //        $route = $this->getRoutePrefix() . '_' . $action;
+    //
+    //        return $route;
+    //    }
 
     /**
      * @param string   $route

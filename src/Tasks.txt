@@ -1,2 +1,7 @@
 
 URGENT: check integrity constraints in table inheritance. Example: Add a partner with the same short name as a customer -> SQL ERROR
+
+TODO: add filter options to tables / browseAction
+TODO: add sorting options to tables / browseAction
+
+TODO: add related data tables to viewAction (show table of related entries with direct CRUD links)

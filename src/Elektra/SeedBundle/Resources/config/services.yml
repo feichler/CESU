@@ -20,9 +20,3 @@ services:
         arguments: ["@service_container"]
         tags:
             - { name: doctrine.event_listener, event: onFlush }
-
-    elektra_seed.request.numberGenerator:
-        class: Elektra\SeedBundle\Request\NumberGenerator
-        arguments:
-            - "@doctrine"
-
