@@ -23,12 +23,13 @@ class TableHelper
 
         $text = $address->getStreet1();
         if ($address->getStreet2() != null) {
-            $text = $text . "\r\n" . $address->getStreet2();
+            $text = $text . "<br/>" . $address->getStreet2();
         }
         if ($address->getStreet3() != null) {
-            $text = $text . "\r\n" . $address->getStreet3();
+            $text = $text . "<br/>" . $address->getStreet3();
         }
-        $text = $text . "\r\n" . $address->getPostalCode() . $address->getCity();
+        $text = $text . "<br/>" . $address->getPostalCode() . " " . $address->getCity();
+        $text = $text . "<br/>" . $address->getCountry()->getName();
 
         return $text;
     }

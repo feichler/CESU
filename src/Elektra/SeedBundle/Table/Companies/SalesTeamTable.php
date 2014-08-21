@@ -77,7 +77,7 @@ class SalesTeamTable extends CRUDTable
 
         $primaryLocationCell = $content->addCell();
         $location            = $entry->getPrimaryLocation();
-        $address             = $location != null ? $location->getAddresses()->first() : null;
+        $address             = $location != null ? $location->getAddress() : null;
         if ($address != null) {
             $primaryLocationCell->addHtmlContent(TableHelper::renderAddress($address));
         }
