@@ -106,7 +106,10 @@ abstract class CRUDController extends Controller
         $form       = $this->createForm(
             new $formClass(),
             $entity,
-            array('returnLink' => $returnLink)
+            array(
+                'returnLink' => $returnLink,
+                'action'     => 'view',
+            )
         );
 
         // generate the view & view name
@@ -134,7 +137,13 @@ abstract class CRUDController extends Controller
 
         // execute the required actions for this controller
         $entity = new $entityClass();
-        $form   = $this->createForm(new $formClass, $entity);
+        $form   = $this->createForm(
+            new $formClass(),
+            $entity,
+            array(
+                'action' => 'add',
+            )
+        );
         $form->handleRequest($request);
 
         if ($form->isValid() && $form->get('actions')->get('save')->isClicked()) {
@@ -178,7 +187,13 @@ abstract class CRUDController extends Controller
         // execute the required actions for this controller
         $repository = $this->getDoctrine()->getRepository($repositoryClass);
         $entity     = $repository->find($id);
-        $form       = $this->createForm(new $formClass, $entity);
+        $form       = $this->createForm(
+            new $formClass(),
+            $entity,
+            array(
+                'action' => 'edit',
+            )
+        );
         $form->handleRequest($request);
 
         if ($form->isValid() && $form->get('actions')->get('save')->isClicked()) {
