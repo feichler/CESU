@@ -59,7 +59,7 @@ class WarehouseLocationType extends CRUDForm
         );
         $builder->add('locationIdentifier', 'text', $nameOptions);
         $builder->add('shortName', 'text', $nameOptions);
-        $builder->add('name', 'text');
+        $builder->add("address", new AddressType());
 
         $this->addFormActions($builder, $options);
     }
