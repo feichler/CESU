@@ -20,14 +20,17 @@
         "incenteev/composer-parameter-handler": "~2.0",
 
 		"doctrine/doctrine-fixtures-bundle": "~2.2",
+
 		"friendsofsymfony/user-bundle": "2.0.*@dev",
+
 		"twbs/bootstrap": "~3.2",
 		"fortawesome/font-awesome": "~4.1",
-		"frameworks/jquery": "1.11.x",
 		"yiisoft/jquery": "1.11.x",
 		"mrclay/minify": "~2.2",
 		"natxet/CssMin": "~3.0",
+
 		"raulfraile/ladybug-bundle": "~1.0",
+
 		"liuggio/ExcelBundle": "2.0.*@dev"
     },
     "require-dev": {

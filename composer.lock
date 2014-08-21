@@ -4,69 +4,8 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d78b2f380eed75d09f26ccb3d10f9bb8",
+    "hash": "db839d7be8c4451817201f326ec524cf",
     "packages": [
-        {
-            "name": "craue/formflow-bundle",
-            "version": "dev-master",
-            "target-dir": "Craue/FormFlowBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/craue/CraueFormFlowBundle.git",
-                "reference": "1b5a46f66c7eb658b3de6ce34176b9c0d0e2b720"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/craue/CraueFormFlowBundle/zipball/1b5a46f66c7eb658b3de6ce34176b9c0d0e2b720",
-                "reference": "1b5a46f66c7eb658b3de6ce34176b9c0d0e2b720",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2",
-                "symfony/form": "~2.1",
-                "symfony/http-kernel": "~2.1",
-                "symfony/translation": "~2.1",
-                "symfony/yaml": "~2.1"
-            },
-            "require-dev": {
-                "doctrine/common": "~2.3",
-                "phpunit/phpunit": "~4.1",
-                "sensio/framework-extra-bundle": ">=2.1",
-                "symfony/symfony": "~2.1"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Craue\\FormFlowBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christian Raue",
-                    "email": "christian.raue@gmail.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://github.com/craue/CraueFormFlowBundle/contributors"
-                }
-            ],
-            "description": "Multi-step forms for your Symfony2 project.",
-            "homepage": "https://github.com/craue/CraueFormFlowBundle",
-            "keywords": [
-                "Symfony2",
-                "form"
-            ],
-            "time": "2014-08-19 08:42:10"
-        },
         {
             "name": "doctrine/annotations",
             "version": "v1.2.0",
@@ -1119,6 +1058,70 @@
             "time": "2013-07-19 00:03:27"
         },
         {
+            "name": "liuggio/ExcelBundle",
+            "version": "dev-master",
+            "target-dir": "Liuggio/ExcelBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/liuggio/ExcelBundle.git",
+                "reference": "22a2a748b535bb781caa5485c2b60b1887d5a9e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/liuggio/ExcelBundle/zipball/22a2a748b535bb781caa5485c2b60b1887d5a9e2",
+                "reference": "22a2a748b535bb781caa5485c2b60b1887d5a9e2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "phpoffice/phpexcel": "~1.8.0",
+                "symfony/framework-bundle": "~2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=3.7",
+                "sensio/framework-extra-bundle": "~2.1",
+                "symfony/browser-kit": "~2.1",
+                "symfony/class-loader": "~2.1",
+                "symfony/finder": "~2.0",
+                "symfony/form": "~2.1",
+                "symfony/validator": "~2.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Liuggio\\ExcelBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ExcelBundle Contributors",
+                    "homepage": "https://github.com/liuggio/ExcelBundle#contributors"
+                },
+                {
+                    "name": "Giulio De Donato",
+                    "email": "liuggio@gmail.com"
+                }
+            ],
+            "description": "This is a Symfony2 Bundle helps you to read and write Excel files (including pdf, xlsx, odt), thanks to the PHPExcel library",
+            "homepage": "http://www.welcometothebundle.com",
+            "keywords": [
+                "Symfony2",
+                "bundle",
+                "excel",
+                "xls"
+            ],
+            "time": "2014-08-11 12:46:50"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.10.0",
             "source": {
@@ -1269,6 +1272,63 @@
             "time": "2013-07-02 20:53:35"
         },
         {
+            "name": "phpoffice/phpexcel",
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPExcel.git",
+                "reference": "e69a5e4d0ffa7fb6f171859e0a04346e580df30b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/e69a5e4d0ffa7fb6f171859e0a04346e580df30b",
+                "reference": "e69a5e4d0ffa7fb6f171859e0a04346e580df30b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "http://blog.rootslabs.net"
+                },
+                {
+                    "name": "Erik Tilt"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet",
+                "xls",
+                "xlsx"
+            ],
+            "time": "2014-03-02 15:22:49"
+        },
+        {
             "name": "psr/log",
             "version": "1.0.0",
             "source": {
@@ -1349,20 +1409,20 @@
         },
         {
             "name": "raulfraile/ladybug",
-            "version": "v1.0.8",
+            "version": "v1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/raulfraile/ladybug.git",
-                "reference": "7878b0fec84041bc6791155b9ec357a1ff8cd3b1"
+                "reference": "787092f945a8e1e59ae0bd3135c0d372a9e7ea1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/raulfraile/ladybug/zipball/7878b0fec84041bc6791155b9ec357a1ff8cd3b1",
-                "reference": "7878b0fec84041bc6791155b9ec357a1ff8cd3b1",
+                "url": "https://api.github.com/repos/raulfraile/ladybug/zipball/787092f945a8e1e59ae0bd3135c0d372a9e7ea1b",
+                "reference": "787092f945a8e1e59ae0bd3135c0d372a9e7ea1b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0",
+                "php": ">=5.3.9",
                 "ptachoire/cssembed": "v1.0.2",
                 "raulfraile/ladybug-plugin-extra": "~1.0.0",
                 "raulfraile/ladybug-theme-modern": "~1.0.0",
@@ -1375,7 +1435,7 @@
             "require-dev": {
                 "fabpot/php-cs-fixer": "0.2.0",
                 "jms/serializer": ">=0.11.0",
-                "mockery/mockery": "0.8.0",
+                "mockery/mockery": "0.9.1",
                 "phpdocumentor/reflection-docblock": "2.0.0",
                 "symfony/dom-crawler": ">=2.0.4"
             },
@@ -1406,7 +1466,7 @@
                 {
                     "name": "Raul Fraile",
                     "email": "raulfraile@gmail.com",
-                    "homepage": "http://www.raulfrailebeneyto.com/",
+                    "homepage": "http://www.raulfb.com/",
                     "role": "Developer"
                 }
             ],
@@ -1419,21 +1479,21 @@
                 "print_r",
                 "var_dump"
             ],
-            "time": "2013-10-15 09:36:24"
+            "time": "2014-08-20 09:48:05"
         },
         {
             "name": "raulfraile/ladybug-bundle",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "target-dir": "RaulFraile/Bundle/LadybugBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/raulfraile/LadybugBundle.git",
-                "reference": "f668d76b12ceb39317077fd3a1a2a7be022a0428"
+                "reference": "8a1b4f349e6c245a7395f92a467faa59bfb9d908"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/raulfraile/LadybugBundle/zipball/f668d76b12ceb39317077fd3a1a2a7be022a0428",
-                "reference": "f668d76b12ceb39317077fd3a1a2a7be022a0428",
+                "url": "https://api.github.com/repos/raulfraile/LadybugBundle/zipball/8a1b4f349e6c245a7395f92a467faa59bfb9d908",
+                "reference": "8a1b4f349e6c245a7395f92a467faa59bfb9d908",
                 "shasum": ""
             },
             "require": {
@@ -1459,8 +1519,7 @@
                 {
                     "name": "Raul Fraile",
                     "email": "raulfraile@gmail.com",
-                    "homepage": "http://www.raulfrailebeneyto.com/",
-                    "role": "Developer"
+                    "homepage": "http://www.raulfrailebeneyto.com/"
                 }
             ],
             "description": "Symfony2 bundle for Ladybug library (Simple and Extensible PHP Dumper)",
@@ -1471,7 +1530,7 @@
                 "tree",
                 "twig"
             ],
-            "time": "2014-07-03 22:36:20"
+            "time": "2014-08-20 10:09:23"
         },
         {
             "name": "raulfraile/ladybug-installer",
@@ -2428,7 +2487,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "friendsofsymfony/user-bundle": 20,
-        "craue/formflow-bundle": 20
+        "liuggio/excelbundle": 20
     },
     "prefer-stable": false,
     "platform": {
