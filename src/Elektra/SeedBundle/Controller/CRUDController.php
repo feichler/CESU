@@ -9,8 +9,10 @@
 
 namespace Elektra\SeedBundle\Controller;
 
-//use Elektra\SeedBundle\Form\CRUDFilters;
+    //use Elektra\SeedBundle\Form\CRUDFilters;
 //use Elektra\SeedBundle\Table\CRUDTable;
+use Elektra\SeedBundle\Form\CRUDFilters;
+use Elektra\SeedBundle\Table\CRUDTable;
 use Elektra\SiteBundle\Navigator\Definition;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -59,7 +61,11 @@ abstract class CRUDController extends Controller
 
         // Initialise the controller (does initialise the page as well)
         $this->initialise('browse');
-//$filters = $this->loadFilterData($request);
+
+        $browseFilters = $this->getBrowseFilters();
+       $selectFilters =  $this->loadBrowseFilterData($request,$browseFilters);
+//        var_dump($selectFilters);
+        //$filters = $this->loadFilterData($request);
         // save the page number
         $this->setPage($page);
 
@@ -72,48 +78,105 @@ abstract class CRUDController extends Controller
         $table      = new $tableClass();
         $table->setNavigator($this->get('navigator'), $this->definition->getKey());
 
-        $entries = $repository->getEntries($page, $table->getPagination()->getLimit());
-//        $entries = $repository->getEntries($page, $table->getPagination()->getLimit(),$filters);
+        //        $entries = $repository->getEntries($page, $table->getPagination()->getLimit());
+        $entries = $repository->getEntries($page, $table->getPagination()->getLimit(), $selectFilters);
 
         $table->getPagination()->setPage($page);
         $table->getPagination()->setCount($repository->getCount());
         $table->prepare($entries);
-//        $this->addBrowseFilters($table,$filters);
+
+        $filters = new CRUDFilters();
+        foreach($browseFilters as $key => $filter) {
+            $filters->addFilter($key, $filter);
+        }
+//        echo 'SELECTFILTERS: <br />';
+//        var_dump($selectFilters);
+//        echo '<br />';
+        $filterForm = $this->createForm($filters, $selectFilters, array());
+        //        $this->addBrowseFilters($table, $filters);
         // generate the view name
-        $viewName = $this->getView('browse');
+        $viewName   = $this->getView('browse');
+        $filterView = $filterForm->createView();
 
         // return the response
-        return $this->render($viewName, array('table' => $table));
+        return $this->render($viewName, array('table' => $table, 'filters' => $filterView));
+//        return $this->render($viewName, array('table' => $table));
     }
 
-//    protected function loadFilterData(Request $request) {
-//
-//        echo 'Loading filter data<br />';
-//
-//        $crudFilters = $request->get('crudfilters', array());
-//
-//        $filters = array();
-//        if(isset($crudFilters['seedunitmodel'])) {
-//            $filters['model'] = $crudFilters['seedunitmodel'];
-//        }
-//return $filters;
-//        var_dump($filters);
-////        $test = $request->get('crudfilters');
-////        var_dump($test);
-//
-////        $test = $request->get('crudfilters_seedunitmodel');
-////        echo $test;
-//    }
-//
-//    protected function addBrowseFilters(CRUDTable $table, $filters)
-//    {
-//
-//        $crudFilters = new CRUDFilters();
-//        $crudFilters->addFilter();
-//        $form       = $this->createForm($crudFilters);
-//        $filterView = $form->createView();
-//        $table->addFilters($filterView);
-//    }
+    protected function getBrowseFilters()
+    {
+
+        // NOTE: inherting class needs to override this method to add filters to the browse view
+        // NOTE array must be structured like key = field name in entity, value = definition for the crud entity
+
+        return array();
+    }
+
+    protected function loadBrowseFilterData(Request $request, $browseFilters)
+    {
+
+        $crudFilters = $request->get('crudfilters', array());
+//var_dump($crudFilters);
+        $return = array();
+
+        foreach($browseFilters as $key => $definition) {
+            if(array_key_exists($key, $crudFilters)) {
+                $filterValue = $crudFilters[$key];
+                if(!empty($filterValue)) {
+                    $return[$key] = $this->getDoctrine()->getRepository($definition->getClassRepository())->find($filterValue);
+$this->setVar($key, $filterValue);
+                } else {
+                    $this->setVar($key, null);
+                }
+//                 echo 'KEY '.$key. ' => '.$filterValue.'<br />';
+            }
+
+            if(!array_key_exists($key, $return)) {
+                // check if key is stored in session
+                $value = $this->getVar($key);
+                if($value !== null) {
+                    $return[$key] = $value;
+                }
+            }
+        }
+//        var_dump($return);
+return $return;
+//        var_dump($browseFilters);
+//        echo '<br />';
+//         TODO
+//        var_dump($crudFilters);
+    }
+
+    //    protected function loadFilterData(Request $request)
+    //    {
+    //
+    //        echo 'Loading filter data<br />';
+    //
+    //        $crudFilters = $request->get('crudfilters', array());
+    //
+    //        $filters = array();
+    //        if (isset($crudFilters['seedunitmodel'])) {
+    //            $filters['model'] = $crudFilters['seedunitmodel'];
+    //        }
+    //
+    //        return $filters;
+    //        var_dump($filters);
+    //        //        $test = $request->get('crudfilters');
+    //        //        var_dump($test);
+    //
+    //        //        $test = $request->get('crudfilters_seedunitmodel');
+    //        //        echo $test;
+    //    }
+
+    //    protected function addBrowseFilters(CRUDTable $table, $filters)
+    //    {
+    //
+    //        $crudFilters = new CRUDFilters();
+    //        $crudFilters->addFilter();
+    //        $form       = $this->createForm($crudFilters);
+    //        $filterView = $form->createView();
+    //        $table->addFilters($filterView);
+    //    }
 
     /**
      * @param Request $request
@@ -136,12 +199,12 @@ abstract class CRUDController extends Controller
         $entity     = $repository->find($id);
         $returnLink = $this->get('navigator')->getLink($this->definition, 'browse', array('page' => $this->getPage()));
 
-        $form       = $this->createForm(
+        $form = $this->createForm(
             new $formClass(),
             $entity,
             array(
                 'returnLink' => $returnLink,
-                'crudAction'     => 'view',
+                'crudAction' => 'view',
             )
         );
 
@@ -413,13 +476,25 @@ abstract class CRUDController extends Controller
      * Standard Getters / Setters
      *************************************************************************/
 
+    private function setVar($name,$value) {
+
+        $this->get('session')->set($this->getVarName($name),$value);
+    }
+    private function getVar($name) {
+        return $this->get('session')->get($this->getVarName($name), null);
+    }
+    private function getVarName($name) {
+        $name = $this->definition->getClassEntity().'-'.$name;
+        return $name;
+    }
+
     /**
      * @return int
      */
     private function getPage()
     {
-
-        return $this->get('session')->get($this->definition->getRouteNamePrefix() . '.page');
+return $this->getVar('browse.page');
+//        return $this->get('session')->get($this->definition->getRouteNamePrefix() . '.page');
     }
 
     /**
@@ -427,7 +502,7 @@ abstract class CRUDController extends Controller
      */
     private function setPage($page)
     {
-
-        $this->get('session')->set($this->definition->getRouteNamePrefix() . '.page', $page);
+$this->setVar('browse.page',$page);
+//        $this->get('session')->set($this->definition->getRouteNamePrefix() . '.page', $page);
     }
 }

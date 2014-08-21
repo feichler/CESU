@@ -31,7 +31,12 @@
 
 {% macro filters(table) %}
     {% if table.filters is defined %}
-{{ form(table.filters) }}
+        {{ form_start(table.filters) }}
+{% for key,child in table.filters %}
+    {{ form_widget(child) }}
+{#{{ key }}#}
+    {% endfor %}
+        {{ form_end(table.filters, {'render_rest': false}) }}
     {% endif %}
 {% endmacro %}
 

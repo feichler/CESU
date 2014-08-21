@@ -29,4 +29,13 @@ class CountryController extends CRUDController
 
         $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'Country');
     }
+
+    protected function getBrowseFilters()
+    {
+
+      $filters = parent::getBrowseFilters();
+        $filters['region']     = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'Region');
+
+        return $filters;
+    }
 }

@@ -165,18 +165,18 @@ abstract class CRUDTable extends Table
     protected abstract function setupContentRow(Row $content, CRUDEntityInterface $entry);
 
 
-    protected $filters;
-
-    public function addFilters($filters)
-    {
-
-        $this->filters = $filters;
-    }
-
-    public function getFilters() {
-
-        return $this->filters;
-    }
+//    protected $filters;
+//
+//    public function addFilters($filters)
+//    {
+//
+//        $this->filters = $filters;
+//    }
+//
+//    public function getFilters() {
+//
+//        return $this->filters;
+//    }
     /**
      * //     * @param string $action
      * //     *

@@ -58,7 +58,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
      * @var SeedUnitPowerCordType
      *
      * @ORM\ManyToOne(targetEntity="SeedUnitPowerCordType", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="powerCordTypeId", referencedColumnName="powerCordTypeId", nullable=false)
+     * @ORM\JoinColumn(name="seedUnitPowerCordTypeId", referencedColumnName="seedUnitPowerCordTypeId", nullable=false)
      */
     protected $powerCordType;
 
