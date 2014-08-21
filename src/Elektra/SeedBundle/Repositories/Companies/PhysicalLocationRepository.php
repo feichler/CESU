@@ -9,16 +9,16 @@
 
 namespace Elektra\SeedBundle\Repositories\Companies;
 
-
 /**
  * Class PhysicalLocationRepository
  *
  * @package Elektra\SeedBundle\Repositories\Companies
  *
- *          @version 0.1-dev
+ * @version 0.1-dev
  */
 class PhysicalLocationRepository extends LocationRepository
 {
+
     /**
      * {@inheritdoc}
      */
@@ -33,13 +33,14 @@ class PhysicalLocationRepository extends LocationRepository
 
         return $query->getSingleScalarResult();
     }
+
     /**
      * {@inheritdoc}
      */
-    public function getEntries($page, $perPage)
+    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
     {
 
-        $entries = $this->findBy(array(), array(), $perPage, ($page - 1) * $perPage);
+        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
 
         return $entries;
     }

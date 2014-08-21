@@ -48,11 +48,12 @@ class CountryRepository extends EntityRepository implements CRUDRepositoryInterf
     /**
      * {@inheritdoc}
      */
-    public function getEntries($page, $perPage)
+    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
     {
 
-        $entries = $this->findBy(array(), array(), $perPage, ($page - 1) * $perPage);
+        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
 
         return $entries;
     }
+
 }

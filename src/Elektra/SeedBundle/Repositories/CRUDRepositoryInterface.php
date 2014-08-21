@@ -29,13 +29,14 @@ interface CRUDRepositoryInterface
     /**
      * Get the entries defined by page and limit per page
      *
-     * @param int $page
-     * @param int $perPage
+     * @param int   $page
+     * @param int   $perPage
+     * @param array $filters
+     * @param array $ordering
      *
      * @return array
      */
-//    public function getEntries($page, $perPage, $filters = array());
-    public function getEntries($page, $perPage);
+    public function getEntries($page, $perPage, $filters = array(), $ordering = array());
 
     /**
      * Checks if an entry can be deleted (no references, no constraint violations, etc)

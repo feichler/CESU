@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Repositories\SeedUnits;
 
 use Doctrine\ORM\EntityRepository;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType;
+use Elektra\SeedBundle\Repositories\CRUDRepositoryInterface;
 
 /**
  * Class SeedUnitPowerCordTypeRepository
@@ -19,7 +20,7 @@ use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType;
  *
  * @version 0.1-dev
  */
-class SeedUnitPowerCordTypeRepository extends EntityRepository
+class SeedUnitPowerCordTypeRepository extends EntityRepository implements CRUDRepositoryInterface
 {
 
     /**
@@ -55,11 +56,12 @@ class SeedUnitPowerCordTypeRepository extends EntityRepository
     /**
      * {@inheritdoc}
      */
-    public function getEntries($page, $perPage)
+    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
     {
 
-        $entries = $this->findBy(array(), array(), $perPage, ($page - 1) * $perPage);
+        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
 
         return $entries;
     }
+
 }
