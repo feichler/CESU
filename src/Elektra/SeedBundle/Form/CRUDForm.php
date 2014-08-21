@@ -59,63 +59,61 @@ abstract class CRUDForm extends AbstractType
      */
     protected function addFormActions(FormBuilderInterface $builder, array $options)
     {
-        if($this->getParent() === 'form') {
-            // TRANSLATE add translations for the form labels
 
-            $saveButton   = array(
-                'type'    => 'submit',
-                'options' => array(
-                    'label' => 'Save',
-                    'attr'  => array(
-                        'class' => 'btn btn-success',
-                    ),
-                ),
-            );
-            $resetButton  = array(
-                'type'    => 'reset',
-                'options' => array(
-                    'label' => 'Reset Data',
-                    'attr'  => array(
-                        'class' => 'btn',
-                    ),
-                ),
-            );
-            $cancelButton = array(
-                'type'    => 'cancel',
-                'options' => array(
-                    'label' => 'Cancel',
-                    'attr'  => array(
-                        'class' => 'btn',
-                    ),
-                ),
-            );
+        // TRANSLATE add translations for the form labels
 
-            $closeButton  = array(
-                'type'    => 'cancel',
-                'options' => array(
-                    'label'      => 'Close',
-                    'attr'       => array(
-                        'class' => 'btn btn-primary',
-                    ),
-                    'showView'   => true,
-                    'showForm'   => false,
-                    'returnLink' => isset($options['returnLink']) ? $options['returnLink'] : '',
+        $saveButton   = array(
+            'type'    => 'submit',
+            'options' => array(
+                'label' => 'Save',
+                'attr'  => array(
+                    'class' => 'btn btn-success',
                 ),
-            );
+            ),
+        );
+        $resetButton  = array(
+            'type'    => 'reset',
+            'options' => array(
+                'label' => 'Reset Data',
+                'attr'  => array(
+                    'class' => 'btn',
+                ),
+            ),
+        );
+        $cancelButton = array(
+            'type'    => 'cancel',
+            'options' => array(
+                'label' => 'Cancel',
+                'attr'  => array(
+                    'class' => 'btn',
+                ),
+            ),
+        );
+        $closeButton  = array(
+            'type'    => 'cancel',
+            'options' => array(
+                'label'      => 'Close',
+                'attr'       => array(
+                    'class' => 'btn btn-primary',
+                ),
+                'showView'   => true,
+                'showForm'   => false,
+                'returnLink' => isset($options['returnLink']) ? $options['returnLink'] : '',
+            ),
+        );
 
-            $builder->add(
-                'actions',
-                'buttonGroup',
-                array(
-                    'buttons' => array(
-                        'save'   => $saveButton,
-                        'reset'  => $resetButton,
-                        'cancel' => $cancelButton,
-                        'close'  => $closeButton,
-                    ),
-                )
-            );
-        }
+        $builder->add(
+            'actions',
+            'buttonGroup',
+            array(
+                'buttons' => array(
+                    'save'   => $saveButton,
+                    'reset'  => $resetButton,
+                    'cancel' => $cancelButton,
+                    'close'  => $closeButton,
+                ),
+            )
+        );
     }
 
     /**

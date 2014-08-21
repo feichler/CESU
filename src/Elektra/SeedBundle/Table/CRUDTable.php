@@ -12,6 +12,7 @@ namespace Elektra\SeedBundle\Table;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\SeedBundle\Entity\EntityInterface;
+use Elektra\SeedBundle\Form\CRUDFilters;
 use Elektra\SiteBundle\Navigator\Definition;
 use Elektra\SiteBundle\Navigator\Navigator;
 use Elektra\ThemeBundle\Table\Row;
@@ -163,6 +164,19 @@ abstract class CRUDTable extends Table
      */
     protected abstract function setupContentRow(Row $content, CRUDEntityInterface $entry);
 
+
+    protected $filters;
+
+    public function addFilters($filters)
+    {
+
+        $this->filters = $filters;
+    }
+
+    public function getFilters() {
+
+        return $this->filters;
+    }
     /**
      * //     * @param string $action
      * //     *

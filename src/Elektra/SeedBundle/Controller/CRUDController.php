@@ -9,6 +9,8 @@
 
 namespace Elektra\SeedBundle\Controller;
 
+use Elektra\SeedBundle\Form\CRUDFilters;
+use Elektra\SeedBundle\Table\CRUDTable;
 use Elektra\SiteBundle\Navigator\Definition;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -57,7 +59,7 @@ abstract class CRUDController extends Controller
 
         // Initialise the controller (does initialise the page as well)
         $this->initialise('browse');
-
+$filters = $this->loadFilterData($request);
         // save the page number
         $this->setPage($page);
 
@@ -70,17 +72,46 @@ abstract class CRUDController extends Controller
         $table      = new $tableClass();
         $table->setNavigator($this->get('navigator'), $this->definition->getKey());
 
-        $entries = $repository->getEntries($page, $table->getPagination()->getLimit());
+        $entries = $repository->getEntries($page, $table->getPagination()->getLimit(),$filters);
 
         $table->getPagination()->setPage($page);
         $table->getPagination()->setCount($repository->getCount());
         $table->prepare($entries);
-
+        $this->addBrowseFilters($table,$filters);
         // generate the view name
         $viewName = $this->getView('browse');
 
         // return the response
         return $this->render($viewName, array('table' => $table));
+    }
+
+    protected function loadFilterData(Request $request) {
+
+        echo 'Loading filter data<br />';
+
+        $crudFilters = $request->get('crudfilters', array());
+
+        $filters = array();
+        if(isset($crudFilters['seedunitmodel'])) {
+            $filters['model'] = $crudFilters['seedunitmodel'];
+        }
+return $filters;
+        var_dump($filters);
+//        $test = $request->get('crudfilters');
+//        var_dump($test);
+
+//        $test = $request->get('crudfilters_seedunitmodel');
+//        echo $test;
+    }
+
+    protected function addBrowseFilters(CRUDTable $table, $filters)
+    {
+
+        $crudFilters = new CRUDFilters();
+        $crudFilters->addFilter();
+        $form       = $this->createForm($crudFilters);
+        $filterView = $form->createView();
+        $table->addFilters($filterView);
     }
 
     /**

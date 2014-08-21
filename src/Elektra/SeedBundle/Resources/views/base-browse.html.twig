@@ -11,9 +11,13 @@
 {% import "ElektraThemeBundle:Macros:tables.html.twig" as tables %}
 
 {% block content %}
+    {{ tables.filters(table) }}
     {{ tables.show(table) }}
 {% endblock content %}
 
 {% block debug_content %}
     Seed::base-browse.html.twig
 {% endblock debug_content %}
+
+{% import "ElektraThemeBundle:Macros:tables.html.twig" as tables %}
+

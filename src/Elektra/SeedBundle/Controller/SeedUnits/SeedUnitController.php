@@ -29,4 +29,11 @@ class SeedUnitController extends CRUDController
 
         $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
     }
+
+    protected function loadFilters() {
+
+        $filters = array(
+            'model' => $this->get('navigator')->getDefinition('Elektra','Seed','SeedUnits','SeedUnitMode'),
+        );
+    }
 }

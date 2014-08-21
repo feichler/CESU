@@ -29,6 +29,12 @@
     {#{% endif %}#}
 {% endmacro %}
 
+{% macro filters(table) %}
+    {% if table.filters is defined %}
+{{ form(table.filters) }}
+    {% endif %}
+{% endmacro %}
+
 {% macro start(table) %}
 
     {% set class = table.style.classes ? ' class="' ~ table.style.classes|join(' ') ~ '"' : '' %}
