@@ -24,7 +24,7 @@ interface CRUDRepositoryInterface
      *
      * @return int
      */
-    public function getCount();
+    public function getCount($filters = array());
 
     /**
      * Get the entries defined by page and limit per page

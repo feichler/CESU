@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Repositories\SeedUnits;
 
 use Doctrine\ORM\EntityRepository;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel;
+use Elektra\SeedBundle\Repositories\CRUDRepository;
 use Elektra\SeedBundle\Repositories\CRUDRepositoryInterface;
 
 /**
@@ -20,24 +21,24 @@ use Elektra\SeedBundle\Repositories\CRUDRepositoryInterface;
  *
  * @version 0.1-dev
  */
-class SeedUnitModelRepository extends EntityRepository implements CRUDRepositoryInterface
+class SeedUnitModelRepository extends CRUDRepository
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCount()
-    {
-
-        $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select($builder->expr()->count('m'));
-        $builder->from($this->getEntityName(), 'm');
-
-        $query = $builder->getQuery();
-
-        return $query->getSingleScalarResult();
-    }
-
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getCount($filters = array())
+//    {
+//
+//        $builder = $this->getEntityManager()->createQueryBuilder();
+//        $builder->select($builder->expr()->count('m'));
+//        $builder->from($this->getEntityName(), 'm');
+//
+//        $query = $builder->getQuery();
+//
+//        return $query->getSingleScalarResult();
+//    }
+//
     /**
      * {@inheritdoc}
      */
@@ -52,16 +53,16 @@ class SeedUnitModelRepository extends EntityRepository implements CRUDRepository
 
         return $builder->getQuery()->getSingleScalarResult() == 0;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
-    {
-
-        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
-
-        return $entries;
-    }
+//
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
+//    {
+//
+//        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
+//
+//        return $entries;
+//    }
 
 }

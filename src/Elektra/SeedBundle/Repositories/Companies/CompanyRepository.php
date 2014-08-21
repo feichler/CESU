@@ -10,6 +10,7 @@
 namespace Elektra\SeedBundle\Repositories\Companies;
 
 use Doctrine\ORM\EntityRepository;
+use Elektra\SeedBundle\Repositories\CRUDRepository;
 
 /**
  * Class CompanyRepository
@@ -18,33 +19,33 @@ use Doctrine\ORM\EntityRepository;
  *
  * @version 0.1-dev
  */
-class CompanyRepository extends EntityRepository
+class CompanyRepository extends CRUDRepository
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCount()
-    {
-
-        $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select($builder->expr()->count('c'));
-        $builder->from($this->getEntityName(), 'c');
-
-        $query = $builder->getQuery();
-
-        return $query->getSingleScalarResult();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
-    {
-
-        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
-
-        return $entries;
-    }
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getCount()
+//    {
+//
+//        $builder = $this->getEntityManager()->createQueryBuilder();
+//        $builder->select($builder->expr()->count('c'));
+//        $builder->from($this->getEntityName(), 'c');
+//
+//        $query = $builder->getQuery();
+//
+//        return $query->getSingleScalarResult();
+//    }
+//
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
+//    {
+//
+//        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
+//
+//        return $entries;
+//    }
 
 }

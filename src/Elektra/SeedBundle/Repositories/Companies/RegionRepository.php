@@ -10,6 +10,7 @@
 namespace Elektra\SeedBundle\Repositories\Companies;
 
 use Doctrine\ORM\EntityRepository;
+use Elektra\SeedBundle\Repositories\CRUDRepository;
 use Elektra\SeedBundle\Repositories\CRUDRepositoryInterface;
 
 /**
@@ -19,41 +20,41 @@ use Elektra\SeedBundle\Repositories\CRUDRepositoryInterface;
  *
  * @version 0.1-dev
  */
-class RegionRepository extends EntityRepository implements CRUDRepositoryInterface
+class RegionRepository extends CRUDRepository
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCount()
-    {
-
-        $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select($builder->expr()->count('r'));
-        $builder->from($this->getEntityName(), 'r');
-
-        $query = $builder->getQuery();
-
-        return $query->getSingleScalarResult();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCanDelete($entry)
-    {
-        // URGENT: Implement getCanDelete() method.
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
-    {
-
-        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
-
-        return $entries;
-    }
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getCount()
+//    {
+//
+//        $builder = $this->getEntityManager()->createQueryBuilder();
+//        $builder->select($builder->expr()->count('r'));
+//        $builder->from($this->getEntityName(), 'r');
+//
+//        $query = $builder->getQuery();
+//
+//        return $query->getSingleScalarResult();
+//    }
+//
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getCanDelete($entry)
+//    {
+//        // URGENT: Implement getCanDelete() method.
+//    }
+//
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
+//    {
+//
+//        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
+//
+//        return $entries;
+//    }
 
 }

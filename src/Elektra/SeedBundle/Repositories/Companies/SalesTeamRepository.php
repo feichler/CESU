@@ -19,30 +19,29 @@ namespace Elektra\SeedBundle\Repositories\Companies;
 class SalesTeamRepository extends CompanyRepository
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCount()
-    {
-
-        $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select($builder->expr()->count('st'));
-        $builder->from($this->getEntityName(), 'st');
-
-        $query = $builder->getQuery();
-
-        return $query->getSingleScalarResult();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
-    {
-
-        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
-
-        return $entries;
-    }
-
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getCount()
+//    {
+//
+//        $builder = $this->getEntityManager()->createQueryBuilder();
+//        $builder->select($builder->expr()->count('st'));
+//        $builder->from($this->getEntityName(), 'st');
+//
+//        $query = $builder->getQuery();
+//
+//        return $query->getSingleScalarResult();
+//    }
+//
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getEntries($page, $perPage)
+//    {
+//
+//        $entries = $this->findBy(array(), array(), $perPage, ($page - 1) * $perPage);
+//
+//        return $entries;
+//    }
 }

@@ -19,30 +19,30 @@ namespace Elektra\SeedBundle\Repositories\Companies;
 class CustomerRepository extends CompanyRepository
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCount()
-    {
-
-        $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select($builder->expr()->count('c'));
-        $builder->from($this->getEntityName(), 'c');
-
-        $query = $builder->getQuery();
-
-        return $query->getSingleScalarResult();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
-    {
-
-        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
-
-        return $entries;
-    }
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getCount()
+//    {
+//
+//        $builder = $this->getEntityManager()->createQueryBuilder();
+//        $builder->select($builder->expr()->count('c'));
+//        $builder->from($this->getEntityName(), 'c');
+//
+//        $query = $builder->getQuery();
+//
+//        return $query->getSingleScalarResult();
+//    }
+//
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
+//    {
+//
+//        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
+//
+//        return $entries;
+//    }
 
 }

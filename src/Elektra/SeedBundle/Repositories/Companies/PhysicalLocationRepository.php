@@ -19,29 +19,29 @@ namespace Elektra\SeedBundle\Repositories\Companies;
 class PhysicalLocationRepository extends LocationRepository
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCount()
-    {
-
-        $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select($builder->expr()->count('pl'));
-        $builder->from($this->getEntityName(), 'pl');
-
-        $query = $builder->getQuery();
-
-        return $query->getSingleScalarResult();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
-    {
-
-        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
-
-        return $entries;
-    }
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getCount()
+//    {
+//
+//        $builder = $this->getEntityManager()->createQueryBuilder();
+//        $builder->select($builder->expr()->count('pl'));
+//        $builder->from($this->getEntityName(), 'pl');
+//
+//        $query = $builder->getQuery();
+//
+//        return $query->getSingleScalarResult();
+//    }
+//
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
+//    {
+//
+//        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
+//
+//        return $entries;
+//    }
 }
