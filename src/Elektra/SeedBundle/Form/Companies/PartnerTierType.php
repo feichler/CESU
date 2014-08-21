@@ -14,6 +14,7 @@ use Elektra\SeedBundle\Form\DataTransformer\ToUppercaseTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -33,6 +34,17 @@ class PartnerTierType extends CRUDForm
     {
 
         return 'partnertier';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        parent::setDefaultOptions($resolver);
+        $resolver->setDefaults(array(
+            'data_class' => 'Elektra\SeedBundle\Entity\Companies\PartnerTier',
+        ));
     }
 
     /**

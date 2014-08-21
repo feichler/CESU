@@ -13,6 +13,7 @@ use Elektra\SeedBundle\Form\CRUDForm;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -32,6 +33,17 @@ class PartnerType extends CRUDForm
     {
 
         return 'partner';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        parent::setDefaultOptions($resolver);
+        $resolver->setDefaults(array(
+            'data_class' => 'Elektra\SeedBundle\Entity\Companies\Partner',
+        ));
     }
 
     /**
