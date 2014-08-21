@@ -35,6 +35,9 @@ class CompanyLocationType extends CRUDForm
         return 'companylocation';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);
