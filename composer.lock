@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "db839d7be8c4451817201f326ec524cf",
+    "hash": "3a266bf7a2f27c15d15bb2c34afaac72",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -794,29 +794,6 @@
             "time": "2014-05-14 20:37:30"
         },
         {
-            "name": "frameworks/jquery",
-            "version": "1.11.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/frameworks/jquery.git",
-                "reference": "8a011cb3172c96a64af6bb54420ae2dfe0382bbb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/frameworks/jquery/zipball/8a011cb3172c96a64af6bb54420ae2dfe0382bbb",
-                "reference": "8a011cb3172c96a64af6bb54420ae2dfe0382bbb",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "jQuery JavaScript Library",
-            "homepage": "http://jquery.com",
-            "time": "2014-06-04 15:05:26"
-        },
-        {
             "name": "friendsofsymfony/user-bundle",
             "version": "dev-master",
             "target-dir": "FOS/UserBundle",
@@ -883,58 +860,6 @@
                 "User management"
             ],
             "time": "2014-08-04 23:04:17"
-        },
-        {
-            "name": "incenteev/composer-parameter-handler",
-            "version": "v2.1.0",
-            "target-dir": "Incenteev/ParameterHandler",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Incenteev/ParameterHandler.git",
-                "reference": "143272a0a09c62616a3c8011fc165a10c6b35241"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Incenteev/ParameterHandler/zipball/143272a0a09c62616a3c8011fc165a10c6b35241",
-                "reference": "143272a0a09c62616a3c8011fc165a10c6b35241",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "symfony/yaml": "~2.0"
-            },
-            "require-dev": {
-                "composer/composer": "1.0.*@dev",
-                "phpspec/prophecy-phpunit": "~1.0",
-                "symfony/filesystem": "~2.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Incenteev\\ParameterHandler": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christophe Coevoet",
-                    "email": "stof@notk.org"
-                }
-            ],
-            "description": "Composer script handling your ignored parameter file",
-            "homepage": "https://github.com/Incenteev/ParameterHandler",
-            "keywords": [
-                "parameters management"
-            ],
-            "time": "2013-12-07 10:10:39"
         },
         {
             "name": "jdorn/sql-formatter",
