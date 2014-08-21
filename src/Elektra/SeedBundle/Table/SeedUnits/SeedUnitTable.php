@@ -106,8 +106,8 @@ class SeedUnitTable extends CRUDTable
         }
 
         $requestCell = $content->addCell();
-        if ($entry->getRequest() != null) {
-            $requestCell->addHtmlContent($entry->getRequest()->getId());
+        if ($entry->getRequestCompletion() != null) {
+            $requestCell->addHtmlContent($entry->getRequestCompletion()->getId());
         }
 
         // Audits

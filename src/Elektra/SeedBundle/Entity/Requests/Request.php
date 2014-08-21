@@ -72,7 +72,7 @@ class Request implements AuditableInterface, AnnotableInterface, CRUDEntityInter
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=15)
+     * @ORM\Column(type="string", length=15, nullable=true)
      */
     protected $clientIpAddress;
 
@@ -80,7 +80,7 @@ class Request implements AuditableInterface, AnnotableInterface, CRUDEntityInter
      * @var PartnerTier
      *
      * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\PartnerTier", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="partnerTierId", referencedColumnName="partnerTierId")
+     * @ORM\JoinColumn(name="partnerTierId", referencedColumnName="partnerTierId", nullable=true)
      */
     protected $partnerTier;
 

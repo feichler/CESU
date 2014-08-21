@@ -15,7 +15,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
-use Elektra\SeedBundle\Entity\Requests\CompletedRequest;
+use Elektra\SeedBundle\Entity\Requests\RequestCompletion;
 
 /**
  * Class SeedUnits
@@ -72,12 +72,12 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     protected $events;
 
     /**
-     * @var CompletedRequest
+     * @var RequestCompletion
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Requests\CompletedRequest", inversedBy="seedUnits", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="requestId", referencedColumnName="requestId")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Requests\RequestCompletion", inversedBy="seedUnits", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="requestCompletionId", referencedColumnName="requestCompletionId")
      */
-    protected $request;
+    protected $requestCompletion;
 
     /**
      * @var ArrayCollection
@@ -187,21 +187,21 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Requests\CompletedRequest $request
+     * @param RequestCompletion $request
      */
-    public function setRequest($request)
+    public function setRequestCompletion($request)
     {
 
-        $this->request = $request;
+        $this->requestCompletion = $request;
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Requests\CompletedRequest
+     * @return RequestCompletion
      */
-    public function getRequest()
+    public function getRequestCompletion()
     {
 
-        return $this->request;
+        return $this->requestCompletion;
     }
 
     /**

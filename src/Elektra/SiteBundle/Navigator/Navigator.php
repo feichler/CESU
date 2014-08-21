@@ -62,6 +62,7 @@ class Navigator
         $this->addDefinition('Elektra', 'Seed', 'Companies', 'Region');
         $this->addDefinition('Elektra', 'Seed', 'Companies', 'SalesTeam');
         $this->addDefinition('Elektra', 'Seed', 'Companies', 'WarehouseLocation');
+        $this->addDefinition('Elektra', 'Seed', 'Requests', 'RequestCompletion');
         $this->addDefinition('Elektra', 'Seed', 'Trainings', 'Attendance');
         $this->addDefinition('Elektra', 'Seed', 'Trainings', 'Registration');
         $this->addDefinition('Elektra', 'Seed', 'Trainings', 'Training');
