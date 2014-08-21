@@ -103,6 +103,7 @@ abstract class CRUDController extends Controller
         $repository = $this->getDoctrine()->getRepository($repositoryClass);
         $entity     = $repository->find($id);
         $returnLink = $this->get('navigator')->getLink($this->definition, 'browse', array('page' => $this->getPage()));
+        var_dump($returnLink);
         $form       = $this->createForm(
             new $formClass(),
             $entity,

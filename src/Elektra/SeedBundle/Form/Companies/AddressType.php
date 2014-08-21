@@ -13,6 +13,7 @@ use Elektra\SeedBundle\Form\CRUDForm;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -34,12 +35,19 @@ class AddressType extends CRUDForm
         return 'address';
     }
 
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        parent::setDefaultOptions($resolver);
+        $resolver->setDefaults(array(
+            'data_class' => 'Elektra\SeedBundle\Entity\Companies\Address',
+        ));
+    }
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $nameOptions = array(
             'constraints' => array(
                 new NotBlank(array('message' => 'error.constraint.required')),
