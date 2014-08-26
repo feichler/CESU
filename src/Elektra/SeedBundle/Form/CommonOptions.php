@@ -17,8 +17,9 @@ class CommonOptions
     public static function getRequiredNotBlank()
     {
         $options = array(
+            'required' => true,
             'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
+                new NotBlank(array('message' => 'error.constraint.required'))
             )
         );
 
