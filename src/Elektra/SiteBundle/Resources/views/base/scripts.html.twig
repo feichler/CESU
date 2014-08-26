@@ -6,6 +6,8 @@
  # @version   0.1-dev
  #############################################################################}
 
-{% extends "ElektraSiteBundle:Areas:footer.html.twig" %}
-
-{% import "ElektraSiteBundle:Macros:site.html.twig" as site %}
+{% for name, active in siteBase.scripts %}
+    {% if active %}
+        {% include "ElektraSiteBundle:base/scripts:" ~ name ~ ".html.twig" %}
+    {% endif %}
+{% endfor %}

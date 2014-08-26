@@ -6,8 +6,42 @@
  # @version   0.1-dev
  #############################################################################}
 
-{% extends "ElektraThemeBundle::base.html.twig" %}
+<!DOCTYPE html>
+<html>
+{% include "ElektraSiteBundle:base:head.html.twig" %}
+<body>
 
-{% block debug_content %}
-    Site::base.html.twig
-{% endblock debug_content %}
+{#############################################################################
+ # HTML Content Area
+ #############################################################################}
+
+{# Include Navigation Bar if defined #}
+{% if siteBase.area('navbar') is not empty %}
+    {% include siteBase.area('navbar') %}
+{% endif %}
+
+{# Include Messages if defined #}
+{% if siteBase.area('messages') is not empty and siteBase.hasMessages %}
+    {% include siteBase.area('messages') %}
+{% endif %}
+
+{# Include the page heading #}
+{% include "ElektraSiteBundle:base:heading.html.twig" %}
+
+{# Main content container #}
+<div class="container">
+    {% block content %}
+        In Base Template - no override
+        {# NOTE the inheriting templates need to override this block - everything else should be already handled by this template #}
+    {% endblock content %}
+</div>
+
+{# Include Footer Bar if defined #}
+{% if siteBase.area('footer') is not empty %}
+    {% include siteBase.area('footer') %}
+{% endif %}
+
+{# Include the scripts #}
+{% include "ElektraSiteBundle:base:scripts.html.twig" %}
+</body>
+</html>

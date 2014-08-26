@@ -1,0 +1,24 @@
+{#############################################################################
+ # @author    Florian Eichler <florian@eichler.co.at>
+ # @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ # @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ # @license   MINOR add a license
+ # @version   0.1-dev
+ #############################################################################}
+
+<head>
+    {# character set and metadata #}
+    <meta charset="{{ siteBase.parameter('character_set') }}">
+    {% for name, content in siteBase.parameter('metadata') %}
+        <meta name="{{ name }}" content="{{ content }}">
+    {% endfor %}
+
+    {# favicon #}
+    <link rel="icon" type="image/x-icon" href="{{ asset(siteBase.parameter('favicon')) }}"/>
+
+    {# Include the page title #}
+    {% include "ElektraSiteBundle:base:title.html.twig" %}
+
+    {# Include the stylesheets #}
+    {% include "ElektraSiteBundle:base:styles.html.twig" %}
+</head>

@@ -1,0 +1,25 @@
+{#############################################################################
+ # @author    Florian Eichler <florian@eichler.co.at>
+ # @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ # @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ # @license   MINOR add a license
+ # @version   0.1-dev
+ #############################################################################}
+
+<title>
+    {#- title.prefix - title - title.suffix -#}
+    {%- set needDash = false -%}
+    {%- if siteLanguage('title_prefix') is not empty -%}
+        {%- set needDash = true -%}
+        {{- siteLanguage('title_prefix') -}}
+    {%- endif -%}
+
+    {%- if needDash %} - {% endif -%}
+    {%- set needDash = true -%}
+    {{- siteLanguage.required('title') -}}
+
+    {%- if siteLanguage('title_suffix') is not empty -%}
+        {%- if needDash %} - {% endif -%}
+        {{- siteLanguage('title_suffix') -}}
+    {%- endif -%}
+</title>
