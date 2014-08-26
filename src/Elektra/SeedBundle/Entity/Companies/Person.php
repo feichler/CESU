@@ -291,6 +291,6 @@ class Person implements AuditableInterface, AnnotableInterface, CrudInterface
     public function getTitle()
     {
 
-        return $this->getFirstName() . ' ' . $this->getLastName();
+        return $this->getLastName() . ' ' . $this->getFirstName();
     }
 }
