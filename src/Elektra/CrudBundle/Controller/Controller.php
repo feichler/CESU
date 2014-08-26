@@ -103,8 +103,7 @@ abstract class Controller extends BaseController
 
         $this->initialise('view');
         $this->crud->save('viewUrl',$request->getUri());
-//        $url = $request->getUri();
-//        echo 'VIEW URL: '.$url.'<br />';
+
         $repositoryClass = $this->getCrud()->getDefinition()->getClassRepository();
 
         // execute the required actions for this controller
@@ -249,43 +248,6 @@ abstract class Controller extends BaseController
 
         return $form;
     }
-
-    //    private function getReturnLink()
-    //    {
-    //
-    //        $returnLink = $this->get('navigator')->getLink($this->getDefinition(), 'browse', array('page' => $this->crud->get('page', 'browse')));
-    //
-    //        return $returnLink;
-    //    }
-
-//    private function getForm1($entity, $action)
-//    {
-//
-//        $class   = $this->getDefinition()->getClassForm();
-//        $options = array(
-//            'crud_action' => $action,
-//            //            'return_link' => $this->getReturnLink(),
-//        );
-//
-//        $form = $this->createForm(new $class($this->getCrud()), $entity, $options);
-//
-//        return $form;
-//    }
-//
-//    private function addEntry1($entity)
-//    {
-//
-//        $this->beforeAddEntry($entity);
-//
-//        $manager = $this->getDoctrine()->getManager();
-//        $manager->persist($entity);
-//        $manager->flush();
-//
-//        $this->afterAddEntry($entity);
-//
-//        $this->addSuccessMessage('add', $entity->getId(), $entity->getTitle());
-//    }
-
 
     /*************************************************************************
      * Hooks for specific controllers

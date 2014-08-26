@@ -21,30 +21,6 @@ use Elektra\CrudBundle\Repository\Repository as CrudRepository;
 class CompanyRepository extends CrudRepository
 {
 
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getCount()
-    //    {
-    //
-    //        $builder = $this->getEntityManager()->createQueryBuilder();
-    //        $builder->select($builder->expr()->count('c'));
-    //        $builder->from($this->getEntityName(), 'c');
-    //
-    //        $query = $builder->getQuery();
-    //
-    //        return $query->getSingleScalarResult();
-    //    }
-    //
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
-    //    {
-    //
-    //        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
-    //
-    //        return $entries;
-    //    }
+
 
 }

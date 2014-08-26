@@ -49,16 +49,9 @@ class TableExtension extends \Twig_Extension
 
         if ($renderer->exists($specificTemplate)) {
             $template = $environment->loadTemplate($specificTemplate);
-            //            return $renderer->render($specificTemplate, array('table' => $table));
-        } else {
+                 } else {
             $template = $environment->loadTemplate($baseTemplate);
-            //            echo get_class($test);
-            //            $a = $test->display(array_merge($context, array('table'=>$table)), array('table'));
-            //            $a = $test->displayBlock('table', array_merge($context, array('table'=>$table)));
-            //            echo $a;
-
-            //            return $renderer->render($baseTemplate, array('table' => $table));
-        }
+                }
 
         return $template->renderBlock('table', array_merge($context, array('table' => $table)));
 

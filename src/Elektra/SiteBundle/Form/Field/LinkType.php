@@ -49,15 +49,11 @@ class LinkType extends AbstractType implements SubmitButtonTypeInterface
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
 
-        //var_dump($options);
+
         $view->vars['clicked']                = $form->isClicked();
-//        $view->vars['attr']['formnovalidate'] = true;
-        //        $view->vars['showForm']               = $options['showForm'];
-        //        $view->vars['showView']               = $options['showView'];
+
         $view->vars['link'] = $options['link'];
-//        if (isset($options['link'])) {
-//            $view->vars['link'] = $options['link'];
-//        }
+
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -69,13 +65,6 @@ class LinkType extends AbstractType implements SubmitButtonTypeInterface
                 'link',
             ));
 
-//        $resolver->setDefaults(
-//            array(
-//                //                'showForm'   => true,
-//                //                'showView'   => false,
-//                'link' => '',
-//            )
-//        );
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options)

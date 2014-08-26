@@ -15,12 +15,4 @@ class NoteColumn extends CountColumn
         $this->setFieldData('notes');
         $this->setType('note');
     }
-
-//    public function getDisplayData($entry)
-//    {
-//
-//        $return = count($entry->getNotes());
-//
-//        return $return;
-//    }
 }

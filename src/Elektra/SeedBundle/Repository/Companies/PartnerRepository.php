@@ -19,30 +19,6 @@ namespace Elektra\SeedBundle\Repository\Companies;
 class PartnerRepository extends CompanyRepository
 {
 
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getCount()
-    //    {
-    //
-    //        $builder = $this->getEntityManager()->createQueryBuilder();
-    //        $builder->select($builder->expr()->count('p'));
-    //        $builder->from($this->getEntityName(), 'p');
-    //
-    //        $query = $builder->getQuery();
-    //
-    //        return $query->getSingleScalarResult();
-    //    }
-    //
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
-    //    {
-    //
-    //        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
-    //
-    //        return $entries;
-    //    }
+
 
 }

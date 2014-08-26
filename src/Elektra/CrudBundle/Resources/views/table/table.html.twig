@@ -214,10 +214,7 @@
     {% endif %}
     {% if toPage == 1 %}
         {% set text = '<span class="page-link page-first"></span>' ~ toPage %}
-        {% if toPage == actPage %}
-            {#{% set liClass = liClass ~ ' disabled' %}#}
-        {% endif %}
-    {% elseif toPage == table.pagination.maxPage %}
+         {% elseif toPage == table.pagination.maxPage %}
         {% set text = toPage ~ '<span class="page-link page-last"></span>' %}
     {% endif %}
 <li class="{{ liClass|raw }}">

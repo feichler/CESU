@@ -20,7 +20,6 @@ class ActionColumn extends Column
         $return = array();
 
         $table = $this->getColumns()->getTable();
-        //        $container = $table->getContainer();
 
         $langKey = $table->getSpecificLangKey();
 

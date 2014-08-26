@@ -49,23 +49,17 @@ abstract class Table
      */
     protected $customFilters;
 
-//    /**
-//     * @var Definition
-//     */
-//    protected $embedded;
-
     /*************************************************************************
      * Construction & Initialisation
      *************************************************************************/
 
     /**
-     * @param Crud            $crud
+     * @param Crud $crud
      */
     public final function __construct(Crud $crud)
     {
 
-        $this->crud     = $crud;
-//        $this->embedded = $embedded;
+        $this->crud = $crud;
 
         $this->pagination    = new Pagination($this);
         $this->columns       = new Columns($this);
@@ -111,27 +105,6 @@ abstract class Table
 
         return $this->crud;
     }
-
-    /**
-//     * @return bool
-//     */
-//    public function isEmbedded()
-//    {
-//
-//        return $this->getCrud()->isEmbedded();
-////        return $this->embedded !== null;
-//    }
-//
-//    /**
-//     * @return Definition|null
-//     *
-//     * @deprecated
-//     */
-//    public function getEmbedded()
-//    {
-////return $this->getCrud()->getEmbedded();
-//        return $this->embedded;
-//    }
 
     /**
      *
@@ -211,10 +184,6 @@ abstract class Table
         foreach ($this->requestData as $key => $value) {
             $this->crud->save($key, $value, 'table');
         }
-
-        //                echo '<pre>After:\\n';
-        //                var_dump($this->container->get('session')->all());
-        //                echo '</pre>';
     }
 
     public function getRequestData($type, $id = null)
@@ -253,21 +222,6 @@ abstract class Table
         $this->customFilters[] = $filter;
     }
 
-    //    public function getDefinition()
-    //    {
-    //
-    //        return $this->crud->getDefinition();
-    //    }
-
-    //    /**
-    //     * @return ContainerInterface
-    //     */
-    //    public function getContainer()
-    //    {
-    //
-    //        return $this->container;
-    //    }
-
     /*************************************************************************
      * Execution methods - Entry querying
      *************************************************************************/
@@ -286,7 +240,6 @@ abstract class Table
     public function load($page)
     {
 
-
         $search  = null;
         $filters = null;
         $order   = null;
@@ -302,9 +255,8 @@ abstract class Table
         $repositoryClass = $this->crud->getDefinition()->getClassRepository();
         $repository      = $this->crud->getController()->getDoctrine()->getRepository($repositoryClass);
 
-
         $this->entries = $repository->getEntries($page, $this->pagination->getLimit(), $search, $filters, $order);
-echo 'entries loaded';
+
         $this->pagination->setPage($page);
     }
 
@@ -320,9 +272,9 @@ echo 'entries loaded';
     /**
      * @return int
      */
-    public function getEntryCount() {
+    public function getEntryCount()
+    {
 
-//        echo 'A';
         $search  = null;
         $filters = null;
         $order   = null;
@@ -334,16 +286,13 @@ echo 'entries loaded';
             $filters = $this->getLoadFilters();
             $order   = null;
         }
-//        echo 'B';
+
         $repositoryClass = $this->crud->getDefinition()->getClassRepository();
         $repository      = $this->crud->getController()->getDoctrine()->getRepository($repositoryClass);
-//echo '!';
+
         $entryCount = $repository->getCount($search, $filters, $order);
 
         return $entryCount;
-//echo 'asking for count';
-//        echo $entryCount;
-//        return count($this->entries);
     }
 
 
@@ -688,14 +637,10 @@ echo 'entries loaded';
     /**
      * @return Pagination
      */
-    public function getPagination() {
+    public function getPagination()
+    {
 
         return $this->pagination;
     }
 
-    //    public function getAddLink()
-    //    {
-    //
-    //        return $this->container->get('navigator')->getLink($this->definition, 'add');
-    //    }
 }

@@ -278,7 +278,6 @@ class Base
      */
     public function getTemplateEngine()
     {
-//$test = $this->container->get('templating.loader');
 
         return $this->container->get('templating');
     }
@@ -383,9 +382,7 @@ class Base
     {
 
         $siteLanguage = $this->container->get('siteLanguage');
-        $navigator    = $this->container->get('navigator');
 
-        //        $reportsItem = new Item($siteLanguage->getRequired('menu.reports'), $navigator->getLink(array('Elektra', 'Seed', 'Requests', 'RequestCompletion'), 'browse'));
         $reportsItem = new Item($siteLanguage->getRequired('menu.reports'));
 
         return $reportsItem;

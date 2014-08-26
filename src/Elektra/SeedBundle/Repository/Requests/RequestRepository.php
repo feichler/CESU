@@ -21,18 +21,5 @@ use Elektra\CrudBundle\Repository\Repository as CrudRepository;
 class RequestRepository extends CrudRepository
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCount()
-    {
 
-        $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select($builder->expr()->count('r'));
-        $builder->from($this->getEntityName(), 'r');
-
-        $query = $builder->getQuery();
-
-        return $query->getSingleScalarResult();
-    }
 }

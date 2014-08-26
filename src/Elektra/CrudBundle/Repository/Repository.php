@@ -42,8 +42,6 @@ class Repository extends EntityRepository implements RepositoryInterface
         $builder->setMaxResults($perPage);
         $builder->setFirstResult(($page - 1) * $perPage);
 
-//        echo 'DQL: ' . $builder->getDQL();
-
         $entries = $builder->getQuery()->getResult();
 
         return $entries;
@@ -56,7 +54,6 @@ class Repository extends EntityRepository implements RepositoryInterface
         $builder = $this->prepareQueryBuilder($alias, $search, $filters, $order);
         $builder->select($builder->expr()->count($alias));
 
-//        echo 'DQL: ' . $builder->getDQL();
 
         $count = $builder->getQuery()->getSingleScalarResult();
 

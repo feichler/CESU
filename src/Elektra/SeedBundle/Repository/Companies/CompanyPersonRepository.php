@@ -19,29 +19,5 @@ namespace Elektra\SeedBundle\Repository\Companies;
 class CompanyPersonRepository extends PersonRepository
 {
 
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getCount()
-    //    {
-    //
-    //        $builder = $this->getEntityManager()->createQueryBuilder();
-    //        $builder->select($builder->expr()->count('cp'));
-    //        $builder->from($this->getEntityName(), 'cp');
-    //
-    //        $query = $builder->getQuery();
-    //
-    //        return $query->getSingleScalarResult();
-    //    }
-    //
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getEntries($page, $perPage)
-    //    {
-    //
-    //        $entries = $this->findBy(array(), array(), $perPage, ($page - 1) * $perPage);
-    //
-    //        return $entries;
-    //    }
+
 }

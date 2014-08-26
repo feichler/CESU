@@ -249,6 +249,5 @@ class Language
         }
 
         return $this->get($key);
-        //        $string = $this->getString($key, false);
     }
 }

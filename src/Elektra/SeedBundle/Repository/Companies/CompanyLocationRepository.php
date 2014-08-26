@@ -19,30 +19,6 @@ namespace Elektra\SeedBundle\Repository\Companies;
 class CompanyLocationRepository extends PhysicalLocationRepository
 {
 
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getCount()
-    //    {
-    //
-    //        $builder = $this->getEntityManager()->createQueryBuilder();
-    //        $builder->select($builder->expr()->count('cl'));
-    //        $builder->from($this->getEntityName(), 'cl');
-    //
-    //        $query = $builder->getQuery();
-    //
-    //        return $query->getSingleScalarResult();
-    //    }
-    //
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
-    //    {
-    //
-    //        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
-    //
-    //        return $entries;
-    //    }
+
 
 }

@@ -21,21 +21,7 @@ use Elektra\CrudBundle\Repository\Repository as CrudRepository;
 class ModelRepository extends CrudRepository
 {
 
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getCount($filters = array())
-    //    {
-    //
-    //        $builder = $this->getEntityManager()->createQueryBuilder();
-    //        $builder->select($builder->expr()->count('m'));
-    //        $builder->from($this->getEntityName(), 'm');
-    //
-    //        $query = $builder->getQuery();
-    //
-    //        return $query->getSingleScalarResult();
-    //    }
-    //
+
     /**
      * {@inheritdoc}
      */
@@ -50,16 +36,5 @@ class ModelRepository extends CrudRepository
 
         return $builder->getQuery()->getSingleScalarResult() == 0;
     }
-    //
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
-    //    {
-    //
-    //        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
-    //
-    //        return $entries;
-    //    }
 
 }

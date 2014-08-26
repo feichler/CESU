@@ -151,12 +151,7 @@ abstract class Form extends AbstractType
     public final function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        //        var_dump(array_key_exists('data', $options));
-
-        //        $crudAction = $options['crud_action'];
-        //        $returnLink = $options['return_link'];
-
-        parent::buildForm($builder, $options);
+                parent::buildForm($builder, $options);
 
         $this->buildSpecificForm($builder, $options);
 
@@ -187,12 +182,7 @@ abstract class Form extends AbstractType
         $entity     = $options['data'];
         $buttons    = array();
 
-        $return = $this->getCrud()->get('viewUrl');
-        //echo '<br /><br />';
-        //        echo 'RETURN: ';
-        //        var_dump($return);
-        //        echo '<br /><br />';
-        // SAVE Button
+                // SAVE Button
         if ($crudAction == 'add' || $crudAction == 'edit') {
             $buttons['save'] = array(
                 'type'    => 'submit',

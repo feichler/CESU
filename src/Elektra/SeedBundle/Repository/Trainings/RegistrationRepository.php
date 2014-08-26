@@ -21,38 +21,5 @@ use Elektra\CrudBundle\Repository\Repository as CrudRepository;
 class RegistrationRepository extends CrudRepository
 {
 
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getCount()
-    //    {
-    //
-    //        $builder = $this->getEntityManager()->createQueryBuilder();
-    //        $builder->select($builder->expr()->count('r'));
-    //        $builder->from($this->getEntityName(), 'r');
-    //
-    //        $query = $builder->getQuery();
-    //
-    //        return $query->getSingleScalarResult();
-    //    }
-    //
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getCanDelete($entry)
-    //    {
-    //        // TODO: Implement this method
-    //    }
-    //
-    //    /**
-    //     * {@inheritdoc}
-    //     */
-    //    public function getEntries($page, $perPage, $filters = array(), $ordering = array())
-    //    {
-    //
-    //        $entries = $this->findBy($filters, $ordering, $perPage, ($page - 1) * $perPage);
-    //
-    //        return $entries;
-    //    }
 
 }
