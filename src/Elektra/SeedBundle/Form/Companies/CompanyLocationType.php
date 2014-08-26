@@ -42,9 +42,11 @@ class CompanyLocationType extends CrudForm
             )
         ));
 
-        $addressOptions = $options;
-        $addressOptions['data'] = $options['data']->getAddress();
-        $addressOptions['data_class'] = $this->getCrud()->getDefinition('Elektra','Seed','Companies','Address')->getClassEntity();
+        $addressOptions = array(
+            'data_class' =>   $this->getCrud()->getDefinition('Elektra','Seed','Companies','Address')->getClassEntity(),
+            'crud_action' => $options['crud_action'],
+            'show_buttons' => false
+        );
         $builder->add("address", new AddressType($this->getCrud()), $addressOptions);
 
         //TODO: list input for persons

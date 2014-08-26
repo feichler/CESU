@@ -16,6 +16,9 @@ class AddressType extends CrudForm
      */
     protected function setSpecificDefaultOptions(OptionsResolverInterface $resolver)
     {
+//        $resolver->setDefaults(array(
+//            'data_class' => 'Elektra\SeedBundle\Entity\Companies\Address',
+//        ));
     }
 
     /**
@@ -23,7 +26,7 @@ class AddressType extends CrudForm
      */
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
-        //echo var_dump($options);
+//        echo var_dump($options);
         $builder->add('street1', 'text', CommonOptions::getRequiredNotBlank());
         $builder->add('street2', 'text', CommonOptions::getOptional());
         $builder->add('street3', 'text', CommonOptions::getOptional());

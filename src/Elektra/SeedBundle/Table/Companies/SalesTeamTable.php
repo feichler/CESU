@@ -1,7 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Florian
- * Date: 25.08.14
- * Time: 16:09
- */ 
+
+namespace Elektra\SeedBundle\Table\Companies;
+
+use Elektra\CrudBundle\Table\Table;
+
+class SalesTeamTable extends Table
+{
+
+    protected function initialiseColumns()
+    {
+        $partner = $this->getColumns()->addTitleColumn('table.companies.company.name');
+        $partner->setFieldData(array('shortName', 'name'));
+        $partner->setSearchable();
+        $partner->setSortable()->setFieldSort('shortName');
+    }
+}

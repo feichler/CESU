@@ -17,7 +17,5 @@ class ModelTable extends Table
         $model->setSearchable();
         $model->setSortable();
         $model->setFieldSort('name');
-
-
     }
 }

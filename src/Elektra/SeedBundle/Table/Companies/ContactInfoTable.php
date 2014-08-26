@@ -1,7 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Florian
- * Date: 25.08.14
- * Time: 16:08
- */ 
+
+namespace Elektra\SeedBundle\Table\Companies;
+
+use Elektra\CrudBundle\Table\Table;
+
+class ContactInfoTable extends Table
+{
+
+    protected function initialiseColumns()
+    {
+
+    }
+}

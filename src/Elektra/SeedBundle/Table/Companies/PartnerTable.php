@@ -13,18 +13,18 @@ class PartnerTable extends Table
     protected function initialiseColumns()
     {
 
-        $partner = $this->getColumns()->addTitleColumn('table.companies.partner.name');
+        $partner = $this->getColumns()->addTitleColumn('table.companies.company.name');
         $partner->setFieldData(array('shortName', 'name'));
         $partner->setSearchable();
         $partner->setSortable()->setFieldSort('shortName');
 
-        $tier = $this->getColumns()->add('table.companies.partner.tier');
+        $tier = $this->getColumns()->add('table.companies.partner.partnerTier');
         $tier->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'PartnerTier'));
         $tier->setFieldData('partnerTier.name');
         $tier->setFilterable()->setFieldFilter('name');
         $tier->setSortable();
 
-        $limit = $this->getColumns()->add('table.companies.partner.units_limit');
+        $limit = $this->getColumns()->add('table.companies.partner.unitsLimit');
         $limit->setFieldData('unitsLimit');
         $limit->setSortable();
     }
