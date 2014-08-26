@@ -26,6 +26,16 @@ class SalesTeamType extends CrudForm
         $builder->add('shortName', 'text', CommonOptions::getRequiredNotBlank());
         $builder->add('name', 'text', CommonOptions::getOptional());
 
-        //TODO: list input for locations
+        if ($options['crud_action'] == 'view') {
+            $builder->add(
+                'locations',
+                'relatedList',
+                array(
+                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation'),
+                    'parent'       => $options['data'],
+                    'relationName' => 'company',
+                )
+            );
+        }
     }
 }

@@ -36,6 +36,16 @@ class CompanyPersonType extends CrudForm
             )
         ));
 
-        //TODO: list input for contact info
+        if ($options['crud_action'] == 'view') {
+            $builder->add(
+                'contactInfo',
+                'relatedList',
+                array(
+                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'ContactInfo'),
+                    'parent'       => $options['data'],
+                    'relationName' => 'person',
+                )
+            );
+        }
     }
 }
