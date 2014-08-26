@@ -16,6 +16,8 @@ class Pagination
 
     protected $limit;
 
+    protected $linkCount = 3;
+
     public function __construct(Table $table)
     {
 
@@ -68,14 +70,12 @@ class Pagination
         return $link;
     }
 
-    protected $links = 3;
-
     public function getNavigation()
     {
 
         $pages = array();
 
-        for ($i = $this->links; $i > 0; $i--) {
+        for ($i = $this->linkCount; $i > 0; $i--) {
             $linkTo = $this->getPage() - $i;
             if ($linkTo >= 1) {
                 $pages[] = $linkTo;
@@ -84,7 +84,7 @@ class Pagination
 
         $pages[] = $this->getPage();
 
-        for ($i = 1; $i <= $this->links; $i++) {
+        for ($i = 1; $i <= $this->linkCount; $i++) {
             $linkTo = $this->getPage() + $i;
             if ($linkTo <= $this->getMaxPage()) {
                 $pages[] = $linkTo;
@@ -97,7 +97,7 @@ class Pagination
     public function getNextSpace()
     {
 
-        $diff = $this->getPage() + $this->links + 1;
+        $diff = $this->getPage() + $this->linkCount + 1;
 
         if ($diff >= $this->getMaxPage()) {
             return false;
@@ -109,7 +109,7 @@ class Pagination
     public function getPrevSpace()
     {
 
-        $diff = $this->getPage() - $this->links - 1;
+        $diff = $this->getPage() - $this->linkCount - 1;
 
         if ($diff <= 1) {
             return false;
@@ -126,27 +126,36 @@ class Pagination
         if ($maxPage == -1) {
             $maxPage = ceil($this->table->getEntryCount() / $this->limit);
         }
+        if($maxPage == 0) {
+            $maxPage = 1;
+        }
 
         return $maxPage;
     }
 
-    public function hasPrevious()
+    public function getLinkCount()
     {
 
-        if ($this->getPage() > 1) {
-            return true;
-        }
-
-        return false;
+        return $this->linkCount;
     }
 
-    public function getPrevious()
-    {
-
-        if ($this->getPage() > 1) {
-            return $this->getPage() - 1;
-        }
-
-        return 0;
-    }
+    //    public function hasPrevious()
+    //    {
+    //
+    //        if ($this->getPage() > 1) {
+    //            return true;
+    //        }
+    //
+    //        return false;
+    //    }
+    //
+    //    public function getPrevious()
+    //    {
+    //
+    //        if ($this->getPage() > 1) {
+    //            return $this->getPage() - 1;
+    //        }
+    //
+    //        return 0;
+    //    }
 }

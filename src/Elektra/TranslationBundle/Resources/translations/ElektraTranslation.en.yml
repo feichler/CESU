@@ -28,6 +28,8 @@ common:
         edit: Edit
         delete: Delete
     confirm_delete: Do you really want to delete this entry?
+    pagination:
+        pages: Page %page% of %max%
 
 table:
     empty: No entries match the specified criteria(s)

@@ -25,7 +25,9 @@
                     {{ block('table_body') }}
                 </table>
             </div>
-            {{ block('table_navigation') }}
+            {% if not table.crud.isEmbedded() %}
+                {{ block('table_navigation') }}
+            {% endif %}
         </div>
     </form>
 {% endblock table %}
@@ -53,7 +55,8 @@
     <tr>
         <td colspan="{{ table.columns.all|length }}">
             {% import 'ElektraSiteBundle:macros:actions.html.twig' as actions %}
-            {{ attribute(actions, 'add', [table.crud.addLink, siteLanguage.alternate('table.' ~ table.specificLangKey ~ '.actions.add', 'table.actions.add'), {}]) }}
+            <span class="pull-right">{{ attribute(actions, 'add', [table.crud.addLink, siteLanguage.alternate('table.' ~ table.specificLangKey ~ '.actions.add', 'table.actions.add'), {}]) }}</span>
+            <span>{{ siteLanguage.get('pagination.pages') }}</span>
         </td>
     </tr>
     </tfoot>
@@ -162,62 +165,66 @@
 {% endblock table_search %}
 
 {% block table_navigation %}
-    {% import _self as tables %}
     <div class="table-pagination text-center">
-        <ul class="pagination">
-            {% if table.pagination.page == 1 %}
-                <li class="disabled">
-                    <a href="#"><span class="page-link page-prev"></span>Prev</a>
-                </li>
-            {% else %}
-                <li>
-                    <a href="{{ table.pagination.pageLink(table.pagination.page-1) }}"><span class="page-link page-prev"></span>Prev</a>
-                </li>
+        {% if table.entryCount > 0 %}
+            {% if table.pagination.page > 1 %} {# Previous Link #}
+                <ul class="pager pull-left">
+                    <li><a href="{{ table.pagination.pageLink(table.pagination.page-1) }}"><span class="page-link page-prev"></span>Prev</a></li>
+                </ul>
             {% endif %}
-            {{ tables.table_navigation_item(table, 1) }}
-            {% if table.pagination.prevSpace %}
-                <li class="disabled"><span>...</span></li>
+            {% if table.pagination.page < table.pagination.maxPage %} {# Next Link #}
+                <ul class="pager pull-right">
+                    <li><a href="{{ table.pagination.pageLink(table.pagination.page+1) }}">Next<span class="page-link page-next"></span></a></li>
+                </ul>
             {% endif %}
-            {% for index, page in table.pagination.navigation %}
-                {% if loop.first and table.pagination.page == 1 %}
-                {% elseif loop.last and table.pagination.page == table.pagination.maxPage %}
-                {% else %}
-                    {{ tables.table_navigation_item(table, page) }}
-                {% endif %}
-            {% endfor %}
-            {% if table.pagination.nextSpace %}
-                <li class="disabled"><span>...</span></li>
+            {% if table.pagination.maxPage > 1 %}
+                {% set page, lastPage, linkCount = table.pagination.page, table.pagination.maxPage, table.pagination.linkCount %}
+                <ul class="pagination pagination-sm">
+                    {# first page #}
+                    {% if page == 1 %}
+                        <li class="active"><a href="{{ table.pagination.pageLink(1) }}">1</a></li>
+                    {% elseif table.pagination.prevSpace %}
+                        <li><a href="{{ table.pagination.pageLink(1) }}"><span class="page-link page-first"></span>1</a></li>
+                    {% else %}
+                        <li><a href="{{ table.pagination.pageLink(1) }}">1</a></li>
+                    {% endif %}
+                    {# dots for difference between first and next displayed #}
+                    {% if table.pagination.prevSpace %}
+                        <li class="disabled"><span>...</span></li>
+                    {% endif %}
+                    {# pages links before actual - depending on linkCount #}
+                    {% for i in linkCount..1 %}
+                        {% set linkPage = page - i %}
+                        {% if linkPage > 1 %} {# > 1 => first page is already shown #}
+                            <li><a href="{{ table.pagination.pageLink(linkPage) }}">{{ linkPage }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {# actual #}
+                    {% if page != 1 and page != lastPage %}
+                        <li class="active"><a href="{{ table.pagination.pageLink(page) }}">{{ page }}</a></li>
+                    {% endif %}
+                    {# pages links after actual - depending on linkCount #}
+                    {% for i in 1..linkCount %}
+                        {% set linkPage = page + i %}
+                        {% if linkPage < lastPage %} {# - 1 => last page will be shown anyway #}
+                            <li><a href="{{ table.pagination.pageLink(linkPage) }}">{{ linkPage }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {# dots for difference between last and previous displayed #}
+                    {% if table.pagination.nextSpace %}
+                        <li class="disabled"><span>...</span></li>
+                    {% endif %}
+                    {# last page #}
+                    {% if page == lastPage %}
+                        <li class="active"><a href="{{ table.pagination.pageLink(lastPage) }}">{{ lastPage }}</a></li>
+                    {% elseif table.pagination.nextSpace %}
+                        <li><a href="{{ table.pagination.pageLink(lastPage) }}">{{ lastPage }}<span class="page-link page-last"></span></a></li>
+                    {% else %}
+                        <li><a href="{{ table.pagination.pageLink(lastPage) }}">{{ lastPage }}</a></li>
+                    {% endif %}
+                </ul>
             {% endif %}
-            {{ tables.table_navigation_item(table, table.pagination.maxPage) }}
-            {% if table.pagination.page == table.pagination.maxPage %}
-                <li class="disabled">
-                    <a href="#">Next<span class="page-link page-next"></span></a>
-                </li>
-            {% else %}
-                <li>
-                    <a href="{{ table.pagination.pageLink(table.pagination.page+1) }}">Next<span class="page-link page-next"></span></a>
-                </li>
-            {% endif %}
-        </ul>
+        {% endif %}
     </div>
 {% endblock table_navigation %}
 
-
-{% macro table_navigation_item(table, toPage, actPage) %}
-    {% set actPage = table.pagination.page %}
-    {% set liClass = '' %}
-    {% set href = ' href="' ~ table.pagination.pageLink(toPage) ~ '"' %}
-    {% set tag = 'a' %}
-    {% set text = toPage %}
-    {% if toPage == actPage %}
-        {% set liClass = liClass ~ ' active' %}
-    {% endif %}
-    {% if toPage == 1 %}
-        {% set text = '<span class="page-link page-first"></span>' ~ toPage %}
-         {% elseif toPage == table.pagination.maxPage %}
-        {% set text = toPage ~ '<span class="page-link page-last"></span>' %}
-    {% endif %}
-<li class="{{ liClass|raw }}">
-    <{{ tag }}{{ href|raw }}>{{ text|raw }}</{{ tag }}>
-    </li>
-{% endmacro %}

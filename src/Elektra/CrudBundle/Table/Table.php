@@ -6,6 +6,7 @@ use Elektra\CrudBundle\Controller\Controller;
 use Elektra\CrudBundle\Crud\Crud;
 use Elektra\CrudBundle\Definition\Definition;
 use Elektra\SeedBundle\Entity\EntityInterface;
+use Elektra\SiteBundle\Site\Language;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormBuilder;
 
@@ -226,16 +227,16 @@ abstract class Table
      * Execution methods - Entry querying
      *************************************************************************/
 
-//    protected $relation;
-//
-//    protected $relatedEntity;
-//
-//    public function setRelation($relation, EntityInterface $entity)
-//    {
-//
-//        $this->relation      = $relation;
-//        $this->relatedEntity = $entity;
-//    }
+    //    protected $relation;
+    //
+    //    protected $relatedEntity;
+    //
+    //    public function setRelation($relation, EntityInterface $entity)
+    //    {
+    //
+    //        $this->relation      = $relation;
+    //        $this->relatedEntity = $entity;
+    //    }
 
     public function load($page)
     {
@@ -244,7 +245,7 @@ abstract class Table
         $filters = null;
         $order   = null;
 
-        if($this->getCrud()->isEmbedded()) {
+        if ($this->getCrud()->isEmbedded()) {
             $filters = $this->getLoadRelationFilter();
         } else {
             $search  = $this->getLoadSearch();
@@ -258,6 +259,10 @@ abstract class Table
         $this->entries = $repository->getEntries($page, $this->pagination->getLimit(), $search, $filters, $order);
 
         $this->pagination->setPage($page);
+        $language = $this->getCrud()->getService('siteLanguage');
+        if ($language instanceof Language) {
+            $language->add('pagination.pages', 'common.pagination.pages', array('page' => $page, 'max' => $this->pagination->getMaxPage()));
+        }
     }
 
     /**
@@ -642,5 +647,4 @@ abstract class Table
 
         return $this->pagination;
     }
-
 }
