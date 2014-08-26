@@ -85,6 +85,8 @@ table:
             request: Request
         model:
             name: Name
+        powerCordType:
+            name: Name
     trainings:
         training:
             training: Training
