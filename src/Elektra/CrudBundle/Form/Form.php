@@ -136,8 +136,7 @@ abstract class Form extends AbstractType
         );
         $resolver->setDefaults(
             array(
-                'class'      => '',
-//              'data_class' => $this->getCrud()->getDefinition()->getClassEntity(),
+                'css_class'      => '',
             )
         );
 
@@ -169,7 +168,7 @@ abstract class Form extends AbstractType
         $classes = $this->setFormStyle();
 
         $classes                     = implode(' ', $classes);
-        $view->vars['attr']['class'] = $classes;
+        $view->vars['attr']['css_class'] = $classes;
 
         $this->buildSpecificView($view, $form, $options);
     }

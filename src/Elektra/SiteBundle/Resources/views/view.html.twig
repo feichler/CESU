@@ -21,6 +21,9 @@
             name="{{ form.vars.name }}"
             {#class="{{ class }}"#}
     {% for attrname, attrvalue in attr %}
+        {% if attrname == 'css_class' %}
+            {% set attrname = 'class' %}
+        {% endif %}
         {{ attrname }}="{{ attrvalue }}"
     {% endfor %}
     >
