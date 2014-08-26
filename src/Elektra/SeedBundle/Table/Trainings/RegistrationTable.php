@@ -27,4 +27,3 @@ class RegistrationTable extends Table
         $training->setSortable();
     }
 }
-

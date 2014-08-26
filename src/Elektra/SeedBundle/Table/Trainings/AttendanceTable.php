@@ -1,7 +1,29 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Florian
- * Date: 25.08.14
- * Time: 16:09
- */ 
+
+namespace Elektra\SeedBundle\Table\Trainings;
+
+use Elektra\CrudBundle\Table\Table;
+
+class AttendanceTable extends Table
+{
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function initialiseColumns()
+    {
+
+        $registrant = $this->getColumns()->addTitleColumn('table.trainings.attendance.attendee');
+        $registrant->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'));
+        $registrant->setFieldData('person.lastName');
+        $registrant->setSearchable();
+        $registrant->setSortable();
+
+        $training = $this->getColumns()->addTitleColumn('table.trainings.registrations.training');
+        $training->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Trainings', 'Training'));
+        $training->setFieldData('training.name');
+        $training->setFilterable();
+        $training->setSearchable();
+        $training->setSortable();
+    }
+}
