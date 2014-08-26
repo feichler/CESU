@@ -226,16 +226,16 @@ abstract class Table
      * Execution methods - Entry querying
      *************************************************************************/
 
-    protected $relation;
-
-    protected $relatedEntity;
-
-    public function setRelation($relation, EntityInterface $entity)
-    {
-
-        $this->relation      = $relation;
-        $this->relatedEntity = $entity;
-    }
+//    protected $relation;
+//
+//    protected $relatedEntity;
+//
+//    public function setRelation($relation, EntityInterface $entity)
+//    {
+//
+//        $this->relation      = $relation;
+//        $this->relatedEntity = $entity;
+//    }
 
     public function load($page)
     {
@@ -244,7 +244,7 @@ abstract class Table
         $filters = null;
         $order   = null;
 
-        if (isset($this->relatedEntity)) {
+        if($this->getCrud()->isEmbedded()) {
             $filters = $this->getLoadRelationFilter();
         } else {
             $search  = $this->getLoadSearch();
@@ -421,7 +421,7 @@ abstract class Table
 
         $filters = array();
 
-        $filters[$this->relation] = $this->relatedEntity->getId();
+        $filters[$this->getCrud()->getEmbeddedRelationName()] = $this->getCrud()->getEmbeddedParent()->getId();
 
         return $filters;
     }
