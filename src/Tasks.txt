@@ -1,10 +1,13 @@
 
 URGENT: check integrity constraints in table inheritance. Example: Add a partner with the same short name as a customer -> SQL ERROR
 
-TODO: basic filters added -> create complex filters (e.g. seed units without request) for tables / browseAction
-TODO: add search to tables / browseAction
 TODO: add sorting options to tables / browseAction
 
 TODO: add related data tables to viewAction (show table of related entries with direct CRUD links)
 
 ENHANCE finish rendering of menu (navbar)
+
+URGENT Flo: Links for embedded crud (close / save / cancel) -> return to embedding view
+URGENT Flo: Find a way to display "repeated" entities directly in form - e.g. add a person and show contact infos in the same form (with "add" option to add multiple contact infos)
+TODO Flo: Import of Seed Units from Excel / CSV
+TODO Flo: Reports (need to be defined)
