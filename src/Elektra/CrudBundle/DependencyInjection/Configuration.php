@@ -7,7 +7,7 @@
  * @version   0.1-dev
  */
 
-namespace Elektra\UserBundle\DependencyInjection;
+namespace Elektra\CrudBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -15,7 +15,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 /**
  * Class Configuration
  *
- * @package Elektra\UserBundle\DependencyInjection
+ * @package Elektra\CrudBundle\DependencyInjection
  *
  * @version 0.1-dev
  */
@@ -30,9 +30,9 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder = new TreeBuilder();
 
-        $rootNode = $treeBuilder->root('elektra_user');
+        $rootNode = $treeBuilder->root('elektra_crud');
 
-        // NOTE: configuration options for the user bundle needed?
+        // NOTE: configuration options for the crud bundle needed?
 
         return $treeBuilder;
     }

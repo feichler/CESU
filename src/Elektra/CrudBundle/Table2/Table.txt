@@ -1,0 +1,23 @@
+
+
+Ablauf Table:
+
+ - Controller creaetes Table -> __construct($container, $definition, $embedded = false)
+ 	- Initialise actions
+ 	- Ask specific table to initialise
+ 		- add columns
+ 	- Get all values from the form (search, filters, customFilters, ordering)
+ - Controller executes Table -> execute($page)
+ 	- prepare search values
+ 	- prepare filters
+ 		- column filter
+ 		- custom filters
+	- prepare ordering
+	- query for entries with page, perPage, search, filters, ordering -> CRUDRepository->getEntries
+		- create the query builder
+			- add search (with joins if necessary)
+			- add filter values ( -> add switch options!)
+			- add ordering
+		- execute the built query
+		- return the entries
+	-> go to rendering and have fun!
