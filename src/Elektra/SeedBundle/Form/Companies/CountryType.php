@@ -3,6 +3,7 @@
 namespace Elektra\SeedBundle\Form\Companies;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
+use Elektra\SeedBundle\Form\CommonOptions;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -25,33 +26,10 @@ class CountryType extends CrudForm
 
         // all crud actions have the same definition - no difference between view / add / edit
 
-        $nameOptions = array(
-            'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
-            )
-        );
-        $builder->add('name', 'text', $nameOptions);
-
-        $alphaTwoOptions = array(
-            'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
-            )
-        );
-        $builder->add('alphaTwo', 'text', $alphaTwoOptions);
-
-        $alphaThreeOptions = array(
-            'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
-            )
-        );
-        $builder->add('alphaThree', 'text', $alphaThreeOptions);
-
-        $numericCodeOptions = array(
-            'constraints' => array(
-                new NotBlank(array('message' => 'error.constraint.required')),
-            )
-        );
-        $builder->add('numericCode', 'text', $numericCodeOptions);
+        $builder->add('name', 'text', CommonOptions::getRequiredNotBlank());
+        $builder->add('alphaTwo', 'text', CommonOptions::getRequiredNotBlank());
+        $builder->add('alphaThree', 'text', CommonOptions::getRequiredNotBlank());
+        $builder->add('numericCode', 'text', CommonOptions::getRequiredNotBlank());
 
         $regionOptions = array(
             'class'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Region')->getClassEntity(),
