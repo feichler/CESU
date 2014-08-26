@@ -51,6 +51,12 @@ table:
             region: Region
         company:
             name: Name
+        contactInfo:
+            text: Text
+            name: Name
+            contactInfoType: Type
+        contactInfoType:
+            name: Name:
         location:
             shortName: Short Name
         partner:
