@@ -283,8 +283,9 @@ abstract class Table
         $this->relatedEntity = $entity;
     }
 
-    public function load($page, $limit = 25)
+    public function load($page)
     {
+
 
         $search  = null;
         $filters = null;
@@ -301,7 +302,10 @@ abstract class Table
         $repositoryClass = $this->crud->getDefinition()->getClassRepository();
         $repository      = $this->crud->getController()->getDoctrine()->getRepository($repositoryClass);
 
-        $this->entries = $repository->getEntries($page, $limit, $search, $filters, $order);
+
+        $this->entries = $repository->getEntries($page, $this->pagination->getLimit(), $search, $filters, $order);
+echo 'entries loaded';
+        $this->pagination->setPage($page);
     }
 
     /**
@@ -311,6 +315,35 @@ abstract class Table
     {
 
         return $this->entries;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEntryCount() {
+
+//        echo 'A';
+        $search  = null;
+        $filters = null;
+        $order   = null;
+
+        if (isset($this->relatedEntity)) {
+            $filters = $this->getLoadRelationFilter();
+        } else {
+            $search  = $this->getLoadSearch();
+            $filters = $this->getLoadFilters();
+            $order   = null;
+        }
+//        echo 'B';
+        $repositoryClass = $this->crud->getDefinition()->getClassRepository();
+        $repository      = $this->crud->getController()->getDoctrine()->getRepository($repositoryClass);
+//echo '!';
+        $entryCount = $repository->getCount($search, $filters, $order);
+
+        return $entryCount;
+//echo 'asking for count';
+//        echo $entryCount;
+//        return count($this->entries);
     }
 
 
@@ -650,6 +683,14 @@ abstract class Table
     {
 
         return $this->crud->getLangKey();
+    }
+
+    /**
+     * @return Pagination
+     */
+    public function getPagination() {
+
+        return $this->pagination;
     }
 
     //    public function getAddLink()

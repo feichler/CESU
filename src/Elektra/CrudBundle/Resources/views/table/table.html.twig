@@ -162,8 +162,65 @@
 {% endblock table_search %}
 
 {% block table_navigation %}
-    <div class="table-pagination">
-        {# TODO Pagination #}
-        TODO Pagination
+    {% import _self as tables %}
+    <div class="table-pagination text-center">
+        <ul class="pagination">
+            {% if table.pagination.page == 1 %}
+                <li class="disabled">
+                    <a href="#"><span class="page-link page-prev"></span>Prev</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ table.pagination.pageLink(table.pagination.page-1) }}"><span class="page-link page-prev"></span>Prev</a>
+                </li>
+            {% endif %}
+            {{ tables.table_navigation_item(table, 1) }}
+            {% if table.pagination.prevSpace %}
+                <li class="disabled"><span>...</span></li>
+            {% endif %}
+            {% for index, page in table.pagination.navigation %}
+                {% if loop.first and table.pagination.page == 1 %}
+                {% elseif loop.last and table.pagination.page == table.pagination.maxPage %}
+                {% else %}
+                    {{ tables.table_navigation_item(table, page) }}
+                {% endif %}
+            {% endfor %}
+            {% if table.pagination.nextSpace %}
+                <li class="disabled"><span>...</span></li>
+            {% endif %}
+            {{ tables.table_navigation_item(table, table.pagination.maxPage) }}
+            {% if table.pagination.page == table.pagination.maxPage %}
+                <li class="disabled">
+                    <a href="#">Next<span class="page-link page-next"></span></a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ table.pagination.pageLink(table.pagination.page+1) }}">Next<span class="page-link page-next"></span></a>
+                </li>
+            {% endif %}
+        </ul>
     </div>
 {% endblock table_navigation %}
+
+
+{% macro table_navigation_item(table, toPage, actPage) %}
+    {% set actPage = table.pagination.page %}
+    {% set liClass = '' %}
+    {% set href = ' href="' ~ table.pagination.pageLink(toPage) ~ '"' %}
+    {% set tag = 'a' %}
+    {% set text = toPage %}
+    {% if toPage == actPage %}
+        {% set liClass = liClass ~ ' active' %}
+    {% endif %}
+    {% if toPage == 1 %}
+        {% set text = '<span class="page-link page-first"></span>' ~ toPage %}
+        {% if toPage == actPage %}
+            {#{% set liClass = liClass ~ ' disabled' %}#}
+        {% endif %}
+    {% elseif toPage == table.pagination.maxPage %}
+        {% set text = toPage ~ '<span class="page-link page-last"></span>' %}
+    {% endif %}
+<li class="{{ liClass|raw }}">
+    <{{ tag }}{{ href|raw }}>{{ text|raw }}</{{ tag }}>
+    </li>
+{% endmacro %}

@@ -186,7 +186,7 @@ abstract class Controller extends BaseController
 //        $table      = new $tableClass($this->getCrud(), $definition);
 //        $table->setRelation($relation, $entity);
         // the load method on the table does all required tasks for the execution
-        $table->load(1, 100);
+        $table->load(1);
 
         $view = $this->getCrud()->getView('relatedList');
 
