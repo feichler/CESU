@@ -30,20 +30,18 @@ class ModelFixture extends SeedBundleFixture
     {
 
         $entries = array(
-            'A',
-            'B',
-            'C',
-            'D',
+            'Cisco ASA 5515',
         );
 
         foreach ($entries as $entry) {
             $obj = new Model();
             $obj->setName('Model ' . $entry);
-            $obj->setDescription('Description ' . $entry);
+            $obj->setDescription('Description for "' . $entry . '"');
 
             $manager->persist($obj);
 
             $this->addReference('model-' . strtolower($entry), $obj);
+
         }
 
         $manager->flush();

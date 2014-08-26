@@ -31,16 +31,19 @@ class PowerCordTypeFixture extends SeedBundleFixture
     {
 
         $entries = array(
-            'A',
-            'B',
-            'C',
-            'D',
+            'Argentina',
+            'Australia',
+            'Brazil',
+            'China',
+            'India',
+            'Japan',
+            'North America',
         );
 
         foreach ($entries as $entry) {
             $obj = new PowerCordType();
-            $obj->setName('Power Type ' . $entry);
-            $obj->setDescription('Description ' . $entry);
+            $obj->setName($entry);
+            $obj->setDescription('Description for Power Cord Type "' . $entry . '"');
 
             $manager->persist($obj);
 

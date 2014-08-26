@@ -29,6 +29,7 @@ class UnitStatusFixture extends SeedBundleFixture
      */
     protected function doLoad(ObjectManager $manager)
     {
+
         return;
         $statuses = array(
             array("Available", "A", "available"),
@@ -52,6 +53,8 @@ class UnitStatusFixture extends SeedBundleFixture
             $status->setAbbreviation($data[1]);
             $status->setInternalName($data[2]);
             $manager->persist($status);
+
+            $this->addReference('status-' . $status->getInternalName(), $status);
         }
 
         $manager->flush();
@@ -63,6 +66,6 @@ class UnitStatusFixture extends SeedBundleFixture
     function getOrder()
     {
 
-        return 1002;
+        return 15;
     }
 }

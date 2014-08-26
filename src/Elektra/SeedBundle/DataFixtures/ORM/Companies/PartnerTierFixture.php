@@ -38,6 +38,8 @@ class PartnerTierFixture extends SeedBundleFixture
             $status->setName($data[0]);
             $status->setUnitsLimit($data[1]);
             $manager->persist($status);
+
+            $this->addReference('partner_tier-' . strtolower($status->getName()), $status);
         }
 
         $manager->flush();
@@ -49,6 +51,6 @@ class PartnerTierFixture extends SeedBundleFixture
     function getOrder()
     {
 
-        return 1002;
+        return 19;
     }
 }

@@ -45,10 +45,11 @@ table:
         country:
             country: Country
             region: Region
-        partner:
+        company:
             name: Name
-            tier: Tier
-            units_limit: Unit Limit
+        partner:
+            partnerTier: Tier
+            unitsLimit: Unit Limit
         region:
             region: Region
             countries: '# Countries'
@@ -67,6 +68,10 @@ table:
             end: End
             registrations: '# Reg.'
             attendances: '# Att.'
+        registration:
+            registrant: Registrant
+            training: Training
+
 
 form:
     buttons:

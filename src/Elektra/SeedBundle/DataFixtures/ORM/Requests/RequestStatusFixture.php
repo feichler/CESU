@@ -30,7 +30,7 @@ class RequestStatusFixture extends SeedBundleFixture
      */
     protected function doLoad(ObjectManager $manager)
     {
-return;
+
         $statuses = array(
             array("Create - TOC"),
             array("Create - Objectives"),
@@ -40,11 +40,9 @@ return;
         foreach ($statuses as $data) {
             $status = new RequestStatus();
             $status->setName($data[0]);
-
-//            $status->setName($data[0]);
-//            $status->setAbbreviation($data[1]);
-//            $status->setInternalName($data[2]);
             $manager->persist($status);
+
+            $this->addReference('reqeust_status-' . strtolower($status->getName()), $status);
         }
 
         $manager->flush();
@@ -56,6 +54,6 @@ return;
     function getOrder()
     {
 
-        return 1002;
+        return 20;
     }
 }

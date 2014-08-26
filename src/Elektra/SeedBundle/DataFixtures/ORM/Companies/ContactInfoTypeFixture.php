@@ -28,6 +28,7 @@ class ContactInfoTypeFixture extends SeedBundleFixture
      */
     protected function doLoad(ObjectManager $manager)
     {
+
         $statuses = array(
             "Email",
             "Phone"
@@ -37,6 +38,8 @@ class ContactInfoTypeFixture extends SeedBundleFixture
             $status = new ContactInfoType();
             $status->setName($data);
             $manager->persist($status);
+
+            $this->addReference('contact_info_type-' . strtolower($status->getName()), $status);
         }
 
         $manager->flush();
@@ -48,6 +51,6 @@ class ContactInfoTypeFixture extends SeedBundleFixture
     function getOrder()
     {
 
-        return 1002;
+        return 17;
     }
 }

@@ -19,7 +19,7 @@ class RegistrationTable extends Table
         $registrant->setSearchable();
         $registrant->setSortable();
 
-        $training = $this->getColumns()->addTitleColumn('table.trainings.registrations.training');
+        $training = $this->getColumns()->addTitleColumn('table.trainings.registration.training');
         $training->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Trainings', 'Training'));
         $training->setFieldData('training.name');
         $training->setFilterable();

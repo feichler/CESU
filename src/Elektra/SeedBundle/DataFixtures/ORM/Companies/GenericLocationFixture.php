@@ -28,6 +28,7 @@ class GenericLocationFixture extends SeedBundleFixture
      */
     protected function doLoad(ObjectManager $manager)
     {
+
         $statuses = array(
             "In transit"
         );
@@ -36,6 +37,8 @@ class GenericLocationFixture extends SeedBundleFixture
             $status = new GenericLocation();
             $status->setShortName($data);
             $manager->persist($status);
+
+            $this->addReference('generic_location-' . strtolower($status->getShortName()), $status);
         }
 
         $manager->flush();
@@ -47,6 +50,6 @@ class GenericLocationFixture extends SeedBundleFixture
     function getOrder()
     {
 
-        return 1002;
+        return 18;
     }
 }

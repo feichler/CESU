@@ -28,6 +28,7 @@ class AddressTypeFixture extends SeedBundleFixture
      */
     protected function doLoad(ObjectManager $manager)
     {
+
         $statuses = array(
             "Billing",
             "Shipping"
@@ -37,6 +38,8 @@ class AddressTypeFixture extends SeedBundleFixture
             $status = new AddressType();
             $status->setName($data);
             $manager->persist($status);
+
+            $this->addReference('address_type-' . strtolower($status->getName()), $status);
         }
 
         $manager->flush();
@@ -48,6 +51,6 @@ class AddressTypeFixture extends SeedBundleFixture
     function getOrder()
     {
 
-        return 1002;
+        return 16;
     }
 }
