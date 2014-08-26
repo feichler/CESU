@@ -28,7 +28,6 @@ class PartnerTierFixture extends SeedBundleFixture
      */
     protected function doLoad(ObjectManager $manager)
     {
-        return;
         $statuses = array(
             array("Tier 1", 5),
             array("Tier 2", 1)

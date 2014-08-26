@@ -28,7 +28,6 @@ class GenericLocationFixture extends SeedBundleFixture
      */
     protected function doLoad(ObjectManager $manager)
     {
-        return;
         $statuses = array(
             "In transit"
         );
