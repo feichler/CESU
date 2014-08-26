@@ -137,7 +137,7 @@ abstract class Form extends AbstractType
         $resolver->setDefaults(
             array(
                 'class'      => '',
-                'data_class' => $this->getCrud()->getDefinition()->getClassEntity(),
+//              'data_class' => $this->getCrud()->getDefinition()->getClassEntity(),
             )
         );
 

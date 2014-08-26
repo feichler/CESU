@@ -34,9 +34,11 @@ class TrainingType extends CrudForm
             'input'    => 'timestamp'
         );
 
+        // TODO: format input fields (at least to single line)
         $builder->add('startedAt', 'datetime', $dateOptions);
         $builder->add('endedAt', 'datetime', $dateOptions);
-        //TODO: list input for registrations
-        //TODO: list input for attendances
+
+        // TODO: list input for registrations
+        // TODO: list input for attendances
     }
 }

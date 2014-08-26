@@ -34,5 +34,7 @@ class PartnerType extends CrudForm
         ));
 
         $builder->add('unitsLimit', 'integer', CommonOptions::getOptional());
+
+        //TODO: list input for locations
     }
 }

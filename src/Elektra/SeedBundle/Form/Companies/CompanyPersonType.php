@@ -23,7 +23,6 @@ class CompanyPersonType extends CrudForm
      */
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
-        // CHECK: only necessary until embedded lists are finished
         $builder->add('firstName', 'text', CommonOptions::getRequiredNotBlank());
         $builder->add('lastName', 'text', CommonOptions::getRequiredNotBlank());
         $builder->add('salutation', 'text', CommonOptions::getOptional());
@@ -36,5 +35,7 @@ class CompanyPersonType extends CrudForm
                 'property'    => 'title'
             )
         ));
+
+        //TODO: list input for contact info
     }
 }

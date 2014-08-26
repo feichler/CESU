@@ -25,5 +25,7 @@ class SalesTeamType extends CrudForm
     {
         $builder->add('shortName', 'text', CommonOptions::getRequiredNotBlank());
         $builder->add('name', 'text', CommonOptions::getOptional());
+
+        //TODO: list input for locations
     }
 }
