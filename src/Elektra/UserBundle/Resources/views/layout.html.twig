@@ -8,13 +8,7 @@
 
 {% extends "ElektraSiteBundle::base.html.twig" %}
 
-{% block debug_content %}
-    User::layout.html.twig
-{% endblock debug_content %}
-
 {% block content %}
-    {#<div>#}
     {% block fos_user_content %}
     {% endblock fos_user_content %}
-    {#</div>#}
 {% endblock content %}

@@ -9,8 +9,8 @@
 
 namespace Elektra\UserBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * Class User
@@ -47,18 +47,6 @@ class User extends BaseUser
      * @ORM\Column(type="string", length=100)
      */
     protected $lastName;
-
-    /**
-     * @var
-     *
-     * @ORM\ManyToMany(targetEntity="Elektra\UserBundle\Entity\Group")
-     * @ORM\JoinTable(
-     *      name="users_groups",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
-     */
-    protected $groups;
 
     /**
      *
