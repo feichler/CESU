@@ -117,17 +117,30 @@ class Crud
         $this->embeddedName   = $relationName;
     }
 
+    /**
+     * @return Definition
+     */
     public function getEmbedded()
     {
 
         return $this->embedded;
     }
 
-    public function getEmbeddedParent() {
-     return $this->embeddedParent;
+    /**
+     * @return EntityInterface
+     */
+    public function getEmbeddedParent()
+    {
+
+        return $this->embeddedParent;
     }
 
-    public function getEmbeddedRelationName() {
+    /**
+     * @return string
+     */
+    public function getEmbeddedRelationName()
+    {
+
         return $this->embeddedName;
     }
 

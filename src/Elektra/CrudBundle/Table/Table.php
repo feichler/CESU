@@ -60,7 +60,6 @@ abstract class Table
 
     /**
      * @param Crud            $crud
-     * @param Definition|null $embedded
      */
     public final function __construct(Crud $crud)
     {
