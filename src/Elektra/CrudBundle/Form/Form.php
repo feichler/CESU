@@ -136,7 +136,8 @@ abstract class Form extends AbstractType
         );
         $resolver->setDefaults(
             array(
-                'css_class'      => '',
+                'css_class'    => '',
+                'show_buttons' => true,
             )
         );
 
@@ -159,7 +160,9 @@ abstract class Form extends AbstractType
 
         $this->buildSpecificForm($builder, $options);
 
-        $this->buildFormButtons($builder, $options);
+        if ($options['show_buttons'] == true) {
+            $this->buildFormButtons($builder, $options);
+        }
     }
 
     public final function buildView(FormView $view, FormInterface $form, array $options)
@@ -167,7 +170,7 @@ abstract class Form extends AbstractType
 
         $classes = $this->setFormStyle();
 
-        $classes                     = implode(' ', $classes);
+        $classes                         = implode(' ', $classes);
         $view->vars['attr']['css_class'] = $classes;
 
         $this->buildSpecificView($view, $form, $options);
