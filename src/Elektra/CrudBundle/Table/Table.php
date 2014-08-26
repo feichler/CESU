@@ -49,10 +49,10 @@ abstract class Table
      */
     protected $customFilters;
 
-    /**
-     * @var Definition
-     */
-    protected $embedded;
+//    /**
+//     * @var Definition
+//     */
+//    protected $embedded;
 
     /*************************************************************************
      * Construction & Initialisation
@@ -62,11 +62,11 @@ abstract class Table
      * @param Crud            $crud
      * @param Definition|null $embedded
      */
-    public final function __construct(Crud $crud, $embedded = null)
+    public final function __construct(Crud $crud)
     {
 
         $this->crud     = $crud;
-        $this->embedded = $embedded;
+//        $this->embedded = $embedded;
 
         $this->pagination    = new Pagination($this);
         $this->columns       = new Columns($this);
@@ -114,22 +114,25 @@ abstract class Table
     }
 
     /**
-     * @return bool
-     */
-    public function isEmbedded()
-    {
-
-        return $this->embedded !== null;
-    }
-
-    /**
-     * @return Definition|null
-     */
-    public function getEmbedded()
-    {
-
-        return $this->embedded;
-    }
+//     * @return bool
+//     */
+//    public function isEmbedded()
+//    {
+//
+//        return $this->getCrud()->isEmbedded();
+////        return $this->embedded !== null;
+//    }
+//
+//    /**
+//     * @return Definition|null
+//     *
+//     * @deprecated
+//     */
+//    public function getEmbedded()
+//    {
+////return $this->getCrud()->getEmbedded();
+//        return $this->embedded;
+//    }
 
     /**
      *
@@ -536,7 +539,7 @@ abstract class Table
             ),
         );
 
-        $options = array_merge_recursive($options, $defaultOptions);
+        $options = array_merge_recursive($defaultOptions, $options);
 
         if ($data != null && !empty($data)) {
             $options['data'] = $data;

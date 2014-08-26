@@ -1,7 +1,7 @@
 {% block table %}
     <form method="post" class="form-horizontal">
         {% set tableWidth = 12 %}
-        {% if not table.embedded %}
+        {% if not table.crud.isEmbedded() %}
             {% if table.hasFilters or table.hasSearch %}
                 {% set filtersWidth = 2 %}
                 {% set tableWidth = tableWidth - filtersWidth %}

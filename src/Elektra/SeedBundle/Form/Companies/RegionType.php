@@ -31,11 +31,13 @@ class RegionType extends CrudForm
         if ($options['crud_action'] == 'view') {
             //            $entity = $options['data'];
             //            echo $entity->getId();
-            $builder->add('countries', 'relatedList',
+            $builder->add(
+                'countries',
+                'relatedList',
                 array(
-                    'definition' => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Country'),
-                    'entity'     => $options['data'],
-                    'relation'   => 'region',
+                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Country'),
+                    'parent'       => $options['data'],
+                    'relationName' => 'region',
                 )
             );
         }

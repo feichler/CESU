@@ -167,5 +167,5 @@
 {% block relatedList_widget %}
     {#{{ form.vars.definition }}#}
     {#{{ form.definition }}#}
-    {{ render(controller(form.vars.definition.controller ~ ':relatedList', {'definition': form.vars.definition, 'entity': form.vars.entity, 'relation': form.vars.relation})) }}
+    {{ render(controller(form.vars.definition.controller ~ ':relatedList', {'definition': form.vars.definition, 'parent': form.vars.parent, 'relationName': form.vars.relationName})) }}
 {% endblock relatedList_widget %}

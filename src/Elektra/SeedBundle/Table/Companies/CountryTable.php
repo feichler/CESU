@@ -18,29 +18,14 @@ class CountryTable extends Table
         $country->setSearchable();
         $country->setSortable();
 
-        if(!$this->isEmbedded()) {
-            $region = $this->getColumns()->add('table.companies.country.region');
-            $region->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Region'));
-            $region->setFieldData('region.name');
-            $region->setFilterable()->setFieldFilter('name');
-            $region->setSortable();
-        } else {
-            if($this->getEmbedded()->getName() == 'Region') {
-                // ??
-            }
-        }
+        $region = $this->getColumns()->add('table.companies.country.region');
+        $region->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Region'));
+        $region->setFieldData('region.name');
+        $region->setFilterable()->setFieldFilter('name');
+        $region->setSortable();
 
-//        var_dump($this->isEmbedded());
-//        echo '<br />';
-//        var_dump($this->embedded);
-//        echo '<br />';
-//
-//        if (!$this->isEmbedded() && $this->embedded->getName() != 'Region') {
-//            $region = $this->getColumns()->add('table.companies.country.region');
-//            $region->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Region'));
-//            $region->setFieldData('region.name');
-//            $region->setFilterable()->setFieldFilter('name');
-//            $region->setSortable();
-//        }
+        if ($this->getCrud()->isEmbedded() && $this->getCrud()->getEmbeddedRelationName() == 'region') {
+            $region->setHidden();
+        }
     }
 }

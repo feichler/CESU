@@ -22,6 +22,21 @@ class Crud
     protected $definition;
 
     /**
+     * @var Definition
+     */
+    protected $embedded;
+
+    /**
+     * @var EntityInterface
+     */
+    protected $embeddedParent;
+
+    /**
+     * @var string
+     */
+    protected $embeddedName;
+
+    /**
      * @param Controller $controller
      * @param Definition $definition
      */
@@ -89,11 +104,49 @@ class Crud
         return $this->definition;
     }
 
-    public function getView($type) {
+    /**
+     * @param Definition      $embedded
+     * @param EntityInterface $parent
+     * @param string          $relationName
+     */
+    public function setEmbedded(Definition $embedded, EntityInterface $parent, $relationName)
+    {
+
+        $this->embedded       = $embedded;
+        $this->embeddedParent = $parent;
+        $this->embeddedName   = $relationName;
+    }
+
+    public function getEmbedded()
+    {
+
+        return $this->embedded;
+    }
+
+    public function getEmbeddedParent() {
+     return $this->embeddedParent;
+    }
+
+    public function getEmbeddedRelationName() {
+        return $this->embeddedName;
+    }
+
+    public function isEmbedded()
+    {
+
+        if ($this->getEmbedded() != null && $this->getEmbedded() instanceof Definition) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getView($type)
+    {
 
         $template = $this->getService('templating');
-        $prefix = $this->getDefinition()->getPrefixView();
-        $common = 'ElektraSeedBundle::base-'.$type.'.html.twig';
+        $prefix   = $this->getDefinition()->getPrefixView();
+        $common   = 'ElektraSeedBundle::base-' . $type . '.html.twig';
         $specific = $prefix . ':' . $type . '.html.twig';
 
         if ($template->exists($specific)) {
@@ -218,8 +271,8 @@ class Crud
     public function save($name, $value, $action = '')
     {
 
-        $key     = $this->getStorageKey($name, $action);
-//        echo 'setting key: '.$key.'<br />';
+        $key = $this->getStorageKey($name, $action);
+        //        echo 'setting key: '.$key.'<br />';
         $session = $this->controller->get('session');
 
         $session->set($key, $value);
@@ -235,8 +288,8 @@ class Crud
     public function get($name, $action = '', $default = null)
     {
 
-        $key     = $this->getStorageKey($name, $action);
-//        echo 'getting key: '.$key.'<br />';
+        $key = $this->getStorageKey($name, $action);
+        //        echo 'getting key: '.$key.'<br />';
         $session = $this->controller->get('session');
 
         return $session->get($key, $default);

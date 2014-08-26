@@ -149,11 +149,12 @@ abstract class Controller extends BaseController
         return $this->process($id, 'delete');
     }
 
-    public function relatedListAction(Definition $definition, EntityInterface $entity, $relation)
+    public function relatedListAction(Definition $definition, EntityInterface $parent, $relationName)
     {
 
         $this->initialise('relatedList');
-$url = $this->getCrud()->get('viewUrl');
+//$url = $this->getCrud()->get('viewUrl');
+        $this->getCrud()->setEmbedded($definition, $parent, $relationName);
 
 //        echo 'viewUrl: '.$url.'<br />';
 //        $request = $this->get('request');
@@ -181,8 +182,9 @@ $url = $this->getCrud()->get('viewUrl');
 
 
         $tableClass = $definition->getClassTable();
-        $table      = new $tableClass($this->getCrud(), $definition);
-        $table->setRelation($relation, $entity);
+        $table      = new $tableClass($this->getCrud());
+//        $table      = new $tableClass($this->getCrud(), $definition);
+//        $table->setRelation($relation, $entity);
         // the load method on the table does all required tasks for the execution
         $table->load(1, 100);
 
@@ -256,33 +258,33 @@ $url = $this->getCrud()->get('viewUrl');
     //        return $returnLink;
     //    }
 
-    private function getForm1($entity, $action)
-    {
-
-        $class   = $this->getDefinition()->getClassForm();
-        $options = array(
-            'crud_action' => $action,
-            //            'return_link' => $this->getReturnLink(),
-        );
-
-        $form = $this->createForm(new $class($this->getCrud()), $entity, $options);
-
-        return $form;
-    }
-
-    private function addEntry1($entity)
-    {
-
-        $this->beforeAddEntry($entity);
-
-        $manager = $this->getDoctrine()->getManager();
-        $manager->persist($entity);
-        $manager->flush();
-
-        $this->afterAddEntry($entity);
-
-        $this->addSuccessMessage('add', $entity->getId(), $entity->getTitle());
-    }
+//    private function getForm1($entity, $action)
+//    {
+//
+//        $class   = $this->getDefinition()->getClassForm();
+//        $options = array(
+//            'crud_action' => $action,
+//            //            'return_link' => $this->getReturnLink(),
+//        );
+//
+//        $form = $this->createForm(new $class($this->getCrud()), $entity, $options);
+//
+//        return $form;
+//    }
+//
+//    private function addEntry1($entity)
+//    {
+//
+//        $this->beforeAddEntry($entity);
+//
+//        $manager = $this->getDoctrine()->getManager();
+//        $manager->persist($entity);
+//        $manager->flush();
+//
+//        $this->afterAddEntry($entity);
+//
+//        $this->addSuccessMessage('add', $entity->getId(), $entity->getTitle());
+//    }
 
 
     /*************************************************************************
