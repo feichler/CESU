@@ -42,17 +42,35 @@ table:
         action: Actions
         note: Notes
     companies:
+        companyLocation:
+            name: Name
+            isPrimary: Primary
+            addressType: Type
         country:
             country: Country
             region: Region
         company:
             name: Name
+        location:
+            shortName: Short Name
         partner:
             partnerTier: Tier
             unitsLimit: Unit Limit
+        partnerTier:
+            name: Name
+            unitsLimit: Unit Limit
+        person:
+            name: Name
+            firstName: First Name
+            lastName: Last Name
+            isPrimary: Primary
+            salutation: Salutation
+            jobTitle: Job Title
         region:
             region: Region
             countries: '# Countries'
+        warehouseLocation:
+            locationIdentifier: Location ID
     seed_units:
         seed_unit:
             serial: Serial Number

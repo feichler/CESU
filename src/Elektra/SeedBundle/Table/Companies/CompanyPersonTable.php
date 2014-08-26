@@ -35,7 +35,7 @@ class CompanyPersonTable extends Table
         $salutation->setSortable();
         $salutation->setSearchable();
 
-        $jobTitle = $this->getColumns()->add('table.companies.person.salutation');
+        $jobTitle = $this->getColumns()->add('table.companies.person.jobTitle');
         $jobTitle->setFieldData('jobTitle');
         $jobTitle->setSortable();
         $jobTitle->setSearchable();
