@@ -45,7 +45,8 @@ abstract class Form extends AbstractType
     /**
      * @return Crud
      */
-    public function getCrud(){
+    public function getCrud()
+    {
 
         return $this->crud;
     }
@@ -128,10 +129,15 @@ abstract class Form extends AbstractType
         parent::setDefaultOptions($resolver);
 
         // set defaults for all types
+        $resolver->setRequired(
+            array(
+                'crud_action',
+            )
+        );
         $resolver->setDefaults(
             array(
-                'crud_action' => '',
-                'class' => '',
+                'class'      => '',
+                'data_class' => $this->getCrud()->getDefinition()->getClassEntity(),
             )
         );
 
@@ -145,9 +151,9 @@ abstract class Form extends AbstractType
     public final function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-//        var_dump(array_key_exists('data', $options));
+        //        var_dump(array_key_exists('data', $options));
 
-//        $crudAction = $options['crud_action'];
+        //        $crudAction = $options['crud_action'];
         //        $returnLink = $options['return_link'];
 
         parent::buildForm($builder, $options);
@@ -162,7 +168,7 @@ abstract class Form extends AbstractType
 
         $classes = $this->setFormStyle();
 
-        $classes                   = implode(' ', $classes);
+        $classes                     = implode(' ', $classes);
         $view->vars['attr']['class'] = $classes;
 
         $this->buildSpecificView($view, $form, $options);
@@ -180,10 +186,10 @@ abstract class Form extends AbstractType
         $buttons    = array();
 
         $return = $this->getCrud()->get('viewUrl');
-//echo '<br /><br />';
-//        echo 'RETURN: ';
-//        var_dump($return);
-//        echo '<br /><br />';
+        //echo '<br /><br />';
+        //        echo 'RETURN: ';
+        //        var_dump($return);
+        //        echo '<br /><br />';
         // SAVE Button
         if ($crudAction == 'add' || $crudAction == 'edit') {
             $buttons['save'] = array(
