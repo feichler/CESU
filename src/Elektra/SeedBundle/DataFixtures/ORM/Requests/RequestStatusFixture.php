@@ -30,7 +30,7 @@ class RequestStatusFixture extends SeedBundleFixture
      */
     protected function doLoad(ObjectManager $manager)
     {
-
+return;
         $statuses = array(
             array("Create - TOC"),
             array("Create - Objectives"),

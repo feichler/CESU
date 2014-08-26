@@ -10,6 +10,7 @@
 namespace Elektra\SeedBundle\Entity\Events;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
@@ -24,7 +25,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Events\EventRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Events\EventRepository")
  * @ORM\Table(name="events")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type",type="string")
@@ -33,7 +34,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *  "sales" = "SalesEvent"
  * })
  */
-abstract class Event implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
+abstract class Event implements AuditableInterface, AnnotableInterface, CrudInterface
 {
 
     /**

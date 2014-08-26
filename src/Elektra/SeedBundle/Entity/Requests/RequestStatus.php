@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Entity\Requests;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
@@ -25,7 +26,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  * @ORM\Entity
  * @ORM\Table(name="requestStatuses")
  */
-class RequestStatus implements AuditableInterface, CRUDEntityInterface
+class RequestStatus implements AuditableInterface, CrudInterface
 {
 
     /**

@@ -11,25 +11,22 @@ namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
+use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 
 /**
- * Class SeedUnitModels
+ * Class SeedUnitPowerTypes
  *
  * @package Elektra\SeedBundle\Entity\SeedUnits
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitModelRepository")
- * @ORM\Table(name="seedUnitModels")
- *
- * @UniqueEntity(fields={"name"}, message="error.constraint.unique_name")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\PowerCordTypeRepository")
+ * @ORM\Table(name="powerCordTypes")
  */
-class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
+class PowerCordType implements AuditableInterface, CrudInterface
 {
 
     /**
@@ -39,13 +36,12 @@ class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $seedUnitModelId;
+    protected $powerCordTypeId;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=50, unique=true)
-     *
      */
     protected $name;
 
@@ -61,13 +57,16 @@ class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
-     * @ORM\JoinTable(name = "seedUnitModels_audits",
-     *      joinColumns = {@ORM\JoinColumn(name = "seedUnitModelId", referencedColumnName = "seedUnitModelId")},
+     * @ORM\JoinTable(name = "powerCordTypes_audits",
+     *      joinColumns = {@ORM\JoinColumn(name = "powerCordTypeId", referencedColumnName = "powerCordTypeId")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
      * )
      */
     protected $audits;
 
+    /**
+     *
+     */
     public function __construct()
     {
 
@@ -80,7 +79,7 @@ class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
     public function getId()
     {
 
-        return $this->getSeedUnitModelId();
+        return $this->getPowerCordTypeId();
     }
 
     /**
@@ -95,10 +94,10 @@ class SeedUnitModel implements AuditableInterface, CRUDEntityInterface
     /**
      * @return int
      */
-    public function getSeedUnitModelId()
+    public function getPowerCordTypeId()
     {
 
-        return $this->seedUnitModelId;
+        return $this->powerCordTypeId;
     }
 
     /**

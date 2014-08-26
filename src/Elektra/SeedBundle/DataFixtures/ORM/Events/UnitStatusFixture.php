@@ -29,7 +29,7 @@ class UnitStatusFixture extends SeedBundleFixture
      */
     protected function doLoad(ObjectManager $manager)
     {
-
+        return;
         $statuses = array(
             array("Available", "A", "available"),
             array("Reserved", "R", "reserved"),

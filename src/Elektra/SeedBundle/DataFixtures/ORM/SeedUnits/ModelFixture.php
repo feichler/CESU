@@ -11,16 +11,16 @@ namespace Elektra\SeedBundle\DataFixtures\ORM\SeedUnits;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\DataFixtures\SeedBundleFixture;
-use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType;
+use Elektra\SeedBundle\Entity\SeedUnits\Model;
 
 /**
- * Class SeedUnitPowerCordTypeFixture
+ * Class SeedUnitModelFixture
  *
  * @package Elektra\SeedBundle\DataFixtures\ORM\SeedUnits
  *
  * @version 0.1-dev
  */
-class SeedUnitPowerCordTypeFixture extends SeedBundleFixture
+class ModelFixture extends SeedBundleFixture
 {
 
     /**
@@ -29,15 +29,22 @@ class SeedUnitPowerCordTypeFixture extends SeedBundleFixture
     protected function doLoad(ObjectManager $manager)
     {
 
-        $typeA = new SeedUnitPowerCordType();
-        $typeA->setName('Power Cord Type A');
-        $typeA->setDescription('Description for "Power Cord Type A"');
-        $manager->persist($typeA);
+        $entries = array(
+            'A',
+            'B',
+            'C',
+            'D',
+        );
 
-        $typeB = new SeedUnitPowerCordType();
-        $typeB->setName('Power Cord Type B');
-        $typeB->setDescription('Description for "Power Cord Type B"');
-        $manager->persist($typeB);
+        foreach ($entries as $entry) {
+            $obj = new Model();
+            $obj->setName('Model ' . $entry);
+            $obj->setDescription('Description ' . $entry);
+
+            $manager->persist($obj);
+
+            $this->addReference('model-' . strtolower($entry), $obj);
+        }
 
         $manager->flush();
     }
@@ -48,6 +55,6 @@ class SeedUnitPowerCordTypeFixture extends SeedBundleFixture
     function getOrder()
     {
 
-        return 1003;
+        return 12;
     }
 }

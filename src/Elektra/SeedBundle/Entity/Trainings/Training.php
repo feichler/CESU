@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Entity\Trainings;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
@@ -23,10 +24,10 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Trainings\TrainingRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Trainings\TrainingRepository")
  * @ORM\Table("trainings")
  */
-class Training implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
+class Training implements AuditableInterface, AnnotableInterface, CrudInterface
 {
 
     /**

@@ -11,11 +11,10 @@ namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
-use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SeedBundle\Entity\Notes\Note;
 
 /**
@@ -25,10 +24,10 @@ use Elektra\SeedBundle\Entity\Notes\Note;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\AddressRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\AddressRepository")
  * @ORM\Table("addresses")
  */
-class Address implements AuditableInterface, AnnotableInterface, EntityInterface, CRUDEntityInterface
+class Address implements AuditableInterface, AnnotableInterface, CrudInterface
 {
 
     /**

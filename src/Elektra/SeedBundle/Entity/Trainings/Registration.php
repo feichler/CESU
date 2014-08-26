@@ -9,14 +9,13 @@
 
 namespace Elektra\SeedBundle\Entity\Trainings;
 
-use Doctrine\ORM\Mapping as ORM;
-use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
 use Doctrine\Common\Collections\ArrayCollection;
-use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\AuditableInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
-use Elektra\SeedBundle\Entity\EntityInterface;
+use Elektra\SeedBundle\Entity\AuditableInterface;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
 
 /**
  * Class Registration
@@ -25,10 +24,10 @@ use Elektra\SeedBundle\Entity\EntityInterface;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Trainings\RegistrationRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Trainings\RegistrationRepository")
  * @ORM\Table(name="registrations")
  */
-class Registration implements AuditableInterface, AnnotableInterface, EntityInterface, CRUDEntityInterface
+class Registration implements AuditableInterface, AnnotableInterface, CrudInterface
 {
 
     /**

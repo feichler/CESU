@@ -9,7 +9,7 @@
 
 namespace Elektra\SeedBundle\Controller\Companies;
 
-use Elektra\SeedBundle\Controller\CRUDController;
+use Elektra\CrudBundle\Controller\Controller;
 
 /**
  * Class CustomerController
@@ -18,15 +18,15 @@ use Elektra\SeedBundle\Controller\CRUDController;
  *
  * @version   0.1-dev
  */
-class CustomerController extends CRUDController
+class CustomerController extends Controller
 {
 
     /**
      * {@inheritdoc}
      */
-    protected function loadDefinition()
+    protected function getDefinition()
     {
 
-        $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'Customer');
+        return $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'Customer');
     }
 }

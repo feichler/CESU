@@ -1,74 +1,25 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Table\Companies;
 
-use Elektra\SeedBundle\Entity\Companies\Region;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
-use Elektra\SeedBundle\Table\CRUDTable;
-use Elektra\ThemeBundle\Table\Row;
+use Elektra\CrudBundle\Table\Table;
 
-/**
- * Class RegionTable
- *
- * @package Elektra\SeedBundle\Table\Companies
- *
- * @version 0.1-dev
- */
-class RegionTable extends CRUDTable
+class RegionTable extends Table
 {
 
     /**
      * {@inheritdoc}
      */
-    protected function setupHeader(Row $header)
+    protected function initialiseColumns()
     {
 
-        // TRANSLATE add translations for the table headers
-        $idCell = $header->addCell();
-        $idCell->setWidth(40);
-        $idCell->addHtmlContent('ID');
+        $region = $this->getColumns()->addTitleColumn('table.companies.region.region');
+        $region->setFieldData('name');
+        $region->setSearchable();
+        $region->setSortable();
 
-        $titleCell = $header->addCell();
-        $titleCell->addHtmlContent('Region');
-        $titleCell->setColumnSpan(3);
-
-        // CHECK should audits and actions have an own header cell?
-        //        $auditCell = $header->addCell();
-        //        $auditCell->setWidth(100);
-        //
-        //        $actionsCell = $header->addCell();
-        //        $actionsCell->setWidth(150);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setupContentRow(Row $content, CRUDEntityInterface $entry)
-    {
-
-        if (!$entry instanceof Region) {
-            throw new \InvalidArgumentException('Can only display entries of type "Region"');
-        }
-
-        // ID
-        $this->generateIdCell($content, $entry);
-
-        // Name & Description
-        $viewLink  = $this->generateLink('view', $entry->getId());
-        $modelCell = $content->addCell();
-        $modelCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
-
-        // Audits
-        $this->generateAuditCell($content, $entry);
-
-        // Actions
-        $this->generateActionsCell($content, $entry);
+        $countries = $this->getColumns()->addCountColumn('table.companies.region.countries');
+        $countries->setFieldData('countries');
+        $countries->setSortable();
     }
 }

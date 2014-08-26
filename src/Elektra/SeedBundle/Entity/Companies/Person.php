@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
@@ -23,7 +24,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\PersonRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\PersonRepository")
  * @ORM\Table("people")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
@@ -31,7 +32,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *  "company" = "CompanyPerson"
  * })
  */
-class Person implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
+class Person implements AuditableInterface, AnnotableInterface, CrudInterface
 {
 
     /**
