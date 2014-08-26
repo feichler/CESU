@@ -23,7 +23,7 @@ class CompanyLocationType extends CrudForm
      */
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO/CHECK: only necessary until embedded lists are finished
+        // CHECK: only necessary until embedded lists are finished
         $builder->add('company', 'entity', array_merge(CommonOptions::getRequiredNotBlank(),
             array(
                 'class'    => 'Elektra\SeedBundle\Entity\Companies\Company',
@@ -42,6 +42,8 @@ class CompanyLocationType extends CrudForm
             )
         ));
 
-        $builder->add("address", new AddressType($this->getCrud()));
+        $addressOptions = $options;
+        $addressOptions['data'] = $options['data']->getAddress();
+        $builder->add("address", new AddressType($this->getCrud()), $addressOptions);
     }
 }
