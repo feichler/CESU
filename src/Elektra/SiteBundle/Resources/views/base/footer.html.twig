@@ -1,0 +1,53 @@
+{#############################################################################
+ # @author    Florian Eichler <florian@eichler.co.at>
+ # @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ # @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ # @license   MINOR add a license
+ # @version   0.1-dev
+ #############################################################################}
+
+{% set collapseId = 'footer-collapse' %}
+<footer>
+    <nav class="navbar navbar-default navbar-fixed-bottom" role="complementary">
+        <div class="container">
+            <div class="navbar-header">
+                {# Button for showing / hiding navigation on small screens #}
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#{{ collapseId }}">
+                <span class="sr-only">
+                    {{ siteLanguage.required('toggle_navbar') }}
+                </span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+
+            <div class="navbar-collapse collapse" id="{{ collapseId }}">
+                <div class="navbar-left">
+                    <p class="navbar-text">
+                        &copy; {{ siteLanguage.required('copyright') }}
+                    </p>
+                </div>
+                <div class="navbar-right">
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <p class="navbar-text">
+                            {{ siteLanguage.required('user.logged_in', true) }}
+                        </p>
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="{{ path('fos_user_security_logout') }}">{{ siteLanguage.required('user.logout', true) }}</a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <ul class="nav navbar-nav">
+                            <li{{ app.request.get('_route') == 'fos_user_security_login' ? ' class="active"' : '' }}>
+                                <a href="{{ path('fos_user_security_login') }}">{{ siteLanguage.required('user.login', true) }}</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+</footer>

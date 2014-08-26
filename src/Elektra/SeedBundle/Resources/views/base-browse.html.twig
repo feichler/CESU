@@ -8,22 +8,6 @@
 
 {% extends "ElektraSiteBundle::base.html.twig" %}
 
-{% import "ElektraThemeBundle:Macros:tables.html.twig" as tables %}
-
 {% block content %}
-    {% if filters is defined %}
-        {{ form_start(filters) }}
-        {% for key, child in filters %}
-            {{ form_widget(child) }}
-        {% endfor %}
-        {{ form_end(filters, {'render_rest': false}) }}
-    {% endif %}
-    {{ tables.show(table) }}
-{% endblock content %}
-
-{% block debug_content %}
-    Seed::base-browse.html.twig
-{% endblock debug_content %}
-
-{% import "ElektraThemeBundle:Macros:tables.html.twig" as tables %}
-
+    {{ table(table) }}
+{% endblock %}

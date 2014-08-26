@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\WarehouseLocationRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\WarehouseLocationRepository")
  * @ORM\Table(name="warehouseLocations")
  */
 class WarehouseLocation extends PhysicalLocation

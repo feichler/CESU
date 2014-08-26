@@ -24,9 +24,11 @@ class AppKernel extends Kernel
             new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
             new Liuggio\ExcelBundle\LiuggioExcelBundle(),
             // Specific Elektra Bundles
+            new Elektra\TranslationBundle\ElektraTranslationBundle(),
+            new Elektra\CommonBundle\ElektraCommonBundle(),
             new Elektra\UserBundle\ElektraUserBundle(),
-            new Elektra\ThemeBundle\ElektraThemeBundle(),
             new Elektra\SiteBundle\ElektraSiteBundle(),
+            new Elektra\CrudBundle\ElektraCrudBundle(),
             new Elektra\SeedBundle\ElektraSeedBundle(),
         );
 

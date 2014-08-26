@@ -9,7 +9,7 @@
 
 namespace Elektra\SeedBundle\Controller\Companies;
 
-use Elektra\SeedBundle\Controller\CRUDController;
+use Elektra\CrudBundle\Controller\Controller;
 
 /**
  * Class CountryController
@@ -18,24 +18,15 @@ use Elektra\SeedBundle\Controller\CRUDController;
  *
  * @version   0.1-dev
  */
-class CountryController extends CRUDController
+class CountryController extends Controller
 {
 
     /**
      * {@inheritdoc}
      */
-    protected function loadDefinition()
+    protected function getDefinition()
     {
 
-        $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'Country');
-    }
-
-    protected function getBrowseFilters()
-    {
-
-      $filters = parent::getBrowseFilters();
-        $filters['region']     = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'Region');
-
-        return $filters;
+        return $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'Country');
     }
 }

@@ -9,10 +9,6 @@
 {% extends "ElektraSiteBundle::base.html.twig" %}
 
 {% block content %}
-    {% form_theme form "ElektraThemeBundle:Form/view:fields.html.twig" %}
+    {% form_theme form "ElektraSiteBundle::view.html.twig" %}
     {{ form(form) }}
-{% endblock content %}
-
-{% block debug_content %}
-    Seed::base-view.html.twig
-{% endblock debug_content %}
+{% endblock %}

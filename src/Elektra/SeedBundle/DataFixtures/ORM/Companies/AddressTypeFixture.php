@@ -28,7 +28,7 @@ class AddressTypeFixture extends SeedBundleFixture
      */
     protected function doLoad(ObjectManager $manager)
     {
-
+        return;
         $statuses = array(
             "Billing",
             "Shipping"

@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\CustomerRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\CustomerRepository")
  * @ORM\Table(name="customerCompanies")
  */
 class Customer extends Company

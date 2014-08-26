@@ -1,0 +1,21 @@
+/*****************************************************************************
+ * @author    Florian Eichler <florian@eichler.co.at>
+ * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ * @license   MINOR add a license
+ * @version   0.1-dev
+ *****************************************************************************/
+.message-type(@type) {
+	@bg: 'messages-@{type}-background';
+	@border: 'messages-@{type}-border';
+	@text: 'messages-@{type}-text';
+	@icon: 'messages-@{type}-icon';
+
+	.alert-variant(@@bg, @@border, @@text);
+
+	.icon {
+		&:before {
+			content : @@icon;
+		}
+	}
+}

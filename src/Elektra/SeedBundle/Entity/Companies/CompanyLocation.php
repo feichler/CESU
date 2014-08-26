@@ -19,7 +19,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\CompanyLocationRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\CompanyLocationRepository")
  * @ORM\Table(name="companyLocations")
  */
 class CompanyLocation extends PhysicalLocation

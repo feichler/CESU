@@ -11,7 +11,6 @@ namespace Elektra\UserBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\Doctrine;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\UserBundle\Entity\User;
@@ -43,18 +42,9 @@ class Administrator extends AbstractFixture implements OrderedFixtureInterface
         $admin->setSuperAdmin(true);
         $manager->persist($admin);
 
-        $anon = new User();
-        $anon->setUsername('anonymous');
-        $anon->setPlainPassword('anonymous');
-        $anon->setFirstName('Anonymous');
-        $anon->setLastName('User');
-        $anon->setEmail('anonymous@elektra.aurealis.at');
-        $anon->setEnabled(false);
-        $manager->persist($anon);
-
         $manager->flush();
 
-        $this->addReference('admin-user', $admin);
+        $this->addReference('user-administrator', $admin);
     }
 
     /**

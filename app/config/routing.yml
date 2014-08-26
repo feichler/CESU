@@ -1,12 +1,20 @@
 
-# User related routing
-elektra_user:
-    resource:   "@ElektraUserBundle/Resources/config/routing.yml"
+# Import routing.yml from all Elektra packages (if no routing needed, the file will be just empty)
 
-# Seed Unit related routing
-elektra_seed:
-    resource:   "@ElektraSeedBundle/Resources/config/routing.yml"
+ElektraCommonBundle:
+    resource: "@ElektraCommonBundle/Resources/config/routing.yml"
 
-# Site related routing (Request page, static pages)
-elektra_site:
-    resource:   "@ElektraSiteBundle/Resources/config/routing.yml"
+ElektraCrudBundle:
+    resource: "@ElektraCrudBundle/Resources/config/routing.yml"
+
+ElektraSeedBundle:
+    resource: "@ElektraSeedBundle/Resources/config/routing.yml"
+
+ElektraSiteBundle:
+    resource: "@ElektraSiteBundle/Resources/config/routing.yml"
+
+ElektraTranslationBundle:
+    resource: "@ElektraTranslationBundle/Resources/config/routing.yml"
+
+ElektraUserBundle:
+    resource: "@ElektraUserBundle/Resources/config/routing.yml"

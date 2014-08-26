@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
@@ -34,7 +35,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *  "warehouse" = "WarehouseLocation"
  * })
  */
-abstract class Location implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
+abstract class Location implements AuditableInterface, AnnotableInterface, CrudInterface
 {
     /**
      * @var int

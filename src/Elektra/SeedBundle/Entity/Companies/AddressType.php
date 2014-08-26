@@ -11,9 +11,9 @@ namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\AuditableInterface;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 
 /**
  * Class AddressType
@@ -25,7 +25,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  * @ORM\Entity
  * @ORM\Table(name="addressTypes")
  */
-class AddressType implements AuditableInterface, CRUDEntityInterface
+class AddressType implements AuditableInterface, CrudInterface
 {
 
     /**

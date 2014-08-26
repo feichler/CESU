@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
@@ -24,10 +25,10 @@ use Elektra\SeedBundle\Entity\Requests\RequestCompletion;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\SeedUnits\SeedUnitRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\SeedUnitRepository")
  * @ORM\Table(name="seedUnits")
  */
-class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
+class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
 {
 
     /**
@@ -47,18 +48,18 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     protected $serialNumber;
 
     /**
-     * @var SeedUnitModel
+     * @var Model
      *
-     * @ORM\ManyToOne(targetEntity="SeedUnitModel", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="seedUnitModelId", referencedColumnName="seedUnitModelId", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Model", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="modelId", referencedColumnName="modelId", nullable=false)
      */
     protected $model;
 
     /**
-     * @var SeedUnitPowerCordType
+     * @var PowerCordType
      *
-     * @ORM\ManyToOne(targetEntity="SeedUnitPowerCordType", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="seedUnitPowerCordTypeId", referencedColumnName="seedUnitPowerCordTypeId", nullable=false)
+     * @ORM\ManyToOne(targetEntity="PowerCordType", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="powerCordTypeId", referencedColumnName="powerCordTypeId", nullable=false)
      */
     protected $powerCordType;
 
@@ -133,7 +134,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * @param SeedUnitModel $model
+     * @param Model $model
      */
     public function setModel($model)
     {
@@ -142,7 +143,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * @return SeedUnitModel
+     * @return Model
      */
     public function getModel()
     {
@@ -151,7 +152,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * @param SeedUnitPowerCordType $powerCordType
+     * @param PowerCordType $powerCordType
      */
     public function setPowerCordType($powerCordType)
     {
@@ -160,7 +161,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CRUDEntityInte
     }
 
     /**
-     * @return SeedUnitPowerCordType
+     * @return PowerCordType
      */
     public function getPowerCordType()
     {

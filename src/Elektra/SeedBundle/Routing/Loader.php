@@ -1,36 +1,15 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Routing;
 
-use Elektra\SiteBundle\Navigator\Definition;
-use Elektra\SiteBundle\Navigator\Navigator;
+use Elektra\CrudBundle\Definition\Definition;
+use Elektra\CrudBundle\Navigator\Navigator;
 use Symfony\Component\Config\Loader\Loader as BaseLoader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
-/**
- * Class Loader
- *
- * @package Elektra\SeedBundle\Routing
- *
- * @version 0.1-dev
- */
 class Loader extends BaseLoader
 {
-
-    /**
-     * Name of the containing bundle. Used as prefix for the generated routes
-     *
-     * @var string
-     */
-    protected $bundleName = 'ElektraSeedBundle';
 
     /**
      * @var Navigator
@@ -49,26 +28,27 @@ class Loader extends BaseLoader
     /**
      * {@inheritdoc}
      */
+    public function supports($resource, $type = null)
+    {
+
+        return 'routing' === $type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function load($resource, $type = null)
     {
 
         $collection = new RouteCollection();
 
+        $actions = array('browse', 'add', 'view', 'edit', 'delete');
+
         foreach ($this->navigator->getDefinitions() as $definition) {
-
-            $routes = array(
-                'browse' => $this->getBrowseRoute($definition),
-                'view'   => $this->getViewRoute($definition),
-                'add'    => $this->getAddRoute($definition),
-                'edit'   => $this->getEditRoute($definition),
-                'delete' => $this->getDeleteRoute($definition),
-            );
-
-            foreach ($routes as $name => $route) {
-                $route->setPath($route->getPath() . '{slash}');
-                $route->setDefault('slash', '/');
-                $route->setRequirement('slash', '[/]{0,1}');
-                $collection->add($definition->getRouteNamePrefix() . '_' . $name, $route);
+            if ($definition instanceof Definition) {
+                foreach ($actions as $action) {
+                    $collection->add($definition->getPrefixRoute() . '_' . $action, $this->getRoute($definition, $action));
+                }
             }
         }
 
@@ -77,85 +57,36 @@ class Loader extends BaseLoader
 
     /**
      * @param Definition $definition
+     * @param string     $action
      *
      * @return Route
      */
-    private function getBrowseRoute(Definition $definition)
+    protected function getRoute(Definition $definition, $action)
     {
 
-        $route = new Route($definition->getRoutePath() . '/{page}');
-        $route->setDefault('_controller', $definition->getControllerName() . ':browse');
-        $route->setDefault('page', 1);
-        $route->setRequirement('page', '\d+');
+        $path = $definition->getPath();
+        if ($action != 'browse') {
+            $path .= '/' . $action;
+            if ($action != 'add') {
+                $path .= '/{id}';
+            }
+        } else {
+            $path .= '/{page}';
+        }
+        $path .= '{slash}';
+
+        $route = new Route($path);
+        $route->setDefault('_controller', $definition->getController() . ':' . $action);
+        $route->setDefault('slash', '/');
+        $route->setRequirement('slash', '[/]{0,1}');
+
+        if ($action == 'browse') {
+            $route->setDefault('page', 1);
+            $route->setRequirement('page', '\d+');
+        } else if ($action != 'add') {
+            $route->setRequirement('id', '\d+');
+        }
 
         return $route;
-    }
-
-    /**
-     * @param Definition $definition
-     *
-     * @return Route
-     */
-    private function getViewRoute(Definition $definition)
-    {
-
-        $route = new Route($definition->getRoutePath() . '/view/{id}');
-        $route->setDefault('_controller', $definition->getControllerName() . ':view');
-        $route->setRequirement('id', '\d+');
-
-        return $route;
-    }
-
-    /**
-     * @param Definition $definition
-     *
-     * @return Route
-     */
-    private function getAddRoute(Definition $definition)
-    {
-
-        $route = new Route($definition->getRoutePath() . '/add');
-        $route->setDefault('_controller', $definition->getControllerName() . ':add');
-
-        return $route;
-    }
-
-    /**
-     * @param Definition $definition
-     *
-     * @return Route
-     */
-    private function getEditRoute(Definition $definition)
-    {
-
-        $route = new Route($definition->getRoutePath() . '/edit/{id}');
-        $route->setDefault('_controller', $definition->getControllerName() . ':edit');
-        $route->setRequirement('id', '\d+');
-
-        return $route;
-    }
-
-    /**
-     * @param Definition $definition
-     *
-     * @return Route
-     */
-    private function getDeleteRoute(Definition $definition)
-    {
-
-        $route = new Route($definition->getRoutePath() . '/delete/{id}');
-        $route->setDefault('_controller', $definition->getControllerName() . ':delete');
-        $route->setRequirement('id', '\d+');
-
-        return $route;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports($resource, $type = null)
-    {
-
-        return 'routing' === $type;
     }
 }

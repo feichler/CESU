@@ -8,15 +8,44 @@
 
 # Define the services provided by the SiteBundle
 services:
-    navigator:
-        class: Elektra\SiteBundle\Navigator\Navigator
+    siteBase:
+        class: Elektra\SiteBundle\Site\Base
         arguments:
-            - "@router"
+            - "@service_container"
 
-    # Twig extensions
-    elektra_theme.twig.navigator_extension:
-        class: Elektra\SiteBundle\Twig\NavigatorExtension
+    siteLanguage:
+        class: Elektra\SiteBundle\Site\Language
         arguments:
-            - "@navigator"
+            - "@translator.default"
+
+    siteMenu:
+        class: Elektra\SiteBundle\Menu\Menu
+
+    elektra_site.twig.site_extension:
+        class: Elektra\SiteBundle\Twig\SiteExtension
+        arguments:
+            - "@siteBase"
+            - "@siteLanguage"
         tags:
             - { name: twig.extension }
+
+    # Form Fields
+    elektra_site.form.type.link: # Link Form Field
+        class: Elektra\SiteBundle\Form\Field\LinkType
+        tags:
+            - { name: form.type, alias: link }
+
+    elektra_site.form.type.submit: # Submit Form Field
+        class: Elektra\SiteBundle\Form\Field\SubmitType
+        tags:
+            - { name: form.type, alias: submit }
+
+    elektra_site.form.type.reset: # Reset Form Field
+        class: Elektra\SiteBundle\Form\Field\ResetType
+        tags:
+            - { name: form.type, alias: reset }
+
+    elektra_site.form.type.buttongroup: # Button Group for Forms
+        class: Elektra\SiteBundle\Form\Field\ButtonGroupType
+        tags:
+            - { name: form.type, alias: buttonGroup }

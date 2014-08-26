@@ -33,7 +33,6 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('elektra_seed');
 
         // NOTE: configuration options for the seed bundle needed?
-        // NOTE: list limit configuration in cleanup folder
 
         return $treeBuilder;
     }

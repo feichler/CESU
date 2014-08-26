@@ -8,7 +8,7 @@
 
 namespace Elektra\SeedBundle\Controller\Trainings;
 
-use Elektra\SeedBundle\Controller\CRUDController;
+use Elektra\CrudBundle\Controller\Controller;
 
 /**
  * Class RegistrationController
@@ -17,15 +17,15 @@ use Elektra\SeedBundle\Controller\CRUDController;
  *
  * @version 0.1-dev
  */
-class RegistrationController extends CRUDController
+class RegistrationController extends Controller
 {
 
     /**
      * {@inheritdoc}
      */
-    protected function loadDefinition()
+    protected function getDefinition()
     {
 
-        $this->definition = $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration');
+        return $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration');
     }
 }

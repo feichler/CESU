@@ -1,0 +1,20 @@
+{#############################################################################
+ # @author    Florian Eichler <florian@eichler.co.at>
+ # @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ # @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ # @license   MINOR add a license
+ # @version   0.1-dev
+ #############################################################################}
+
+{# WORKAROUND filters not working at server, so this is a workaround #}
+{% if app.request.server.get("SERVER_NAME") == siteBase.parameter('serverDomain') %}
+    {% stylesheets 'css/fontAwesome.css' output='css/fontAwesome.css' %}
+    <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% else %}
+    {% stylesheets filter="less" output='css/fontAwesome.css'
+    "@ElektraSiteBundle/Resources/private/less/fontAwesome/core.less"
+    "@ElektraSiteBundle/Resources/private/less/fontAwesome/extensions.less" %}
+    <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endif %}

@@ -28,7 +28,7 @@ class ContactInfoTypeFixture extends SeedBundleFixture
      */
     protected function doLoad(ObjectManager $manager)
     {
-
+        return;
         $statuses = array(
             "Email",
             "Phone"

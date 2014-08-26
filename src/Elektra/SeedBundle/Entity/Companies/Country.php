@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
@@ -22,10 +23,10 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Companies\CountryRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\CountryRepository")
  * @ORM\Table(name="countries")
  */
-class Country implements AuditableInterface, CRUDEntityInterface
+class Country implements AuditableInterface, CrudInterface
 {
 
     /**

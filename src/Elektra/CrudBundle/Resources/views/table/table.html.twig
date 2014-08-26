@@ -1,0 +1,169 @@
+{% block table %}
+    <form method="post" class="form-horizontal">
+        {% set tableWidth = 12 %}
+        {% if not table.embedded %}
+            {% if table.hasFilters or table.hasSearch %}
+                {% set filtersWidth = 2 %}
+                {% set tableWidth = tableWidth - filtersWidth %}
+                <div class="col-md-{{ filtersWidth }}">
+                    <div class="table-filters">
+                        {% if table.hasSearch() %}
+                            {{ block('table_search') }}
+                        {% endif %}
+                        {% if table.hasFilters %}
+                            {{ block('table_filters') }}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+        <div class="col-md-{{ tableWidth }}">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-condensed table-{{ table.crud.definition.name|lower }}">
+                    {{ block('table_head') }}
+                    {{ block('table_foot') }}
+                    {{ block('table_body') }}
+                </table>
+            </div>
+            {{ block('table_navigation') }}
+        </div>
+    </form>
+{% endblock table %}
+
+{% block table_head %}
+    <thead>
+    <tr>
+        {% for index, column in table.columns.all %}
+            {% if not column.hidden %}
+                {{ block('table_head_cell') }}
+            {% endif %}
+        {% endfor %}
+    </tr>
+    </thead>
+{% endblock table_head %}
+
+{% block table_head_cell %}
+    <th class="head-{{ index }} head-{{ column.type }}">
+        {{ siteLanguage.required(column.title) }}
+    </th>
+{% endblock %}
+
+{% block table_foot %}
+    <tfoot>
+    <tr>
+        <td colspan="{{ table.columns.all|length }}">
+            {% import 'ElektraSiteBundle:macros:actions.html.twig' as actions %}
+            {{ attribute(actions, 'add', [table.crud.addLink, siteLanguage.alternate('table.' ~ table.specificLangKey ~ '.actions.add', 'table.actions.add'), {}]) }}
+        </td>
+    </tr>
+    </tfoot>
+{% endblock table_foot %}
+
+{% block table_body %}
+    <tbody>
+    {% if table.entries|length == 0 %}
+        <tr class="warning">
+            <td class="datarow-empty" colspan="{{ table.columns.all|length }}">
+                {{ siteLanguage.alternate('table.' ~ table.specificLangKey ~ '.empty', 'table.empty') }}
+            </td>
+        </tr>
+    {% else %}
+        {% for count, entry in table.entries %}
+            <tr class="datarow-{{ count }}">
+                {% for index, column in table.columns.all %}
+                    {% if not column.hidden %}
+                        {{ block('table_body_cell') }}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endif %}
+    </tbody>
+{% endblock table_body %}
+
+{% block table_body_cell %}
+    {% set colType = column.type %}
+    {% set data = column.displayData(entry) %}
+    <td class="col-{{ index }} col-{{ column.type }}">
+        {% if colType == 'title' %}
+            {{ block('table_body_cell_title') }}
+        {% elseif colType == 'action' %}
+            {{ block('table_body_cell_action') }}
+        {% elseif colType == 'audit' %}
+            {{ block('table_body_cell_audit') }}
+        {% else %}
+            {{ block('table_body_cell_default') }}
+        {% endif %}
+    </td>
+{% endblock table_body_cell %}
+
+{% block table_body_cell_title %}
+    {% import 'ElektraSiteBundle:macros:actions.html.twig' as actions %}
+
+    <div>
+        {{ attribute(actions, 'view', [data.link, data.title, {}]) }}
+    </div>
+    {% if data.other is iterable and data.other is not empty %}
+        {% for string in data.other %}
+            <div>{{ string }}</div>
+        {% endfor %}
+    {% endif %}
+{% endblock table_body_cell_title %}
+
+{% block table_body_cell_action %}
+    {% import 'ElektraSiteBundle:macros:actions.html.twig' as actions %}
+
+    {% for type, action in data %}
+        {% set typeKey = 'table.' ~ action.langKey ~ '.actions.' ~ type %}
+        {% set alternateTypeKey = 'table.actions.' ~ type %}
+        {% if action.confirm %}
+            {% set confirmKey = 'table.' ~ action.langKey ~ '.actions.confirm_' ~ type %}
+            {% set alternateConfirmKey = 'common.confirm_' ~ type %}
+            {{ attribute(actions, type, [action.link, siteLanguage.alternate(typeKey, alternateTypeKey), { 'confirmMsg': siteLanguage.alternate(confirmKey, alternateConfirmKey) }]) }}
+        {% else %}
+            {{ attribute(actions, type, [action.link, siteLanguage.alternate(typeKey, alternateTypeKey), {  }]) }}
+        {% endif %}
+    {% endfor %}
+{% endblock table_body_cell_action %}
+
+{% block table_body_cell_audit %}
+    {# TODO add audits #}
+    {% for type, audit in data %}
+        {{ type }} =>
+    {% endfor %}
+{% endblock table_body_cell_audit %}
+
+{% block table_body_cell_default %}
+    {% if data is iterable %}
+        {% for index, value in data %}
+            <div>
+                {{ value }}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div>
+            {{ data }}
+        </div>
+    {% endif %}
+{% endblock table_body_cell_default %}
+
+
+{% block table_filters %}
+    {% for definition in table.filters %}
+        {% form_theme definition "ElektraSiteBundle::filter.html.twig" %}
+        {{ form_widget(definition) }}
+    {% endfor %}
+{% endblock table_filters %}
+
+{% block table_search %}
+    {% set field = table.searchField %}
+    {% form_theme field "ElektraSiteBundle::filter.html.twig" %}
+    {{ form_widget(field) }}
+{% endblock table_search %}
+
+{% block table_navigation %}
+    <div class="table-pagination">
+        {# TODO Pagination #}
+        TODO Pagination
+    </div>
+{% endblock table_navigation %}

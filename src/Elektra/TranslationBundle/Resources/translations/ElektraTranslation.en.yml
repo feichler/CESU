@@ -1,0 +1,124 @@
+###############################################################################
+# @author    Florian Eichler <florian@eichler.co.at>
+# @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+# @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+# @license   MINOR add a license
+# @version   0.1-dev
+###############################################################################
+
+common:
+    brand: CESU Admin
+    copyright: 2014 Cisco Elektra Seed Unit Program
+    user:
+        generic:
+            logged_in: Logged in as %firstname% %lastname% (%username%)
+            login: Login
+            logout: Logout
+        login:
+            username: Username
+            password: Password
+            remember: Remember Me
+            submit: Login
+    toggle:
+        navbar: Toggle Navigation
+        footer: Toogle Footer
+    actions:
+        add: Add
+        view: View
+        edit: Edit
+        delete: Delete
+    confirm_delete: Do you really want to delete this entry?
+
+table:
+    empty: No entries match the specified criteria(s)
+    actions:
+        add: Add
+        view: View
+        edit: Edit
+        delete: Delete
+    columns:
+        id: Id
+        audit: ''
+        action: Actions
+        note: Notes
+    companies:
+        country:
+            country: Country
+            region: Region
+        partner:
+            name: Name
+            tier: Tier
+            units_limit: Unit Limit
+        region:
+            region: Region
+            countries: '# Countries'
+    seed_units:
+        seed_unit:
+            serial: Serial Number
+            model: Model
+            power_cord_type: Power Cord Type
+            request: Request
+        model:
+            name: Name
+    trainings:
+        training:
+            training: Training
+            start: Start
+            end: End
+            registrations: '# Reg.'
+            attendances: '# Att.'
+
+form:
+    buttons:
+        save: Save
+        reset: Reset
+        cancel: Cancel
+        close: Close
+        edit: Edit
+        delete: Delete
+
+actions:
+
+menu:
+    requests: Requests
+    reports: Reports
+    companies: Companies
+    partners: Partners
+    sales_teams: Sales Teams
+    customers: Customers
+    master_data: Master Data
+    seed_units: Seed Units
+    seed_unit_models: Models
+    seed_unit_power_cord_types: Power Cord Types
+    trainings: Trainings
+    registrations: Registrations
+    attendances: Attendances
+    geographic: Geographic
+    regions: Regions
+    countries: Countries
+
+pages:
+    generic:
+        title: Welcome
+        title_prefix: ''
+        title_suffix: CESU Administration
+        heading: Welcome
+        section: Administration
+    security:
+        login:
+            title: Login
+            heading: Please Login
+    seed_units:
+        section: Master Data
+        seed_unit:
+            browse:
+                heading: Browse Seed Units
+            add:
+                heading: Add a Seed Unit
+        model:
+            section: Master Data - Seed Units
+            browse:
+                heading: Browse Models
+
+
+

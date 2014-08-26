@@ -41,7 +41,7 @@ twig:
     form:
         # Custom form rendering resources
         resources:
-            - "ElektraThemeBundle:Form/form:fields.html.twig"
+            - "ElektraSiteBundle::form.html.twig"
 
 # Assetic Configuration
 assetic:

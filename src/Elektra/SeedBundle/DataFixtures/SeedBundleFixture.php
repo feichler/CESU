@@ -56,7 +56,7 @@ abstract class SeedBundleFixture extends AbstractFixture implements OrderedFixtu
     protected function loadReferences()
     {
 
-        $adminUser = $this->getReference('admin-user');
+        $adminUser = $this->getReference('user-administrator');
 
         $adminUserToken = new UsernamePasswordToken($adminUser->getUsername(), null, 'main', $adminUser->getRoles());
         $adminUserToken->setUser($adminUser);

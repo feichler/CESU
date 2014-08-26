@@ -1,0 +1,43 @@
+{#############################################################################
+ # @author    Florian Eichler <florian@eichler.co.at>
+ # @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ # @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ # @license   MINOR add a license
+ # @version   0.1-dev
+ #############################################################################}
+
+{#{% set liClasses = '' %}#}
+{#{% set aClasses = '' %}#}
+{#{% set  %}#}
+
+{# TODO / CHECK rendering of a group menu item - add active item rendering! #}
+
+
+
+{% if item.level == 1 %}
+    <li>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            {{ item.title }}
+            <span class="dropdown-indicator"></span>
+        </a>
+        <ul class="dropdown-menu">
+            {% for subItem in item.items %}
+                {{ siteMenuItem(subItem) }}
+            {% endfor %}
+        </ul>
+    </li>
+{% else %}
+    <li class="dropdown-header">
+        <span class="dropdown-header-title">
+            {{ item.title }}
+        </span>
+    </li>
+    {% for subItem in item.items %}
+        {{ siteMenuItem(subItem) }}
+    {% endfor %}
+{% endif %}
+
+
+{% if item.level == 1 %}
+
+{% endif %}

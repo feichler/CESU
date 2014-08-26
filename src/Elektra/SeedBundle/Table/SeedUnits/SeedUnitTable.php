@@ -1,119 +1,111 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Table\SeedUnits;
 
-use Doctrine\Common\Collections\Criteria;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
-use Elektra\SeedBundle\Entity\Events\StatusEvent;
-use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
-use Elektra\SeedBundle\Table\CRUDTable;
-use Elektra\ThemeBundle\Table\Row;
+use Elektra\CrudBundle\Table\Table;
 
-/**
- * Class SeedUnitTable
- *
- * @package Elektra\SeedBundle\Table\SeedUnits
- *
- * @version 0.1-dev
- */
-class SeedUnitTable extends CRUDTable
+class SeedUnitTable extends Table
 {
 
     /**
      * {@inheritdoc}
      */
-    protected function setupHeader(Row $header)
+    protected function initialiseColumns()
     {
 
-        // TRANSLATE add translations for the table headers
-        $idCell = $header->addCell();
-        $idCell->setWidth(40);
-        $idCell->addHtmlContent('ID');
+        $serial = $this->getColumns()->addTitleColumn('table.seed_units.seed_unit.serial');
+        $serial->setFieldData('serialNumber');
+        $serial->setSearchable();
+        $serial->setSortable();
 
-        $serialNumberCell = $header->addCell();
-        $serialNumberCell->addHtmlContent('Serial Number');
-        $serialNumberCell->setColumnSpan(3);
+        $model = $this->getColumns()->add('table.seed_units.seed_unit.model');
+        $model->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model'));
+        $model->setFieldData('model.name');
+        $model->setSortable();
+        $model->setFilterable()->setFieldFilter('name');
 
-        $modelCell = $header->addCell();
-        $modelCell->addHtmlContent('Model');
+        $power = $this->getColumns()->add('table.seed_units.seed_unit.power_cord_type');
+        $power->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType'));
+        $power->setFieldData('powerCordType.name');
+        $power->setSortable();
+        $power->setFilterable()->setFieldFilter('name');
 
-        $powerCordTypeCell = $header->addCell();
-        $powerCordTypeCell->addHtmlContent('Power Cord Type');
-
-        $statusCell = $header->addCell();
-        $statusCell->addHtmlContent('Status');
-
-        $requestCell = $header->addCell();
-        $requestCell->addHtmlContent('Request');
-
-        // CHECK should audits and actions have an own header cell?
-        //        $auditCell = $header->addCell();
-        //        $auditCell->setWidth(100);
-        //
-        //        $actionsCell = $header->addCell();
-        //        $actionsCell->setWidth(150);
+        $request = $this->getColumns()->add('table.seed_units.seed_unit.request');
+        $request->setFieldData('requestCompletion.request.requestNumber');
+        $request->setSearchable();
+        $request->setSortable();
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function setupContentRow(Row $content, CRUDEntityInterface $entry)
+    protected function initialiseCustomFilters()
     {
 
-        if (!$entry instanceof SeedUnit) {
-            throw new \InvalidArgumentException('Can only display entries of type "SeedUnit"');
-        }
-
-        // ID
-        $this->generateIdCell($content, $entry);
-
-        $viewLink     = $this->generateLink('view', $entry->getId());
-        $seedUnitCell = $content->addCell();
-        $seedUnitCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
-
-        //TODO: add link to entity
-        $modelCell = $content->addCell();
-        $modelCell->addHtmlContent($entry->getModel()->getTitle());
-
-        //TODO: add link to entity
-        $powerCordTypeCell = $content->addCell();
-        $powerCordTypeCell->addHtmlContent($entry->getPowerCordType()->getTitle());
-
-        //$statusCriteria = Criteria::create();
-        //$statusCriteria->where(Criteria::expr()->eq('type', 'StatusEvent'));
-        //$status = $entry->getEvents()->matching($statusCriteria);
-
-        // WORKAROUND: using filter() instead of matching() (see above) because being unable to match by subtype/discriminator
-        //--> forces EAGER LOADING!!
-        $status = $entry->getEvents()->filter(
-            function ($event) {
-
-                return $event instanceof StatusEvent;
-            }
-        )->first();
-
-        $statusCell = $content->addCell();
-        if ($status != null) {
-            $statusCell->addHtmlContent($status->getUnitStatus()->getName());
-            $statusCell->addHtmlContent(" (since " . date("D, m/j/Y", $status->getTimestamp()) . ")");
-        }
-
-        $requestCell = $content->addCell();
-        if ($entry->getRequestCompletion() != null) {
-            $requestCell->addHtmlContent($entry->getRequestCompletion()->getId());
-        }
-
-        // Audits
-        $this->generateAuditCell($content, $entry);
-
-        // Actions
-        $this->generateActionsCell($content, $entry);
+        $this->addCustomFilter(
+            'inUse',
+            'choice',
+            array(
+                'empty_value' => 'In Use?',
+                'choices'     => array(
+                    'n' => 'No',
+                    'y' => 'Yes',
+                ),
+            )
+        );
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCustomLoadFilter($options)
+    {
+
+        $filter = array();
+
+        switch ($options['name']) {
+            case 'inUse':
+                $filterName = $this->getFilterFieldName($options);
+                $fieldName  = 'requestCompletion';
+
+                $value = $this->getRequestData('custom-filters', $filterName);
+                if ($value == 'n') {
+                    $filter[$fieldName] = 'NULL';
+                } else if ($value == 'y') {
+                    $filter[$fieldName] = 'NOT NULL';
+                }
+                break;
+            default:
+                throw new \RuntimeException('Unknown filter "' . $options['name'] . '"');
+                break;
+        }
+
+        return $filter;
+    }
+    //    /**
+    //     * {@inheritdoc}
+    //     */
+    //
+    //    protected function prepareCustomFilters()
+    //    {
+    //
+    //        $filters = array();
+    //
+    //        $name  = 'inUse';
+    //        $value = $this->container->get('request')->get($name, null);
+    //
+    //        if ($value == 0) {
+    //        }
+    //
+    //        if ($value !== null && !empty($value)) {
+    //            if ($value == 'n') {
+    //                $filters['requestCompletion'] = 'NULL';
+    //            } else if ($value == 'y') {
+    //                $filters['requestCompletion'] = 'NOT NULL';
+    //            }
+    //            //            $filters[$name] = $value;
+    //        }
+    //
+    //        return $filters;
+    //    }
 }

@@ -60,7 +60,7 @@ class Geographic extends SeedBundleFixture
     public function getOrder()
     {
 
-        return 1001;
+        return 11;
     }
 
     /**
@@ -76,6 +76,8 @@ class Geographic extends SeedBundleFixture
         $region->setName($name);
 
         $manager->persist($region);
+
+        $this->addReference('region-' . strtolower($name), $region);
 
         return $region;
     }
@@ -96,5 +98,8 @@ class Geographic extends SeedBundleFixture
         $country->setRegion($regions[$params[4]]);
 
         $manager->persist($country);
+
+        $this->addReference('country-' . strtolower($country->getName()), $country);
+        $this->addReference('country-two-' . strtolower($country->getAlphaTwo()), $country);
     }
 }

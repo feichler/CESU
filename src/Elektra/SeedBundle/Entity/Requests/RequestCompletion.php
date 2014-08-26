@@ -10,6 +10,7 @@
 namespace Elektra\SeedBundle\Entity\Requests;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\Companies\Company;
@@ -26,10 +27,10 @@ use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Requests\RequestCompletionRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Requests\RequestCompletionRepository")
  * @ORM\Table(name="requestCompletion")
  */
-class RequestCompletion implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
+class RequestCompletion implements AuditableInterface, AnnotableInterface, CrudInterface
 {
     /**
      * @var int

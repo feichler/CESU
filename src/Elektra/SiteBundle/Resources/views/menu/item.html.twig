@@ -1,0 +1,23 @@
+{#############################################################################
+ # @author    Florian Eichler <florian@eichler.co.at>
+ # @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ # @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ # @license   MINOR add a license
+ # @version   0.1-dev
+ #############################################################################}
+
+{# TODO / CHECK rendering of a single menu item - add active item rendering! #}
+
+{% if siteBase.menu.active %}
+    <li class="active">
+        <a href="{{ item.link }}">
+            {{ item.title }}
+        </a>
+    </li>
+{% else %}
+    <li>
+        <a href="{{ item.link }}">
+            {{ item.title }}
+        </a>
+    </li>
+{% endif %}

@@ -1,82 +1,46 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Table\Companies;
 
-use Elektra\SeedBundle\Entity\Companies\Country;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
-use Elektra\SeedBundle\Table\CRUDTable;
-use Elektra\ThemeBundle\Table\Row;
+use Elektra\CrudBundle\Table\Table;
 
-/**
- * Class Country
- *
- * @package Elektra\SeedBundle\Table\Companies
- *
- * @version 0.1-dev
- */
-class CountryTable extends CRUDTable
+class CountryTable extends Table
 {
 
     /**
      * {@inheritdoc}
      */
-    protected function setupHeader(Row $header)
+    protected function initialiseColumns()
     {
 
-        // TRANSLATE add translations for the table headers
-        $idCell = $header->addCell();
-        $idCell->setWidth(40);
-        $idCell->addHtmlContent('ID');
+        $country = $this->getColumns()->addTitleColumn('table.companies.country.country');
+        $country->setFieldData('name');
+        $country->setSearchable();
+        $country->setSortable();
 
-        $regionCell = $header->addCell();
-        $regionCell->addHtmlContent('Region');
-
-        $titleCell = $header->addCell();
-        $titleCell->addHtmlContent('Country');
-        $titleCell->setColumnSpan(3);
-
-        // CHECK should audits and actions have an own header cell?
-        //        $auditCell = $header->addCell();
-        //        $auditCell->setWidth(100);
-        //
-        //        $actionsCell = $header->addCell();
-        //        $actionsCell->setWidth(150);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setupContentRow(Row $content, CRUDEntityInterface $entry)
-    {
-
-        if (!$entry instanceof Country) {
-            throw new \InvalidArgumentException('Can only display entries of type "Country"');
+        if(!$this->isEmbedded()) {
+            $region = $this->getColumns()->add('table.companies.country.region');
+            $region->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Region'));
+            $region->setFieldData('region.name');
+            $region->setFilterable()->setFieldFilter('name');
+            $region->setSortable();
+        } else {
+            if($this->getEmbedded()->getName() == 'Region') {
+                // ??
+            }
         }
 
-        // ID
-        $this->generateIdCell($content, $entry);
-
-        // Region
-        $regionCell = $content->addCell();
-        $regionCell->addHtmlContent($entry->getRegion()->getName());
-
-        // Name & Description
-        //        $viewLink  = $this->generateLink($this->getRoute('view'), $entry->getId());
-        $viewLink  = $this->generateLink('view', $entry->getId());
-        $modelCell = $content->addCell();
-        $modelCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
-
-        // Audits
-        $this->generateAuditCell($content, $entry);
-
-        // Actions
-        $this->generateActionsCell($content, $entry);
+//        var_dump($this->isEmbedded());
+//        echo '<br />';
+//        var_dump($this->embedded);
+//        echo '<br />';
+//
+//        if (!$this->isEmbedded() && $this->embedded->getName() != 'Region') {
+//            $region = $this->getColumns()->add('table.companies.country.region');
+//            $region->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Region'));
+//            $region->setFieldData('region.name');
+//            $region->setFilterable()->setFieldFilter('name');
+//            $region->setSortable();
+//        }
     }
 }

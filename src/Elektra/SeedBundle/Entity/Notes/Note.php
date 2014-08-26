@@ -10,6 +10,7 @@
 namespace Elektra\SeedBundle\Entity\Notes;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\UserBundle\Entity\User;
 
@@ -23,7 +24,7 @@ use Elektra\UserBundle\Entity\User;
  * @ORM\Entity
  * @ORM\Table(name="notes")
  */
-class Note implements CRUDEntityInterface
+class Note implements CrudInterface
 {
 
     /**

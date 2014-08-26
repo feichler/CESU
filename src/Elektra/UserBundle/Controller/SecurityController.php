@@ -9,9 +9,9 @@
 
 namespace Elektra\UserBundle\Controller;
 
-use Elektra\ThemeBundle\Page\Overrides\LanguageSimple;
 use FOS\UserBundle\Controller\SecurityController as BaseController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class SecurityController
@@ -29,32 +29,21 @@ class SecurityController extends BaseController
     private function initialise($action)
     {
 
-        $options = array();
+        $siteBase   = $this->container->get('siteBase');
+        $controller = 'ElektraUser:Security';
 
-        if ($action == 'login') {
-            $options['language']['title']   = new LanguageSimple('lang.admin.pages.login.title', 'ElektraSite');
-            $options['language']['heading'] = new LanguageSimple('lang.admin.pages.login.heading', 'ElektraSite');
-        }
-
-        $page = $this->container->get('page');
-        $page->initialiseAdminPage('security', $action, $options);
-
-        //        $theme = $this->container->get('site');
-        //        $theme->initialiseUserPage($action);
-        //        $theme->initialiseAdminPage($action, true);
+        $siteBase->initialisePage($controller, $action, 'security.' . $action);
     }
 
     /**
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function loginAction(Request $request)
     {
 
         $this->initialise('login');
-        //        $site = $this->container->get('site');
-        //        $site->initializeUserPage('Login', 'Login');
 
         return parent::loginAction($request);
     }
@@ -62,7 +51,7 @@ class SecurityController extends BaseController
     /**
      * @param array $data
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     protected function renderLogin(array $data)
     {

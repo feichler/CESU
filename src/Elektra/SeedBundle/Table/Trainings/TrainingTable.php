@@ -1,99 +1,37 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Table\Trainings;
 
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
-use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel;
-use Elektra\SeedBundle\Entity\Trainings\Training;
-use Elektra\SeedBundle\Table\CRUDTable;
-use Elektra\ThemeBundle\Table\Row;
+use Elektra\CrudBundle\Table\Table;
 
-/**
- * Class TrainingTable
- *
- * @package Elektra\SeedBundle\Table\Trainings
- *
- * @version 0.1-dev
- */
-class TrainingTable extends CRUDTable
+class TrainingTable extends Table
 {
 
     /**
      * {@inheritdoc}
      */
-    protected function setupHeader(Row $header)
+    protected function initialiseColumns()
     {
 
-        // TRANSLATE add translations for the table headers
-        $idCell = $header->addCell();
-        $idCell->setWidth(40);
-        $idCell->addHtmlContent('ID');
+        $training = $this->getColumns()->addTitleColumn('table.trainings.training.training');
+        $training->setFieldData('name');
+        $training->setSearchable();
+        $training->setSortable();
 
-        $titleCell = $header->addCell();
-        $titleCell->addHtmlContent('Name');
+        $start = $this->getColumns()->addDateColumn('table.trainings.training.start');
+        $start->setFieldData('startedAt');
+        $start->setSortable();
 
-        $startedAtCell = $header->addCell();
-        $startedAtCell->addHtmlContent('Start');
+        $end = $this->getColumns()->addDateColumn('table.trainings.training.end');
+        $end->setFieldData('endedAt');
+        $end->setSortable();
 
-        $endedAtCell = $header->addCell();
-        $endedAtCell->addHtmlContent('End');
+        $registrations = $this->getColumns()->addCountColumn('table.trainings.training.registrations');
+        $registrations->setFieldData('registrations');
+        $registrations->setSortable();
 
-        $attendancesCell = $header->addCell();
-        $attendancesCell->addHtmlContent('# Att');
-
-        $registrationsCell = $header->addCell();
-        $registrationsCell->addHtmlContent('# Reg');
-        $registrationsCell->setColumnSpan(3);
-
-        // CHECK should audits and actions have an own header cell?
-        //        $auditCell = $header->addCell();
-        //        $auditCell->setWidth(100);
-        //
-        //        $actionsCell = $header->addCell();
-        //        $actionsCell->setWidth(150);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setupContentRow(Row $content, CRUDEntityInterface $entry)
-    {
-
-        if (!$entry instanceof Training) {
-            throw new \InvalidArgumentException('Can only display entries of type "Training"');
-        }
-
-        // ID
-        $this->generateIdCell($content, $entry);
-
-        // Name
-        $viewLink  = $this->generateLink('view', $entry->getId());
-        $titleCell = $content->addCell();
-        $titleCell->addActionContent('view', $viewLink, array('text' => $entry->getTitle(), 'render' => 'link'));
-
-        $startedAt = $content->addCell();
-        $startedAt->addHtmlContent(date('D, m/j/Y,g:i A', $entry->getStartedAt()));
-
-        $endedAt = $content->addCell();
-        $endedAt->addHtmlContent(date('D, m/j/Y,g:i A', $entry->getEndedAt()));
-
-        $attendances = $content->addCell();
-        $attendances->addHtmlContent(count($entry->getAttendances()));
-
-        $registrations = $content->addCell();
-        $registrations->addHtmlContent(count($entry->getRegistrations()));
-
-        // Audits
-        $this->generateAuditCell($content, $entry);
-
-        // Actions
-        $this->generateActionsCell($content, $entry);
+        $attendances = $this->getColumns()->addCountColumn('table.trainings.training.attendances');
+        $attendances->setFieldData('attendances');
+        $attendances->setSortable();
     }
 }

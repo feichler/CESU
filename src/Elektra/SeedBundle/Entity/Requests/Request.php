@@ -10,6 +10,7 @@
 namespace Elektra\SeedBundle\Entity\Requests;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\Companies\Person;
 use Elektra\SeedBundle\Entity\Companies\Address;
 use Elektra\SeedBundle\Entity\Companies\PartnerTier;
@@ -26,10 +27,10 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repositories\Requests\RequestRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Requests\RequestRepository")
  * @ORM\Table(name="requests")
  */
-class Request implements AuditableInterface, AnnotableInterface, CRUDEntityInterface
+class Request implements AuditableInterface, AnnotableInterface, CrudInterface
 {
 
     /**

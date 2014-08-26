@@ -1,0 +1,24 @@
+{#############################################################################
+ # @author    Florian Eichler <florian@eichler.co.at>
+ # @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+ # @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+ # @license   MINOR add a license
+ # @version   0.1-dev
+ #############################################################################}
+
+{% block page_heading %}
+    <div class="container">
+        <h1 class="page_heading clearfix">
+            {% if siteLanguage('section') %}
+                <span class="pull-right">
+                    {{ siteLanguage('section') }}
+                </span>
+            {% endif %}
+            {% if siteLanguage.required('heading') %}
+                <small class="pull-left">
+                    {{ siteLanguage.required('heading', true) }}
+                </small>
+            {% endif %}
+        </h1>
+    </div>
+{% endblock page_heading %}

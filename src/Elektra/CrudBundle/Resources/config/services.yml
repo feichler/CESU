@@ -1,0 +1,25 @@
+###############################################################################
+# @author    Florian Eichler <florian@eichler.co.at>
+# @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
+# @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
+# @license   MINOR add a license
+# @version   0.1-dev
+###############################################################################
+
+# Define the services provided by the CrudBundle
+services:
+    navigator:
+        class: Elektra\CrudBundle\Navigator\Navigator
+        arguments:
+            - "@router"
+
+    elektra_crud.twig.table_extension:
+        class: Elektra\CrudBundle\Twig\TableExtension
+        tags:
+            - { name: twig.extension }
+
+    # Form Fields
+    elektra_crud.form.type.relatedList:
+        class: Elektra\CrudBundle\Form\Field\RelatedListType
+        tags:
+            - { name: form.type, alias: relatedList }
