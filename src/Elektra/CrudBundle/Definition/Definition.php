@@ -4,6 +4,8 @@ namespace Elektra\CrudBundle\Definition;
 
 // CHECK make abstract?
 
+// TODO / CHECK add flags for routeable / viewable / etc.
+
 class Definition
 {
 
