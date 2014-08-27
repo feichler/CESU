@@ -26,7 +26,6 @@ class CompanyLocationController extends Controller
      */
     protected function getDefinition()
     {
-
         return $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation');
     }
 }

@@ -9,6 +9,7 @@
 namespace Elektra\SeedBundle\Form;
 
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CommonOptions
@@ -20,6 +21,22 @@ class CommonOptions
             'required' => true,
             'constraints' => array(
                 new NotBlank(array('message' => 'error.constraint.required'))
+            )
+        );
+
+        return $options;
+    }
+
+    public static function getUniqueName()
+    {
+        $options = array(
+            'required' => true,
+            'constraints' => array(
+                new NotBlank(array('message' => 'error.constraint.required')),
+                new UniqueEntity(array(
+                    'fields' => 'name',
+                    'message' => 'test!'
+                ))
             )
         );
 

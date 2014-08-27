@@ -16,6 +16,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class ContactInfo
@@ -26,6 +27,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\ContactInfoRepository")
  * @ORM\Table(name="contactInfo")
+ * @UniqueEntity(fields={ "person", "text" }, errorPath="text")
  */
 class ContactInfo implements AuditableInterface, AnnotableInterface, CrudInterface
 {

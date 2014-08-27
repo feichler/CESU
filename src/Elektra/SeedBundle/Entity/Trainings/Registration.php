@@ -16,6 +16,7 @@ use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Registration
@@ -26,6 +27,7 @@ use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Trainings\RegistrationRepository")
  * @ORM\Table(name="registrations")
+ * @UniqueEntity(fields={ "training", "person" })
  */
 class Registration implements AuditableInterface, AnnotableInterface, CrudInterface
 {

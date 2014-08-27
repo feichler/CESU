@@ -38,7 +38,26 @@ class TrainingType extends CrudForm
         $builder->add('startedAt', 'datetime', $dateOptions);
         $builder->add('endedAt', 'datetime', $dateOptions);
 
-        // TODO: list input for registrations
-        // TODO: list input for attendances
+        if ($options['crud_action'] == 'view') {
+            $builder->add(
+                'attendances',
+                'relatedList',
+                array(
+                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance'),
+                    'parent'       => $options['data'],
+                    'relationName' => 'training',
+                )
+            );
+
+            $builder->add(
+                'registrations',
+                'relatedList',
+                array(
+                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration'),
+                    'parent'       => $options['data'],
+                    'relationName' => 'training',
+                )
+            );
+        }
     }
 }

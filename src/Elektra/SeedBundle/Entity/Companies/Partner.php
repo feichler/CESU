@@ -10,6 +10,7 @@
 namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Partner
@@ -20,6 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\PartnerRepository")
  * @ORM\Table(name="partnerCompanies")
+ * @UniqueEntity(fields={ "shortName" })
  */
 class Partner extends Company
 {
@@ -35,9 +37,9 @@ class Partner extends Company
     /**
      * @var int
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected $unitsLimit = 1;
+    protected $unitsLimit;
 
     /**
      *

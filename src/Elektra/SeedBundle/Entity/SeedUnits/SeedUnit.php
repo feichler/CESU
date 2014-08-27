@@ -17,6 +17,7 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\SeedBundle\Entity\Requests\RequestCompletion;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class SeedUnits
@@ -27,6 +28,7 @@ use Elektra\SeedBundle\Entity\Requests\RequestCompletion;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\SeedUnitRepository")
  * @ORM\Table(name="seedUnits")
+ * @UniqueEntity(fields={ "serialNumber" })
  */
 class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
 {

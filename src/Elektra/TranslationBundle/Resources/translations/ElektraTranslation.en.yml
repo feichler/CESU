@@ -99,6 +99,9 @@ table:
         registration:
             registrant: Registrant
             training: Training
+        attendance:
+            attendee: Attendee
+            training: Training
 
 
 form:

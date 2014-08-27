@@ -15,6 +15,7 @@ use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\CRUDEntityInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class SeedUnitPowerTypes
@@ -25,6 +26,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\PowerCordTypeRepository")
  * @ORM\Table(name="powerCordTypes")
+ * @UniqueEntity(fields={ "name" })
  */
 class PowerCordType implements AuditableInterface, CrudInterface
 {

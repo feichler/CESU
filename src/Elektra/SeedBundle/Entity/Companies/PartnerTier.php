@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class PartnerTier
@@ -25,6 +25,7 @@ use Elektra\SeedBundle\Entity\CRUDEntityInterface;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\PartnerTierRepository")
  * @ORM\Table(name="partnerTiers")
+ * @UniqueEntity(fields={ "name" })
  */
 class PartnerTier implements AuditableInterface, CrudInterface
 {

@@ -49,7 +49,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CrudI
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=50, unique=true)
+     * @ORM\Column(type="string", length=50)
      */
     protected $shortName;
 

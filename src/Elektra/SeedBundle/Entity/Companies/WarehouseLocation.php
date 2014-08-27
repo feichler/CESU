@@ -10,6 +10,7 @@
 namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class WarehouseLocation
@@ -20,6 +21,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\WarehouseLocationRepository")
  * @ORM\Table(name="warehouseLocations")
+ * @UniqueEntity(fields={ "locationIdentifier" })
+ * @UniqueEntity(fields={ "shortName" })
  */
 class WarehouseLocation extends PhysicalLocation
 {

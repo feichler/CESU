@@ -10,6 +10,7 @@
 namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class SalesTeam
@@ -20,6 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\SalesTeamRepository")
  * @ORM\Table(name="salesTeamCompanies")
+ * @UniqueEntity(fields={ "shortName" })
  */
 class SalesTeam extends Company
 {

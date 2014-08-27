@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class CompanyLocation
@@ -21,6 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\CompanyLocationRepository")
  * @ORM\Table(name="companyLocations")
+ * @UniqueEntity(fields={ "shortName", "company" }, errorPath="shortName")
  */
 class CompanyLocation extends PhysicalLocation
 {

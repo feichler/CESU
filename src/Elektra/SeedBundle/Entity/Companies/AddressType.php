@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class AddressType
@@ -24,6 +25,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *
  * @ORM\Entity
  * @ORM\Table(name="addressTypes")
+ * @UniqueEntity(fields={ "name" })
  */
 class AddressType implements AuditableInterface, CrudInterface
 {
