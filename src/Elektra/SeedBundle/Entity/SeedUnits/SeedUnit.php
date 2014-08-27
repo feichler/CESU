@@ -15,8 +15,7 @@ use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
-use Elektra\SeedBundle\Entity\Requests\RequestCompletion;
+use Elektra\SeedBundle\Entity\Requests\Request;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -75,12 +74,12 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
     protected $events;
 
     /**
-     * @var RequestCompletion
+     * @var Request
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Requests\RequestCompletion", inversedBy="seedUnits", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="requestCompletionId", referencedColumnName="requestCompletionId")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Requests\Request", inversedBy="seedUnits", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="requestId", referencedColumnName="requestId")
      */
-    protected $requestCompletion;
+    protected $request;
 
     /**
      * @var ArrayCollection
@@ -190,21 +189,21 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @param RequestCompletion $request
+     * @param Request $request
      */
-    public function setRequestCompletion($request)
+    public function setRequest($request)
     {
 
-        $this->requestCompletion = $request;
+        $this->request = $request;
     }
 
     /**
-     * @return RequestCompletion
+     * @return Request
      */
-    public function getRequestCompletion()
+    public function getRequest()
     {
 
-        return $this->requestCompletion;
+        return $this->request;
     }
 
     /**

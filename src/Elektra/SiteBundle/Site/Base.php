@@ -373,7 +373,7 @@ class Base
         $siteLanguage = $this->container->get('siteLanguage');
         $navigator    = $this->container->get('navigator');
 
-        $requestsItem = new Item($siteLanguage->getRequired('menu.requests'), $navigator->getLink(array('Elektra', 'Seed', 'Requests', 'RequestCompletion'), 'browse'));
+        $requestsItem = new Item($siteLanguage->getRequired('menu.requests'), $navigator->getLink(array('Elektra', 'Seed', 'Requests', 'Request'), 'browse'));
 
         return $requestsItem;
     }

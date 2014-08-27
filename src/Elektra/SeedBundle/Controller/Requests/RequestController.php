@@ -12,13 +12,13 @@ namespace Elektra\SeedBundle\Controller\Requests;
 use Elektra\CrudBundle\Controller\Controller;
 
 /**
- * Class SalesTeamController
+ * Class RequestController
  *
  * @package   Elektra\SeedBundle\Controller\Requests
  *
  * @version   0.1-dev
  */
-class RequestCompletionController extends Controller
+class RequestController extends Controller
 {
 
     /**
@@ -27,6 +27,6 @@ class RequestCompletionController extends Controller
     protected function getDefinition()
     {
 
-        return $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Requests', 'RequestCompletion');
+        return $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Requests', 'Request');
     }
 }

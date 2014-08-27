@@ -31,7 +31,7 @@ class SeedUnitTable extends Table
         $power->setFilterable()->setFieldFilter('name');
 
         $request = $this->getColumns()->add('table.seed_units.seed_unit.request');
-        $request->setFieldData('requestCompletion.request.requestNumber');
+        $request->setFieldData('request.requestNumber');
         $request->setSearchable();
         $request->setSortable();
     }

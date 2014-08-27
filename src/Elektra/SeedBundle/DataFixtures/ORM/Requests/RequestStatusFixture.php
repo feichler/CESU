@@ -11,9 +11,7 @@ namespace Elektra\SeedBundle\DataFixtures\ORM\Requests;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\DataFixtures\SeedBundleFixture;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Requests\RequestStatus;
-use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel;
 
 /**
  * Class RequestStatusFixture

@@ -12,7 +12,6 @@ namespace Elektra\SeedBundle\DataFixtures\ORM\SeedUnits;
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\DataFixtures\SeedBundleFixture;
 use Elektra\SeedBundle\Entity\SeedUnits\PowerCordType;
-use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitPowerCordType;
 
 /**
  * Class SeedUnitPowerCordTypeFixture

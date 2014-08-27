@@ -79,6 +79,16 @@ table:
             countries: '# Countries'
         warehouseLocation:
             locationIdentifier: Location ID
+    requests:
+        request:
+            requestNumber: 'Request #'
+            unitsRequested: Units requested
+            requestStatus: Status
+            company: Company
+            requester: Requester
+            receiver: Receiver
+            shippingLocation: Shipping Loc.
+            seedUnits: Seed Units
     seed_units:
         seed_unit:
             serial: Serial Number

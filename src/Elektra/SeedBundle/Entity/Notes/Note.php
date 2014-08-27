@@ -11,7 +11,6 @@ namespace Elektra\SeedBundle\Entity\Notes;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Elektra\UserBundle\Entity\User;
 
 /**

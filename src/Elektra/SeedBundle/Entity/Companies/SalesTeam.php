@@ -23,7 +23,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="salesTeamCompanies")
  * @UniqueEntity(fields={ "shortName" })
  */
-class SalesTeam extends Company
+class SalesTeam extends RequestingCompany
 {
 
     /**

@@ -12,7 +12,6 @@ namespace Elektra\SeedBundle\Entity\SeedUnits;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Elektra\SeedBundle\Entity\Auditing\Audit;

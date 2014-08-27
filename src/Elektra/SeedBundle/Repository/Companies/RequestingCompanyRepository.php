@@ -7,19 +7,20 @@
  * @version   0.1-dev
  */
 
-namespace Elektra\SeedBundle\Repository\Requests;
+namespace Elektra\SeedBundle\Repository\Companies;
 
 use Elektra\CrudBundle\Repository\Repository as CrudRepository;
 
 /**
- * Class RequestCompletionRepository
+ * Class RequestingCompanyRepository
  *
- * @package Elektra\SeedBundle\Repository\Requests
+ * @package Elektra\SeedBundle\Repository\Companies
  *
  * @version 0.1-dev
  */
-class RequestCompletionRepository extends CrudRepository
+class RequestingCompanyRepository extends CrudRepository
 {
+
 
 
 }

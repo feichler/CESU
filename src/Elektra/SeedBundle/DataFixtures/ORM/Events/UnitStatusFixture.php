@@ -12,7 +12,6 @@ namespace Elektra\SeedBundle\DataFixtures\ORM\Events;
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\DataFixtures\SeedBundleFixture;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
-use Elektra\SeedBundle\Entity\SeedUnits\SeedUnitModel;
 
 /**
  * Class UnitStatusFixture
@@ -30,7 +29,6 @@ class UnitStatusFixture extends SeedBundleFixture
     protected function doLoad(ObjectManager $manager)
     {
 
-        return;
         $statuses = array(
             array("Available", "A", "available"),
             array("Reserved", "R", "reserved"),

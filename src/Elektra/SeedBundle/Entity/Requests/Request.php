@@ -11,14 +11,13 @@ namespace Elektra\SeedBundle\Entity\Requests;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
-use Elektra\SeedBundle\Entity\Companies\Person;
-use Elektra\SeedBundle\Entity\Companies\Address;
-use Elektra\SeedBundle\Entity\Companies\PartnerTier;
+use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
+use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
-use Elektra\SeedBundle\Entity\CRUDEntityInterface;
+use Elektra\SeedBundle\Entity\Companies\RequestingCompany;
 
 /**
  * Class Request
@@ -57,35 +56,6 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     protected $numberOfUnitsRequested;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    protected $tocAgreedAt;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    protected $objectivesAgreedAt;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=15, nullable=true)
-     */
-    protected $clientIpAddress;
-
-    /**
-     * @var PartnerTier
-     *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\PartnerTier", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="partnerTierId", referencedColumnName="partnerTierId", nullable=true)
-     */
-    protected $partnerTier;
-
-    /**
      * @var RequestStatus
      *
      * @ORM\ManyToOne(targetEntity="RequestStatus", fetch="EXTRA_LAZY")
@@ -94,36 +64,43 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     protected $requestStatus;
 
     /**
-     * @var Person
+     * @var RequestingCompany
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Person", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\RequestingCompany", inversedBy="requests", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="companyId", referencedColumnName="companyId")
+     */
+    protected $company;
+
+    /**
+     * @var CompanyPerson
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\CompanyPerson", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="requesterPersonId", referencedColumnName="personId")
      */
     protected $requesterPerson;
 
     /**
-     * @var Person
+     * @var CompanyPerson
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Person", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\CompanyPerson", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="receiverPersonId", referencedColumnName="personId")
      */
     protected $receiverPerson;
 
     /**
-     * @var Address
+     * @var CompanyLocation
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Address", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="companyAddressId", referencedColumnName="addressId")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\CompanyLocation", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="shippingLocationId", referencedColumnName="locationId")
      */
-    protected $companyAddress;
+    protected $shippingLocation;
 
     /**
-     * @var Address
+     * @var ArrayCollection
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Address", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="shippingAddressId", referencedColumnName="addressId")
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\SeedUnit", mappedBy="request", fetch="EXTRA_LAZY")
      */
-    protected $shippingAddress;
+    protected $seedUnits;
 
     /**
      * @var ArrayCollection
@@ -157,6 +134,7 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
 
         $this->notes  = new ArrayCollection();
         $this->audits = new ArrayCollection();
+        $this->seedUnits = new ArrayCollection();
     }
 
     /**
@@ -196,39 +174,75 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @param string $clientIpAddress
+     * @param CompanyPerson $receiverPerson
      */
-    public function setClientIpAddress($clientIpAddress)
+    public function setReceiverPerson($receiverPerson)
     {
 
-        $this->clientIpAddress = $clientIpAddress;
+        $this->receiverPerson = $receiverPerson;
     }
 
     /**
-     * @return string
+     * @return CompanyPerson
      */
-    public function getClientIpAddress()
+    public function getReceiverPerson()
     {
 
-        return $this->clientIpAddress;
+        return $this->receiverPerson;
     }
 
     /**
-     * @param Address $companyAddress
+     * @param CompanyPerson $requesterPerson
      */
-    public function setCompanyAddress($companyAddress)
+    public function setRequesterPerson($requesterPerson)
     {
 
-        $this->companyAddress = $companyAddress;
+        $this->requesterPerson = $requesterPerson;
     }
 
     /**
-     * @return Address
+     * @return CompanyPerson
      */
-    public function getCompanyAddress()
+    public function getRequesterPerson()
     {
 
-        return $this->companyAddress;
+        return $this->requesterPerson;
+    }
+
+    /**
+     * @param CompanyLocation $shippingLocation
+     */
+    public function setShippingLocation($shippingLocation)
+    {
+
+        $this->shippingLocation = $shippingLocation;
+    }
+
+    /**
+     * @return CompanyLocation
+     */
+    public function getShippingLocation()
+    {
+
+        return $this->shippingLocation;
+    }
+
+    /**
+     * @param ArrayCollection $seedUnits
+     */
+    public function setSeedUnits($seedUnits)
+    {
+
+        $this->seedUnits = $seedUnits;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSeedUnits()
+    {
+
+        return $this->seedUnits;
     }
 
     /**
@@ -250,60 +264,6 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @param int $objectivesAgreedAt
-     */
-    public function setObjectivesAgreedAt($objectivesAgreedAt)
-    {
-
-        $this->objectivesAgreedAt = $objectivesAgreedAt;
-    }
-
-    /**
-     * @return int
-     */
-    public function getObjectivesAgreedAt()
-    {
-
-        return $this->objectivesAgreedAt;
-    }
-
-    /**
-     * @param PartnerTier $partnerTier
-     */
-    public function setPartnerTier($partnerTier)
-    {
-
-        $this->partnerTier = $partnerTier;
-    }
-
-    /**
-     * @return PartnerTier
-     */
-    public function getPartnerTier()
-    {
-
-        return $this->partnerTier;
-    }
-
-    /**
-     * @param Person $receiverPerson
-     */
-    public function setReceiverPerson($receiverPerson)
-    {
-
-        $this->receiverPerson = $receiverPerson;
-    }
-
-    /**
-     * @return Person
-     */
-    public function getReceiverPerson()
-    {
-
-        return $this->receiverPerson;
-    }
-
-    /**
      * @param RequestStatus $requestStatus
      */
     public function setRequestStatus($requestStatus)
@@ -319,60 +279,6 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     {
 
         return $this->requestStatus;
-    }
-
-    /**
-     * @param Person $requesterPerson
-     */
-    public function setRequesterPerson($requesterPerson)
-    {
-
-        $this->requesterPerson = $requesterPerson;
-    }
-
-    /**
-     * @return Person
-     */
-    public function getRequesterPerson()
-    {
-
-        return $this->requesterPerson;
-    }
-
-    /**
-     * @param Address $shippingAddress
-     */
-    public function setShippingAddress($shippingAddress)
-    {
-
-        $this->shippingAddress = $shippingAddress;
-    }
-
-    /**
-     * @return Address
-     */
-    public function getShippingAddress()
-    {
-
-        return $this->shippingAddress;
-    }
-
-    /**
-     * @param int $tocAgreedAt
-     */
-    public function setTocAgreedAt($tocAgreedAt)
-    {
-
-        $this->tocAgreedAt = $tocAgreedAt;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTocAgreedAt()
-    {
-
-        return $this->tocAgreedAt;
     }
 
     /**
@@ -445,5 +351,21 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     {
 
         return $this->getRequestNumber();
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Companies\Company $company
+     */
+    public function setCompany($company)
+    {
+        $this->company = $company;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Companies\Company
+     */
+    public function getCompany()
+    {
+        return $this->company;
     }
 }
