@@ -1,30 +1,14 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\CrudBundle\Form;
 
-use Elektra\CrudBundle\Controller\Controller;
 use Elektra\CrudBundle\Crud\Crud;
-use Elektra\CrudBundle\Definition\Definition;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-/**
- * Class CRUDForm
- *
- * @package Elektra\SeedBundle\Form
- *
- * @version 0.1-dev
- */
 abstract class Form extends AbstractType
 {
 
@@ -45,7 +29,7 @@ abstract class Form extends AbstractType
     /**
      * @return Crud
      */
-    public function getCrud()
+    protected function getCrud()
     {
 
         return $this->crud;
@@ -114,7 +98,7 @@ abstract class Form extends AbstractType
 
         // NOTE override if necessary
 
-        $name = $this->crud->getDefinition()->getName();
+        $name = $this->getCrud()->getDefinition()->getName();
         $name = strtolower($name);
 
         return $name;
@@ -151,13 +135,17 @@ abstract class Form extends AbstractType
     public final function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-                parent::buildForm($builder, $options);
+        parent::buildForm($builder, $options);
 
         $this->buildSpecificForm($builder, $options);
 
         if ($options['show_buttons'] == true) {
             $this->buildFormButtons($builder, $options);
         }
+
+        //        if ($this->getCrud()->isEmbedded()) {
+        //            echo 'I\'m embedded!';
+        //        }
     }
 
     public final function buildView(FormView $view, FormInterface $form, array $options)
@@ -178,11 +166,13 @@ abstract class Form extends AbstractType
     private function buildFormButtons(FormBuilderInterface $builder, array $options)
     {
 
-        $crudAction = $options['crud_action'];
-        $entity     = $options['data'];
-        $buttons    = array();
+        $crudAction   = $options['crud_action'];
+        $entity       = $options['data'];
+        $buttons      = array();
+        $parentReturn = null;
+        //        $parentReturn = $this->getCrud()->getParentReturn();
 
-                // SAVE Button
+        // SAVE Button
         if ($crudAction == 'add' || $crudAction == 'edit') {
             $buttons['save'] = array(
                 'type'    => 'submit',
@@ -217,7 +207,7 @@ abstract class Form extends AbstractType
                     'attr'  => array(
                         'class' => $this->getButtonClass('cancel'),
                     ),
-                    'link'  => $this->crud->getActiveBrowseLink(),
+                    'link'  => $this->getCrud()->getLinker()->getFormCloseLink($entity),
                 ),
             );
         }
@@ -231,7 +221,8 @@ abstract class Form extends AbstractType
                     'attr'  => array(
                         'class' => $this->getButtonClass('close'),
                     ),
-                    'link'  => $this->crud->getActiveBrowseLink(),
+                    'link'  => $this->getCrud()->getLinker()->getFormCloseLink($entity),
+                    //                    'link'  => $parentReturn !== null ? $parentReturn : $this->getCrud()->getLink('browse'),
                 ),
             );
         }
@@ -245,7 +236,7 @@ abstract class Form extends AbstractType
                     'attr'  => array(
                         'class' => $this->getButtonClass('edit'),
                     ),
-                    'link'  => $this->crud->getEditLink($entity),
+                    'link'  => $this->getCrud()->getLinker()->getFormEditLink($entity),
                 ),
             );
         }
@@ -259,7 +250,7 @@ abstract class Form extends AbstractType
                     'attr'  => array(
                         'class' => $this->getButtonClass('delete'),
                     ),
-                    'link'  => $this->crud->getDeleteLink($entity),
+                    'link'  => $this->getCrud()->getLinker()->getFormDeleteLink($entity),
                 ),
             );
         }
@@ -275,8 +266,8 @@ abstract class Form extends AbstractType
     private function getButtonLabel($type)
     {
 
-        $language = $this->crud->getService('siteLanguage');
-        $langKey  = $this->crud->getLangKey();
+        $language = $this->getCrud()->getService('siteLanguage');
+        $langKey  = $this->getCrud()->getLanguageKey();
 
         $label = $language->getAlternate('form.' . $langKey . '.buttons.' . $type, 'form.buttons.' . $type);
 

@@ -3,12 +3,11 @@
 namespace Elektra\CrudBundle\Crud;
 
 use Elektra\CrudBundle\Controller\Controller;
-use Elektra\CrudBundle\Definition\Definition;
-use Elektra\SeedBundle\Entity\EntityInterface;
+use Elektra\CrudBundle\Entity\EntityInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class Crud
+final class Crud
 {
 
     /**
@@ -22,19 +21,9 @@ class Crud
     protected $definition;
 
     /**
-     * @var Definition
+     * @var Linker
      */
-    protected $embedded;
-
-    /**
-     * @var EntityInterface
-     */
-    protected $embeddedParent;
-
-    /**
-     * @var string
-     */
-    protected $embeddedName;
+    protected $linker;
 
     /**
      * @param Controller $controller
@@ -45,25 +34,13 @@ class Crud
 
         $this->controller = $controller;
         $this->definition = $definition;
+
+        $this->linker = new Linker($this);
     }
 
-    /**
-     * @return Controller
-     */
-    public function getController()
-    {
-
-        return $this->controller;
-    }
-
-    /**
-     * @return ContainerInterface
-     */
-    public function getContainer()
-    {
-
-        return $this->controller->get('service_container');
-    }
+    /*************************************************************************
+     * Common Getters and their shortcuts
+     *************************************************************************/
 
     /**
      * @param string $id
@@ -78,16 +55,16 @@ class Crud
     }
 
     /**
-     * @return Request
+     * @return Controller
      */
-    public function getRequest()
+    public function getController()
     {
 
-        return $this->getContainer()->get('request');
+        return $this->controller;
     }
 
     /**
-     * @param string|null $vendor
+     * @param mixed|null  $vendor
      * @param string|null $bundle
      * @param string|null $group
      * @param string|null $name
@@ -97,68 +74,121 @@ class Crud
     public function getDefinition($vendor = null, $bundle = null, $group = null, $name = null)
     {
 
-        if ($vendor != null && $bundle != null && $group != null && $name != null) {
-            return $this->getService('navigator')->getDefinition($vendor, $bundle, $group, $name);
+        if ($vendor != null) {
+            // check only first value, because navigator also requires only one to try finding a definition
+            $navigator = $this->getNavigator();
+
+            return $navigator->getDefinition($vendor, $bundle, $group, $name);
+        } else {
+            // no values given -> return the stored definition of THIS crud
+            return $this->definition;
         }
-
-        return $this->definition;
     }
 
     /**
-     * @param Definition      $embedded
-     * @param EntityInterface $parent
-     * @param string          $relationName
+     * @return ContainerInterface
      */
-    public function setEmbedded(Definition $embedded, EntityInterface $parent, $relationName)
+    public function getContainer()
     {
 
-        $this->embedded       = $embedded;
-        $this->embeddedParent = $parent;
-        $this->embeddedName   = $relationName;
+        // no call to getService -> would loop
+        return $this->getController()->get('service_container');
     }
 
     /**
-     * @return Definition
+     * @return Navigator
      */
-    public function getEmbedded()
+    public function getNavigator()
     {
 
-        return $this->embedded;
+        return $this->getService('navigator');
     }
 
     /**
-     * @return EntityInterface
+     * @return Request
      */
-    public function getEmbeddedParent()
+    public function getRequest()
     {
 
-        return $this->embeddedParent;
+        return $this->getService('request');
     }
 
     /**
+     * @return Linker
+     */
+    public function getLinker()
+    {
+
+        return $this->linker;
+    }
+
+    /*************************************************************************
+     * Data Store
+     *************************************************************************/
+
+    /**
+     * @param string $name
+     * @param mixed  $value
+     * @param string $action
+     */
+    public function setData($name, $value, $action = '')
+    {
+
+        $key     = $this->getDataKey($name, $action);
+        $session = $this->getService('session');
+
+        $session->set($key, $value);
+    }
+
+    /**
+     * @param string $name
+     * @param string $action
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
+    public function getData($name, $action = '', $default = null)
+    {
+
+        $key     = $this->getDataKey($name, $action);
+        $session = $this->getService('session');
+
+        return $session->get($key, $default);
+    }
+
+    /**
+     * @param string $name
+     * @param string $action
+     *
      * @return string
      */
-    public function getEmbeddedRelationName()
+    private function getDataKey($name, $action)
     {
 
-        return $this->embeddedName;
-    }
-
-    public function isEmbedded()
-    {
-
-        if ($this->getEmbedded() != null && $this->getEmbedded() instanceof Definition) {
-            return true;
+        $key = $this->getDefinition()->getKey();
+        $key .= '__' . $name;
+        if (!empty($action)) {
+            $key .= '__' . $action;
         }
 
-        return false;
+        return $key;
     }
 
+    /*************************************************************************
+     * View / Template & Language Related
+     *************************************************************************/
+
+    /**
+     * @param string $type
+     *
+     * @return string
+     * @throws \RuntimeException
+     */
     public function getView($type)
     {
 
         $template = $this->getService('templating');
-        $prefix   = $this->getDefinition()->getPrefixView();
+        $prefix   = $this->getDefinition()->getView();
         $common   = 'ElektraSeedBundle::base-' . $type . '.html.twig';
         $specific = $prefix . ':' . $type . '.html.twig';
 
@@ -176,162 +206,218 @@ class Crud
     /**
      * @return string
      */
-    public function getActiveBrowseLink()
+    public function getLanguageKey()
     {
 
-        $navigator = $this->controller->get('navigator');
-        $link      = $navigator->getLink(
-            $this->getDefinition(),
-            'browse',
-            array('page' => $this->get('page', 'browse'))
-        );
-
-        return $link;
+        return $this->getDefinition()->getLanguageKey();
     }
 
     /**
-     * @return string
+     * @var EntityInterface
      */
-    public function getAddLink()
-    {
-
-        $navigator = $this->controller->get('navigator');
-        $link      = $navigator->getLink(
-            $this->getDefinition(),
-            'add'
-        );
-
-        return $link;
-    }
+    protected $parentEntity;
 
     /**
-     * @param EntityInterface|int $entity
-     *
-     * @return string
+     * @var string
      */
-    public function getViewLink($entity)
+    protected $parentRoute;
+
+    public function setParent(EntityInterface $parentEntity, $parentRoute)
     {
 
-        if ($entity instanceof EntityInterface) {
-            $id = $entity->getId();
-        } else {
-            $id = $entity;
+        $this->parentEntity = $parentEntity;
+        $this->parentRoute  = $parentRoute;
+    }
+
+    public function isEmbedded()
+    {
+
+        return $this->hasParent();
+    }
+
+    public function hasParent()
+    {
+
+        if (!empty($this->parentEntity)) {
+            return true;
         }
 
-        $navigator = $this->controller->get('navigator');
-        $link      = $navigator->getLink(
-            $this->getDefinition(),
-            'view',
-            array('id' => $id)
-        );
-
-        return $link;
+        return false;
+        //        $route = $this->getLinker()->getActiveRoute();
+        //        echo $route . '<br />';
+        //        echo $this->getDefinition()->getName();
+        //
+        //        return false;
     }
 
-    /**
-     * @param EntityInterface|int $entity
-     *
-     * @return string
-     */
-    public function getEditLink($entity)
+    public function getParentDefinition()
     {
 
-        if ($entity instanceof EntityInterface) {
-            $id = $entity->getId();
-        } else {
-            $id = $entity;
+        return $this->getNavigator()->getDefinition(get_class($this->parentEntity));
+
+        echo get_class($this->parentEntity);
+    }
+
+    public function getParentEntity()
+    {
+
+        return $this->parentEntity;
+    }
+
+    public function getParentRoute()
+    {
+
+        return $this->parentRoute;
+    }
+
+    /*************************************************************************
+     * Link methods
+     *************************************************************************/
+
+    //    public function getAfterProcessReturnUrl1()
+    //    {
+    //
+    //        $routeParts = explode('.', $this->getRouteName());
+    //        // pop the action off
+    //        $action = array_pop($routeParts);
+    //
+    //        if (count($routeParts) == 1) {
+    //            // root route -> return to browsing
+    //            $rootDefinition = $this->getNavigator()->getDefinition($routeParts[0]);
+    //            //            $browseRouteName = $rootDefinition->getRoutePlural();
+    //            $page = $this->getData('page', 'browse');
+    //            $url  = $this->getNavigator()->getBrowseLink($rootDefinition, array('page' => $page));
+    //
+    //            //            echo $url;
+    //
+    //            return $url;
+    //        } else {
+    //            // embedded -> return to parent view
+    //            $last = end($routeParts);
+    //            reset($routeParts);
+    //            $routeName = implode('.', $routeParts);
+    //            $routeName .= '.view';
+    //            // URGENT how to get the parent id?!
+    //            // URGENT implement this method
+    //        }
+    //    }
+    //
+    //    public function getCloseLink1($entry)
+    //    {
+    //
+    //        $routeParts = explode('.', $this->getRouteName());
+    //        $action     = array_pop($routeParts);
+    //
+    //        if (count($routeParts) == 1) {
+    //            $rootDefinition = $this->getNavigator()->getDefinition($routeParts[0]);
+    //            $page           = $this->getData('page', 'browse');
+    //            $url            = $this->getNavigator()->getBrowseLink($rootDefinition, array('page' => $page));
+    //
+    //            return $url;
+    //        } else {
+    //            // URGENT implement
+    //        }
+    //    }
+    //
+    //    public function getEditLink1($entry)
+    //    {
+    //
+    //        $routeParts = explode('.', $this->getRouteName());
+    //        $action     = array_pop($routeParts);
+    //
+    //        if (count($routeParts) == 1) {
+    //            $rootDefinition = $this->getNavigator()->getDefinition($routeParts[0]);
+    //            $url            = $this->getNavigator()->getLink($rootDefinition, 'edit', array('id' => $entry->getId()));
+    //
+    //            return $url;
+    //        } else {
+    //            // URGENT implement
+    //        }
+    //    }
+    //
+    //    public function getDeleteLink1($entry)
+    //    {
+    //
+    //        $routeParts = explode('.', $this->getRouteName());
+    //        $action     = array_pop($routeParts);
+    //
+    //        if (count($routeParts) == 1) {
+    //            $rootDefinition = $this->getNavigator()->getDefinition($routeParts[0]);
+    //            $url            = $this->getNavigator()->getLink($rootDefinition, 'delete', array('id' => $entry->getId()));
+    //
+    //            return $url;
+    //        } else {
+    //            // URGENT implement
+    //        }
+    //    }
+    //
+    //    public function getLink1($action, $entry = null)
+    //    {
+    //
+    //        if ($action == 'browse') {
+    //            $parameters = array('page' => $this->getData('page', 'browse', 1));
+    //
+    //            return $this->getNavigator()->getBrowseLink($this->getDefinition(), $parameters);
+    //        }
+    //
+    //        $routeParts = explode('.', $this->getRouteName());
+    //        $action     = array_pop($routeParts);
+    //
+    //        if (count($routeParts) == 1) {
+    //            // root route
+    //            $rootDefinition = $this->getNavigator()->getDefinition($routeParts[0]);
+    //            $routeName      = $rootDefinition->getRouteSingular() . '.' . $action;
+    //            $link           = $this->getNavigator()->getLinkFromRoute($routeName, array('id' => $entry->getId()));
+    //
+    //            return $link;
+    //        } else {
+    //        }
+    //
+    //        var_dump($routeParts);
+    //        $routeName = $this->getRouteName();
+    //        if (strpos($routeName, '.') !== false) {
+    //            // URGENT prepare the route name
+    //        } else {
+    //            $linkRouteName = $this->getDefinition()->getRouteSingular() . '.' . $action;
+    //        }
+    //
+    //        $parameters = array();
+    //        if ($entry !== null && $entry instanceof EntityInterface) {
+    //            $parameters['id'] = $entry->getId();
+    //        }
+    //        echo $routeName . '<br />';
+    //
+    //        return $this->getNavigator()->getLinkFromRoute($linkRouteName, $parameters);
+    //
+    //        //        echo $addRouteName.'<br />';
+    //
+    //        //        echo $this->getRouteName();
+    //        //        echo 'ASDF';
+    //    }
+
+    /*************************************************************************
+     * Generic Helper methods
+     *************************************************************************/
+
+    /**
+     * @param array $options1
+     * @param array $options2
+     *
+     * @return array
+     */
+    public function mergeOptions(array $options1, array $options2)
+    {
+
+        $merged = $options1;
+
+        foreach ($options2 as $key => $value) {
+            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = $this->mergeOptions($merged[$key], $value);
+            } else {
+                $merged[$key] = $value;
+            }
         }
 
-        $navigator = $this->controller->get('navigator');
-        $link      = $navigator->getLink(
-            $this->getDefinition(),
-            'edit',
-            array('id' => $id)
-        );
-
-        return $link;
-    }
-
-    /**
-     * @param EntityInterface|int $entity
-     *
-     * @return string
-     */
-    public function getDeleteLink($entity)
-    {
-
-        if ($entity instanceof EntityInterface) {
-            $id = $entity->getId();
-        } else {
-            $id = $entity;
-        }
-
-        $navigator = $this->controller->get('navigator');
-        $link      = $navigator->getLink(
-            $this->getDefinition(),
-            'delete',
-            array('id' => $id)
-        );
-
-        return $link;
-    }
-
-    /**
-     * @param string $name
-     * @param mixed  $value
-     * @param string $action
-     */
-    public function save($name, $value, $action = '')
-    {
-
-        $key = $this->getStorageKey($name, $action);
-        //        echo 'setting key: '.$key.'<br />';
-        $session = $this->controller->get('session');
-
-        $session->set($key, $value);
-    }
-
-    /**
-     * @param string     $name
-     * @param string     $action
-     * @param mixed|null $default
-     *
-     * @return mixed
-     */
-    public function get($name, $action = '', $default = null)
-    {
-
-        $key = $this->getStorageKey($name, $action);
-        //        echo 'getting key: '.$key.'<br />';
-        $session = $this->controller->get('session');
-
-        return $session->get($key, $default);
-    }
-
-    /**
-     * @param string $name
-     * @param string $action
-     *
-     * @return string
-     */
-    private function getStorageKey($name, $action)
-    {
-
-        $key = $this->getDefinition()->getKey();
-        $key .= '_' . $name;
-        if ($action != '') {
-            $key .= '.' . $action;
-        }
-
-        return $key;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLangKey()
-    {
-
-        return $this->getDefinition()->getGroupLang() . '.' . $this->getDefinition()->getNameLang();
+        return $merged;
     }
 }

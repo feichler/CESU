@@ -2,25 +2,16 @@
 
 namespace Elektra\CrudBundle\Table\Column;
 
-use Elektra\CrudBundle\Definition\Definition;
+use Elektra\CrudBundle\Crud\Definition;
 use Elektra\CrudBundle\Table\Columns;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-/**
- * Class Column. Definitions for the single flags:
- *  - searchable: can be any column
- *  - sortable: can be any column. if the field is composite, a definition is required
- *  - filterable: only composite fields (definition required)
- *  - hidden: used for embedded tables -> TBD
- *
- * @package Elektra\CrudBundle\Table
- *
- * @version 0.1-dev
- */
-// CHECK definition of hidden field and usage for embedded -> depends on the final definition of embedded flag in table
 class Column
 {
 
     /**
+     * back-reference to the containing Columns Object
+     *
      * @var Columns
      */
     protected $columns;
@@ -29,6 +20,11 @@ class Column
      * @var string
      */
     protected $title;
+
+    /**
+     * @var string
+     */
+    protected $type;
 
     /**
      * @var Definition
@@ -46,11 +42,6 @@ class Column
     protected $fields;
 
     /**
-     * @var string
-     */
-    protected $type;
-
-    /**
      * @param Columns $columns
      * @param string  $title
      */
@@ -62,12 +53,13 @@ class Column
         $this->type       = 'default';
         $this->definition = null;
 
-        $this->flags  = array(
+        $this->flags = array(
             'search' => false,
             'sort'   => false,
             'filter' => false,
             'hidden' => false,
         );
+
         $this->fields = array(
             'data'   => null,
             'search' => null,
@@ -77,68 +69,34 @@ class Column
     }
 
     /*************************************************************************
-     * Data / Display related
+     * Common Getters / Setters
      *************************************************************************/
 
     /**
-     * @param mixed $entry the Entity object
-     *
-     * @return array|string
+     * @return Columns
      */
-    public function getDisplayData($entry)
+    public final function getColumns()
     {
 
-        // TODO / CHECK highlight search string?
-
-        if (!$this->hasFieldData()) {
-            // no data field -> nothing to display
-            return '';
-        }
-
-        $field = $this->getFieldData();
-
-        if (is_array($field)) {
-            // multiple values to display
-            $return = array();
-            foreach ($field as $oneField) {
-                $return[] = $this->getSingleDisplayValue($entry, $oneField);
-            }
-        } else if (is_string($field)) {
-            // single value to display
-            $return = $this->getSingleDisplayValue($entry, $field);
-        }
-
-        return $return;
+        return $this->columns;
     }
 
     /**
-     * @param mixed  $entry the Entity object
-     * @param string $field
-     *
-     * @return string
+     * @param string $title
      */
-    protected function getSingleDisplayValue($entry, $field)
+    public final function setTitle($title)
     {
 
-        if (strpos($field, '.') !== false) {
-            // composite field -> loop trough associations
-            $fields = explode('.', $field);
-            $return = $entry;
-            foreach ($fields as $oneField) {
-                $method = 'get' . ucfirst($oneField);
-                $return = $return->$method();
-                if ($return === null) {
-                    $return = '';
-                    break;
-                }
-            }
-        } else {
-            // direct field
-            $method = 'get' . ucfirst($field);
-            $return = $entry->$method();
-        }
+        $this->title = $title;
+    }
 
-        return $return;
+    /**
+     * @return string
+     */
+    public final function getTitle()
+    {
+
+        return $this->title;
     }
 
     /**
@@ -146,7 +104,7 @@ class Column
      *
      * @return Column
      */
-    public function setType($type)
+    public final function setType($type)
     {
 
         $this->type = $type;
@@ -157,49 +115,16 @@ class Column
     /**
      * @return string
      */
-    public function getType()
+    public final function getType()
     {
 
         return $this->type;
     }
 
-
-
-    /*************************************************************************
-     * Common Getters / Setters
-     *************************************************************************/
-
-    /**
-     * @return Columns
-     */
-    public function getColumns()
-    {
-
-        return $this->columns;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-
-        return $this->title;
-    }
-
     /**
      * @param Definition $definition
      */
-    public function setDefinition($definition)
+    public final function setDefinition($definition)
     {
 
         $this->definition = $definition;
@@ -208,14 +133,14 @@ class Column
     /**
      * @return Definition
      */
-    public function getDefinition()
+    public final function getDefinition()
     {
 
         return $this->definition;
     }
 
     /*************************************************************************
-     * Generic Getters / Setters
+     * Internal Getters / Setters
      *************************************************************************/
 
     /**
@@ -223,7 +148,7 @@ class Column
      *
      * @return bool
      */
-    public function hasFlag($flag)
+    protected final function hasFlag($flag)
     {
 
         return array_key_exists($flag, $this->flags);
@@ -235,7 +160,7 @@ class Column
      * @return bool
      * @throws \InvalidArgumentException
      */
-    public function getFlag($flag)
+    protected final function getFlag($flag)
     {
 
         if ($this->hasFlag($flag)) {
@@ -251,7 +176,7 @@ class Column
      *
      * @throws \InvalidArgumentException
      */
-    public function setFlag($flag, $value)
+    protected final function setFlag($flag, $value)
     {
 
         if ($this->hasFlag($flag)) {
@@ -266,7 +191,7 @@ class Column
      *
      * @return bool
      */
-    public function hasField($field)
+    protected final function hasField($field)
     {
 
         return array_key_exists($field, $this->fields);
@@ -277,7 +202,7 @@ class Column
      *
      * @return bool
      */
-    public function validField($field)
+    protected final function validField($field)
     {
 
         if ($this->hasField($field)) {
@@ -295,7 +220,7 @@ class Column
      * @return string|array
      * @throws \InvalidArgumentException
      */
-    public function getField($field)
+    protected final function getField($field)
     {
 
         if ($this->hasField($field)) {
@@ -311,7 +236,7 @@ class Column
      *
      * @throws \InvalidArgumentException
      */
-    public function setField($field, $value)
+    protected final function setField($field, $value)
     {
 
         if ($this->hasField($field)) {
@@ -321,16 +246,120 @@ class Column
         }
     }
 
+    /*************************************************************************
+     * Flag Getters / Setters
+     *************************************************************************/
 
+    /**
+     * @return Column
+     */
+    public final function setSearchable()
+    {
+
+        $this->setFlag('search', true);
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public final function isSearchable()
+    {
+
+        // easy check, search can use single or multiple data fields
+
+        return $this->getFlag('search');
+    }
+
+    /**
+     * @return Column
+     */
+    public final function setSortable()
+    {
+
+        $this->setFlag('sort', true);
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public final function isSortable()
+    {
+
+        // more complex checking - sorting can only use single data field
+
+        $flag = $this->getFlag('sort');
+        if ($flag) {
+            $field = $this->getField('sort');
+            if (!empty($field) && is_string($field)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return Column
+     */
+    public final function setFilterable()
+    {
+
+        $this->setFlag('filter', true);
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public final function isFilterable()
+    {
+
+        // more complex checking - filtering can only use single data field
+
+        $flag = $this->getFlag('filter');
+        if ($flag) {
+            $field = $this->getField('filter');
+            if (!empty($field) && is_string($field)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return Column
+     */
+    public final function setHidden()
+    {
+
+        $this->setFlag('hidden', true);
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public final function isHidden()
+    {
+
+        return $this->getFlag('hidden');
+    }
 
     /*************************************************************************
-     * Data field related
+     * Data Field Getters / Setters
      *************************************************************************/
 
     /**
      * @return bool
      */
-    public function hasFieldData()
+    public final function hasFieldData()
     {
 
         return $this->validField('data');
@@ -341,7 +370,7 @@ class Column
      *
      * @return Column
      */
-    public function setFieldData($value)
+    public final function setFieldData($value)
     {
 
         $this->setField('data', $value);
@@ -352,20 +381,16 @@ class Column
     /**
      * @return array|string
      */
-    public function getFieldData()
+    public final function getFieldData()
     {
 
         return $this->getField('data');
     }
 
-    /*************************************************************************
-     * Search related
-     *************************************************************************/
-
     /**
      * @return bool
      */
-    public function hasFieldSearch()
+    public final function hasFieldSearch()
     {
 
         $hasField = $this->validField('search');
@@ -381,7 +406,7 @@ class Column
      *
      * @return Column
      */
-    public function setFieldSearch($value)
+    public final function setFieldSearch($value)
     {
 
         $this->setField('search', $value);
@@ -392,48 +417,32 @@ class Column
     /**
      * @return array|string
      */
-    public function getFieldSearch()
+    public final function getFieldSearch()
     {
 
-        $field = $this->getField('search');
-        if ($field === null) {
-            $field = $this->getField('data');
+        if ($this->hasFieldSearch()) {
+            $field = $this->getField('search');
+            if ($field === null) {
+                // can use the default data field, even if there are multiple fields defined
+                $field = $this->getField('data');
+            }
+
+            return $field;
         }
 
-        return $field;
-    }
-
-    /**
-     * @return Column
-     */
-    public function setSearchable()
-    {
-
-        $this->setFlag('search', true);
-
-        return $this;
+        return null;
     }
 
     /**
      * @return bool
      */
-    public function isSearchable()
-    {
-
-        return $this->getFlag('search');
-    }
-
-    /*************************************************************************
-     * Sort related
-     *************************************************************************/
-
-    /**
-     * @return bool
-     */
-    public function hasFieldSort()
+    public final function hasFieldSort()
     {
 
         $hasField = $this->validField('sort');
+        if ($hasField == false) {
+            $hasField = $this->validField('data');
+        }
 
         return $hasField;
     }
@@ -443,7 +452,7 @@ class Column
      *
      * @return Column
      */
-    public function setFieldSort($value)
+    public final function setFieldSort($value)
     {
 
         $this->setField('sort', $value);
@@ -454,46 +463,35 @@ class Column
     /**
      * @return string
      */
-    public function getFieldSort()
+    public final function getFieldSort()
     {
 
-        $field = $this->getField('sort');
+        if ($this->hasFieldSort()) {
+            $field = $this->getField('sort');
+            if ($field === null) {
+                $field = $this->getField('data');
+                if (is_array($field)) {
+                    // if using the default data field, we need to check for multiple values and only use the first one
+                    $field = $field[0];
+                }
+            }
 
-        return $field;
-    }
+            return $field;
+        }
 
-    /**
-     * @return Column
-     */
-    public function setSortable()
-    {
-
-        $this->setFlag('sort', true);
-
-        return $this;
+        return null;
     }
 
     /**
      * @return bool
      */
-    public function isSortable()
-    {
-
-        return $this->getFlag('sort');
-    }
-
-
-    /*************************************************************************
-     * Filter related
-     *************************************************************************/
-
-    /**
-     * @return bool
-     */
-    public function hasFieldFilter()
+    public final function hasFieldFilter()
     {
 
         $hasField = $this->validField('filter');
+        if ($hasField == false) {
+            $hasField = $this->validField('data');
+        }
 
         return $hasField;
     }
@@ -503,7 +501,7 @@ class Column
      *
      * @return Column
      */
-    public function setFieldFilter($value)
+    public final function setFieldFilter($value)
     {
 
         $this->setField('filter', $value);
@@ -514,55 +512,115 @@ class Column
     /**
      * @return string
      */
-    public function getFieldFilter()
+    public final function getFieldFilter()
     {
 
-        $field = $this->getField('filter');
+        if ($this->hasFieldFilter()) {
+            $field = $this->getField('filter');
+            if ($field === null) {
+                $field = $this->getField('data');
+                if (is_array($field)) {
+                    // if using the default data field, we need to check for multiple values and only use the first one
+                    $field = $field[0];
+                }
+            }
 
-        return $field;
-    }
+            return $field;
+        }
 
-    /**
-     * @return Column
-     */
-    public function setFilterable()
-    {
-
-        $this->setFlag('filter', true);
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isFilterable()
-    {
-
-        return $this->getFlag('filter');
+        return null;
     }
 
     /*************************************************************************
-     * Hidden related
+     * Display related
      *************************************************************************/
-
     /**
-     * @return Column
+     * @param mixed $entry
+     *
+     * @return string
+     * @throws \RuntimeException
      */
-    public function setHidden()
+    public function getDisplayData($entry)
     {
 
-        $this->setFlag('hidden', true);
+        // CHECK highlight search string?
 
-        return $this;
+        if (!$this->hasFieldData()) {
+            // no data field defined -> nothing to display
+            return '';
+        }
+
+        $field = $this->getFieldData();
+
+        if (is_array($field)) {
+            // multiple values to display
+            $return = array();
+            foreach ($field as $oneField) {
+                $return[] = $this->getDisplayDataSingle($entry,$oneField);
+            }
+        } else if (is_string($field)) {
+            // only one value to display
+            $return = $this->getDisplayDataSingle($entry,$field);
+        } else {
+            throw new \RuntimeException('invalid data field type');
+        }
+
+        return $return;
     }
 
     /**
-     * @return bool
+     * @param mixed  $entry
+     * @param string $field
+     *
+     * @return null|string
+     * @throws \RuntimeException
      */
-    public function isHidden()
+    protected final function getDisplayDataSingle($entry, $field)
     {
 
-        return $this->getFlag('hidden');
+        // check if a custom method is present
+        $custom = $this->getCustomDisplayDataSingle($entry, $field);
+        if ($custom !== null) {
+            return $custom;
+        }
+
+        if (strpos($field, '.') !== false) {
+            // composite field -> loop through the parts
+            $fields = explode('.', $field);
+            $return = $entry;
+            foreach ($fields as $oneField) {
+                $method = 'get' . ucfirst($oneField);
+                if (!method_exists($entry, $method)) {
+                    throw new \RuntimeException('field "' . $field . '" is not accessible at ' . get_class($entry));
+                }
+                $return = $return->$method();
+                if ($return === null) {
+                    $return = '';
+                    break;
+                }
+            }
+        } else {
+            // direct accessible field
+            $method = 'get' . ucfirst($field);
+            if (!method_exists($entry, $method)) {
+                throw new \RuntimeException('field "' . $field . '" is not accessible at ' . get_class($entry));
+            }
+            $return = $entry->$method();
+        }
+
+        return $return;
+    }
+
+    /**
+     * @param mixed  $entry
+     * @param string $field
+     *
+     * @return null|string
+     */
+    protected function getCustomDisplayDataSingle($entry, $field)
+    {
+
+        // NOTE may be overridden if necessary
+        return null;
     }
 }

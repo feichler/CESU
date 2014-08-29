@@ -1,15 +1,7 @@
-###############################################################################
-# @author    Florian Eichler <florian@eichler.co.at>
-# @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
-# @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
-# @license   MINOR add a license
-# @version   0.1-dev
-###############################################################################
 
-# Define the services provided by the CrudBundle
 services:
     navigator:
-        class: Elektra\CrudBundle\Navigator\Navigator
+        class: Elektra\CrudBundle\Crud\Navigator
         arguments:
             - "@router"
 
@@ -18,7 +10,6 @@ services:
         tags:
             - { name: twig.extension }
 
-    # Form Fields
     elektra_crud.form.type.relatedList:
         class: Elektra\CrudBundle\Form\Field\RelatedListType
         tags:

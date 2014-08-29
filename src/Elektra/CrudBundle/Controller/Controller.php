@@ -3,13 +3,7 @@
 namespace Elektra\CrudBundle\Controller;
 
 use Elektra\CrudBundle\Crud\Crud;
-use Elektra\CrudBundle\Definition\Definition;
-//use Elektra\CrudBundle\Form\Form;
 use Elektra\SeedBundle\Entity\EntityInterface;
-use Elektra\SeedBundle\Table\SeedUnits\ModelTable;
-use Symfony\Component\Form\Form;
-use Symfony\Component\HttpFoundation\Request as HTTPRequest;
-use Symfony\Component\HttpFoundation\Response as HTTPResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 
 abstract class Controller extends BaseController
@@ -20,13 +14,16 @@ abstract class Controller extends BaseController
      */
     protected $crud;
 
-    protected function initialise($action)
+    /**
+     * @param string $action
+     */
+    protected final function initialise($action)
     {
 
-        $siteBase   = $this->get('siteBase');
         $this->crud = new Crud($this, $this->getDefinition());
 
-        $siteBase->initialisePageFromDefinition($this->crud->getDefinition(), $action);
+        $siteBase = $this->get('siteBase');
+        $siteBase->initialisePageFromDefinition($this->getCrud()->getDefinition(), $action);
     }
 
     /**
@@ -38,209 +35,213 @@ abstract class Controller extends BaseController
         return $this->crud;
     }
 
-    /**
-     * @return Definition
-     */
-    protected abstract function getDefinition();
-
     /*************************************************************************
-     * Controller methods
+     * Controller Actions
      *************************************************************************/
 
-    /**
-     * @param HTTPRequest $request
-     * @param int         $page
-     *
-     * @return HTTPResponse
-     */
-    public function browseAction(HTTPRequest $request, $page)
+    public function browseAction($page)
     {
 
         $this->initialise('browse');
-        $this->crud->save('page', $page, 'browse');
 
-        $tableClass = $this->getDefinition()->getClassTable();
-        $table      = new $tableClass($this->getCrud());
-        // the load method on the table does all required tasks for the execution
-        $table->load($page);
+        // store the actual browsing page for return
+        $this->getCrud()->setData('page', $page, 'browse');
 
-        // return the response -> viewname with parameters "table" & "filters"
-        $view = $this->crud->getView('browse');
+        // load the table with the entries for browsing
+        $table = $this->getTable($page);
 
-        return $this->render($view, array('table' => $table));
+        // get the view name (specific or common)
+        $viewName = $this->getCrud()->getView('browse');
+
+        // render the browse-view with the table
+        return $this->render($viewName, array('table' => $table));
     }
 
-    /**
-     * @param HTTPRequest $request
-     *
-     * @return HTTPResponse
-     */
-    public function addAction(HTTPRequest $request)
+    public function addAction($id = null)
     {
 
         $this->initialise('add');
 
-        $entityClass = $this->getDefinition()->getClassEntity();
+        // get a fresh entity
+        $entity = $this->getEntityForAdd($id);
 
-        // execute the required actions for this controller
-        $entity = new $entityClass();
-        $form   = $this->getForm($entity, 'add');
-        $form->handleRequest($request);
+        // get the associated form
+        $form = $this->getForm($entity, 'add');
 
-        if ($form->isValid()) { // process the form
-            return $this->process($entity, 'add');
+        // check the form
+        $form->handleRequest($this->getCrud()->getRequest());
+        if ($form->isValid()) {
+            return $this->processAction('add', $entity);
         }
 
-        $view     = $this->getCrud()->getView('form');
+        // get the view name (specific or common) and prepare the form view
+        $viewName = $this->getCrud()->getView('form');
         $formView = $form->createView();
 
-        return $this->render($view, array('form' => $formView));
+        // render the add-view with the form
+        return $this->render($viewName, array('form' => $formView));
     }
 
-
-    public function viewAction(HTTPRequest $request, $id)
+    public function viewAction($id)
     {
 
         $this->initialise('view');
-        $this->crud->save('viewUrl',$request->getUri());
 
-        $repositoryClass = $this->getCrud()->getDefinition()->getClassRepository();
+        // get the existing entity
+        $entity = $this->getEntity($id);
 
-        // execute the required actions for this controller
-        $repository = $this->getDoctrine()->getRepository($repositoryClass);
-        $entity     = $repository->find($id);
-        $form       = $this->getForm($entity, 'view');
+        // get the associated form
+        $form = $this->getForm($entity, 'view');
 
-        $view     = $this->getCrud()->getView('view');
+        // get the view name (specific or common) and prepare the form view
+        $viewName = $this->getCrud()->getView('view');
         $formView = $form->createView();
 
-        return $this->render($view, array('form' => $formView));
+        // render the add-view with the form
+        return $this->render($viewName, array('form' => $formView));
     }
 
-    public function editAction(HTTPRequest $request, $id)
+    public function editAction($id)
     {
 
-        $this->initialise('add');
+        $this->initialise('edit');
 
-        $repositoryClass = $this->getCrud()->getDefinition()->getClassRepository();
+        // get the existing entity
+        $entity = $this->getEntity($id);
 
-        // execute the required actions for this controller
-        $repository = $this->getDoctrine()->getRepository($repositoryClass);
-        $entity     = $repository->find($id);
-        $form       = $this->getForm($entity, 'edit');
-        $form->handleRequest($request);
+        // get the associated form
+        $form = $this->getForm($entity, 'edit');
 
-        if ($form->isValid()) { // process the form
-            return $this->process($entity, 'edit');
+        // check the form
+        $form->handleRequest($this->getCrud()->getRequest());
+        if ($form->isValid()) {
+            return $this->processAction('edit', $entity);
         }
 
-        $view     = $this->getCrud()->getView('form');
+        // get the view name (specific or common) and prepare the form view
+        $viewName = $this->getCrud()->getView('form');
         $formView = $form->createView();
 
-        return $this->render($view, array('form' => $formView));
+        // render the add-view with the form
+        return $this->render($viewName, array('form' => $formView));
     }
 
-    public function deleteAction(HTTPRequest $request, $id)
+    public function deleteAction($id)
     {
 
         $this->initialise('delete');
 
-        return $this->process($id, 'delete');
+        // get the existing entity
+        $entity = $this->getEntity($id);
+
+        return $this->processAction('delete', $entity);
     }
 
-    public function relatedListAction(Definition $definition, EntityInterface $parent, $relationName)
+    public function relatedListAction(EntityInterface $parentEntity, $parentRoute)
     {
 
+        // URGENT define this action
         $this->initialise('relatedList');
-//$url = $this->getCrud()->get('viewUrl');
-        $this->getCrud()->setEmbedded($definition, $parent, $relationName);
+        $this->getCrud()->setParent($parentEntity,$parentRoute);
 
-//        echo 'viewUrl: '.$url.'<br />';
-//        $request = $this->get('request');
-//
-//        echo $definition->getKey().'<br />';
-//        $this->crud->save('return', 'asdf');
+        $table = $this->getTable(1);
 
-//        if($request instanceof HTTPRequest){
-////            $request->
-//            echo '<br /><br />';
-//            echo 'URL: <br />';
-//            $url = $request->getUri();
-//            echo '1: '. $url;
-//            echo '<br />';
-//            $test = $request->getRequestUri();
-//            echo '1: '. $test;
-//            echo '<br />';
-//            $test2 = $request->get('_route');
-//            echo '1: '. $test2;
-//            echo '<br />';
-//            echo '<br />';
-//        }
-//        var_dump($this->get('session')->all());
+        $viewName = $this->getCrud()->getView('relatedList');
 
-
-
-        $tableClass = $definition->getClassTable();
-        $table      = new $tableClass($this->getCrud());
-//        $table      = new $tableClass($this->getCrud(), $definition);
-//        $table->setRelation($relation, $entity);
-        // the load method on the table does all required tasks for the execution
-        $table->load(1);
-
-        $view = $this->getCrud()->getView('relatedList');
-
-        return $this->render($view, array('table' => $table));
+        return $this->render($viewName, array('table' => $table));
     }
 
     /*************************************************************************
-     * execution methods
+     * Controller Action Helpers
      *************************************************************************/
 
-    public function process($entity, $crudAction)
+    protected function processAction($action, $entity)
     {
 
         $manager = $this->getDoctrine()->getManager();
 
-        // call the beforeHook
-        $beforeHook = 'before' . ucfirst($crudAction) . 'Entity';
+        // call the before hook
+        $beforeHook = 'before' . ucfirst($action) . 'Entity';
         $result     = $this->$beforeHook($entity);
 
         if ($result) {
-            if ($crudAction == 'add') {
-                $manager->persist($entity);
-            } else if ($crudAction == 'edit') {
-                // nothing more to do - only flush
-            } else if ($crudAction == 'delete') {
-                // $entity is int for delete -> need to load the reference entity
-                $ref = $manager->getReference($this->crud->getDefinition()->getClassEntity(), $entity);
-                $manager->remove($ref);
+            switch ($action) {
+                case 'add':
+                    // add the entity to the manager
+                    $manager->persist($entity);
+                    break;
+                case 'edit':
+                    // nothing to do, flush updates the entity anyway
+                    break;
+                case 'delete':
+                    // get a reference of the entity
+                    if (is_int($entity)) {
+                        $ref = $manager->getReference($this->getCrud()->getDefinition()->getClassEntity(), $entity);
+                        $manager->remove($ref);
+                    } else {
+                        $manager->remove($entity);
+                    }
+                    break;
+                default:
+                    // URGENT display error for unknown action
+                    break;
             }
 
+            // action has been performed -> flush the manager
             $manager->flush();
 
-            // call the afterHook
-            $afterHook = 'after' . ucfirst($crudAction) . 'Entity';
+            // call the after hook
+            $afterHook = 'after' . ucfirst($action) . 'Entity';
             $this->$afterHook($entity);
-            // TODO add a status message!
-        } else {
-            // TODO add message -> before hook rejected action
         }
 
-        return $this->redirect($this->crud->getActiveBrowseLink());
+        $returnUrl = $this->getCrud()->getLinker()->getRedirectAfterProcess();
+
+        //        $returnUrl = $this->getCrud()->getAfterProcessReturnUrl();
+
+        return $this->redirect($returnUrl);
     }
 
-    /*************************************************************************
-     * preparation methods
-     *************************************************************************/
-
-    public function getForm(EntityInterface $entity, $crudAction)
+    protected function getTable($page)
     {
 
-        $formClass = $this->crud->getDefinition()->getClassForm();
-        $options   = array_merge_recursive(
-            array(
-                'crud_action' => $crudAction,
-            ),
+        $tableClass = $this->getCrud()->getDefinition()->getClassTable();
+        $table      = new $tableClass($this->getCrud());
+
+        $table->load($page);
+
+        return $table;
+    }
+
+    protected function getEntityForAdd($id = null)
+    {
+
+        $entityClass = $this->getCrud()->getDefinition()->getClassEntity();
+        $entity      = new $entityClass();
+
+        if ($id !== null) {
+            // URGENT implement
+        }
+
+        return $entity;
+    }
+
+    protected function getEntity($id)
+    {
+
+        $repositoryClass = $this->getCrud()->getDefinition()->getClassRepository();
+        $repository      = $this->getDoctrine()->getRepository($repositoryClass);
+        $entity          = $repository->find($id);
+
+        return $entity;
+    }
+
+    protected function getForm(EntityInterface $entity, $crudAction)
+    {
+
+        $formClass = $this->getCrud()->getDefinition()->getClassForm();
+        $options   = $this->getCrud()->mergeOptions(
+            array('crud_action' => $crudAction),
             $this->getFormOptions($entity, $crudAction)
         );
 
@@ -249,61 +250,40 @@ abstract class Controller extends BaseController
         return $form;
     }
 
-    /*************************************************************************
-     * Hooks for specific controllers
-     *************************************************************************/
-
     /**
      * @param EntityInterface $entity
      * @param string          $crudAction
      *
      * @return array
      */
-    public function getFormOptions($entity, $crudAction)
+    protected function getFormOptions($entity, $crudAction)
     {
 
         // NOTE override if necessary
         return array();
     }
 
-    /**
-     * @param EntityInterface $entity
-     *
-     * @return bool
-     */
-    protected function beforeViewEntity($entity)
-    {
-
-        // NOTE override if necessary
-        // DEFINE: if false is returned, the entity won't be displayed
-        return true;
-    }
-
-    /**
-     * @param EntityInterface $entity
-     */
-    protected function afterViewEntity($entity)
-    {
-        // NOTE override if necessary
-    }
+    /*************************************************************************
+     * CRUD Hooks
+     *************************************************************************/
 
     /**
      * @param EntityInterface $entity
      *
      * @return bool
      */
-    protected function beforeAddEntity($entity)
+    public function beforeAddEntity(EntityInterface $entity)
     {
 
         // NOTE override if necessary
-        // DEFINE: if false is returned, the entity won't be persisted
+        // DEFINE: if false is returned, the action won't be processed
         return true;
     }
 
     /**
      * @param EntityInterface $entity
      */
-    protected function afterAddEntity($entity)
+    public function afterAddEntity(EntityInterface $entity)
     {
         // NOTE override if necessary
     }
@@ -313,18 +293,19 @@ abstract class Controller extends BaseController
      *
      * @return bool
      */
-    protected function beforeEditEntity($entity)
+    public function beforeEditEntity(EntityInterface $entity)
     {
 
         // NOTE override if necessary
-        // DEFINE: if false is returned, the entity won't be updated
+        // DEFINE: if false is returned, the action won't be processed
+
         return true;
     }
 
     /**
      * @param EntityInterface $entity
      */
-    protected function afterEditEntity($entity)
+    public function afterEditEntity(EntityInterface $entity)
     {
         // NOTE override if necessary
     }
@@ -334,19 +315,30 @@ abstract class Controller extends BaseController
      *
      * @return bool
      */
-    protected function beforeDeleteEntity($entity)
+    public function beforeDeleteEntity(EntityInterface $entity)
     {
 
         // NOTE override if necessary
-        // DEFINE: if false is returned, the entity won't be deleted
+        // DEFINE: if false is returned, the action won't be processed
+
         return true;
     }
 
     /**
      * @param EntityInterface $entity
      */
-    protected function afterDeleteEntity($entity)
+    public function afterDeleteEntity(EntityInterface $entity)
     {
         // NOTE override if necessary
     }
+
+
+    /*************************************************************************
+     * Abstract and overridable methods for inheriting controllers
+     *************************************************************************/
+
+    /**
+     * @return Definition
+     */
+    protected abstract function getDefinition();
 }

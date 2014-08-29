@@ -2,8 +2,6 @@
 
 namespace Elektra\SeedBundle\Table\SeedUnits;
 
-use Elektra\CrudBundle\Definition\Definition;
-use Elektra\CrudBundle\Navigator\Navigator;
 use Elektra\CrudBundle\Table\Table;
 
 class ModelTable extends Table

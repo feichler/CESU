@@ -9,17 +9,10 @@
 
 {# FORM_START #}
 {% block form_start %}
-    {# perpare the form classes #}
-    {#{% set class = "form-view" %}#}
-    {#{% if form.vars.elektra is defined %}#}
-        {#{% if form.vars.elektra.classes is defined %}#}
-            {#{% set class = class ~ ' ' ~ form.vars.elektra.classes|join(' ') %}#}
-        {#{% endif %}#}
-    {#{% endif %}#}
     {# output the HTML #}
     <div
             name="{{ form.vars.name }}"
-            {#class="{{ class }}"#}
+    {#class="{{ class }}"#}
     {% for attrname, attrvalue in attr %}
         {% if attrname == 'css_class' %}
             {% set attrname = 'class' %}
@@ -168,7 +161,15 @@
 {%- endblock choice_widget_options %}
 
 {% block relatedList_widget %}
+    {% set controller = form.vars.relation_child_type.controller ~ ':relatedList' %}
+    {#{% set parentType =  form.vars.relation_parent_type %}#}
+    {#{% set embeddedDefinition = form.vars.embeddedDefinition %}#}
+    {% set parentEntity = form.vars.relation_parent_entity %}
+    {#{% set relationName = form.vars.relationName %}#}
     {#{{ form.vars.definition }}#}
     {#{{ form.definition }}#}
-    {{ render(controller(form.vars.definition.controller ~ ':relatedList', {'definition': form.vars.definition, 'parent': form.vars.parent, 'relationName': form.vars.relationName})) }}
+    {#{{ form.relationName }}#}
+    {{ render(controller(controller, {'parentEntity': parentEntity,'parentRoute':app.request.get('_route')})) }}
+    {#{{ render(controller(controller, {'parentDefinition': parentDefinition, 'embeddedDefinition': embeddedDefinition, 'parentEntity': parentEntity, 'relationName': relationName})) }}#}
+    {#{{ render(controller(form.vars.definition.controller ~ ':relatedList', {'definition': form.vars.definition, 'parent': form.vars.parent, 'relationName': form.vars.relationName})) }}#}
 {% endblock relatedList_widget %}

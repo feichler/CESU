@@ -3,9 +3,26 @@
 namespace Elektra\SeedBundle\Definition;
 
 use Elektra\CrudBundle\Definition\Definition;
+use Elektra\SeedBundle\Definition\Companies\AddressDefinition;
+use Elektra\SeedBundle\Definition\Companies\AddressTypeDefinition;
+use Elektra\SeedBundle\Definition\Companies\CompanyLocationDefinition;
+use Elektra\SeedBundle\Definition\Companies\CompanyPersonDefinition;
+use Elektra\SeedBundle\Definition\Companies\ContactInfoDefinition;
+use Elektra\SeedBundle\Definition\Companies\ContactInfoTypeDefinition;
+use Elektra\SeedBundle\Definition\Companies\CountryDefinition;
+use Elektra\SeedBundle\Definition\Companies\CustomerDefinition;
+use Elektra\SeedBundle\Definition\Companies\LocationDefinition;
+use Elektra\SeedBundle\Definition\Companies\PartnerDefinition;
+use Elektra\SeedBundle\Definition\Companies\PartnerTierDefinition;
+use Elektra\SeedBundle\Definition\Companies\PersonDefinition;
+use Elektra\SeedBundle\Definition\Companies\RegionDefinition;
+use Elektra\SeedBundle\Definition\Companies\RequestingCompanyDefinition;
+use Elektra\SeedBundle\Definition\Companies\SalesTeamDefinition;
+use Elektra\SeedBundle\Definition\Companies\WarehouseLocationDefinition;
 
 class CompanyDefinitions
 {
+
     private static $definitions;
 
     /**
@@ -160,23 +177,24 @@ class CompanyDefinitions
 
     public static function initialize()
     {
+
         CompanyDefinitions::$definitions = array(
-            'Address'           => new Definition('Elektra', 'Seed', 'Companies', 'Address'),
-            'AddressType'       => new Definition('Elektra', 'Seed', 'Companies', 'AddressType'),
-            'CompanyLocation'   => new Definition('Elektra', 'Seed', 'Companies', 'CompanyLocation'),
-            'CompanyPerson'     => new Definition('Elektra', 'Seed', 'Companies', 'CompanyPerson'),
-            'ContactInfo'       => new Definition('Elektra', 'Seed', 'Companies', 'ContactInfo'),
-            'ContactInfoType'   => new Definition('Elektra', 'Seed', 'Companies', 'ContactInfoType'),
-            'Country'           => new Definition('Elektra', 'Seed', 'Companies', 'Country'),
-            'Customer'          => new Definition('Elektra', 'Seed', 'Companies', 'Customer'),
-            'Location'          => new Definition('Elektra', 'Seed', 'Companies', 'Location'),
-            'Partner'           => new Definition('Elektra', 'Seed', 'Companies', 'Partner'),
-            'PartnerTier'       => new Definition('Elektra', 'Seed', 'Companies', 'PartnerTier'),
-            'Person'            => new Definition('Elektra', 'Seed', 'Companies', 'Person'),
-            'Region'            => new Definition('Elektra', 'Seed', 'Companies', 'Region'),
-            'RequestingCompany' => new Definition('Elektra', 'Seed', 'Companies', 'RequestingCompany'),
-            'SalesTeam'         => new Definition('Elektra', 'Seed', 'Companies', 'SalesTeam'),
-            'WarehouseLocation' => new Definition('Elektra', 'Seed', 'Companies', 'WarehouseLocation'),
+            'Address'           => new AddressDefinition(),
+            'AddressType'       => new AddressTypeDefinition(),
+            'CompanyLocation'   => new CompanyLocationDefinition(),
+            'CompanyPerson'     => new CompanyPersonDefinition(),
+            'ContactInfo'       => new ContactInfoDefinition(),
+            'ContactInfoType'   => new ContactInfoTypeDefinition(),
+            'Country'           => new CountryDefinition(),
+            'Customer'          => new CustomerDefinition(),
+            'Location'          => new LocationDefinition(),
+            'Partner'           => new PartnerDefinition(),
+            'PartnerTier'       => new PartnerTierDefinition(),
+            'Person'            => new PersonDefinition(),
+            'Region'            => new RegionDefinition(),
+            'RequestingCompany' => new RequestingCompanyDefinition(),
+            'SalesTeam'         => new SalesTeamDefinition(),
+            'WarehouseLocation' => new WarehouseLocationDefinition(),
 
         );
     }

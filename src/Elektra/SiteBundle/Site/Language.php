@@ -115,9 +115,9 @@ class Language
          */
 
         if ($number === null) {
-            $translated = $this->translator->trans($identifier, $this->prepareParameters($parameters), 'ElektraTranslation');
+            $translated = $this->translator->trans($identifier, $this->prepareParameters($parameters), 'ElektraSite');
         } else {
-            $translated = $this->translator->transChoice($identifier, $number, $this->prepareParameters($parameters), 'ElektraTranslation');
+            $translated = $this->translator->transChoice($identifier, $number, $this->prepareParameters($parameters), 'ElektraSite');
         }
 
         if ($translated == $identifier && $identifier != '') { // $identifier != '' in order to "reset" translations to empty

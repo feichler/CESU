@@ -17,10 +17,13 @@ class DateColumn extends Column
         $this->setType('date');
     }
 
-    public function getDisplayData($entry)
+    protected function getCustomDisplayDataSingle($entry, $field)
     {
 
         $method    = 'get' . ucfirst($this->getFieldData());
+        if (!method_exists($entry, $method)) {
+            throw new \RuntimeException('field "' . $field . '" is not accessible at ' . get_class($entry));
+        }
         $timestamp = $entry->$method();
 
         return date($this->dateFormat, $timestamp);

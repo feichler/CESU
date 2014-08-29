@@ -24,9 +24,10 @@ class Pagination
         $this->table = $table;
         $this->limit = 25; // TODO make parameter
 
-        if ($this->table->getCrud()->isEmbedded()) {
-            $this->limit = 150;
-        }
+        // URGENT embedded functionality
+//        if ($this->table->getCrud()->isEmbedded()) {
+//            $this->limit = 150;
+//        }
     }
 
     public function setPage($page)
@@ -64,6 +65,7 @@ class Pagination
 
         $navigator = $this->table->getCrud()->getService('navigator');
         if ($navigator instanceof Navigator) {
+            // URGENT get the correct link here
             $link = $navigator->getLink($this->table->getCrud()->getDefinition(), 'browse', array('page' => $page));
         }
 
@@ -126,7 +128,7 @@ class Pagination
         if ($maxPage == -1) {
             $maxPage = ceil($this->table->getEntryCount() / $this->limit);
         }
-        if($maxPage == 0) {
+        if ($maxPage == 0) {
             $maxPage = 1;
         }
 
@@ -138,24 +140,4 @@ class Pagination
 
         return $this->linkCount;
     }
-
-    //    public function hasPrevious()
-    //    {
-    //
-    //        if ($this->getPage() > 1) {
-    //            return true;
-    //        }
-    //
-    //        return false;
-    //    }
-    //
-    //    public function getPrevious()
-    //    {
-    //
-    //        if ($this->getPage() > 1) {
-    //            return $this->getPage() - 1;
-    //        }
-    //
-    //        return 0;
-    //    }
 }

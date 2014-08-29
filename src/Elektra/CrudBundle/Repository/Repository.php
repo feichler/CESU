@@ -1,30 +1,12 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\CrudBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Elektra\CrudBundle\Definition\Definition;
 
-/**
- * Class CRUDRepository
- *
- * @package Elektra\SeedBundle\Repositories
- *
- * @version 0.1-dev
- */
-class Repository extends EntityRepository implements RepositoryInterface
+abstract class Repository extends EntityRepository
 {
-
     /**
      * @var array
      */

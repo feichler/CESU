@@ -21,8 +21,8 @@ class AuditColumn extends Column
         $return = array();
 
         // URGENT: throws an exception -> check this
-//        $return['created']  = $entry->getCreationAudit();
-//        $return['modified'] = $entry->getLastModifiedAudit();
+        //        $return['created']  = $entry->getCreationAudit();
+        //        $return['modified'] = $entry->getLastModifiedAudit();
 
         return $return;
     }

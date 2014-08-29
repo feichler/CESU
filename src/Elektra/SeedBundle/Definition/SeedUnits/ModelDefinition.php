@@ -2,7 +2,7 @@
 
 namespace Elektra\SeedBundle\Definition\SeedUnits;
 
-use Elektra\CrudBundle\Definition\Definition;
+use Elektra\CrudBundle\Crud\Definition;
 
 class ModelDefinition extends Definition
 {
@@ -11,5 +11,12 @@ class ModelDefinition extends Definition
     {
 
         parent::__construct('Elektra', 'Seed', 'SeedUnits', 'Model');
+
+        // single route (add / view / edit / delete)
+        $this->setRouteSingular('seedUnitModel');
+
+        // root definition -> need a plural route
+        $this->setRoot();
+        $this->setRoutePlural('seedUnitModels');
     }
 }

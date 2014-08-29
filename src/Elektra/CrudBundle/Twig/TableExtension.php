@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 class TableExtension extends \Twig_Extension
 {
 
+    /**
+     *
+     */
     public function __construct()
     {
     }
@@ -34,8 +37,9 @@ class TableExtension extends \Twig_Extension
     }
 
     /**
-     * @param array $context
-     * @param Table $table
+     * @param \Twig_Environment $environment
+     * @param array             $context
+     * @param Table             $table
      *
      * @return string
      */
@@ -49,9 +53,9 @@ class TableExtension extends \Twig_Extension
 
         if ($renderer->exists($specificTemplate)) {
             $template = $environment->loadTemplate($specificTemplate);
-                 } else {
+        } else {
             $template = $environment->loadTemplate($baseTemplate);
-                }
+        }
 
         return $template->renderBlock('table', array_merge($context, array('table' => $table)));
 

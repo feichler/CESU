@@ -1,9 +1,6 @@
 
 # Import routing.yml from all Elektra packages (if no routing needed, the file will be just empty)
 
-ElektraCommonBundle:
-    resource: "@ElektraCommonBundle/Resources/config/routing.yml"
-
 ElektraCrudBundle:
     resource: "@ElektraCrudBundle/Resources/config/routing.yml"
 
@@ -12,9 +9,6 @@ ElektraSeedBundle:
 
 ElektraSiteBundle:
     resource: "@ElektraSiteBundle/Resources/config/routing.yml"
-
-ElektraTranslationBundle:
-    resource: "@ElektraTranslationBundle/Resources/config/routing.yml"
 
 ElektraUserBundle:
     resource: "@ElektraUserBundle/Resources/config/routing.yml"

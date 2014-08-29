@@ -1,12 +1,4 @@
-###############################################################################
-# @author    Florian Eichler <florian@eichler.co.at>
-# @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
-# @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
-# @license   MINOR add a license
-# @version   0.1-dev
-###############################################################################
 
-# Define the services provided by the SiteBundle
 services:
     siteBase:
         class: Elektra\SiteBundle\Site\Base
@@ -29,7 +21,6 @@ services:
         tags:
             - { name: twig.extension }
 
-    # Form Fields
     elektra_site.form.type.link: # Link Form Field
         class: Elektra\SiteBundle\Form\Field\LinkType
         tags:

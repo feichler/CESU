@@ -7,6 +7,9 @@ use Elektra\CrudBundle\Controller\Controller;
 class ModelController extends Controller
 {
 
+    /**
+     * @return Definition
+     */
     protected function getDefinition()
     {
 

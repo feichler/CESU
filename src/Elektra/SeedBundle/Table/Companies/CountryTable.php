@@ -2,6 +2,7 @@
 
 namespace Elektra\SeedBundle\Table\Companies;
 
+use Elektra\CrudBundle\Crud\Definition;
 use Elektra\CrudBundle\Table\Table;
 
 class CountryTable extends Table
@@ -24,8 +25,22 @@ class CountryTable extends Table
         $region->setFilterable()->setFieldFilter('name');
         $region->setSortable();
 
-        if ($this->getCrud()->isEmbedded() && $this->getCrud()->getEmbeddedRelationName() == 'region') {
-            $region->setHidden();
+        if ($this->getCrud()->isEmbedded()) {
+//            echo 'Route: ' . $this->getCrud()->getLinker()->getActiveRoute().'<br />';
+//            $embeddingDefinition = $this->getCrud()->getEmbeddingDefinition();
+//            echo $embeddingDefinition->getName().'<br />';
+//            echo $this->getCrud()->getEmbeddedType().'<br />';
+            if ($this->getCrud()->getParentDefinition()->getName() == 'Region') {
+                $region->setHidden();
+            }
+        }
+    }
+
+    protected function getRelationFilterName(Definition $parentDefinition)
+    {
+
+        if ($parentDefinition->getName() == 'Region') {
+            return 'region';
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Elektra\SeedBundle\Definition\SeedUnits;
 
-use Elektra\CrudBundle\Definition\Definition;
+use Elektra\CrudBundle\Crud\Definition;
 
 class PowerCordTypeDefinition extends Definition
 {
@@ -11,5 +11,12 @@ class PowerCordTypeDefinition extends Definition
     {
 
         parent::__construct('Elektra', 'Seed', 'SeedUnits', 'PowerCordType');
+
+        // single route (add / view / edit / delete)
+        $this->setRouteSingular('seedUnitPowerCordType');
+
+        // root definition -> need a plural route
+        $this->setRoot();
+        $this->setRoutePlural('seedUnitPowerCordTypes');
     }
 }

@@ -17,8 +17,8 @@ class TitleColumn extends Column
     public function getDisplayData($entry)
     {
 
-        $table     = $this->getColumns()->getTable();
-        $data      = parent::getDisplayData($entry);
+        $table = $this->getColumns()->getTable();
+        $data  = parent::getDisplayData($entry);
 
         if (is_array($data)) {
             $title = array_shift($data);
@@ -26,19 +26,19 @@ class TitleColumn extends Column
             $title = $data;
         }
 
-        $link = $table->getCrud()->getViewLink($entry);
+        // URGENT get the right link here
+        $link = $table->getCrud()->getLinker()->getListViewLink($entry);
 
         $return = array(
             'title' => $title,
-            'link' => $link,
+            'link'  => $link,
             'other' => array(),
         );
 
-        if(is_array($data)) {
+        if (is_array($data)) {
             $return['other'] = $data;
         }
 
         return $return;
-
     }
 }

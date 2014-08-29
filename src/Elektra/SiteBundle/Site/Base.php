@@ -2,7 +2,7 @@
 
 namespace Elektra\SiteBundle\Site;
 
-use Elektra\CrudBundle\Definition\Definition;
+use Elektra\CrudBundle\Crud\Definition;
 use Elektra\SiteBundle\Menu\Group;
 use Elektra\SiteBundle\Menu\Item;
 use Elektra\SiteBundle\Menu\Menu;
@@ -81,7 +81,7 @@ class Base
             'bootstrap' => true,
         );
 
-        $this->setVariable('route.brand', 'ElektraSiteBundle_index');
+        $this->setVariable('route.brand', 'index');
 
         /**
          * Add user specific language strings if logged in
@@ -299,7 +299,8 @@ class Base
     public function initialisePageFromDefinition(Definition $definition, $action, $options = array())
     {
 
-        $langPrefix = $definition->getGroupLang() . '.' . $definition->getNameLang();
+        $langPrefix = $definition->getLanguageKey();
+        //        $langPrefix = $definition->getGroupLang() . '.' . $definition->getNameLang();
         $controller = $definition->getController();
         $this->initialisePage($controller, $action, $langPrefix, $options);
     }
@@ -348,22 +349,16 @@ class Base
         if ($hasMenu) {
             $siteMenu = $this->container->get('siteMenu');
 
-            $siteMenu->addItem($this->getRequestsMenu());
+            // URGENT initialise the main menu for the site
+
+            // first item - requests
+            //            $siteMenu->addItem($this->getRequestsMenu());
+            // second item - reports
             $siteMenu->addItem($this->getReportsMenu());
+            // third item - companies (partner / customer / sales team)
             $siteMenu->addItem($this->getCompaniesMenu());
+            // fourth item - master data
             $siteMenu->addItem($this->getMasterDataMenu());
-
-            // CHECK temporary menu items - to be removed / changed
-            $navigator      = $this->container->get('navigator');
-            $temporaryGroup = new Group('Temporary');
-
-            $temporaryGroup->addItem(new Item('Locations', $navigator->getLink(array('Elektra', 'Seed', 'Companies', 'CompanyLocation'), 'browse')));
-            $temporaryGroup->addItem(new Item('Persons', $navigator->getLink(array('Elektra', 'Seed', 'Companies', 'CompanyPerson'), 'browse')));
-            $temporaryGroup->addItem(new Item('Contact Infos', $navigator->getLink(array('Elektra', 'Seed', 'Companies', 'ContactInfo'), 'browse')));
-            $temporaryGroup->addItem(new Item('Partner Tiers', $navigator->getLink(array('Elektra', 'Seed', 'Companies', 'PartnerTier'), 'browse')));
-            $temporaryGroup->addItem(new Item('Warehouse Locations', $navigator->getLink(array('Elektra', 'Seed', 'Companies', 'WarehouseLocation'), 'browse')));
-
-            $siteMenu->addItem($temporaryGroup);
         }
     }
 
@@ -373,7 +368,7 @@ class Base
         $siteLanguage = $this->container->get('siteLanguage');
         $navigator    = $this->container->get('navigator');
 
-        $requestsItem = new Item($siteLanguage->getRequired('menu.requests'), $navigator->getLink(array('Elektra', 'Seed', 'Requests', 'Request'), 'browse'));
+        $requestsItem = new Item($siteLanguage->getRequired('menu.requests'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Requests', 'Request')));
 
         return $requestsItem;
     }
@@ -383,6 +378,7 @@ class Base
 
         $siteLanguage = $this->container->get('siteLanguage');
 
+        // TODO reports definition
         $reportsItem = new Item($siteLanguage->getRequired('menu.reports'));
 
         return $reportsItem;
@@ -396,13 +392,15 @@ class Base
 
         $companiesItem = new Group($siteLanguage->getRequired('menu.companies'));
 
-        $partner   = new Item($siteLanguage->getRequired('menu.partners'), $navigator->getLink(array('Elektra', 'Seed', 'Companies', 'Partner'), 'browse'));
-        $salesTeam = new Item($siteLanguage->getRequired('menu.sales_teams'), $navigator->getLink(array('Elektra', 'Seed', 'Companies', 'SalesTeam'), 'browse'));
-        $customer  = new Item($siteLanguage->getRequired('menu.customers'), $navigator->getLink(array('Elektra', 'Seed', 'Companies', 'Customer'), 'browse'));
-
-        $companiesItem->addItem($partner);
-        $companiesItem->addItem($salesTeam);
-        $companiesItem->addItem($customer);
+        $companiesItem->addItem(
+            new Item($siteLanguage->getRequired('menu.partners'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'Partner')))
+        );
+        $companiesItem->addItem(
+            new Item($siteLanguage->getRequired('menu.sales_teams'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'SalesTeam')))
+        );
+        $companiesItem->addItem(
+            new Item($siteLanguage->getRequired('menu.customers'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'Customer')))
+        );
 
         return $companiesItem;
     }
@@ -415,33 +413,44 @@ class Base
 
         $masterDataItem = new Group($siteLanguage->getRequired('menu.master_data'));
 
-        $seedUnitGroup         = new Group($siteLanguage->getRequired('menu.seed_units'));
-        $seedUnit              = new Item($siteLanguage->getRequired('menu.seed_units'), $navigator->getLink(array('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'), 'browse'));
-        $seedUnitModel         = new Item($siteLanguage->getRequired('menu.seed_unit_models'), $navigator->getLink(array('Elektra', 'Seed', 'SeedUnits', 'Model'), 'browse'));
-        $seedUnitPowerCordType = new Item($siteLanguage->getRequired('menu.seed_unit_power_cord_types'), $navigator->getLink(array('Elektra', 'Seed', 'SeedUnits', 'PowerCordType'), 'browse'));
-        $seedUnitGroup->addItem($seedUnit);
-        $seedUnitGroup->addItem($seedUnitModel);
-        $seedUnitGroup->addItem($seedUnitPowerCordType);
-
-        $trainingGroup = new Group($siteLanguage->getRequired('menu.trainings'));
-        $training      = new Item($siteLanguage->getRequired('menu.trainings'), $navigator->getLink(array('Elektra', 'Seed', 'Trainings', 'Training'), 'browse'));
-        $registration  = new Item($siteLanguage->getRequired('menu.registrations'), $navigator->getLink(array('Elektra', 'Seed', 'Trainings', 'Registration'), 'browse'));
-        $attendance    = new Item($siteLanguage->getRequired('menu.attendances'), $navigator->getLink(array('Elektra', 'Seed', 'Trainings', 'Attendance'), 'browse'));
-        $trainingGroup->addItem($training);
-        $trainingGroup->addItem($registration);
-        $trainingGroup->addItem($attendance);
-
-        $geographicGroup = new Group($siteLanguage->getRequired('menu.geographic'));
-        $region          = new Item($siteLanguage->getRequired('menu.regions'), $navigator->getLink(array('Elektra', 'Seed', 'Companies', 'Region'), 'browse'));
-        $country         = new Item($siteLanguage->getRequired('menu.countries'), $navigator->getLink(array('Elektra', 'Seed', 'Companies', 'Country'), 'browse'));
-        $geographicGroup->addItem($region);
-        $geographicGroup->addItem($country);
-
-        $masterDataItem->addItem($seedUnitGroup);
+        // Seed Units Sub-Menu
+        $seedUnits = new Group($siteLanguage->getRequired('menu.seed_units'));
+        $seedUnits->addItem(
+            new Item($siteLanguage->getRequired('menu.seed_units'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit')))
+        );
+        $seedUnits->addItem(
+            new Item($siteLanguage->getRequired('menu.seed_unit_models'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model')))
+        );
+        $seedUnits->addItem(
+            new Item($siteLanguage->getRequired('menu.seed_unit_power_cord_types'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')))
+        );
+        $masterDataItem->addItem($seedUnits);
         $masterDataItem->addItem(new Separator());
-        $masterDataItem->addItem($trainingGroup);
+
+        // Trainings Sub-Menu
+        $trainings = new Group($siteLanguage->getRequired('menu.trainings'));
+        // URGENT add links for the training sub-menu
+        //        $trainings->addItem(
+        //            new Item($siteLanguage->getRequired('menu.trainings'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Training')))
+        //        );
+        //        $trainings->addItem(
+        //            new Item($siteLanguage->getRequired('menu.registrations'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration')))
+        //        );
+        //        $trainings->addItem(
+        //            new Item($siteLanguage->getRequired('menu.attendances'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance')))
+        //        );
+        $masterDataItem->addItem($trainings);
         $masterDataItem->addItem(new Separator());
-        $masterDataItem->addItem($geographicGroup);
+
+        // Geographic Sub-Menu
+        $geographic = new Group($siteLanguage->getRequired('menu.geographic'));
+        $geographic->addItem(
+            new Item($siteLanguage->getRequired('menu.regions'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'Region')))
+        );
+        $geographic->addItem(
+            new Item($siteLanguage->getRequired('menu.countries'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'Country')))
+        );
+        $masterDataItem->addItem($geographic);
 
         return $masterDataItem;
     }

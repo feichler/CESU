@@ -35,9 +35,10 @@ class RegionType extends CrudForm
                 'countries',
                 'relatedList',
                 array(
-                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Country'),
-                    'parent'       => $options['data'],
-                    'relationName' => 'region',
+//                    'relation_parent_type'   => $this->getCrud()->getDefinition(),
+                    'relation_parent_entity' => $options['data'],
+                    'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Country'),
+                    //                    'relationName'       => 'region',
                 )
             );
         }

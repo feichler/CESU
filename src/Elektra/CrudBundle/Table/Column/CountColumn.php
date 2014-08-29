@@ -14,12 +14,21 @@ class CountColumn extends Column
         $this->setType('count');
     }
 
-    public function getDisplayData($entry)
+
+
+    protected function getCustomDisplayDataSingle($entry, $field)
     {
 
         $method = 'get' . ucfirst($this->getFieldData());
-        $return = count($entry->$method());
+        if (!method_exists($entry, $method)) {
+            throw new \RuntimeException('field "' . $field . '" is not accessible at ' . get_class($entry));
+        }
+        $list   = $entry->$method();
 
-        return $return;
+        if (is_array($list) || $list instanceof \Countable) {
+            return count($list);
+        }
+
+        throw new \RuntimeException('property "' . $field . '" is not countable at ' . get_class($entry));
     }
 }

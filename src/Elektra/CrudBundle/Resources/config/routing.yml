@@ -6,7 +6,3 @@
 # @version   0.1-dev
 ###############################################################################
 
-ElektraCrudBundle:
-    resource: .
-    prefix: /
-    type: routing

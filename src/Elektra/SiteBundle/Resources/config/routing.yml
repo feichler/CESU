@@ -7,7 +7,7 @@
 ###############################################################################
 
 # Index page
-ElektraSiteBundle_index:
+index:
     path: /
     defaults:
         _controller: ElektraSiteBundle:Home:index

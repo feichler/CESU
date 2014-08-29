@@ -17,27 +17,28 @@ class ActionColumn extends Column
     public function getDisplayData($entry)
     {
 
-        $return = array();
-
-        $table = $this->getColumns()->getTable();
-
-        $langKey = $table->getSpecificLangKey();
-
+        $return      = array();
+        $table       = $this->getColumns()->getTable();
+        $languageKey = $table->getCrud()->getLanguageKey();
         if ($table->isAllowed('edit')) {
+            $link           = $table->getCrud()->getLinker()->getListEditLink($entry);
             $return['edit'] = array(
-                'link'    => $table->getCrud()->getEditLink($entry),
+                'link'    => $link,
                 'confirm' => false,
-                'langKey' => $langKey,
+                'langKey' => $languageKey,
             );
         }
 
         if ($table->isAllowed('delete')) {
+            $link             = $table->getCrud()->getLinker()->getListDeleteLink($entry);
             $return['delete'] = array(
-                'link'    => $table->getCrud()->getDeleteLink($entry),
+                'link'    => $link,
                 'confirm' => true,
-                'langKey' => $langKey,
+                'langKey' => $languageKey,
             );
         }
+
+        // URGENT implement method
 
         return $return;
     }

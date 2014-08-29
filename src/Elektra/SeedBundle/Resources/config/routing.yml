@@ -6,3 +6,7 @@
 # @version   0.1-dev
 ###############################################################################
 
+ElektraSeedBundle:
+    resource: .
+    prefix: /
+    type: routing

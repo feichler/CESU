@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class RequestingCompany extends Company
 {
+
     /**
      * @var ArrayCollection
      *
@@ -45,6 +46,7 @@ abstract class RequestingCompany extends Company
      */
     public function setRequests($requests)
     {
+
         $this->requests = $requests;
     }
 
@@ -53,6 +55,7 @@ abstract class RequestingCompany extends Company
      */
     public function getRequests()
     {
+
         return $this->requests;
     }
 }

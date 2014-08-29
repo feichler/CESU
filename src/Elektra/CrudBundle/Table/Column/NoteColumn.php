@@ -3,7 +3,6 @@
 namespace Elektra\CrudBundle\Table\Column;
 
 use Elektra\CrudBundle\Table\Columns;
-use Elektra\SeedBundle\Entity\AnnotableInterface;
 
 class NoteColumn extends CountColumn
 {

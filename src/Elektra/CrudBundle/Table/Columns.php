@@ -7,6 +7,7 @@ use Elektra\CrudBundle\Table\Column\ActionColumn;
 use Elektra\CrudBundle\Table\Column\AuditColumn;
 use Elektra\CrudBundle\Table\Column\CountColumn;
 use Elektra\CrudBundle\Table\Column\DateColumn;
+use Elektra\CrudBundle\Table\Column\IdColumn;
 use Elektra\CrudBundle\Table\Column\NoteColumn;
 use Elektra\CrudBundle\Table\Column\TitleColumn;
 
@@ -165,6 +166,17 @@ class Columns
         }
 
         return $column;
+    }
+
+    /**
+     * @return Column
+     */
+    public function addIdColumn()
+    {
+
+        $column = new IdColumn($this);
+
+        return $this->addColumn($column, null);
     }
 
     /**

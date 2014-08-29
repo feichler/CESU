@@ -31,6 +31,7 @@ class CustomerType extends CrudForm
                 'locations',
                 'relatedList',
                 array(
+
                     'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation'),
                     'parent'       => $options['data'],
                     'relationName' => 'company',

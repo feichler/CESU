@@ -2,12 +2,9 @@
 
 namespace Elektra\CrudBundle\Table;
 
-use Elektra\CrudBundle\Controller\Controller;
 use Elektra\CrudBundle\Crud\Crud;
-use Elektra\CrudBundle\Definition\Definition;
-use Elektra\SeedBundle\Entity\EntityInterface;
-use Elektra\SiteBundle\Site\Language;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+
+use Elektra\CrudBundle\Crud\Definition;
 use Symfony\Component\Form\FormBuilder;
 
 // TODO add a "clear all filters" button
@@ -80,20 +77,16 @@ abstract class Table
         $this->initialiseActions();
 
         // depending on the type of entry, add some generic columns
-        if ($this->crud->getDefinition()->isAuditable()) {
+        if ($this->getCrud()->getDefinition()->isEntityAuditable()) {
             $this->getColumns()->addAuditColumn();
         }
-        if ($this->crud->getDefinition()->isAnnotable()) {
+        if ($this->getCrud()->getDefinition()->isEntityAnnotable()) {
             $this->getColumns()->addNoteColumn();
         }
         if ($this->isAllowed('edit') || $this->isAllowed('delete')) {
             $this->getColumns()->addActionColumn();
         }
-
-        $idColumn = $this->getColumns()->add('table.columns.id');
-        $idColumn->setFieldData('id');
-        $idColumn->setSortable();
-        $idColumn->setType('id');
+        $this->getColumns()->addIdColumn();
 
         $this->initialiseRequestData();
     }
@@ -134,13 +127,13 @@ abstract class Table
     protected final function initialiseRequestData()
     {
 
-        $request = $this->crud->getRequest();
+        $request = $this->getCrud()->getRequest();
 
         $this->requestData = array(
-            'search'         => $this->crud->get('search', 'table', ''),
-            'filters'        => $this->crud->get('filters', 'table', array()),
-            'custom-filters' => $this->crud->get('custom-filters', 'table', array()),
-            'order'          => $this->crud->get('order', 'table', array()),
+            'search'         => $this->getCrud()->getData('search', 'table', ''),
+            'filters'        => $this->getCrud()->getData('filters', 'table', array()),
+            'custom-filters' => $this->getCrud()->getData('custom-filters', 'table', array()),
+            'order'          => $this->getCrud()->getData('order', 'table', array()),
         );
 
         if ($this->columns->hasSearchable()) {
@@ -183,7 +176,7 @@ abstract class Table
         }
 
         foreach ($this->requestData as $key => $value) {
-            $this->crud->save($key, $value, 'table');
+            $this->getCrud()->setData($key, $value, 'table');
         }
     }
 
@@ -245,16 +238,17 @@ abstract class Table
         $filters = null;
         $order   = null;
 
-        if ($this->getCrud()->isEmbedded()) {
+        // URGENT check the embedded functionality
+        if ($this->getCrud()->hasParent()) {
             $filters = $this->getLoadRelationFilter();
         } else {
             $search  = $this->getLoadSearch();
             $filters = $this->getLoadFilters();
-            $order   = null;
+            $order   = $this->getLoadOrder();
         }
 
-        $repositoryClass = $this->crud->getDefinition()->getClassRepository();
-        $repository      = $this->crud->getController()->getDoctrine()->getRepository($repositoryClass);
+        $repositoryClass = $this->getCrud()->getDefinition()->getClassRepository();
+        $repository      = $this->getCrud()->getController()->getDoctrine()->getRepository($repositoryClass);
 
         $this->entries = $repository->getEntries($page, $this->pagination->getLimit(), $search, $filters, $order);
 
@@ -284,22 +278,22 @@ abstract class Table
         $filters = null;
         $order   = null;
 
-        if (isset($this->relatedEntity)) {
-            $filters = $this->getLoadRelationFilter();
-        } else {
-            $search  = $this->getLoadSearch();
-            $filters = $this->getLoadFilters();
-            $order   = null;
-        }
+        // URGENT check the embedded functionality
+        if ($this->getCrud()->hasParent()) {
+                    $filters = $this->getLoadRelationFilter();
+                } else {
+        $search  = $this->getLoadSearch();
+        $filters = $this->getLoadFilters();
+        $order   = null;
+                }
 
-        $repositoryClass = $this->crud->getDefinition()->getClassRepository();
-        $repository      = $this->crud->getController()->getDoctrine()->getRepository($repositoryClass);
+        $repositoryClass = $this->getCrud()->getDefinition()->getClassRepository();
+        $repository      = $this->getCrud()->getController()->getDoctrine()->getRepository($repositoryClass);
 
         $entryCount = $repository->getCount($search, $filters, $order);
 
         return $entryCount;
     }
-
 
     /*************************************************************************
      * Column related methods
@@ -324,7 +318,7 @@ abstract class Table
     public function getTemplate()
     {
 
-        $template = $this->crud->getDefinition()->getPrefixView() . ':table.html.twig';
+        $template = $this->getCrud()->getDefinition()->getView() . ':table.html.twig';
 
         return $template;
     }
@@ -425,10 +419,22 @@ abstract class Table
     {
 
         $filters = array();
+        //        var_dump($this->getCrud()->isEmbedded());
+        //        echo 'TESTING:<br/>';
+        //        $def = $this->getCrud()->getDefinition();
+        //        echo $def->getName();
 
-        $filters[$this->getCrud()->getEmbeddedRelationName()] = $this->getCrud()->getEmbeddedParent()->getId();
+        $filters[$this->getRelationFilterName($this->getCrud()->getParentDefinition())] = $this->getCrud()->getParentEntity()->getId();
 
         return $filters;
+    }
+
+    protected function getRelationFilterName(Definition $parentDefinition)
+    {
+
+        // NOTE override if the implemented behaviour should differ
+
+        return strtolower($parentDefinition->getName());
     }
 
     private function getLoadFilters()
@@ -466,7 +472,7 @@ abstract class Table
     {
 
         // create an array of ready-to-use form view elements for filtering
-        $builder = $this->crud->getService('form.factory')->createBuilder();
+        $builder = $this->getCrud()->getService('form.factory')->createBuilder();
         $filters = array();
 
         // first, create the custom filters (type-specific)
@@ -491,7 +497,7 @@ abstract class Table
 
             // prepare the selected option
             if ($selected != '') {
-                $em       = $this->crud->getService('doctrine')->getManager();
+                $em       = $this->getCrud()->getService('doctrine')->getManager();
                 $selected = $em->getReference($definition->getClassEntity(), $selected);
             }
 
@@ -525,7 +531,7 @@ abstract class Table
             ),
         );
 
-        $options = array_merge_recursive($defaultOptions, $options);
+        $options = $this->getCrud()->mergeOptions($defaultOptions, $options);
 
         if ($data != null && !empty($data)) {
             $options['data'] = $data;
@@ -566,7 +572,7 @@ abstract class Table
     public function getSearchField()
     {
 
-        $builder = $this->crud->getService('form.factory')->createBuilder();
+        $builder = $this->getCrud()->getService('form.factory')->createBuilder();
         if ($builder instanceof FormBuilder) {
             $field = $builder->create(
                 $this->getFilterFieldName('search'),
@@ -631,12 +637,6 @@ abstract class Table
         // TODO implement
 
         return array();
-    }
-
-    public function getSpecificLangKey()
-    {
-
-        return $this->crud->getLangKey();
     }
 
     /**

@@ -7,11 +7,15 @@ use Elektra\CrudBundle\Table\Table;
 class CustomerTable extends Table
 {
 
+    /**
+     * {@inheritdoc}
+     */
     protected function initialiseColumns()
     {
-        $partner = $this->getColumns()->addTitleColumn('table.companies.company.name');
-        $partner->setFieldData(array('shortName', 'name'));
-        $partner->setSearchable();
-        $partner->setSortable()->setFieldSort('shortName');
+
+        $customer = $this->getColumns()->addTitleColumn('table.companies.company.name');
+        $customer->setFieldData(array('shortName', 'name'));
+        $customer->setSearchable();
+        $customer->setSortable()->setFieldSort('shortName');
     }
 }
