@@ -3,7 +3,7 @@
 namespace Elektra\SeedBundle\Form\Trainings;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
-use Elektra\SeedBundle\Form\CommonOptions;
+use Elektra\CrudBundle\Form\CommonOptions;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -43,9 +43,11 @@ class TrainingType extends CrudForm
                 'attendances',
                 'relatedList',
                 array(
-                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance'),
-                    'parent'       => $options['data'],
-                    'relationName' => 'training',
+                    'relation_parent_entity' => $options['data'],
+                    'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance'),
+//                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance'),
+//                    'parent'       => $options['data'],
+//                    'relationName' => 'training',
                 )
             );
 
@@ -53,9 +55,11 @@ class TrainingType extends CrudForm
                 'registrations',
                 'relatedList',
                 array(
-                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration'),
-                    'parent'       => $options['data'],
-                    'relationName' => 'training',
+                    'relation_parent_entity' => $options['data'],
+                    'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration'),
+//                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration'),
+//                    'parent'       => $options['data'],
+//                    'relationName' => 'training',
                 )
             );
         }

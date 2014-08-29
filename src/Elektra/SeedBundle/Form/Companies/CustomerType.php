@@ -3,7 +3,7 @@
 namespace Elektra\SeedBundle\Form\Companies;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
-use Elektra\SeedBundle\Form\CommonOptions;
+use Elektra\CrudBundle\Form\CommonOptions;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -31,10 +31,12 @@ class CustomerType extends CrudForm
                 'locations',
                 'relatedList',
                 array(
-
-                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation'),
-                    'parent'       => $options['data'],
-                    'relationName' => 'company',
+                    'relation_parent_entity' => $options['data'],
+                    'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation'),
+                    'relation_name' => 'company',
+//                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation'),
+//                    'parent'       => $options['data'],
+//                    'relationName' => 'company',
                 )
             );
         }

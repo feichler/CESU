@@ -12,6 +12,7 @@ class TitleColumn extends Column
 
         parent::__construct($columns, $title);
         $this->setType('title');
+        $this->setFieldData('title');
     }
 
     public function getDisplayData($entry)

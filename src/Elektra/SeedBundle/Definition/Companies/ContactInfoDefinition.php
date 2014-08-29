@@ -11,5 +11,9 @@ class ContactInfoDefinition extends Definition
     {
 
         parent::__construct('Elektra', 'Seed', 'Companies', 'ContactInfo');
+
+        $this->setRouteSingular('contactInfo');
+
+        $this->addParent('Elektra','Seed','Companies','CompanyPerson');
     }
 }

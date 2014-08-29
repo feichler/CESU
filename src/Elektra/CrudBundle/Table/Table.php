@@ -434,6 +434,10 @@ abstract class Table
 
         // NOTE override if the implemented behaviour should differ
 
+        if($this->getCrud()->getParentRelationName() !== null) {
+            return $this->getCrud()->getParentRelationName();
+        }
+
         return strtolower($parentDefinition->getName());
     }
 

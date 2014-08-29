@@ -590,7 +590,7 @@ class Column
             $return = $entry;
             foreach ($fields as $oneField) {
                 $method = 'get' . ucfirst($oneField);
-                if (!method_exists($entry, $method)) {
+                if (!method_exists($return, $method)) {
                     throw new \RuntimeException('field "' . $field . '" is not accessible at ' . get_class($entry));
                 }
                 $return = $return->$method();

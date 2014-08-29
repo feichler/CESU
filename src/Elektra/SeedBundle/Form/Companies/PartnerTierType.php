@@ -4,7 +4,7 @@ namespace Elektra\SeedBundle\Form\Companies;
 
 use Elektra\CommonBundle\Form\DataTransformer\ToUppercaseTransformer;
 use Elektra\CrudBundle\Form\Form as CrudForm;
-use Elektra\SeedBundle\Form\CommonOptions;
+use Elektra\CrudBundle\Form\CommonOptions;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 

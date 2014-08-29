@@ -352,7 +352,7 @@ class Base
             // URGENT initialise the main menu for the site
 
             // first item - requests
-            //            $siteMenu->addItem($this->getRequestsMenu());
+                        $siteMenu->addItem($this->getRequestsMenu());
             // second item - reports
             $siteMenu->addItem($this->getReportsMenu());
             // third item - companies (partner / customer / sales team)
@@ -430,15 +430,15 @@ class Base
         // Trainings Sub-Menu
         $trainings = new Group($siteLanguage->getRequired('menu.trainings'));
         // URGENT add links for the training sub-menu
-        //        $trainings->addItem(
-        //            new Item($siteLanguage->getRequired('menu.trainings'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Training')))
-        //        );
-        //        $trainings->addItem(
-        //            new Item($siteLanguage->getRequired('menu.registrations'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration')))
-        //        );
-        //        $trainings->addItem(
-        //            new Item($siteLanguage->getRequired('menu.attendances'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance')))
-        //        );
+                $trainings->addItem(
+                    new Item($siteLanguage->getRequired('menu.trainings'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Training')))
+                );
+                $trainings->addItem(
+                    new Item($siteLanguage->getRequired('menu.registrations'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration')))
+                );
+                $trainings->addItem(
+                    new Item($siteLanguage->getRequired('menu.attendances'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance')))
+                );
         $masterDataItem->addItem($trainings);
         $masterDataItem->addItem(new Separator());
 

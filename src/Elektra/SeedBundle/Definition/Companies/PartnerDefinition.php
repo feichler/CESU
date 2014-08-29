@@ -19,4 +19,8 @@ class PartnerDefinition extends Definition
         $this->setRoot();
         $this->setRoutePlural('partners');
     }
+
+    public function getTest(){
+        return 'company';
+    }
 }

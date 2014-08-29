@@ -6,7 +6,7 @@
  * Time: 10:38
  */
 
-namespace Elektra\SeedBundle\Form;
+namespace Elektra\CrudBundle\Form;
 
 
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;

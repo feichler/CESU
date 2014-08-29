@@ -4,7 +4,7 @@ namespace Elektra\SeedBundle\Form\Requests;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
 use Elektra\SeedBundle\Definition\CompanyDefinitions as CompanyDefinitions;
-use Elektra\SeedBundle\Form\CommonOptions;
+use Elektra\CrudBundle\Form\CommonOptions;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -70,9 +70,11 @@ class RequestType extends CrudForm
                 'seedUnits',
                 'relatedList',
                 array(
-                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'),
-                    'parent'       => $options['data'],
-                    'relationName' => 'request',
+                    'relation_parent_entity' => $options['data'],
+                    'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'),
+//                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'),
+//                    'parent'       => $options['data'],
+//                    'relationName' => 'request',
                 )
             );
         }

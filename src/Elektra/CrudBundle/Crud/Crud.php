@@ -222,11 +222,27 @@ final class Crud
      */
     protected $parentRoute;
 
-    public function setParent(EntityInterface $parentEntity, $parentRoute)
+    /**
+     * @var string
+     */
+    protected $relationName;
+
+    public function setParent(EntityInterface $parentEntity, $parentRoute, $relationName)
     {
 
         $this->parentEntity = $parentEntity;
         $this->parentRoute  = $parentRoute;
+        $this->relationName = $relationName;
+
+        $this->setData('parent',$this->parentEntity->getId());
+    }
+
+    public function setParentId($id) {
+
+        $this->setData('parent',$id);
+    }
+    public function getParentId() {
+        return $this->getData('parent');
     }
 
     public function isEmbedded()
@@ -255,7 +271,7 @@ final class Crud
 
         return $this->getNavigator()->getDefinition(get_class($this->parentEntity));
 
-        echo get_class($this->parentEntity);
+//        echo get_class($this->parentEntity);
     }
 
     public function getParentEntity()
@@ -268,6 +284,12 @@ final class Crud
     {
 
         return $this->parentRoute;
+    }
+
+    public function getParentRelationName()
+    {
+
+        return $this->relationName;
     }
 
     /*************************************************************************

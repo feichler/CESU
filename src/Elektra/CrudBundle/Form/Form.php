@@ -3,6 +3,8 @@
 namespace Elektra\CrudBundle\Form;
 
 use Elektra\CrudBundle\Crud\Crud;
+use Elektra\CrudBundle\Crud\Definition;
+use Elektra\CrudBundle\Form\CommonOptions;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -146,6 +148,33 @@ abstract class Form extends AbstractType
         //        if ($this->getCrud()->isEmbedded()) {
         //            echo 'I\'m embedded!';
         //        }
+    }
+
+    public final function addParentField(FormBuilderInterface $builder, array $options, Definition $definition, $fieldName)
+    {
+
+        $crudAction  = $options['crud_action'];
+        $preSelectId = $this->getCrud()->getParentId();
+
+        $parentOptions = array(
+            'class'    => $definition->getClassEntity(),
+            'property' => 'title',
+        );
+
+        if ($crudAction == 'add') {
+            $em                    = $this->getCrud()->getService('doctrine')->getManager();
+            $parentRef             = $em->getReference($definition->getClassEntity(), $preSelectId);
+            $parentOptions['data'] = $parentRef;
+        }
+        if ($crudAction == 'add' || $crudAction == 'edit') {
+            // URGENT CHECK should the parent relation field be editable?
+            $parentOptions['read_only'] = true;
+            $parentOptions['disabled']  = true;
+        }
+
+        $options = $this->getCrud()->mergeOptions(CommonOptions::getRequiredNotBlank(), $parentOptions);
+
+        $builder->add($fieldName, 'entity', $options);
     }
 
     public final function buildView(FormView $view, FormInterface $form, array $options)
