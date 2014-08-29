@@ -18,9 +18,10 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\Companies\RequestingCompany;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 
 /**
- * Class Request
+ * Class Requests
  *
  * @package Elektra\SeedBundle\Entity\Requests
  *
@@ -28,6 +29,7 @@ use Elektra\SeedBundle\Entity\Companies\RequestingCompany;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Requests\RequestRepository")
  * @ORM\Table(name="requests")
+ * @ORM\HasLifecycleCallbacks
  */
 class Request implements AuditableInterface, AnnotableInterface, CrudInterface
 {
@@ -52,6 +54,7 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
+     * @GreaterThan(value = 0)
      */
     protected $numberOfUnitsRequested;
 
@@ -59,7 +62,7 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
      * @var RequestStatus
      *
      * @ORM\ManyToOne(targetEntity="RequestStatus", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="requestStatusId", referencedColumnName="requestStatusId", nullable=false)
+     * @ORM\JoinColumn(name="requestStatusId", referencedColumnName="requestStatusId")
      */
     protected $requestStatus;
 
@@ -367,5 +370,14 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     public function getCompany()
     {
         return $this->company;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $tmp = (string)time();
+        $this->requestNumber=substr($tmp,  strlen($tmp)-10);
     }
 }

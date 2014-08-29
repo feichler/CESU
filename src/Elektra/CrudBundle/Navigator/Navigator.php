@@ -48,7 +48,6 @@ class Navigator
         $this->addDefinitionPlain('Elektra', 'Seed', 'Trainings', 'Attendance');
         $this->addDefinitionPlain('Elektra', 'Seed', 'Trainings', 'Registration');
         $this->addDefinitionPlain('Elektra', 'Seed', 'Trainings', 'Training');
-        $this->addDefinitionPlain('Elektra', 'Seed', 'Requests', 'Request');
         // CHECK add custom values for specific definitions?
     }
 
@@ -62,7 +61,6 @@ class Navigator
     {
 
         $key = $this->getKey($definition->getVendor(), $definition->getBundle(), $definition->getGroup(), $definition->getName());
-
         return $key;
     }
 
@@ -70,7 +68,6 @@ class Navigator
     {
 
         $key = $vendor . '-' . (strpos($bundle, 'Bundle') === false ? $bundle . 'Bundle' : $bundle) . '-' . $group . '-' . $name;
-
         return $key;
     }
 

@@ -81,7 +81,7 @@ table:
             locationIdentifier: Location ID
     requests:
         request:
-            requestNumber: 'Request #'
+            requestNumber: 'Requests No'
             unitsRequested: Units requested
             requestStatus: Status
             company: Company
@@ -94,7 +94,7 @@ table:
             serial: Serial Number
             model: Model
             power_cord_type: Power Cord Type
-            request: Request
+            request: Requests
         model:
             name: Name
         powerCordType:

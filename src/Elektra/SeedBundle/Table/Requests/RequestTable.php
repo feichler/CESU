@@ -26,13 +26,13 @@ class RequestTable extends Table
 
         $requester = $this->getColumns()->add('table.requests.request.requester');
         $requester->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'));
-        $requester->setFieldData('requester.title');
+        $requester->setFieldData('requesterPerson.title');
         $requester->setSortable();
 //        $requester->setFilterable()->setFieldFilter('name');
 
         $receiver = $this->getColumns()->add('table.requests.request.receiver');
         $receiver->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'));
-        $receiver->setFieldData('receiver.title');
+        $receiver->setFieldData('receiverPerson.title');
         $receiver->setSortable();
 //        $receiver->setFilterable()->setFieldFilter('name');
 
