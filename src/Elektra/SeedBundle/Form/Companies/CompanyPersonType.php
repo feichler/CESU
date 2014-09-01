@@ -39,6 +39,22 @@ class CompanyPersonType extends CrudForm
 //            )
 //        ));
 
+
+        // CHECK testing for embedded adding to sub-entities
+//        $builder->add('contactInfo', 'collection', array(
+//                'type' => new ContactInfoType($this->getCrud()),
+//                'allow_add' => true,
+////                'allow_delete' => true,
+////                'delete_empty' => true,
+////                'type' => 'text',
+//                'options' => array(
+//                    //                    'data_class'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'ContactInfo')->getClassEntity(),
+//                                        'crud_action'  => $options['crud_action'],
+//                                        'show_buttons' => false,
+//
+//                ),
+//            ));
+
         if ($options['crud_action'] == 'view') {
             $builder->add(
                 'contactInfo',

@@ -352,13 +352,15 @@ class Base
             // URGENT initialise the main menu for the site
 
             // first item - requests
-                        $siteMenu->addItem($this->getRequestsMenu());
+            $siteMenu->addItem($this->getRequestsMenu());
             // second item - reports
             $siteMenu->addItem($this->getReportsMenu());
             // third item - companies (partner / customer / sales team)
             $siteMenu->addItem($this->getCompaniesMenu());
             // fourth item - master data
             $siteMenu->addItem($this->getMasterDataMenu());
+            // fifth item - imports
+            $siteMenu->addItem($this->getImportMenu());
         }
     }
 
@@ -430,15 +432,15 @@ class Base
         // Trainings Sub-Menu
         $trainings = new Group($siteLanguage->getRequired('menu.trainings'));
         // URGENT add links for the training sub-menu
-                $trainings->addItem(
-                    new Item($siteLanguage->getRequired('menu.trainings'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Training')))
-                );
-                $trainings->addItem(
-                    new Item($siteLanguage->getRequired('menu.registrations'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration')))
-                );
-                $trainings->addItem(
-                    new Item($siteLanguage->getRequired('menu.attendances'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance')))
-                );
+        $trainings->addItem(
+            new Item($siteLanguage->getRequired('menu.trainings'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Training')))
+        );
+        $trainings->addItem(
+            new Item($siteLanguage->getRequired('menu.registrations'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration')))
+        );
+        $trainings->addItem(
+            new Item($siteLanguage->getRequired('menu.attendances'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance')))
+        );
         $masterDataItem->addItem($trainings);
         $masterDataItem->addItem(new Separator());
 
@@ -453,5 +455,19 @@ class Base
         $masterDataItem->addItem($geographic);
 
         return $masterDataItem;
+    }
+
+    public function getImportMenu()
+    {
+
+        $siteLanguage = $this->container->get('siteLanguage');
+        $navigator    = $this->container->get('navigator');
+
+        $importItem = new Group($siteLanguage->getRequired('menu.import'));
+        $importItem->addItem(
+            new Item($siteLanguage->getRequired('menu.import_seed_units'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Imports', 'SeedUnit')))
+        );
+
+        return $importItem;
     }
 }

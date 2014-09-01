@@ -361,6 +361,7 @@ abstract class Table
 
         if ($this->hasAction($action)) {
             $this->actions[$action] = true;
+            return;
         }
 
         $this->unknownAction($action);
@@ -376,6 +377,7 @@ abstract class Table
 
         if ($this->hasAction($action)) {
             $this->actions[$action] = false;
+            return;
         }
 
         $this->unknownAction($action);

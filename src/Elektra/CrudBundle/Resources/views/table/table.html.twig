@@ -111,7 +111,11 @@
     {% import 'ElektraSiteBundle:macros:actions.html.twig' as actions %}
 
     <div>
-        {{ attribute(actions, 'view', [data.link, data.title, {}]) }}
+        {% if table.isAllowed('view') %}
+            {{ attribute(actions, 'view', [data.link, data.title, {}]) }}
+        {% else %}
+            {{ data.title }}
+        {% endif %}
     </div>
     {% if data.other is iterable and data.other is not empty %}
         {% for string in data.other %}

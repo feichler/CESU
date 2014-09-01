@@ -86,6 +86,8 @@ final class Navigator
         $this->addDefinition(new AttendanceDefinition());
         $this->addDefinition(new RegistrationDefinition());
         $this->addDefinition(new TrainingDefinition());
+
+        $this->addDefinition(new \Elektra\SeedBundle\Definition\Imports\SeedUnitDefinition());
     }
 
     /**
@@ -129,8 +131,9 @@ final class Navigator
      */
     public function getDefinition($vendor, $bundle = null, $group = null, $name = null)
     {
-ob_start();
-//        var_dump(func_get_args());
+
+        ob_start();
+        //        var_dump(func_get_args());
         $test = ob_get_clean();
         //        echo '<br />';
         //        var_dump(func_get_args());
@@ -161,7 +164,7 @@ ob_start();
         //        var_dump(func_get_args());
         //        echo '<br />';
         //        echo '<br />';
-        throw new \InvalidArgumentException('Cannot get a definition from the given parameters' .$test);
+        throw new \InvalidArgumentException('Cannot get a definition from the given parameters' . $test);
     }
 
     // URGENT get route

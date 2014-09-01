@@ -79,6 +79,11 @@ table:
             countries: '# Countries'
         warehouseLocation:
             locationIdentifier: Location ID
+    imports:
+        file:
+            filename: Uploaded File
+            newfilename: Stored as
+            processed: Processed
     requests:
         request:
             requestNumber: 'Requests No'
@@ -142,6 +147,8 @@ menu:
     geographic: Geographic
     regions: Regions
     countries: Countries
+    import: Import
+    import_seed_units: Seed Units
 
 pages:
     generic:
