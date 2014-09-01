@@ -335,7 +335,7 @@ final class Linker
     public function getRedirectAfterProcess($entity)
     {
 
-        echo $this->getActiveRoute();
+//        echo $this->getActiveRoute();
         $link  = '';
         $parts = explode('.', $this->getActiveRoute());
         // in this case the last part must be the action -> this is not needed now

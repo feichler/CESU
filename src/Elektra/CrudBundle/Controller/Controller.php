@@ -117,7 +117,7 @@ abstract class Controller extends BaseController
         if ($form->isValid()) {
             return $this->processAction('edit', $entity);
         }
-var_dump($this->getCrud()->getLinker()->getRedirectAfterProcess($entity));
+//var_dump($this->getCrud()->getLinker()->getRedirectAfterProcess($entity));
         // get the view name (specific or common) and prepare the form view
         $viewName = $this->getCrud()->getView('form');
         $formView = $form->createView();

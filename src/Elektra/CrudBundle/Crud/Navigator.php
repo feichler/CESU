@@ -130,7 +130,7 @@ final class Navigator
     public function getDefinition($vendor, $bundle = null, $group = null, $name = null)
     {
 ob_start();
-        var_dump(func_get_args());
+//        var_dump(func_get_args());
         $test = ob_get_clean();
         //        echo '<br />';
         //        var_dump(func_get_args());
