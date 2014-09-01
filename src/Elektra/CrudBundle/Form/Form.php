@@ -169,12 +169,12 @@ abstract class Form extends AbstractType
         if ($crudAction == 'add' || $crudAction == 'edit') {
             // URGENT CHECK should the parent relation field be editable?
             $parentOptions['read_only'] = true;
-            $parentOptions['disabled']  = true;
+//            $parentOptions['disabled']  = true;
         }
 
         $options = $this->getCrud()->mergeOptions(CommonOptions::getRequiredNotBlank(), $parentOptions);
 
-        $builder->add($fieldName, 'entity', $options);
+        $builder->add($fieldName, 'parent', $options);
     }
 
     public final function buildView(FormView $view, FormInterface $form, array $options)

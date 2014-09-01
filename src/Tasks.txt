@@ -7,7 +7,7 @@ TODO: add related data tables to viewAction (show table of related entries with 
 
 ENHANCE finish rendering of menu (navbar)
 
-URGENT Flo: Links for embedded crud (close / save / cancel) -> return to embedding view
+URGENT Done~ Flo: Links for embedded crud (close / save / cancel) -> return to embedding view
 URGENT Flo: Find a way to display "repeated" entities directly in form - e.g. add a person and show contact infos in the same form (with "add" option to add multiple contact infos)
 TODO Flo: Import of Seed Units from Excel / CSV
 TODO Flo: Reports (need to be defined)

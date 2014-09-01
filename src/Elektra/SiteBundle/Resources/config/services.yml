@@ -40,3 +40,8 @@ services:
         class: Elektra\SiteBundle\Form\Field\ButtonGroupType
         tags:
             - { name: form.type, alias: buttonGroup }
+
+    elektra_site.form.type.parent: # Button Group for Forms
+        class: Elektra\SiteBundle\Form\Field\ParentType
+        tags:
+            - { name: form.type, alias: parent }

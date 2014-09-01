@@ -227,6 +227,28 @@
     </select>
 {%- endblock choice_widget_collapsed %}
 
+{% block parent_widget %}
+    <input type="hidden" id="{{ id }}" name="{{ full_name }}" value="{{ value }}"/>
+    {% for label, choice in choices %}
+        {% if choice is selectedchoice(value) %}
+            <input type="text" class="form-control" disabled="disabled" value="{{ choice.label }}"/>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block choice_widget_options -%}
+    {% for group_label, choice in options %}
+        {%- if choice is iterable -%}
+            <optgroup label="{{ group_label|trans({}, translation_domain) }}">
+                {% set options = choice %}
+                {{- block('choice_widget_options') -}}
+            </optgroup>
+        {%- else -%}
+            <option value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans({}, translation_domain) }}</option>
+        {%- endif -%}
+    {% endfor %}
+{%- endblock choice_widget_options %}
+
 {# CHECKBOX_WIDGET #}
 {% block checkbox_widget -%}
     {% if label is empty -%}
@@ -272,6 +294,14 @@
         {%- endif -%}
     {%- endfor -%}
 {%- endblock widget_container_attributes %}
+
+{#{% block parent_widget -%}#}
+    {#&#123;&#35;{{ asdf }}&#35;&#125;#}
+    {#&#123;&#35;{{ form_row(form) }}&#35;&#125;#}
+    {#&#123;&#35;asdf&#35;&#125;#}
+    {#&#123;&#35;{% set type = type|default('hidden') %}&#35;&#125;#}
+    {#&#123;&#35;{{- block('form_widget_simple') -}}&#35;&#125;#}
+{#{%- endblock parent_widget -%}#}
 
 {#&#123;&#35; ENTITYLIST_WIDGET &#35;&#125;#}
 {#{% block entityList_widget %}#}
