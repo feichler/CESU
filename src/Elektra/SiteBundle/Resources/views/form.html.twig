@@ -236,6 +236,16 @@
 {% endblock checkbox_row %}
 
 
+{# parent row (custom type) #}
+{% block parent_row %}
+    {% if form.vars.show_field %}
+        {{ block('form_row') }}
+        {% else %}
+            {{- form_widget(form) -}}
+    {% endif %}
+{% endblock parent_row %}
+
+
 {#############################################################################
  # Labels
  #############################################################################}
@@ -263,6 +273,16 @@
     {# NO Label to show at the default position #}
 {% endblock checkbox_label %}
 
+{#############################################################################
+ # Labels - custom types
+ #############################################################################}
+
+{# parent label (custom type) #}
+{% block parent_label %}
+    {% if form.vars.show_field %}
+        {{ block('form_label') }}
+    {% endif %}
+{% endblock parent_label %}
 
 {#############################################################################
  # Widgets - core types
@@ -374,11 +394,13 @@
 {# parent widget (custom type) #}
 {% block parent_widget %}
     <input type="hidden" id="{{ id }}" name="{{ full_name }}" value="{{ value }}"/>
-    {% for label, choice in choices %}
-        {% if choice is selectedchoice(value) %}
-            <input type="text" class="form-control" disabled="disabled" value="{{ choice.label|trans({}, translation_domain) }}"/>
-        {% endif %}
-    {% endfor %}
+    {% if form.vars.show_field %}
+        {% for label, choice in choices %}
+            {% if choice is selectedchoice(value) %}
+                <input type="text" class="form-control" disabled="disabled" value="{{ choice.label|trans({}, translation_domain) }}"/>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}
 
 

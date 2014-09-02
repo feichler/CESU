@@ -15,4 +15,7 @@ TODO Flo: Reports (need to be defined) - prototype in development
 Flo: create generic column type for audits - done (hopefully design is usable)
 TODO Flo: create generic column type for notes
 Flo: create visual form groups (tabbed?) - done
-TODO Flo: create generic crud for notes on entities
+TODO Flo: create generic crud for notes on entities ~ should be ready - check tomorrow
+
+TODO: add filters to seed unit selection for requests
+
