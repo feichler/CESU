@@ -12,5 +12,5 @@ ElektraSeedBundle:
     type: routing
 
 request.seedUnit.add:
-    pattern:  /requests/addUnits/{id}
+    pattern:  /request/addUnits/{id}
     defaults: { _controller: ElektraSeedBundle:Requests/Request:addUnit }

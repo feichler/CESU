@@ -54,6 +54,9 @@ class RequestController extends Controller
             }
             $manager = $this->getDoctrine()->getManager();
             $manager->flush();
+
+            $returnUrl = $this->getCrud()->getLinker()->getRedirectAfterProcess($entity);
+            return $this->redirect($returnUrl);
         }
 
         // get the view name (specific or common) and prepare the form view

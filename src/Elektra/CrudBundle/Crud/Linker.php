@@ -360,6 +360,10 @@ final class Linker
             // try to get the parent's id
             $method   = 'get' . ucfirst($last);
             $returnId = $this->getCrud()->getParentId();
+            if (empty($returnId))
+            {
+                $returnId = $entity->getId();
+            }
             //            $returnId = $entity->$method()->getId();
             // generate the link
             $params = array('id' => $returnId);
