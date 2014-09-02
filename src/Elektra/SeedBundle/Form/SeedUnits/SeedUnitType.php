@@ -23,20 +23,40 @@ class SeedUnitType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('serialNumber', 'text', CommonOptions::getRequiredNotBlank());
+        $commonGroup = $this->getFieldGroup($builder, $options, 'Common Data'); // TRANSLATE this
 
-        $builder->add('model', 'entity',
+        $commonGroup->add('serialNumber', 'text', CommonOptions::getRequiredNotBlank());
+
+        $commonGroup->add(
+            'model',
+            'entity',
             array(
                 'class'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model')->getClassEntity(),
                 'property' => 'title'
             )
         );
 
-        $builder->add('powerCordType', 'entity',
+        $commonGroup->add(
+            'powerCordType',
+            'entity',
             array(
                 'class'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')->getClassEntity(),
                 'property' => 'title'
             )
         );
+
+        if ($options['crud_action'] == 'add') {
+            $commonGroup->add(
+                'location',
+                'entity',
+                array(
+                    'mapped'     => false,
+                    'class' => $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'WarehouseLocation')->getClassEntity(),
+                    'property' => 'locationIdentifier',
+                )
+            );
+        }
+
+        $builder->add($commonGroup);
     }
 }

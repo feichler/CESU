@@ -11,5 +11,12 @@ class WarehouseLocationDefinition extends Definition
     {
 
         parent::__construct('Elektra', 'Seed', 'Companies', 'WarehouseLocation');
+
+        // single route (add / view / edit / delete)
+        $this->setRouteSingular('warehouse');
+
+        // root definition -> need a plural route
+        $this->setRoot();
+        $this->setRoutePlural('warehouses');
     }
 }

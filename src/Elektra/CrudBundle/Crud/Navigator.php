@@ -19,6 +19,8 @@ use Elektra\SeedBundle\Definition\Companies\RegionDefinition;
 use Elektra\SeedBundle\Definition\Companies\RequestingCompanyDefinition;
 use Elektra\SeedBundle\Definition\Companies\SalesTeamDefinition;
 use Elektra\SeedBundle\Definition\Companies\WarehouseLocationDefinition;
+use Elektra\SeedBundle\Definition\Events\EventTypeDefinition;
+use Elektra\SeedBundle\Definition\Notes\NoteDefinition;
 use Elektra\SeedBundle\Definition\Requests\RequestDefinition;
 use Elektra\SeedBundle\Definition\SeedUnits\ModelDefinition;
 use Elektra\SeedBundle\Definition\SeedUnits\PowerCordTypeDefinition;
@@ -58,7 +60,7 @@ final class Navigator
         $this->definitions    = array();
         $this->definitionsMap = array();
         // URGENT add the single definitions from the seedbundle
-
+        $this->addDefinition(new NoteDefinition());
         $this->addDefinition(new AddressDefinition());
         $this->addDefinition(new AddressTypeDefinition());
         $this->addDefinition(new CompanyDefinition());
@@ -86,6 +88,10 @@ final class Navigator
         $this->addDefinition(new AttendanceDefinition());
         $this->addDefinition(new RegistrationDefinition());
         $this->addDefinition(new TrainingDefinition());
+
+
+
+        $this->addDefinition(new EventTypeDefinition());
 
         $this->addDefinition(new \Elektra\SeedBundle\Definition\Imports\SeedUnitDefinition());
     }

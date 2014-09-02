@@ -3,8 +3,12 @@
 namespace Elektra\CrudBundle\Controller;
 
 use Elektra\CrudBundle\Crud\Crud;
+use Elektra\CrudBundle\Crud\Definition;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class Controller extends BaseController
 {
@@ -17,11 +21,14 @@ abstract class Controller extends BaseController
     /**
      * @param string $action
      */
-    protected final function initialise($action)
+    protected final function initialise($action, Definition $definition = null)
     {
 
-        $this->crud = new Crud($this, $this->getDefinition());
-
+        if ($definition === null) {
+            $this->crud = new Crud($this, $this->getDefinition());
+        } else {
+            $this->crud = new Crud($this, $definition);
+        }
         $siteBase = $this->get('siteBase');
         $siteBase->initialisePageFromDefinition($this->getCrud()->getDefinition(), $action);
     }
@@ -71,7 +78,7 @@ abstract class Controller extends BaseController
         // check the form
         $form->handleRequest($this->getCrud()->getRequest());
         if ($form->isValid()) {
-            return $this->processAction('add', $entity);
+            return $this->processAction('add', $entity, $form);
         }
 
         // get the view name (specific or common) and prepare the form view
@@ -115,7 +122,7 @@ abstract class Controller extends BaseController
         // check the form
         $form->handleRequest($this->getCrud()->getRequest());
         if ($form->isValid()) {
-            return $this->processAction('edit', $entity);
+            return $this->processAction('edit', $entity, $form);
         }
         //var_dump($this->getCrud()->getLinker()->getRedirectAfterProcess($entity));
         // get the view name (specific or common) and prepare the form view
@@ -152,18 +159,43 @@ abstract class Controller extends BaseController
         return $this->render($viewName, array('table' => $table));
     }
 
+    public function childListAction(EntityInterface $parentEntity, Definition $childType, $parentRoute, $relationName = null)
+    {
+
+        $this->initialise('childList', $childType);
+        $this->getCrud()->setParent($parentEntity, $parentRoute, $relationName);
+
+        $table = $this->getTable(1, false);
+        $table->setInView(true);
+$method = 'get'.ucfirst($relationName);
+
+        if(method_exists($parentEntity,$method)) {
+//            $childs = $parentEntity->$method();
+//            echo get_class($childs);
+            $table->setEntries($parentEntity->$method());
+        }
+        //        $repository = $this->getDoctrine()->getRepository($childType->getClassRepository());
+        //
+        //        echo get_class($repository);
+
+        $viewName = $this->getCrud()->getView('childList');
+
+        //        return new Response('test');
+        return $this->render($viewName, array('table' => $table));
+    }
+
     /*************************************************************************
      * Controller Action Helpers
      *************************************************************************/
 
-    protected function processAction($action, $entity)
+    protected function processAction($action, $entity, FormInterface $form = null)
     {
 
         $manager = $this->getDoctrine()->getManager();
 
         // call the before hook
         $beforeHook = 'before' . ucfirst($action) . 'Entity';
-        $result     = $this->$beforeHook($entity);
+        $result     = $this->$beforeHook($entity, $form);
 
         if ($result) {
             switch ($action) {
@@ -193,7 +225,7 @@ abstract class Controller extends BaseController
 
             // call the after hook
             $afterHook = 'after' . ucfirst($action) . 'Entity';
-            $this->$afterHook($entity);
+            $this->$afterHook($entity, $form);
 
             // flush the manager again, in case the after action has modified something
             $manager->flush();
@@ -206,13 +238,15 @@ abstract class Controller extends BaseController
         return $this->redirect($returnUrl);
     }
 
-    protected function getTable($page)
+    protected function getTable($page, $autoload = true)
     {
 
         $tableClass = $this->getCrud()->getDefinition()->getClassTable();
         $table      = new $tableClass($this->getCrud());
 
-        $table->load($page);
+        if ($autoload) {
+            $table->load($page);
+        }
 
         return $table;
     }
@@ -276,7 +310,7 @@ abstract class Controller extends BaseController
      *
      * @return bool
      */
-    public function beforeAddEntity(EntityInterface $entity)
+    public function beforeAddEntity(EntityInterface $entity, FormInterface $form = null)
     {
 
         // NOTE override if necessary
@@ -287,7 +321,7 @@ abstract class Controller extends BaseController
     /**
      * @param EntityInterface $entity
      */
-    public function afterAddEntity(EntityInterface $entity)
+    public function afterAddEntity(EntityInterface $entity, FormInterface $form = null)
     {
         // NOTE override if necessary
     }
@@ -297,7 +331,7 @@ abstract class Controller extends BaseController
      *
      * @return bool
      */
-    public function beforeEditEntity(EntityInterface $entity)
+    public function beforeEditEntity(EntityInterface $entity, FormInterface $form = null)
     {
 
         // NOTE override if necessary
@@ -309,7 +343,7 @@ abstract class Controller extends BaseController
     /**
      * @param EntityInterface $entity
      */
-    public function afterEditEntity(EntityInterface $entity)
+    public function afterEditEntity(EntityInterface $entity, FormInterface $form = null)
     {
         // NOTE override if necessary
     }
@@ -319,7 +353,7 @@ abstract class Controller extends BaseController
      *
      * @return bool
      */
-    public function beforeDeleteEntity(EntityInterface $entity)
+    public function beforeDeleteEntity(EntityInterface $entity, FormInterface $form = null)
     {
 
         // NOTE override if necessary
@@ -331,7 +365,7 @@ abstract class Controller extends BaseController
     /**
      * @param EntityInterface $entity
      */
-    public function afterDeleteEntity(EntityInterface $entity)
+    public function afterDeleteEntity(EntityInterface $entity, FormInterface $form = null)
     {
         // NOTE override if necessary
     }
