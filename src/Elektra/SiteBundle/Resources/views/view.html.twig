@@ -1,18 +1,12 @@
 {% extends "ElektraSiteBundle::form.html.twig" %}
-{# FORM #}
-{% block form %}
-    {% form_theme form _self %}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
-{% endblock form %}
 
-{# FORM_START #}
+{#############################################################################
+ # Top level Containers
+ #############################################################################}
+
 {% block form_start %}
-    {# output the HTML #}
     <div
             name="{{ form.vars.name }}"
-    {#class="{{ class }}"#}
     {% for attrname, attrvalue in attr %}
         {% if attrname == 'css_class' %}
             {% set attrname = 'class' %}
@@ -22,21 +16,85 @@
     >
 {% endblock form_start %}
 
-{# FORM_END #}
 {% block form_end %}
-    {% form_theme form _self %}
     {% if not render_rest is defined or render_rest %}
-        {{ form_rest(form) }}
-    {% endif %}
+        {{- form_rest(form) -}}
+    {% endif -%}
     </div>
 {% endblock form_end %}
 
-
 {#############################################################################
- # Form widgets
+ # Specific Row Containers
  #############################################################################}
 
-{# FORM_LABEL #}
+{# checkbox row #}
+{% block checkbox_row %}
+    {{- block('form_row') -}}
+{% endblock checkbox_row %}
+
+{# groups #}
+{% block group_row %}
+    {% set withBody = true %}
+    {% for child in form if child.vars.relation_name is defined %}
+        {% set withBody = false %}
+    {% endfor %}
+    {% set groupsType = form.vars.render_type %}
+    {% if groupsType == 'fieldset' %}
+        <fieldset>
+            <legend>
+                {{ label|trans({}, translation_domain) }}
+            </legend>
+            {% for child in form %}
+                {{- form_row(child) -}}
+            {% endfor %}
+        </fieldset>
+    {% elseif groupsType == 'tab' %}
+        <div id="form-tab-{{ id }}" class="tab-pane fade{% if first %} active in{% endif %}">
+            {% if withBody %}
+            <div class="panel-body">
+                {% endif %}
+                {% for child in form %}
+                    {{- form_row(child) -}}
+                {% endfor %}
+                {% if withBody %}
+            </div>
+            {% endif %}
+        </div>
+    {% elseif groupsType == 'panel' %}
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#form-panel" href="#form-panel-{{ id }}">{{ label|trans({}, translation_domain) }}</a></h4></div>
+            <div id="form-panel-{{ id }}" class="panel-collapse collapse{% if first %} in{% endif %}">
+                {% if withBody %}
+                <div class="panel-body">
+                    {% endif %}
+                    {% for child in form %}
+                        {{- form_row(child) -}}
+                    {% endfor %}
+                    {% if withBody %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock group_row %}
+
+{% block relatedList_row %}
+    {% if form.vars.relation_name is defined %}
+        {#{% set groupsType = form.vars.render_type %}#}
+
+        {{ form_widget(form) }}
+    {% else %}
+        {{ block('form_row') }}
+    {% endif %}
+    {#{% set innerClass = 'none' %}#}
+    {#{{- block('form_row') -}}#}
+{% endblock relatedList_row %}
+
+{#############################################################################
+ # Labels
+ #############################################################################}
+
+{# generic label #}
 {% block form_label %}
     {% if label is not sameas(false) %}
         {% if not compound %}
@@ -48,129 +106,74 @@
         {% if label is empty %}
             {% set label = name|humanize %}
         {% endif %}
-        <span class="col-md-2 control-label"{% for attrname, attrvalue in label_attr %}{% if attrname != 'for' %} {{ attrname }}="{{ attrvalue }}"{% endif %}{% endfor %}>
+        <span class="col-md-2 control-label"{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
         {{ label|trans({}, translation_domain) }}
         </span>
     {% endif %}
 {% endblock form_label %}
 
-{# FORM_WIDGET_SIMPLE #}
-{% block form_widget_simple %}
-    {% set type = type|default('text') %}
-    <div
-            class="form-control"
-            {#type="{{ type }}"#}
-            {{ block('widget_attributes') }}
-            {% if value is not empty %}
-                value="{{ value }}"
-            {% endif %}
-            >
-        {% if value is not empty %}
-            {{ value }}
-        {% endif %}
-    </div>
-{% endblock form_widget_simple %}
+{# checkbox label #}
+{% block checkbox_label %}
+    {{ block('form_label') }}
+{% endblock checkbox_label %}
 
-{# TEXTAREA_WIDGET #}
+{#############################################################################
+ # Widgets - core types
+ #############################################################################}
+
+{# simple input widget #}
+{% block form_widget_simple -%}
+    {% set type = type|default('text') -%}
+    <span class="form-control" {{ block('widget_attributes') }}>
+        {% if value is not empty %}{{ value }}{% endif %}
+    </span>
+{%- endblock form_widget_simple %}
+
+{# hidden -> not displaying in view theme #}
+{% block hidden_widget %}
+{% endblock hidden_widget %}
+
+{# textarea widget #}
 {% block textarea_widget -%}
     <div class="form-control" {{ block('widget_attributes') }}>{{ value }}</div>
 {%- endblock textarea_widget %}
 
+{# checkbox widget #}
+{% block checkbox_widget -%}
+    <span class="form-control">
+        {% if checked %}Yes{% else %}No{% endif %}
+    </span>
+{%- endblock checkbox_widget %}
 
-{# HIDDEN_WIDGET -> not displaying in view theme #}
-{% block hidden_widget %}
-{% endblock hidden_widget %}
-
-{# CANCEL_WIDGET (custom button type) #}
-{% block cancel_widget %}
-    {#{{ returnLink }}#}
-    {#{% set link = path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) %}#}
-    <a
-            href="{{ returnLink }}"
-            id="{{ id }}"
-            name="{{ full_name }}"
-    {%- for attrname, attrvalue in attr -%}
-        {{- " " -}}
-        {%- if attrvalue is not sameas(false) -%}
-            {{- attrname }}="{{ attrvalue }}"
-        {%- endif -%}
-    {%- endfor -%}
-    >
-    {{ label|trans({}, translation_domain) }}
-    </a>
-
-    {##}
-    {#<a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) }}" class="btn btn-primary">Back</a>#}
-    {#&#123;&#35;{{  }}&#35;&#125;#}
-    {#{% set type = type|default('submit') %}#}
-    {#{{ block('button_widget') }}#}
-{% endblock cancel_widget %}
-
-{% block button_attributes -%}
-    id="{{ id }}" name="{{ full_name }}"{% if disabled %} disabled="disabled"{% endif -%}
-    {%- for attrname, attrvalue in attr -%}
-        {{- " " -}}
-        {%- if attrname in ['placeholder', 'title'] -%}
-            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
-        {%- elseif attrvalue is sameas(true) -%}
-            {{- attrname }}="{{ attrname }}"
-        {%- elseif attrvalue is not sameas(false) -%}
-            {{- attrname }}="{{ attrvalue }}"
-        {%- endif -%}
-    {%- endfor -%}
-{%- endblock button_attributes %}
-
-
-
-{% block button_widget -%}
-    {% if label is empty -%}
-        {% set label = name|humanize %}
-    {%- endif -%}
-    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
-{%- endblock button_widget %}
-
-{# BUTTONGROUP_WIDGET #}
-{% block buttonGroup_widget %}
-    {% for button in form.children %}
-        {% if (button.vars.showView is defined and button.vars.showView == true) or button.vars.showView is not defined %}
-            {{ form_widget(button) }}
+{# choice widget (collapsed form) #}
+{% block choice_widget_collapsed -%}
+    {% for group_label, choice in choices %}
+        {% if choice is selectedchoice(value) %}
+            <span class="form-control">
+                {{ choice.label|trans({}, translation_domain) }}
+            </span>
         {% endif %}
     {% endfor %}
-{% endblock buttonGroup_widget %}
-
-{# BUTTONGROUP_ROW #}
-{% block buttonGroup_row %}
-    {{ block('button_row') }}
-{% endblock buttonGroup_row %}
-
-{# CHOICE_WIDGET_COLLAPSED #}
-{% block choice_widget_collapsed -%}
-    <span class="form-control" {{ block('widget_attributes') }}>
-        {% set options = choices -%}
-        {{ block('choice_widget_options') }}
-    </span>
 {%- endblock choice_widget_collapsed %}
 
-{# CHOICE_WIDGET_OPTIONS #}
-{% block choice_widget_options -%}
-    {% for group_label, choice in options %}
+{#############################################################################
+ # Widgets - custom types
+ #############################################################################}
+
+{# parent widget (custom type) #}
+{% block parent_widget %}
+    {% for label, choice in choices %}
         {% if choice is selectedchoice(value) %}
-            {{ choice.label|trans({}, translation_domain) }}
+            <span class="form-control">
+                {{ choice.label|trans({}, translation_domain) }}
+            </span>
         {% endif %}
     {% endfor %}
-{%- endblock choice_widget_options %}
+{% endblock %}
 
 {% block relatedList_widget %}
     {% set controller = form.vars.relation_child_type.controller ~ ':relatedList' %}
-    {#{% set parentType =  form.vars.relation_parent_type %}#}
-    {#{% set embeddedDefinition = form.vars.embeddedDefinition %}#}
     {% set parentEntity = form.vars.relation_parent_entity %}
     {% set relationName = form.vars.relation_name %}
-    {#{% set relationName = form.vars.relationName %}#}
-    {#{{ form.vars.definition }}#}
-    {#{{ form.definition }}#}
-    {#{{ form.relationName }}#}
     {{ render(controller(controller, {'parentEntity': parentEntity,'parentRoute':app.request.get('_route'),'relationName':relationName})) }}
-    {#{{ render(controller(controller, {'parentDefinition': parentDefinition, 'embeddedDefinition': embeddedDefinition, 'parentEntity': parentEntity, 'relationName': relationName})) }}#}
-    {#{{ render(controller(form.vars.definition.controller ~ ':relatedList', {'definition': form.vars.definition, 'parent': form.vars.parent, 'relationName': form.vars.relationName})) }}#}
 {% endblock relatedList_widget %}

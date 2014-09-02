@@ -4,7 +4,6 @@ namespace Elektra\CrudBundle\Form;
 
 use Elektra\CrudBundle\Crud\Crud;
 use Elektra\CrudBundle\Crud\Definition;
-use Elektra\CrudBundle\Form\CommonOptions;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -71,7 +70,8 @@ abstract class Form extends AbstractType
     {
 
         // NOTE override for other styles
-        return $this->setFormWidths(8, 10, 12, 12);
+        return $this->setFormWidths();
+        //        return $this->setFormWidths(8, 10, 12, 12);
     }
 
     /**
@@ -124,6 +124,7 @@ abstract class Form extends AbstractType
             array(
                 'css_class'    => '',
                 'show_buttons' => true,
+                //                'has_groups' => false,
             )
         );
 
@@ -169,7 +170,7 @@ abstract class Form extends AbstractType
         if ($crudAction == 'add' || $crudAction == 'edit') {
             // URGENT CHECK should the parent relation field be editable?
             $parentOptions['read_only'] = true;
-//            $parentOptions['disabled']  = true;
+            //            $parentOptions['disabled']  = true;
         }
 
         $options = $this->getCrud()->mergeOptions(CommonOptions::getRequiredNotBlank(), $parentOptions);
@@ -184,6 +185,7 @@ abstract class Form extends AbstractType
 
         $classes                         = implode(' ', $classes);
         $view->vars['attr']['css_class'] = $classes;
+        //        $view->vars['has_groups'] = $options['has_groups'];
 
         $this->buildSpecificView($view, $form, $options);
     }
@@ -270,6 +272,9 @@ abstract class Form extends AbstractType
             );
         }
 
+        $language = $this->getCrud()->getService('siteLanguage');
+        $langKey  = $this->getCrud()->getLanguageKey();
+
         // DELETE Button
         if ($crudAction == 'view') {
             $buttons['delete'] = array(
@@ -277,7 +282,8 @@ abstract class Form extends AbstractType
                 'options' => array(
                     'label' => $this->getButtonLabel('delete'),
                     'attr'  => array(
-                        'class' => $this->getButtonClass('delete'),
+                        'class'   => $this->getButtonClass('delete'),
+                        'onclick' => 'return confirm("' . $language->getAlternate('view.' . $langKey . '.actions.confirm_delete', 'common.confirm_delete') . '");', // TRANSLATE this
                     ),
                     'link'  => $this->getCrud()->getLinker()->getFormDeleteLink($entity),
                 ),
@@ -312,6 +318,32 @@ abstract class Form extends AbstractType
     {
 
         return 'btn btn-' . $type;
+    }
+
+    protected function getFieldGroup(FormBuilderInterface $builder, array $options, $label)
+    {
+
+        static $counter = 0;
+
+        $groupOptions = array(
+            'inherit_data' => true,
+            'label'        => $label,
+        );
+
+        if ($counter == 0) {
+            $groupOptions['first'] = true;
+        }
+
+        if ($options['crud_action'] == 'view') {
+            $groupOptions['render_type'] = 'tab';
+        } else {
+            $groupOptions['render_type'] = 'fieldset';
+        }
+
+        $group = $builder->create('group-' . $counter, 'group', $groupOptions);
+        $counter++;
+
+        return $group;
     }
 
     /*************************************************************************

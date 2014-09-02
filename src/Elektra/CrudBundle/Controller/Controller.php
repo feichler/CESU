@@ -145,6 +145,7 @@ abstract class Controller extends BaseController
         $this->getCrud()->setParent($parentEntity, $parentRoute, $relationName);
 
         $table = $this->getTable(1);
+        $table->setInView(true);
 
         $viewName = $this->getCrud()->getView('relatedList');
 

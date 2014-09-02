@@ -9,5 +9,10 @@ ENHANCE finish rendering of menu (navbar)
 
 URGENT Done~ Flo: Links for embedded crud (close / save / cancel) -> return to embedding view
 URGENT Flo: Find a way to display "repeated" entities directly in form - e.g. add a person and show contact infos in the same form (with "add" option to add multiple contact infos)
-TODO Flo: Import of Seed Units from Excel / CSV
-TODO Flo: Reports (need to be defined)
+TODO Flo: Import of Seed Units from Excel / CSV - NOTE: prototype ready
+TODO Flo: Reports (need to be defined) - prototype in development
+
+TODO Flo: create generic column type for audits
+TODO Flo: create generic column type for notes
+TODO Flo: create visual form groups (tabbed?)
+TODO Flo: create generic crud for notes on entities

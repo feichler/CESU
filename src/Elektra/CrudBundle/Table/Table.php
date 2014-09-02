@@ -47,6 +47,11 @@ abstract class Table
      */
     protected $customFilters;
 
+    /**
+     * @var bool
+     */
+    protected $inView;
+
     /*************************************************************************
      * Construction & Initialisation
      *************************************************************************/
@@ -70,6 +75,7 @@ abstract class Table
             'edit'   => true,
             'delete' => true,
         );
+        $this->inView = false;
 
         // call the specific initialisation methods for this specific table
         $this->initialiseColumns();
@@ -653,4 +659,24 @@ abstract class Table
 
         return $this->pagination;
     }
+
+    /**
+     * @param boolean $inView
+     */
+    public function setInView($inView)
+    {
+
+        $this->inView = $inView;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getInView()
+    {
+
+        return $this->inView;
+    }
+
+
 }

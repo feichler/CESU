@@ -1,37 +1,43 @@
 {% block table %}
+    {% set classes = 'table table-condensed table-striped table-' ~ table.crud.definition.name|lower %}
+    {% if table.inView == false %}
+    {% set classes = classes ~ ' table-bordered' %}
     <form method="post" class="form-horizontal">
-        {% set tableWidth = 12 %}
+    {% set tableWidth = 12 %}
+    {# URGENT embedded functionality #}
+    {% if not table.crud.hasParent() %}
+        {% if table.hasFilters or table.hasSearch %}
+            {% set filtersWidth = 2 %}
+            {% set tableWidth = tableWidth - filtersWidth %}
+            <div class="col-md-{{ filtersWidth }}">
+                <div class="table-filters">
+                    {% if table.hasSearch() %}
+                        {{ block('table_search') }}
+                    {% endif %}
+                    {% if table.hasFilters %}
+                        {{ block('table_filters') }}
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+<div class="col-md-{{ tableWidth }}">
+    <div class="table-responsive">
+    {% endif %}
+    <table class="{{ classes }}">
+        {{ block('table_head') }}
+        {{ block('table_foot') }}
+        {{ block('table_body') }}
+    </table>
+    {% if table.inView == false %}
+        </div>
         {# URGENT embedded functionality #}
         {% if not table.crud.hasParent() %}
-            {% if table.hasFilters or table.hasSearch %}
-                {% set filtersWidth = 2 %}
-                {% set tableWidth = tableWidth - filtersWidth %}
-                <div class="col-md-{{ filtersWidth }}">
-                    <div class="table-filters">
-                        {% if table.hasSearch() %}
-                            {{ block('table_search') }}
-                        {% endif %}
-                        {% if table.hasFilters %}
-                            {{ block('table_filters') }}
-                        {% endif %}
-                    </div>
-                </div>
-            {% endif %}
+            {#{{ block('table_navigation') }}#}
         {% endif %}
-        <div class="col-md-{{ tableWidth }}">
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped table-condensed table-{{ table.crud.definition.name|lower }}">
-                    {{ block('table_head') }}
-                    {{ block('table_foot') }}
-                    {{ block('table_body') }}
-                </table>
-            </div>
-            {# URGENT embedded functionality #}
-            {% if not table.crud.hasParent() %}
-                {#{{ block('table_navigation') }}#}
-            {% endif %}
         </div>
-    </form>
+        </form>
+    {% endif %}
 {% endblock table %}
 
 {% block table_head %}

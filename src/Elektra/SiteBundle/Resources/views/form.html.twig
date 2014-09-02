@@ -1,19 +1,16 @@
 {% extends 'form_div_layout.html.twig' %}
 
 {#############################################################################
- # Form containers
+ # Top level Containers
  #############################################################################}
 
-{# FORM #}
 {% block form %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
 {% endblock form %}
 
-{# FORM_START #}
 {% block form_start %}
-
     {# check the form method #}
     {% set method = method|upper %}
     {%- if method in ["GET", "POST"] -%}
@@ -21,20 +18,7 @@
     {%- else -%}
         {% set form_method = "POST" %}
     {%- endif -%}
-    {# perpare the form classes #}
-    {#{% set class = "" %}#}
-    {#{% if form.vars.elektra is defined %}#}
-    {#{% if form.vars.elektra.classes is defined %}#}
-    {#{% set class = form.vars.elektra.classes|join(' ') %}#}
-    {#{% endif %}#}
-    {#{% endif %}#}
-    {# output the HTML #}
-    <form
-            role="form"
-            name="{{ form.vars.name }}"
-            method="{{ form_method }}"
-            action="{{ action }}"
-    {#class="{{ class }}"#}
+    <form role="form" name="{{ form.vars.name }}" method="{{ form_method }}" action="{{ action }}"
     {% for attrname, attrvalue in attr %}
         {% if attrname == 'css_class' %}
             {% set attrname = 'class' %}
@@ -51,64 +35,18 @@
     {% endif %}
 {% endblock form_start %}
 
-{# FORM_END #}
 {% block form_end %}
     {% if not render_rest is defined or render_rest %}
-        {{ form_rest(form) }}
-    {% endif %}
+        {{- form_rest(form) -}}
+    {% endif -%}
     </form>
 {% endblock form_end %}
 
-{# FORM_WIDGET #}
-{% block form_widget %}
-    {% if compound %}
-        {{ block('form_widget_compound') }}
-    {% else %}
-        {{ block('form_widget_simple') }}
-    {% endif %}
-{%- endblock form_widget %}
+{#############################################################################
+ # Generic rendering
+ #############################################################################}
 
-{# FORM_ROWS #}
-{% block form_rows -%}
-    {% for child in form %}
-        {{- form_row(child) -}}
-    {% endfor %}
-{%- endblock form_rows %}
-
-{# FORM_ROW #}
-{% block form_row %}
-    {% set class = class|default('') %}
-    {% set addclass = addclass|default('') %}
-    {% set shown = true %}
-    {% if form.vars.hideForm is defined and form.vars.hideForm == true %}
-        {% set shown = false %}
-    {% endif %}
-    {% if shown == true %}
-        {% set class = class ~ ' form-group' %}
-        {% if errors|length > 0 %}
-            {% set class = class ~ ' has-error has-feedback' %}
-        {% endif %}
-        <div class="{{ class }}">
-            {{ form_label(form) }}
-            <div class="col-md-10 {{ addclass }}">
-                {{ form_widget(form) }}
-                {{ form_errors(form) }}
-            </div>
-        </div>
-    {% endif %}
-{% endblock form_row %}
-
-{% block checkbox_row %}
-    {% set addclass = ' col-md-offset-2' %}
-    {{- block('form_row') -}}
-{% endblock checkbox_row %}
-
-{% block checkbox_label %}
-    {# NO Label to show at the default position #}
-{% endblock checkbox_label %}
-
-{# FORM_REST #}
-{% block form_rest -%}
+{% block form_rest %}
     {% for child in form -%}
         {% if not child.rendered %}
             {{- form_row(child) -}}
@@ -116,21 +54,193 @@
     {%- endfor %}
 {% endblock form_rest %}
 
-{# FORM_ERRORS #}
-{% block form_errors -%}
+{#############################################################################
+ # Error rendering
+ #############################################################################}
+
+{% block form_errors %}
     {% if errors|length > 0 -%}
         <span class="glyphicon glyphicon-remove form-control-feedback"></span>
         {%- for error in errors -%}
             <span class="help-block">{{ error.message|trans }}</span>
         {%- endfor -%}
     {%- endif %}
-{%- endblock form_errors %}
+{% endblock form_errors %}
 
 {#############################################################################
- # Form widgets
+ # Rows rendering
  #############################################################################}
 
-{# FORM_LABEL #}
+{% block form_rows %}
+    {# First, check if rows are grouped#}
+    {% set groups, groupsType = false, '' %}
+    {% for child in form if child.vars.render_type is defined %}
+        {% set groups, groupsType = true, child.vars.render_type %}
+    {% endfor %}
+
+    {# If rows are grouped, start the grouping #}
+    {% if groups %}
+        {{ block('form_rows_groups_before') }}
+    {% endif %}
+
+    {# loop through the childs #}
+    {% set containerOpen = false %}
+    {% for child in form %}
+        {% if child.vars.render_type is defined %}
+            {% if containerOpen == false %}
+                {{ block('form_rows_group_start') }}
+                {% set containerOpen = true %}
+            {% endif %}
+        {% else %}
+            {% if containerOpen == true %}
+                {{ block('form_rows_group_end') }}
+                {% set containerOpen = false %}
+            {% endif %}
+        {% endif %}
+        {# render the actual row #}
+        {{ form_row(child) }}
+    {% endfor %}
+    {% if containerOpen == true %}
+        {{ block('form_rows_group_end') }}
+        {% set containerOpen = false %}
+    {% endif %}
+
+    {# If rows are grouped, end the grouping #}
+    {% if groups %}
+        {{ block('form_rows_groups_after') }}
+    {% endif %}
+
+{% endblock form_rows %}
+
+{# before grouping content (e.g. tab navigation) #}
+{% block form_rows_groups_before %}
+    {% if groupsType == 'tab' %}
+        {# show the tab navigation #}
+        <ul id="form-tab-nav" class="nav nav-tabs" role="tablist">
+            {% for child in form if child.vars.render_type is defined %}
+                <li{% if child.vars.first %} class="active"{% endif %}>
+                    <a href="#form-tab-{{ child.vars.id }}" role="tab" data-toggle="tab">
+                        {{ child.vars.label|trans({}, translation_domain) }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock form_rows_groups_before %}
+
+{# after grouping content #}
+{% block form_rows_groups_after %}
+    {# nothing by now #}
+{% endblock form_rows_groups_after %}
+
+{# start of a form group #}
+{% block form_rows_group_start %}
+    {% if groupsType == 'fieldset' %}
+<fieldset>
+    {% elseif groupsType == 'panel' %}
+    <div class="panel-group" id="form-panel">
+        {% elseif groupsType == 'tab' %}
+        <div class="panel panel-default">
+            <div class="tab-content" id="form-tab-content">
+                {% endif %}
+                {% endblock form_rows_group_start %}
+
+                {# end of a form group #}
+                {% block form_rows_group_end %}
+                {% if groupsType == 'tab' %}
+            </div>
+        </div>
+        {% elseif groupsType == 'panel' %}
+    </div>
+    {% elseif groupsType == 'fieldset' %}
+</fieldset>
+    {% endif %}
+{% endblock form_rows_group_end %}
+
+{#############################################################################
+ # Specific Row Containers
+ #############################################################################}
+
+{# default rows #}
+{% block form_row %}
+    {% set class, innerClass = class|default('') ~ 'form-group', innerClass|default('') %}
+    {% if errors|length > 0 %}
+        {% set class = class ~ ' has-error has-feedback' %}
+    {% endif %}
+    {% if innerClass != 'none' %}
+        {% if label is not sameas(false) %}
+            {% set innerClass = innerClass ~ " col-md-10" %}
+        {% else %}
+            {% set innerClass = innerClass ~ " col-md-12" %}
+        {% endif %}
+    {% endif %}
+    <div class="{{ class }}">
+        {{ form_label(form) }}
+        <div class="{{ innerClass }}">
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endblock form_row %}
+
+{# groups #}
+{% block group_row %}
+    {% set groupsType = form.vars.render_type %}
+    {% if groupsType == 'fieldset' %}
+        <fieldset>
+            <legend>
+                {{ label|trans({}, translation_domain) }}
+            </legend>
+            {% for child in form %}
+                {{- form_row(child) -}}
+            {% endfor %}
+        </fieldset>
+    {% elseif groupsType == 'tab' %}
+        <div id="form-tab-{{ id }}" class="tab-pane fade{% if first %} active in{% endif %}">
+            <div class="panel-body">
+                {% for child in form %}
+                    {{- form_row(child) -}}
+                {% endfor %}
+            </div>
+        </div>
+    {% elseif groupsType == 'panel' %}
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#form-panel" href="#form-panel-{{ id }}">{{ label|trans({}, translation_domain) }}</a></h4></div>
+            <div id="form-panel-{{ id }}" class="panel-collapse collapse{% if first %} in{% endif %}">
+                <div class="panel-body">
+                    {% for child in form %}
+                        {{- form_row(child) -}}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock group_row %}
+
+{# button group row #}
+{% block buttonGroup_row %}
+    {{ block('button_row') }}
+{% endblock buttonGroup_row %}
+
+{# generic button rows #}
+{% block button_row -%}
+    <div class="form-group text-center">
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock button_row %}
+
+{# checkbox row #}
+{% block checkbox_row %}
+    {% set innerClass = ' col-md-offset-2' %}
+    {{- block('form_row') -}}
+{% endblock checkbox_row %}
+
+
+{#############################################################################
+ # Labels
+ #############################################################################}
+
+{# generic label #}
 {% block form_label %}
     {% if label is not sameas(false) %}
         {% if not compound %}
@@ -148,65 +258,65 @@
     {% endif %}
 {% endblock form_label %}
 
-{# FORM_WIDGET_SIMPLE #}
+{# checkbox label #}
+{% block checkbox_label %}
+    {# NO Label to show at the default position #}
+{% endblock checkbox_label %}
+
+
+{#############################################################################
+ # Widgets - core types
+ #############################################################################}
+
+{# generic widget #}
+{% block form_widget %}
+    {% if compound %}
+        {{ block('form_widget_compound') }}
+    {% else %}
+        {{ block('form_widget_simple') }}
+    {% endif %}
+{% endblock form_widget %}
+
+{# simple input widget #}
 {% block form_widget_simple -%}
     {% set type = type|default('text') -%}
-    <input
-            class="form-control"
-            type="{{ type }}"
-            {{ block('widget_attributes') }}
-            {% if value is not empty %}
-                value="{{ value }}"
-            {% endif %}
-            />
+    <input class="form-control" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
 {%- endblock form_widget_simple %}
 
-{# FORM_WIDGET_COMPOUND #}
+{# compound widget #}
 {% block form_widget_compound -%}
-    <div {{ block('widget_container_attributes') }}>
-        {%- if form.parent is empty -%}
-            {{ form_errors(form) }}
-        {%- endif -%}
-        {{- block('form_rows') -}}
-        {{- form_rest(form) -}}
-    </div>
+    {%- if form.parent is not empty -%}
+        <div {{ block('widget_container_attributes') }}>
+    {% endif %}
+    {%- if form.parent is empty -%}
+        {{ form_errors(form) }}
+    {%- endif -%}
+    {{- block('form_rows') -}}
+    {{- form_rest(form) -}}
+    {%- if form.parent is not empty -%}
+        </div>
+    {% endif %}
 {%- endblock form_widget_compound %}
 
-
-{# TEXTAREA_WIDGET #}
+{# textarea widget #}
 {% block textarea_widget -%}
     <textarea class="form-control" {{ block('widget_attributes') }}>{{ value }}</textarea>
 {%- endblock textarea_widget %}
 
-{# CANCEL_WIDGET (custom button type) #}
-{% block link_widget %}
-    <a {{ block('button_attributes') }} href="{{ form.vars.link }}">
-        {{ label }}
-    </a>
-{% endblock link_widget %}
-
-{# BUTTONGROUP_WIDGET #}
-{% block buttonGroup_widget %}
-    {% for button in form.children %}
-        {% if (button.vars.showForm is defined and button.vars.showForm == true) or button.vars.showForm is not defined %}
-            {{ form_widget(button) }}
-        {% endif %}
-    {% endfor %}
-{% endblock buttonGroup_widget %}
-
-{# BUTTONGROUP_ROW #}
-{% block buttonGroup_row %}
-    {{ block('button_row') }}
-{% endblock buttonGroup_row %}
-
-{# BUTTON_ROW #}
-{% block button_row -%}
-    <div class="form-group text-center">
-        {{- form_widget(form) -}}
+{# checkbox widget #}
+{% block checkbox_widget -%}
+    {% if label is empty -%}
+        {% set label = name|humanize %}
+    {%- endif -%}
+    <div class="checkbox">
+        <label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        <b>{{ label|trans({}, translation_domain) }}</b>
+        </label>
     </div>
-{%- endblock button_row %}
+{%- endblock checkbox_widget %}
 
-{# CHOICE_WIDGET_COLLAPSED #}
+{# choice widget (collapsed form) #}
 {% block choice_widget_collapsed -%}
     {% if required and empty_value is none and not empty_value_in_choices and not multiple -%}
         {% set required = false %}
@@ -227,15 +337,7 @@
     </select>
 {%- endblock choice_widget_collapsed %}
 
-{% block parent_widget %}
-    <input type="hidden" id="{{ id }}" name="{{ full_name }}" value="{{ value }}"/>
-    {% for label, choice in choices %}
-        {% if choice is selectedchoice(value) %}
-            <input type="text" class="form-control" disabled="disabled" value="{{ choice.label }}"/>
-        {% endif %}
-    {% endfor %}
-{% endblock %}
-
+{# choice widget options #}
 {% block choice_widget_options -%}
     {% for group_label, choice in options %}
         {%- if choice is iterable -%}
@@ -249,18 +351,40 @@
     {% endfor %}
 {%- endblock choice_widget_options %}
 
-{# CHECKBOX_WIDGET #}
-{% block checkbox_widget -%}
-    {% if label is empty -%}
-        {% set label = name|humanize %}
-    {%- endif -%}
-    <div class="checkbox">
-        <label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
-        <b>{{ label|trans({}, translation_domain) }}</b>
-        </label>
-    </div>
-{%- endblock checkbox_widget %}
+{#############################################################################
+ # Widgets - custom types
+ #############################################################################}
+
+{# link widget (custom type) #}
+{% block link_widget %}
+    <a {{ block('button_attributes') }} href="{{ form.vars.link }}">
+        {{ label }}
+    </a>
+{% endblock link_widget %}
+
+{# button group widget (custom type) #}
+{% block buttonGroup_widget %}
+    {% for button in form.children %}
+        {% if (button.vars.showForm is defined and button.vars.showForm == true) or button.vars.showForm is not defined %}
+            {{ form_widget(button) }}
+        {% endif %}
+    {% endfor %}
+{% endblock buttonGroup_widget %}
+
+{# parent widget (custom type) #}
+{% block parent_widget %}
+    <input type="hidden" id="{{ id }}" name="{{ full_name }}" value="{{ value }}"/>
+    {% for label, choice in choices %}
+        {% if choice is selectedchoice(value) %}
+            <input type="text" class="form-control" disabled="disabled" value="{{ choice.label|trans({}, translation_domain) }}"/>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+
+{#############################################################################
+ # attribute helpers
+ #############################################################################}
 
 {% block widget_attributes -%}
     id="{{ id }}" name="{{ full_name }}"
@@ -295,15 +419,4 @@
     {%- endfor -%}
 {%- endblock widget_container_attributes %}
 
-{#{% block parent_widget -%}#}
-    {#&#123;&#35;{{ asdf }}&#35;&#125;#}
-    {#&#123;&#35;{{ form_row(form) }}&#35;&#125;#}
-    {#&#123;&#35;asdf&#35;&#125;#}
-    {#&#123;&#35;{% set type = type|default('hidden') %}&#35;&#125;#}
-    {#&#123;&#35;{{- block('form_widget_simple') -}}&#35;&#125;#}
-{#{%- endblock parent_widget -%}#}
 
-{#&#123;&#35; ENTITYLIST_WIDGET &#35;&#125;#}
-{#{% block entityList_widget %}#}
-    {#&#123;&#35; nothing to display in form &#35;&#125;#}
-{#{% endblock entityList_widget %}#}

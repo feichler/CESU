@@ -21,6 +21,11 @@ services:
         tags:
             - { name: twig.extension }
 
+    elektra_site.form.type.group: # Link Form Field
+        class: Elektra\SiteBundle\Form\Field\GroupType
+        tags:
+            - { name: form.type, alias: group }
+
     elektra_site.form.type.link: # Link Form Field
         class: Elektra\SiteBundle\Form\Field\LinkType
         tags:

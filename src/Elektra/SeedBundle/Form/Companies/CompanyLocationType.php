@@ -2,11 +2,10 @@
 
 namespace Elektra\SeedBundle\Form\Companies;
 
-use Elektra\CrudBundle\Form\Form as CrudForm;
 use Elektra\CrudBundle\Form\CommonOptions;
+use Elektra\CrudBundle\Form\Form as CrudForm;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CompanyLocationType extends CrudForm
 {
@@ -24,14 +23,19 @@ class CompanyLocationType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
+        $commonGroup = $this->getFieldGroup($builder, $options, 'Common Data'); // TRANSLATE this
+
         $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'Company');
-        $this->addParentField($builder, $options, $parentDefinition, 'company');
+        $this->addParentField($commonGroup, $options, $parentDefinition, 'company');
 
-        $builder->add('shortName', 'text', CommonOptions::getRequiredNotBlank());
-        $builder->add('name', 'text', CommonOptions::getOptional());
-        $builder->add('isPrimary', 'checkbox', CommonOptions::getOptional());
+        $commonGroup->add('shortName', 'text', CommonOptions::getRequiredNotBlank());
+        $commonGroup->add('name', 'text', CommonOptions::getOptional());
+        $commonGroup->add('isPrimary', 'checkbox', CommonOptions::getOptional());
 
-        $builder->add(
+        $builder->add($commonGroup);
+
+        $addressGroup = $this->getFieldGroup($builder, $options, 'Address Data'); // TRANSLATE this
+        $addressGroup->add(
             'addressType',
             'entity',
             array_merge(
@@ -42,22 +46,27 @@ class CompanyLocationType extends CrudForm
                 )
             )
         );
-
         $addressOptions = array(
             'data_class'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Address')->getClassEntity(),
             'crud_action'  => $options['crud_action'],
-            'show_buttons' => false
+            'show_buttons' => false,
+            'label'        => false,
         );
-        $builder->add("address", new AddressType($this->getCrud()), $addressOptions);
+        $addressGroup->add("address", new AddressType($this->getCrud()), $addressOptions);
+        $builder->add($addressGroup);
 
-        $builder->add(
-            'persons',
-            'relatedList',
-            array(
-                'relation_parent_entity' => $options['data'],
-                'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'),
-                'relation_name'          => 'location',
-            )
-        );
+        if ($options['crud_action'] == 'view') {
+            $personsGroup = $this->getFieldGroup($builder, $options, 'Persons'); // TRANSLATE this
+            $personsGroup->add(
+                'persons',
+                'relatedList',
+                array(
+                    'relation_parent_entity' => $options['data'],
+                    'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'),
+                    'relation_name'          => 'location',
+                )
+            );
+            $builder->add($personsGroup);
+        }
     }
 }
