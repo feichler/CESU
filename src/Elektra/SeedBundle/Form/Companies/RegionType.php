@@ -24,23 +24,21 @@ class RegionType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
-        // all crud actions have the same definition - no difference between view / add / edit
-
-        $builder->add('name', 'text', CommonOptions::getRequiredNotBlank());
+        $regionGroup = $this->getFieldGroup($builder, $options, 'Region Data'); // TRANSLATE this
+        $regionGroup->add('name', 'text', CommonOptions::getRequiredNotBlank());
+        $builder->add($regionGroup);
 
         if ($options['crud_action'] == 'view') {
-            //            $entity = $options['data'];
-            //            echo $entity->getId();
-            $builder->add(
+            $countriesGroup = $this->getFieldGroup($builder, $options, 'Countries'); // TRANSLATE this
+            $countriesGroup->add(
                 'countries',
                 'relatedList',
                 array(
-//                    'relation_parent_type'   => $this->getCrud()->getDefinition(),
                     'relation_parent_entity' => $options['data'],
                     'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Country'),
-                    //                    'relationName'       => 'region',
                 )
             );
+            $builder->add($countriesGroup);
         }
     }
 }
