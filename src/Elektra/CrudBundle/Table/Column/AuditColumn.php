@@ -2,11 +2,14 @@
 
 namespace Elektra\CrudBundle\Table\Column;
 
+use Elektra\CrudBundle\Entity\EntityInterface;
 use Elektra\CrudBundle\Table\Columns;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 
 class AuditColumn extends Column
 {
+
+    protected $dateFormat = 'Y-m-d H:i:s P';
 
     public function __construct(Columns $columns)
     {
@@ -20,9 +23,26 @@ class AuditColumn extends Column
 
         $return = array();
 
-        // URGENT: throws an exception -> check this
-        //        $return['created']  = $entry->getCreationAudit();
-        //        $return['modified'] = $entry->getLastModifiedAudit();
+        if ($entry instanceof AuditableInterface) {
+            $created     = $entry->getCreationAudit();
+            $createdDate = date($this->dateFormat, $created->getTimestamp());
+            $createdBy   = $created->getUser()->getUsername();
+
+            $return['created'] = array(
+                'date' => $createdDate,
+                'by'   => $createdBy,
+            );
+
+            $modified = $entry->getLastModifiedAudit();
+            if ($modified != null) {
+                $modifiedDate       = date($this->dateFormat, $modified->getTimestamp());
+                $modifiedBy         = $modified->getUser()->getUsername();
+                $return['modified'] = array(
+                    'date' => $modifiedDate,
+                    'by'   => $modifiedBy,
+                );
+            }
+        }
 
         return $return;
     }

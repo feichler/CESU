@@ -12,7 +12,7 @@ URGENT Flo: Find a way to display "repeated" entities directly in form - e.g. ad
 TODO Flo: Import of Seed Units from Excel / CSV - NOTE: prototype ready
 TODO Flo: Reports (need to be defined) - prototype in development
 
-TODO Flo: create generic column type for audits
+Flo: create generic column type for audits - done (hopefully design is usable)
 TODO Flo: create generic column type for notes
-TODO Flo: create visual form groups (tabbed?)
+Flo: create visual form groups (tabbed?) - done
 TODO Flo: create generic crud for notes on entities
