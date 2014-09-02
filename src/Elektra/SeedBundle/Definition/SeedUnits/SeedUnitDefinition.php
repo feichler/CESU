@@ -18,5 +18,8 @@ class SeedUnitDefinition extends Definition
         // root definition -> need a plural route
         $this->setRoot();
         $this->setRoutePlural('seedUnits');
+
+        // has valid parents
+        $this->addParent('Elektra', 'Seed', 'Requests', 'Request');
     }
 }

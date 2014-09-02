@@ -298,7 +298,7 @@ abstract class Form extends AbstractType
      *
      * @return string
      */
-    private function getButtonLabel($type)
+    protected function getButtonLabel($type)
     {
 
         $language = $this->getCrud()->getService('siteLanguage');

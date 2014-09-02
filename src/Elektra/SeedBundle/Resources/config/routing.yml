@@ -10,3 +10,7 @@ ElektraSeedBundle:
     resource: .
     prefix: /
     type: routing
+
+request.seedUnit.add:
+    pattern:  /requests/addUnits/{id}
+    defaults: { _controller: ElektraSeedBundle:Requests/Request:addUnit }

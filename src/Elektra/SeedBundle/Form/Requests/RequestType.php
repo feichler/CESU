@@ -72,9 +72,6 @@ class RequestType extends CrudForm
                 array(
                     'relation_parent_entity' => $options['data'],
                     'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'),
-//                    'definition'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'),
-//                    'parent'       => $options['data'],
-//                    'relationName' => 'request',
                 )
             );
         }
