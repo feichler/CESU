@@ -430,18 +430,18 @@ class Base
         $masterDataItem->addItem(new Separator());
 
         // Trainings Sub-Menu
-        $trainings = new Group($siteLanguage->getRequired('menu.trainings'));
-        // URGENT add links for the training sub-menu
-        $trainings->addItem(
-            new Item($siteLanguage->getRequired('menu.trainings'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Training')))
-        );
-        $trainings->addItem(
-            new Item($siteLanguage->getRequired('menu.registrations'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration')))
-        );
-        $trainings->addItem(
-            new Item($siteLanguage->getRequired('menu.attendances'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance')))
-        );
-        $masterDataItem->addItem($trainings);
+//        $trainings = new Group($siteLanguage->getRequired('menu.trainings'));
+//        // URGENT add links for the training sub-menu
+//        $trainings->addItem(
+//            new Item($siteLanguage->getRequired('menu.trainings'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Training')))
+//        );
+//        $trainings->addItem(
+//            new Item($siteLanguage->getRequired('menu.registrations'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration')))
+//        );
+//        $trainings->addItem(
+//            new Item($siteLanguage->getRequired('menu.attendances'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance')))
+//        );
+//        $masterDataItem->addItem($trainings);
         $masterDataItem->addItem(new Separator());
 
         // Geographic Sub-Menu
@@ -453,6 +453,13 @@ class Base
             new Item($siteLanguage->getRequired('menu.countries'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'Country')))
         );
         $masterDataItem->addItem($geographic);
+        $masterDataItem->addItem(new Separator());
+
+        $misc = new Group($siteLanguage->getRequired('menu.misc'));
+        $misc->addItem(
+          new Item($siteLanguage->getRequired('menu.warehouses'), $navigator->getBrowseLink($navigator->getDefinition('Elektra','Seed','Companies','WarehouseLocation')))
+        );
+        $masterDataItem->addItem($misc);
 
         return $masterDataItem;
     }
