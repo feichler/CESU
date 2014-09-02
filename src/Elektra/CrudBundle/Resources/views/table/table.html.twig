@@ -1,28 +1,28 @@
 {% block table %}
     {% set classes = 'table table-condensed table-striped table-' ~ table.crud.definition.name|lower %}
     {% if table.inView == false %}
-    {% set classes = classes ~ ' table-bordered' %}
-    <form method="post" class="form-horizontal">
-    {% set tableWidth = 12 %}
-    {# URGENT embedded functionality #}
-    {% if not table.crud.hasParent() %}
-        {% if table.hasFilters or table.hasSearch %}
-            {% set filtersWidth = 2 %}
-            {% set tableWidth = tableWidth - filtersWidth %}
-            <div class="col-md-{{ filtersWidth }}">
-                <div class="table-filters">
-                    {% if table.hasSearch() %}
-                        {{ block('table_search') }}
-                    {% endif %}
-                    {% if table.hasFilters %}
-                        {{ block('table_filters') }}
-                    {% endif %}
+        {% set classes = classes ~ ' table-bordered' %}
+        <form method="post" class="form-horizontal">
+        {% set tableWidth = 12 %}
+        {# URGENT embedded functionality #}
+        {% if not table.crud.hasParent() %}
+            {% if table.hasFilters or table.hasSearch %}
+                {% set filtersWidth = 2 %}
+                {% set tableWidth = tableWidth - filtersWidth %}
+                <div class="col-md-{{ filtersWidth }}">
+                    <div class="table-filters">
+                        {% if table.hasSearch() %}
+                            {{ block('table_search') }}
+                        {% endif %}
+                        {% if table.hasFilters %}
+                            {{ block('table_filters') }}
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         {% endif %}
-    {% endif %}
-<div class="col-md-{{ tableWidth }}">
-    <div class="table-responsive">
+        <div class="col-md-{{ tableWidth }}">
+        <div class="table-responsive">
     {% endif %}
     <table class="{{ classes }}">
         {{ block('table_head') }}
@@ -149,7 +149,16 @@
 {% block table_body_cell_audit %}
     {# TODO add audits #}
     {% for type, audit in data %}
-        {{ type }} =>
+        <div>
+            <span class="audit-tooltip" data-toggle="tooltip" title="{{ audit.date }}">
+                {% if type == 'created' %}
+                    <i class="fa fa-plus-square" style="color: #5cb85c;"></i>
+                {% else %}
+                    <i class="fa fa-pencil-square" style="color: #f0ad4e;"></i>
+                {% endif %}
+                {{ audit.by }}
+            </span>
+        </div>
     {% endfor %}
 {% endblock table_body_cell_audit %}
 
