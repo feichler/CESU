@@ -234,14 +234,19 @@ final class Crud
         $this->parentRoute  = $parentRoute;
         $this->relationName = $relationName;
 
-        $this->setData('parent',$this->parentEntity->getId());
+        $this->setParentId($this->parentEntity->getId());
+        //        $this->setData('parent',);
     }
 
-    public function setParentId($id) {
+    public function setParentId($id)
+    {
 
-        $this->setData('parent',$id);
+        $this->setData('parent', $id);
     }
-    public function getParentId() {
+
+    public function getParentId()
+    {
+
         return $this->getData('parent');
     }
 
@@ -269,9 +274,34 @@ final class Crud
     public function getParentDefinition()
     {
 
-        return $this->getNavigator()->getDefinition(get_class($this->parentEntity));
+        if ($this->parentEntity == null) {
+            $routeParts = explode('.', $this->linker->getActiveRoute());
+            // remove the action
+            array_pop($routeParts);
+            // next pop is the actual type
+            $last = array_pop($routeParts);
+            if ($last == 'note') {
+                $parent     = array_pop($routeParts);
+                $definition = $this->getNavigator()->getDefinition($parent);
 
-//        echo get_class($this->parentEntity);
+                return $definition;
+            }
+        }
+        //
+        //        $last = array_pop($routeParts);
+        //        $last2 = array_pop($routeParts);
+        //        echo $last.'<br />';
+        //        echo $last2.'<br />';
+        //        if($last2 == 'note') {
+        //            echo get_class($definition);
+        //        }
+        //
+        //        var_dump($this->linker->getActiveRoute());
+        //        var_dump($this->parentRoute);
+        //        var_dump($this->parentEntity);
+        //echo get_class($this->parentEntity);
+        return $this->getNavigator()->getDefinition(get_class($this->parentEntity));
+        //        echo get_class($this->parentEntity);
     }
 
     public function getParentEntity()

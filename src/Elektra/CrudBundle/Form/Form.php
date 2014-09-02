@@ -142,21 +142,42 @@ abstract class Form extends AbstractType
 
         $this->buildSpecificForm($builder, $options);
 
+        if ($this->getCrud()->getDefinition()->isEntityAnnotable()) {
+            $this->addNotesGroup($builder, $options);
+        }
+
         if ($options['show_buttons'] == true) {
             $this->buildFormButtons($builder, $options);
         }
-
-        //        if ($this->getCrud()->isEmbedded()) {
-        //            echo 'I\'m embedded!';
-        //        }
     }
 
-    public final function addParentField(FormBuilderInterface $builder, array $options, Definition $definition, $fieldName)
+    protected function addNotesGroup(FormBuilderInterface $builder, array $options)
+    {
+
+        if ($options['crud_action'] == 'view' && array_key_exists('data', $options)) { // key exists check for special case "address" - don't know why, but in this case, data is not set
+            $notesGroup = $this->getFieldGroup($builder, $options, 'Notes'); // TRANSLATE this
+            $notesGroup->add(
+                'notes',
+                'list',
+                array(
+                    'crud'                   => $this->getCrud(),
+                    'label'                  => false,
+                    'relation_parent_entity' => $options['data'],
+                    'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Notes', 'Note'),
+                    'relation_name'          => 'notes',
+                )
+            );
+            $builder->add($notesGroup);
+        }
+    }
+
+    public final function addParentField(FormBuilderInterface $builder, array $options, Definition $definition, $fieldName, $mapped = true)
     {
 
         $crudAction  = $options['crud_action'];
         $preSelectId = $this->getCrud()->getParentId();
 
+        //echo $definition->getClassEntity();
         $parentOptions = array(
             'class'    => $definition->getClassEntity(),
             'property' => 'title',
@@ -171,6 +192,11 @@ abstract class Form extends AbstractType
             // URGENT CHECK should the parent relation field be editable?
             $parentOptions['read_only'] = true;
             //            $parentOptions['disabled']  = true;
+        }
+
+        if (!$mapped) {
+            $parentOptions['mapped']     = false;
+            $parentOptions['show_field'] = false;
         }
 
         $options = $this->getCrud()->mergeOptions(CommonOptions::getRequiredNotBlank(), $parentOptions);

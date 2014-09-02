@@ -14,3 +14,8 @@ services:
         class: Elektra\CrudBundle\Form\Field\RelatedListType
         tags:
             - { name: form.type, alias: relatedList }
+
+    elektra_crud.form.type.list:
+        class: Elektra\CrudBundle\Form\Field\ListType
+        tags:
+            - { name: form.type, alias: list }

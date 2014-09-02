@@ -20,7 +20,7 @@ use Elektra\UserBundle\Entity\User;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Notes\NoteRepository")
  * @ORM\Table(name="notes")
  */
 class Note implements CrudInterface

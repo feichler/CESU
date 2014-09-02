@@ -117,11 +117,13 @@
     {% import 'ElektraSiteBundle:macros:actions.html.twig' as actions %}
 
     <div>
+        <strong>
         {% if table.isAllowed('view') %}
             {{ attribute(actions, 'view', [data.link, data.title, {}]) }}
         {% else %}
-            {{ data.title }}
+           {{ data.title }}
         {% endif %}
+        </strong>
     </div>
     {% if data.other is iterable and data.other is not empty %}
         {% for string in data.other %}

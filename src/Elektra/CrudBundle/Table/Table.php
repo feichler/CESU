@@ -2,6 +2,7 @@
 
 namespace Elektra\CrudBundle\Table;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\CrudBundle\Crud\Crud;
 
 use Elektra\CrudBundle\Crud\Definition;
@@ -75,7 +76,7 @@ abstract class Table
             'edit'   => true,
             'delete' => true,
         );
-        $this->inView = false;
+        $this->inView  = false;
 
         // call the specific initialisation methods for this specific table
         $this->initialiseColumns();
@@ -255,9 +256,9 @@ abstract class Table
 
         $repositoryClass = $this->getCrud()->getDefinition()->getClassRepository();
         $repository      = $this->getCrud()->getController()->getDoctrine()->getRepository($repositoryClass);
-
+//        echo get_class($repository);
         $this->entries = $repository->getEntries($page, $this->pagination->getLimit(), $search, $filters, $order);
-
+//        echo count($this->entries);
         $this->pagination->setPage($page);
         $language = $this->getCrud()->getService('siteLanguage');
         if ($language instanceof Language) {
@@ -274,6 +275,18 @@ abstract class Table
         return $this->entries;
     }
 
+    public function setEntries($entries)
+    {
+
+        if ($entries instanceof \Traversable) {
+            foreach ($entries as $entry) {
+                $this->entries[] = $entry;
+            }
+        } else {
+            echo 'not traversable'; // URGENT error handling
+        }
+    }
+
     /**
      * @return int
      */
@@ -286,12 +299,12 @@ abstract class Table
 
         // URGENT check the embedded functionality
         if ($this->getCrud()->hasParent()) {
-                    $filters = $this->getLoadRelationFilter();
-                } else {
-        $search  = $this->getLoadSearch();
-        $filters = $this->getLoadFilters();
-        $order   = null;
-                }
+            $filters = $this->getLoadRelationFilter();
+        } else {
+            $search  = $this->getLoadSearch();
+            $filters = $this->getLoadFilters();
+            $order   = null;
+        }
 
         $repositoryClass = $this->getCrud()->getDefinition()->getClassRepository();
         $repository      = $this->getCrud()->getController()->getDoctrine()->getRepository($repositoryClass);
@@ -367,6 +380,7 @@ abstract class Table
 
         if ($this->hasAction($action)) {
             $this->actions[$action] = true;
+
             return;
         }
 
@@ -383,6 +397,7 @@ abstract class Table
 
         if ($this->hasAction($action)) {
             $this->actions[$action] = false;
+
             return;
         }
 
@@ -442,7 +457,7 @@ abstract class Table
 
         // NOTE override if the implemented behaviour should differ
 
-        if($this->getCrud()->getParentRelationName() !== null) {
+        if ($this->getCrud()->getParentRelationName() !== null) {
             return $this->getCrud()->getParentRelationName();
         }
 
@@ -677,6 +692,4 @@ abstract class Table
 
         return $this->inView;
     }
-
-
 }

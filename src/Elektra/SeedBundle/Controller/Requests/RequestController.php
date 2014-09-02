@@ -12,6 +12,7 @@ namespace Elektra\SeedBundle\Controller\Requests;
 use Elektra\CrudBundle\Controller\Controller;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SeedBundle\Form\Requests\AddUnitsType;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * Class RequestController
@@ -72,7 +73,7 @@ class RequestController extends Controller
      *
      * @return bool
      */
-    public function beforeAddUnitsEntity(EntityInterface $entity)
+    public function beforeAddUnitsEntity(EntityInterface $entity, FormInterface $form = null)
     {
 
         // NOTE override if necessary
@@ -84,7 +85,7 @@ class RequestController extends Controller
     /**
      * @param EntityInterface $entity
      */
-    public function afterAddUnitsEntity(EntityInterface $entity)
+    public function afterAddUnitsEntity(EntityInterface $entity, FormInterface $form = null)
     {
         // NOTE override if necessary
     }
