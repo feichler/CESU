@@ -45,6 +45,13 @@ class EventType implements AuditableInterface, CrudInterface
     protected $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    protected $internalName;
+
+    /**
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -153,5 +160,21 @@ class EventType implements AuditableInterface, CrudInterface
     {
 
         return $this->getName();
+    }
+
+    /**
+     * @param string $internalName
+     */
+    public function setInternalName($internalName)
+    {
+        $this->internalName = $internalName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInternalName()
+    {
+        return $this->internalName;
     }
 }
