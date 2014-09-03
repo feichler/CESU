@@ -30,6 +30,18 @@ class SeedUnitTable extends Table
         $power->setSortable();
         $power->setFilterable()->setFieldFilter('name');
 
+        $status = $this->getColumns()->add('table.seed_units.seed_unit.status');
+        $status->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'));
+        $status->setFieldData('unitStatus.name');
+        $status->setSortable();
+        $status->setFilterable()->setFieldFilter('name');
+
+        $location = $this->getColumns()->add('table.seed_units.seed_unit.location');
+        $location->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location'));
+        $location->setFieldData('location.shortName');
+        $location->setSortable();
+        $location->setFilterable()->setFieldFilter('shortName');
+
         $request = $this->getColumns()->add('table.seed_units.seed_unit.request');
         $request->setFieldData('request.requestNumber');
         $request->setSearchable();

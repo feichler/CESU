@@ -21,14 +21,6 @@ use Elektra\SeedBundle\Entity\Companies\ContactInfo;
  *
  * @ORM\Entity
  * @ORM\Table(name="statusEvents")
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="type",type="string")
- * @ORM\DiscriminatorMap({
- *  "shipping" = "ShippingEvent",
- *  "partner" = "PartnerEvent",
- *  "activity" = "ActivityEvent",
- *  "response" = "ResponseEvent",
- * })
  */
 abstract class StatusEvent extends Event
 {
@@ -36,8 +28,8 @@ abstract class StatusEvent extends Event
     /**
      * @var UnitStatus
      *
-     * @ORM\ManyToOne(targetEntity="UnitStatus", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="unitStatusId", referencedColumnName="unitStatusId")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitStatus", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="unitStatusId", referencedColumnName="unitStatusId", nullable=false)
      */
     protected $unitStatus;
 
