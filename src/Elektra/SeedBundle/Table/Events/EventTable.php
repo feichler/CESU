@@ -37,13 +37,13 @@ class EventTable extends Table
 
         $company = $this->getColumns()->add('table.events.event.company');
         $company->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'RequestingCompany'));
-        $company->setFieldData(array('location.company.shortName', 'location.company.name'));
+        $company->setFieldData(array('location.company.shortName', 'location.company.name'), true);
         $company->setSortable();
         $company->setSearchable();
 
         $location = $this->getColumns()->add('table.events.event.location');
         $location->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location'));
-        $location->setFieldData(array('shortName', 'name'));
+        $location->setFieldData(array('location.shortName', 'location.name'), true);
         $location->setSortable();
         $location->setFilterable()->setFieldFilter('shortName');
     }

@@ -86,14 +86,48 @@ class SeedUnitType extends CrudForm
                 )
             );
 
-            $eventsGroup = $this->getFieldGroup($builder, $options, 'Events'); // TRANSLATE this
-            $eventsGroup->add('events', 'relatedList',
-                array(
-                    'relation_parent_entity' => $options['data'],
-                    'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'Event'),
-                )
-            );
-            $builder->add($eventsGroup);
+            $builder->add($this->createHistoryGroup($builder, $options));
         }
+    }
+
+    private function createHistoryGroup(FormBuilderInterface $builder, array $options)
+    {
+        $historyGroup = $this->getFieldGroup($builder, $options, 'History'); // TRANSLATE this
+
+        $historyGroup->add('location', 'entity',
+            array(
+                'mapped'    => true,
+                'read_only' => true,
+                'class' => $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'Location')->getClassEntity(),
+                'property' => 'title',
+            )
+        );
+
+        $historyGroup->add('unitStatus', 'entity',
+            array(
+                'mapped'    => true,
+                'read_only' => true,
+                'class' => $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassEntity(),
+                'property' => 'title',
+            )
+        );
+
+        $historyGroup->add('changeStatus', 'submit',
+            array(
+                'attr' =>
+                    array(
+                        'label' => "Change Status",
+                    )
+            )
+        );
+
+        $historyGroup->add('events', 'relatedList',
+            array(
+                'relation_parent_entity' => $options['data'],
+                'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'Event'),
+            )
+        );
+
+        return $historyGroup;
     }
 }

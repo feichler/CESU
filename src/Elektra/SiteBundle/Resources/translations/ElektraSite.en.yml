@@ -79,11 +79,24 @@ table:
             countries: '# Countries'
         warehouseLocation:
             locationIdentifier: Location ID
+    events:
+        event:
+            timestamp: Timestamp
+            seedUnit: Seed Unit
+            eventType: Event Type
+            title: Text
+            company: Company
+            location: Location
     imports:
         file:
             filename: Uploaded File
             newfilename: Stored as
             processed: Processed
+    notes:
+        note:
+            title: Title
+            text: Text
+            date: Date
     requests:
         request:
             requestNumber: 'Requests No'
