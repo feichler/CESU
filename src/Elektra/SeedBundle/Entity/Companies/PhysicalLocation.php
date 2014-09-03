@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity * @ORM\Table(name="physicalLocations")
  */
-class PhysicalLocation extends Location
+abstract class PhysicalLocation extends Location
 {
     /**
      * @var Address

@@ -29,6 +29,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type",type="string")
  * @ORM\DiscriminatorMap({
+ *  "status" = "StatusEvent",
  *  "shipping" = "ShippingEvent",
  *  "partner" = "PartnerEvent",
  *  "activity" = "ActivityEvent",

@@ -22,7 +22,7 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Events\UnitStatusRepository")
  * @ORM\Table(name="unitStatuses")
  */
 class UnitStatus implements AuditableInterface, CrudInterface
