@@ -37,6 +37,8 @@ class PowerCordTypeFixture extends SeedBundleFixture
             'India',
             'Japan',
             'North America',
+            'EU',
+            'UK'
         );
 
         foreach ($entries as $entry) {

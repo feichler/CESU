@@ -172,6 +172,30 @@ class SeedUnitFixture extends SeedBundleFixture
                 'SFTX1830106F',
                 'SFTX1830106J',
             ),
+            'uk' => array(
+                'SFTX19000000',
+                'SFTX19000001',
+                'SFTX19000002',
+                'SFTX19000003',
+                'SFTX19000004',
+                'SFTX19000005',
+                'SFTX19000006',
+                'SFTX19000007',
+                'SFTX19000008',
+                'SFTX19000009',
+            ),
+            'eu' => array(
+                'SFTX19100000',
+                'SFTX19100001',
+                'SFTX19100002',
+                'SFTX19100003',
+                'SFTX19100004',
+                'SFTX19100005',
+                'SFTX19100006',
+                'SFTX19100007',
+                'SFTX19100008',
+                'SFTX19100009',
+            )
         );
 
         $model = 'Cisco ASA 5515';

@@ -51,7 +51,7 @@ class WarehouseLocationFixture extends SeedBundleFixture
 
             $manager->persist($location);
 
-            $this->addReference('warehouse_location-' . strtolower($location->getLocationIdentifier()), $location);
+            $this->addReference('warehouseLocation-' . strtolower($location->getLocationIdentifier()), $location);
         }
 
         $manager->flush();
