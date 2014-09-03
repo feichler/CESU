@@ -15,6 +15,8 @@ use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
+use Elektra\SeedBundle\Entity\Events\ShippingEvent;
+use Elektra\SeedBundle\Entity\Events\StatusEvent;
 use Elektra\SeedBundle\Entity\Requests\Request;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -294,5 +296,36 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
     {
 
         return $this->getSerialNumber();
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Companies\Location
+     */
+    public function getLocation()
+    {
+        /* @var $event ShippingEvent */
+        $event = $this->getEvents()->filter(
+            function($entry) {
+                return $entry instanceof ShippingEvent;
+            })->first();
+
+        return $event != null ? $event->getLocation() : null;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Events\UnitStatus
+     */
+    public function getUnitStatus()
+    {
+
+        /* @var $event StatusEvent */
+        $event = $this->getEvents()->filter(
+            function($entry) {
+
+                return $entry instanceof StatusEvent;
+            })->first();
+        echo get_class($event) . " -> " . get_class($event->getUnitStatus()). "<br/>";
+
+        return $event != null ? $event->getUnitStatus() : null;
     }
 }
