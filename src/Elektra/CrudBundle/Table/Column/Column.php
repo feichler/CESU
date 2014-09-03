@@ -381,6 +381,14 @@ class Column
 
         if ($ignoreNotFound === false) {
             // dataIgnore left empty
+        } else if ($ignoreNotFound === true) {
+            if (is_string($value)) {
+                $dataIgnore[$value] = true;
+            } else if (is_array($value)) {
+                foreach ($value as $field) {
+                    $dataIgnore[$field] = true;
+                }
+            }
         } else if (is_string($ignoreNotFound)) {
             $dataIgnore[$ignoreNotFound] = true;
         } else if (is_array($ignoreNotFound)) {
@@ -584,12 +592,12 @@ class Column
         } else if (is_string($field)) {
             // only one value to display
             try {
-            $return = $this->getDisplayDataSingle($entry, $field);
+                $return = $this->getDisplayDataSingle($entry, $field);
             } catch (\RuntimeException $ex) {
                 if (!array_key_exists($field, $dataIgnore)) {
                     throw $ex;
                 } else {
-                    $return='';
+                    $return = '';
                 }
             }
         } else {
@@ -615,7 +623,7 @@ class Column
             return $custom;
         }
 
-//        $dataIgnore = $this->getField('dataIgnore');
+        //        $dataIgnore = $this->getField('dataIgnore');
 
         if (strpos($field, '.') !== false) {
             // composite field -> loop through the parts
