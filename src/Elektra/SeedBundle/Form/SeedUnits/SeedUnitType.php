@@ -22,8 +22,8 @@ class SeedUnitType extends CrudForm
      */
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
-
         $commonGroup = $this->getFieldGroup($builder, $options, 'Common Data'); // TRANSLATE this
+        $builder->add($commonGroup);
 
         $commonGroup->add('serialNumber', 'text', CommonOptions::getRequiredNotBlank());
 
@@ -57,6 +57,43 @@ class SeedUnitType extends CrudForm
             );
         }
 
-        $builder->add($commonGroup);
+        if ($options['crud_action'] != 'add')
+        {
+            $commonGroup->add('location', 'entity',
+                array(
+                    'mapped'    => true,
+                    'read_only' => true,
+                    'class' => $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'Location')->getClassEntity(),
+                    'property' => 'title',
+                )
+            );
+
+            $commonGroup->add('unitStatus', 'entity',
+                array(
+                    'mapped'    => true,
+                    'read_only' => true,
+                    'class' => $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassEntity(),
+                    'property' => 'title',
+                )
+            );
+
+            $commonGroup->add('changeStatus', 'submit',
+                array(
+                    'attr' =>
+                        array(
+                            'label' => "Change Status",
+                        )
+                )
+            );
+
+            $eventsGroup = $this->getFieldGroup($builder, $options, 'Events'); // TRANSLATE this
+            $eventsGroup->add('events', 'relatedList',
+                array(
+                    'relation_parent_entity' => $options['data'],
+                    'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'Event'),
+                )
+            );
+            $builder->add($eventsGroup);
+        }
     }
 }

@@ -461,7 +461,7 @@ abstract class Table
             return $this->getCrud()->getParentRelationName();
         }
 
-        return strtolower($parentDefinition->getName());
+        return lcfirst($parentDefinition->getName());
     }
 
     private function getLoadFilters()

@@ -9,7 +9,7 @@
 
 namespace Elektra\SeedBundle\Repository\Events;
 
-use Doctrine\ORM\EntityRepository;
+use Elektra\CrudBundle\Repository\Repository as CrudRepository;
 
 /**
  * Class EventRepository
@@ -19,21 +19,6 @@ use Doctrine\ORM\EntityRepository;
  * @version 0.1-dev
  */
 // URGENT / CHECK should this also be a crud-repository?
-class EventRepository extends EntityRepository
+class EventRepository extends CrudRepository
 {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCount()
-    {
-
-        $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select($builder->expr()->count('e'));
-        $builder->from($this->getEntityName(), 'e');
-
-        $query = $builder->getQuery();
-
-        return $query->getSingleScalarResult();
-    }
 }

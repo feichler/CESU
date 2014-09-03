@@ -303,6 +303,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
      */
     public function getLocation()
     {
+
         /* @var $event ShippingEvent */
         $event = $this->getEvents()->filter(
             function($entry) {
@@ -324,7 +325,6 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
 
                 return $entry instanceof StatusEvent;
             })->first();
-        echo get_class($event) . " -> " . get_class($event->getUnitStatus()). "<br/>";
 
         return $event != null ? $event->getUnitStatus() : null;
     }

@@ -11,5 +11,11 @@ class EventDefinition extends Definition
     {
 
         parent::__construct('Elektra', 'Seed', 'Events', 'Event');
+
+        // single route (add / view / edit / delete)
+        $this->setRouteSingular('event');
+
+        // has valid parents
+        $this->addParent('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
     }
 }
