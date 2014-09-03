@@ -66,7 +66,7 @@ class SeedUnitTable extends Table
         switch ($options['name']) {
             case 'inUse':
                 $filterName = $this->getFilterFieldName($options);
-                $fieldName  = 'requestCompletion';
+                $fieldName  = 'request';
 
                 $value = $this->getRequestData('custom-filters', $filterName);
                 if ($value == 'n') {
