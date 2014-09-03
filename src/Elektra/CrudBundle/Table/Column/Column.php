@@ -61,10 +61,11 @@ class Column
         );
 
         $this->fields = array(
-            'data'   => null,
-            'search' => null,
-            'sort'   => null,
-            'filter' => null,
+            'data'       => null,
+            'dataIgnore' => null,
+            'search'     => null,
+            'sort'       => null,
+            'filter'     => null,
         );
     }
 
@@ -366,14 +367,28 @@ class Column
     }
 
     /**
-     * @param string|array $value
+     * @param string|array      $value
+     * @param bool|string|array $ignoreNotFound
      *
      * @return Column
      */
-    public final function setFieldData($value)
+    public final function setFieldData($value, $ignoreNotFound = false)
     {
 
         $this->setField('data', $value);
+
+        $dataIgnore = array();
+
+        if ($ignoreNotFound === false) {
+            // dataIgnore left empty
+        } else if (is_string($ignoreNotFound)) {
+            $dataIgnore[$ignoreNotFound] = true;
+        } else if (is_array($ignoreNotFound)) {
+            foreach ($ignoreNotFound as $field) {
+                $dataIgnore[$field] = true;
+            }
+        }
+        $this->setField('dataIgnore', $dataIgnore);
 
         return $this;
     }
@@ -550,17 +565,33 @@ class Column
             return '';
         }
 
-        $field = $this->getFieldData();
+        $field      = $this->getFieldData();
+        $dataIgnore = $this->getField('dataIgnore');
 
         if (is_array($field)) {
             // multiple values to display
             $return = array();
             foreach ($field as $oneField) {
-                $return[] = $this->getDisplayDataSingle($entry,$oneField);
+                try {
+                    $data     = $this->getDisplayDataSingle($entry, $oneField);
+                    $return[] = $data;
+                } catch (\RuntimeException $ex) {
+                    if (!array_key_exists($oneField, $dataIgnore)) {
+                        throw $ex;
+                    }
+                }
             }
         } else if (is_string($field)) {
             // only one value to display
-            $return = $this->getDisplayDataSingle($entry,$field);
+            try {
+            $return = $this->getDisplayDataSingle($entry, $field);
+            } catch (\RuntimeException $ex) {
+                if (!array_key_exists($field, $dataIgnore)) {
+                    throw $ex;
+                } else {
+                    $return='';
+                }
+            }
         } else {
             throw new \RuntimeException('invalid data field type');
         }
@@ -583,6 +614,8 @@ class Column
         if ($custom !== null) {
             return $custom;
         }
+
+//        $dataIgnore = $this->getField('dataIgnore');
 
         if (strpos($field, '.') !== false) {
             // composite field -> loop through the parts
