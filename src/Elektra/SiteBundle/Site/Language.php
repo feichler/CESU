@@ -142,6 +142,9 @@ class Language
 
         if (array_key_exists($key, $this->strings)) {
             $translated = $this->strings[$key];
+            if ($translated == '') { // allow empty translations to omit displaying of some text
+                return true;
+            }
             if ($translated[0] == '~') {
                 return false;
             }

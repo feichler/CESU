@@ -15,11 +15,11 @@ class TitleColumn extends Column
         $this->setFieldData('title');
     }
 
-    public function getDisplayData($entry)
+    public function getDisplayData($entry, $rowNumber)
     {
 
         $table = $this->getColumns()->getTable();
-        $data  = parent::getDisplayData($entry);
+        $data  = parent::getDisplayData($entry, $rowNumber);
 
         if (is_array($data)) {
             $title = array_shift($data);
@@ -28,7 +28,10 @@ class TitleColumn extends Column
         }
 
         // URGENT get the right link here
-        $link = $table->getCrud()->getLinker()->getListViewLink($entry);
+        $link = '';
+        if ($this->getColumns()->getTable()->isAllowed('view')) {
+            $link = $table->getCrud()->getLinker()->getListViewLink($entry);
+        }
 
         $return = array(
             'title' => $title,

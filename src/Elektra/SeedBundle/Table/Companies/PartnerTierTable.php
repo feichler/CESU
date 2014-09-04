@@ -10,12 +10,12 @@ class PartnerTierTable extends Table
     protected function initialiseColumns()
     {
 
-        $name = $this->getColumns()->addTitleColumn('tables.companies.partner_tier.name');
+        $name = $this->getColumns()->addTitleColumn('name');
         $name->setFieldData('name');
         $name->setSearchable();
         $name->setSortable();
 
-        $unitLimit = $this->getColumns()->add('tables.companies.partner_tier.units_limit');
+        $unitLimit = $this->getColumns()->add('units_limit');
         $unitLimit->setFieldData('unitsLimit');
     }
 }

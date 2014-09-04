@@ -153,150 +153,232 @@ pages:
 
 tables:
     generic:
-        empty: No data found
+        empty:                                                          No data found
         pagination:
-            pages: Page %page% of %max%
+            pages:                                                      Page %page% of %max%
         columns:
-            id: Id
-            audit: ''
-            action: Actions
-            note: Notes
-    requests:
-        request:
-            empty: No Requests found
-            request_number: '#'
-            company: Company
-            requester: Requester
-            receiver: Receiver
-            shipping_location: Shipping to
-            actions:
-                add: New Request
+            id:                                                         ID
+            audit:                                                      ''
+            action:                                                     Actions
+            note:                                                       Notes
+            date:                                                       Date
+            user:                                                       User
+            name:                                                       Name
+            short_name:                                                 Alias
+            first_name:                                                 First Name
+            last_name:                                                  Last Name
+            title:                                                      Title
+    auditing:
+        audit:
+            columns: ~
     notes:
         note:
-            title: Title
-            text: Text
-            date: Date
+            empty:                                                      No notes found
+            columns:
+                text:                                                   Note
             actions:
-                add: Add Note
+                add:                                                    Add Note
+    seed_units:
+        model:
+            columns:
+                name:                                                   Model
+        power_cord_type:
+            columns:
+                name:                                                   Power Cord Type
+        seed_unit:
+            columns:
+                serial_number:                                          'Serial #'
+                model:                                                  Model
+                power_cord_type:                                        Power Cord Type
+                status:                                                 Status
+                location:                                               Location
+                request:                                                Request
     companies:
-        company:
-            name: Name
+        region:
+            columns:
+                region:                                                 Region
+                countries:                                              '# Countries'
+        country:
+            columns:
+                country:                                                Country
+                region:                                                 Region
         partner:
-            partner_tier: Tier
-            units_limit: Unit Limit
+            columns:
+                partner_tier:                                           Tier
+                units_limit:                                            Unit Limit
             actions:
-                add: Add Partner
-        sales_team:
-            actions:
-                add: Add Sales Team
+                add:                                                    Add Partner
         customer:
             actions:
-                add: Add Customer
-        region:
-            region: Region
-            countries: '# Countries'
+                add:                                                    Add Customer
+        sales_team:
             actions:
-                add: Add Region
-        country:
-            country: Country
-            region: Region
-            actions:
-                add: Add Country
-        location:
-            short_name: Name
+                add:                                                    Add Sales Team
         company_location:
-            name: Name
-            is_primary: Primary
-            address_type: Type
-        company_person:
-            name: Name
-            first_name: First Name
-            last_name: Last Name
-            is_primary: Primary
-            salutation: Salutation
-            job_title: Job Title
-        contact_info:
-            text: Text
-            name: Name
-            contact_info_type: Type
+            columns:
+                is_primary:                                             Primary
+                address_type:                                           Address Type
         warehouse_location:
-            location_identifier: Identifier
+            columns:
+                location_identifier:                                    Alias
             actions:
-                add: Add Warehouse
-    seed_units:
-        seed_unit:
-            serial_number: 'Serial #'
-            model: Model
-            power_cord_type: Power Cord Type
-            status: Status
-            request: Request
-            location: Location
+                add:                                                    New Warehouse
+        company_person:
+            columns:
+                is_primary:                                             Primary
+                salutation:                                             Salutation
+                job_title:                                              Job Title
+        contact_info:
+            columns:
+                text:                                                   ''
+                contact_info_type:                                      Type
+    requests:
+        request:
+            empty:                                                      No Requests found
+            columns:
+                request_number:                                         'Request #'
+                company:                                                Company
+                requester:                                              Requester
+                receiver:                                               Receiver
+                shipping_location:                                      Shipping to
             actions:
-                add: Add Seed Unit
-        model:
-            name: Model
-            actions:
-                add: Add Model
-        power_cord_type:
-            name: Power Cord Type
-            actions:
-                add: Add Power Cord Type
+                add:                                                    New Request
+    events:
+        event:
+            columns:
+                event_type:                                             Type
+                company:                                                Company
+                location:                                               Location
 
 forms:
     generic:
         constraints:
-            unique: Unique Constraint violated
+            unique:                                                     Unique Constraint violated
+            not_blank:                                                  Value can not be empty
         buttons:
-            save: Save
-            reset: Reset
-            cancel: Cancel
-            close: Close
-            edit: Edit
-            delete: Delete
+            save:                                                       Save
+            reset:                                                      Reset
+            cancel:                                                     Cancel
+            close:                                                      Close
+            edit:                                                       Edit
+            delete:                                                     Delete
         groups:
-            common: Common Data
-            locations: Locations
-            persons: Persons
-            notes: Notes
+            common:                                                     Common Data
+            notes:                                                      Notes
+            audits:                                                     Audits
         fields:
-            description: Description
-    # Override example
+            name:                                                       Name
+            short_name:                                                 Alias
+            title:                                                      Title
+    auditing:
+        audit:
+            fields: ~
+    notes:
+        note:
+            fields:
+                text:                                                   Note
     requests:
         request:
             groups:
-                common: Request Data
-                units: Seed Units
+                common:                                                 Request Data
+                units:                                                  Seed Units
             fields:
-                number_of_units_requested: Units requested
-                company: Company
-                requester_person: Requester
-                receiver_person: Receiver
-                shipping_location: Shipping Location
-            # used for grouping companies
-            companies:
-                partner: Partners
-                sales_team: Sales Teams
-            buttons:
-                save: Save
+                request_number:                                         'Request #'
+                number_of_units_requested:                              '# Units'
+                company:                                                Requesting Company
+                requester_person:                                       Requester
+                receiver_person:                                        Receiver
+                shipping_location:                                      Ship to
     companies:
         partner:
             groups:
-                common: Common Data
-                locations: Locations
-                notes: Notes
-        company_location:
-            constraints:
-                unique:
-                    short_name: Short Name is already in use at this company
+                locations:                                              Locations
+            fields:
+                partner_tier:                                           Tier
+                units_limit:                                            Unit Limit
+        customer:
             groups:
-                address: Address Data
+                locations:                                              Locations
+        sales_team:
+            groups:
+                locations:                                              Locations
+        company_location:
+            groups:
+                common:                                                 Location Information
+                address:                                                Address
+                persons:                                                Persons
+            fields:
+                company:                                                Company
+                is_primary:                                             Primary
+                address_type:                                           Type
+                street1:                                                Street Address 1
+                street2:                                                Street Address 2
+                street3:                                                Street Address 3
+                postal_code:                                            Postal Code
+                city:                                                   City
+                state:                                                  State
+                country:                                                Country
+        company_person:
+            groups:
+                common:                                                 Person Information
+                contact_infos:                                          Contact Information
+            fields:
+                location:                                               Location
+                first_name:                                             First Name
+                last_name:                                              Last Name
+                salutation:                                             Salutation
+                job_title:                                              Job Title
+                is_primary:                                             Primary
+        contact_info:
+            fields:
+                person:                                                 Person
+                contact_info_type:                                      Type
+                text:                                                   Value
+        region:
+            fields:
+                name:                                                   Region
+        country:
+            fields:
+                region:                                                 Region
+                name:                                                   Country
+                alpha_two:                                              Alpha-2 Code
+                alpha_three:                                            Alpha-3 Code
+                numeric_code:                                           Numeric Code
+        warehouse_location:
+            fields:
+                location_identifier:                                    Alias
+                short_name:                                             Name
+                street1:                                                Street Address 1
+                street2:                                                Street Address 2
+                street3:                                                Street Address 3
+                postal_code:                                            Postal Code
+                city:                                                   City
+                state:                                                  State
+                country:                                                Country
     seed_units:
         model:
-            constraints:
-                unique:
-                    name: Not an unique Model Name
             fields:
-                name: Model Name
+                name:                                                   Model
+                description:                                            Description
+        power_cord_type:
+            fields:
+                name:                                                   Power Cord Type
+                description:                                            Description
+        seed_unit:
+            buttons:
+                change_status:                                          Update Status
+            groups:
+                history:                                                History
+            fields:
+                serial_number:                                          'Serial #'
+                model:                                                  Model
+                power_cord_type:                                        Power Cord Type
+                location:                                               Location
+                unit_status:                                            Status
+
+
+
+
 
 menu:
     requests: Requests
@@ -317,6 +399,54 @@ menu:
     warehouses: Warehouses
     import: Import
     import_seed_units: Seed Units
+
+#
+#forms2:
+#    generic:
+#        groups:
+#            common: Common Data
+#            locations: Locations
+#            persons: Persons
+#            notes: Notes
+#        fields:
+#            description: Description
+#    # Override example
+#    requests:
+#        request:
+#            groups:
+#                common: Request Data
+#                units: Seed Units
+#            fields:
+#                number_of_units_requested: Units requested
+#                company: Company
+#                requester_person: Requester
+#                receiver_person: Receiver
+#                shipping_location: Shipping Location
+#            # used for grouping companies
+#            companies:
+#                partner: Partners
+#                sales_team: Sales Teams
+#            buttons:
+#                save: Save
+#    companies:
+#        partner:
+#            groups:
+#                common: Common Data
+#                locations: Locations
+#                notes: Notes
+#        company_location:
+#            constraints:
+#                unique:
+#                    short_name: Short Name is already in use at this company
+#            groups:
+#                address: Address Data
+#    seed_units:
+#        model:
+#            constraints:
+#                unique:
+#                    name: Not an unique Model Name
+#            fields:
+#                name: Model Name
 
 
 #common:

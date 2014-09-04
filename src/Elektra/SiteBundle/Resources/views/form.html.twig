@@ -370,10 +370,8 @@
 
 {# choice widget options #}
 {% block choice_widget_options -%}
-
     {% for group_label, choice in options %}
         {%- if choice is iterable -%}
-
             <optgroup label="{{ siteLanguage.required(group_label) }}">
                 {#<optgroup label="{{ group_label|trans({}, translation_domain) }}">#}
                 {% set options = choice %}

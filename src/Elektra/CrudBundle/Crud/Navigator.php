@@ -2,6 +2,8 @@
 
 namespace Elektra\CrudBundle\Crud;
 
+
+use Elektra\SeedBundle\Definition\Auditing\AuditDefinition;
 use Elektra\SeedBundle\Definition\Companies\AddressDefinition;
 use Elektra\SeedBundle\Definition\Companies\AddressTypeDefinition;
 use Elektra\SeedBundle\Definition\Companies\CompanyDefinition;
@@ -61,8 +63,11 @@ final class Navigator
         $this->router         = $router;
         $this->definitions    = array();
         $this->definitionsMap = array();
+
         // URGENT add the single definitions from the seedbundle
+        $this->addDefinition(new AuditDefinition());
         $this->addDefinition(new NoteDefinition());
+
         $this->addDefinition(new AddressDefinition());
         $this->addDefinition(new AddressTypeDefinition());
         $this->addDefinition(new CompanyDefinition());

@@ -54,7 +54,8 @@
 
 {% block table_head_cell %}
     <th class="head-{{ index }} head-{{ column.type }}">
-        {{ siteLanguage.required(column.title) }}
+        {{ column.title }}
+        {#{{ siteLanguage.required(column.title) }}#}
     </th>
 {% endblock %}
 
@@ -63,9 +64,9 @@
     <tr>
         <td colspan="{{ table.columns.all|length }}">
             {% import 'ElektraSiteBundle:macros:actions.html.twig' as actions %}
-            {#{{ table.crud.linker.listAddLink() }}#}
-            {#{{ siteLanguage.alternate('table.' ~ table.crud.languageKey ~ '.actions.add', 'table.actions.add') }}#}
-            <span class="pull-right">{{ attribute(actions, 'add', [table.crud.linker.listAddLink(), siteLanguage.alternate('tables.' ~ table.crud.languageKey ~ '.actions.add', 'actions.add'), {}]) }}</span>
+            {% if table.isAllowed('add') %}
+                <span class="pull-right">{{ attribute(actions, 'add', [table.crud.linker.listAddLink(), siteLanguage.alternate('tables.' ~ table.crud.languageKey ~ '.actions.add', 'actions.add'), {}]) }}</span>
+            {% endif %}
             {# URGENT embedded functionality #}
             {% if not table.crud.hasParent() %}
                 <span>{{ siteLanguage.get('pagination.pages') }}</span>
@@ -99,7 +100,8 @@
 
 {% block table_body_cell %}
     {% set colType = column.type %}
-    {% set data = column.displayData(entry) %}
+    {% set rowNumber = count %}
+    {% set data = column.displayData(entry, rowNumber) %}
     <td class="col-{{ index }} col-{{ column.type }}">
         {% if colType == 'title' %}
             {{ block('table_body_cell_title') }}
@@ -118,11 +120,15 @@
 
     <div>
         <strong>
-        {% if table.isAllowed('view') %}
-            {{ attribute(actions, 'view', [data.link, data.title, {}]) }}
-        {% else %}
-           {{ data.title }}
-        {% endif %}
+            {% if table.isAllowed('view') %}
+                {% set options = {} %}
+                {% if data.class is defined %}
+                    {% set options = options|merge({'class': data.class}) %}
+                {% endif %}
+                {{ attribute(actions, 'view', [data.link, data.title, options]) }}
+            {% else %}
+                {{ data.title }}
+            {% endif %}
         </strong>
     </div>
     {% if data.other is iterable and data.other is not empty %}

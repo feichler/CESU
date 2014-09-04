@@ -1,0 +1,72 @@
+
+
+table:
+    companies:
+        companyLocation:
+            name: Name
+            isPrimary: Primary
+            addressType: Type
+        contactInfo:
+            text: Text
+            name: Name
+            contactInfoType: Type
+        contactInfoType:
+            name: Name:
+        partnerTier:
+            name: Name
+            unitsLimit: Unit Limit
+        person:
+            name: Name
+            firstName: First Name
+            lastName: Last Name
+            isPrimary: Primary
+            salutation: Salutation
+            jobTitle: Job Title
+    imports:
+        file:
+            filename: Uploaded File
+            newfilename: Stored as
+            processed: Processed
+    requests:
+        request:
+            unitsRequested: Units requested
+            requestStatus: Status
+            seedUnits: Seed Units
+
+#form:
+#    buttons:
+#        save: Save
+#        reset: Reset
+#        cancel: Cancel
+#        close: Close
+#        edit: Edit
+#        delete: Delete
+
+#actions:
+
+
+#pages:
+#    generic:
+#        title: Welcome
+#        title_prefix: ''
+#        title_suffix: CESU Administration
+#        heading: Welcome
+#        section: Administration
+#    security:
+#        login:
+#            title: Login
+#            heading: Please Login
+#    seed_units:
+#        section: Master Data
+#        seed_unit:
+#            browse:
+#                heading: Browse Seed Units
+#            add:
+#                heading: Add a Seed Unit
+#        model:
+#            section: Master Data - Seed Units
+#            browse:
+#                heading: Browse Models
+#
+#
+#

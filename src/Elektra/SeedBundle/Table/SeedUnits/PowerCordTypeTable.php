@@ -12,7 +12,7 @@ class PowerCordTypeTable extends Table
     protected function initialiseColumns()
     {
 
-        $model = $this->getColumns()->addTitleColumn('tables.seed_units.power_cord_type.name');
+        $model = $this->getColumns()->addTitleColumn('name');
         $model->setFieldData(array('name', 'description'));
         $model->setSearchable();
         $model->setSortable();

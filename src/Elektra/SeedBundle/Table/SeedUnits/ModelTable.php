@@ -10,7 +10,7 @@ class ModelTable extends Table
     protected function initialiseColumns()
     {
 
-        $model = $this->getColumns()->addTitleColumn('tables.seed_units.model.name');
+        $model = $this->getColumns()->addTitleColumn('name');
         $model->setFieldData(array('name', 'description'));
         $model->setSearchable();
         $model->setSortable();

@@ -4,6 +4,7 @@ namespace Elektra\CrudBundle\Table\Column;
 
 use Elektra\CrudBundle\Crud\Definition;
 use Elektra\CrudBundle\Table\Columns;
+use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class Column
@@ -49,7 +50,7 @@ class Column
     {
 
         $this->columns    = $columns;
-        $this->title      = $title;
+        $this->title      = Helper::languageAlternate('tables', 'columns.'.$title);
         $this->type       = 'default';
         $this->definition = null;
 
@@ -557,13 +558,15 @@ class Column
     /*************************************************************************
      * Display related
      *************************************************************************/
+
     /**
      * @param mixed $entry
+     * @param int   $rowNumber
      *
      * @return string
      * @throws \RuntimeException
      */
-    public function getDisplayData($entry)
+    public function getDisplayData($entry, $rowNumber)
     {
 
         // CHECK highlight search string?
@@ -581,7 +584,7 @@ class Column
             $return = array();
             foreach ($field as $oneField) {
                 try {
-                    $data     = $this->getDisplayDataSingle($entry, $oneField);
+                    $data     = $this->getDisplayDataSingle($entry, $oneField, $rowNumber);
                     $return[] = $data;
                 } catch (\RuntimeException $ex) {
                     if (!array_key_exists($oneField, $dataIgnore)) {
@@ -592,7 +595,7 @@ class Column
         } else if (is_string($field)) {
             // only one value to display
             try {
-                $return = $this->getDisplayDataSingle($entry, $field);
+                $return = $this->getDisplayDataSingle($entry, $field, $rowNumber);
             } catch (\RuntimeException $ex) {
                 if (!array_key_exists($field, $dataIgnore)) {
                     throw $ex;
@@ -610,15 +613,16 @@ class Column
     /**
      * @param mixed  $entry
      * @param string $field
+     * @param int   $rowNumber
      *
      * @return null|string
      * @throws \RuntimeException
      */
-    protected final function getDisplayDataSingle($entry, $field)
+    protected final function getDisplayDataSingle($entry, $field, $rowNumber)
     {
 
         // check if a custom method is present
-        $custom = $this->getCustomDisplayDataSingle($entry, $field);
+        $custom = $this->getCustomDisplayDataSingle($entry, $field, $rowNumber);
         if ($custom !== null) {
             return $custom;
         }
@@ -655,10 +659,11 @@ class Column
     /**
      * @param mixed  $entry
      * @param string $field
+     * @param int   $rowNumber
      *
      * @return null|string
      */
-    protected function getCustomDisplayDataSingle($entry, $field)
+    protected function getCustomDisplayDataSingle($entry, $field, $rowNumber)
     {
 
         // NOTE may be overridden if necessary

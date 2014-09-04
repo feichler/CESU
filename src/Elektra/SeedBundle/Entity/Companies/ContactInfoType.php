@@ -30,6 +30,18 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class ContactInfoType implements AuditableInterface, CrudInterface
 {
 
+    const PHONE = "phone";
+
+    const FAX = "fax";
+
+    const MOBILE = "mobile";
+
+    const EMAIL = "email";
+
+    const MESSENGER = "messenger";
+
+    const OTHER = "other";
+
     /**
      * @var int
      *
@@ -45,6 +57,13 @@ class ContactInfoType implements AuditableInterface, CrudInterface
      * @ORM\Column(type="string", length=50, unique=true)
      */
     protected $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=25, unique=true)
+     */
+    protected $internalName;
 
     /**
      * @var ArrayCollection
@@ -101,6 +120,24 @@ class ContactInfoType implements AuditableInterface, CrudInterface
     {
 
         return $this->name;
+    }
+
+    /**
+     * @param string $internalName
+     */
+    public function setInternalName($internalName)
+    {
+
+        $this->internalName = $internalName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInternalName()
+    {
+
+        return $this->internalName;
     }
 
     /**

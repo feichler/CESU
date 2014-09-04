@@ -13,6 +13,9 @@
     {% if options.render is defined %}
         {% set render = options.render %}
     {% endif %}
+    {% if options.class is defined %}
+        {% set classes = classes ~ ' ' ~ options.class %}
+    {% endif %}
     {% if render == 'button' %}
         {% set classes = classes ~ ' action-btn' %}
     {% endif %}
