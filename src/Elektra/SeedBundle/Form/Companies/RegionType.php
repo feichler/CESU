@@ -4,6 +4,7 @@ namespace Elektra\SeedBundle\Form\Companies;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
 use Elektra\CrudBundle\Form\CommonOptions;
+use Elektra\SiteBundle\Form\DataTransformer\ToUppercaseTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -14,8 +15,12 @@ class RegionType extends CrudForm
     /**
      * {@inheritdoc}
      */
-    protected function setSpecificDefaultOptions(OptionsResolverInterface $resolver)
+    protected function getUniqueEntityFields()
     {
+
+        return array(
+            'name',
+        );
     }
 
     /**
@@ -24,21 +29,17 @@ class RegionType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
-        $regionGroup = $this->getFieldGroup($builder, $options, 'Region Data'); // TRANSLATE this
-        $regionGroup->add('name', 'text', CommonOptions::getRequiredNotBlank());
-        $builder->add($regionGroup);
+        $common = $this->addFieldGroup($builder, $options, 'common');
+
+        $region = $common->create('name', 'text', $this->getFieldOptions('name')->required()->notBlank()->toArray());
+        $common->add($region->addModelTransformer(new ToUppercaseTransformer()));
 
         if ($options['crud_action'] == 'view') {
-            $countriesGroup = $this->getFieldGroup($builder, $options, 'Countries'); // TRANSLATE this
-            $countriesGroup->add(
-                'countries',
-                'relatedList',
-                array(
-                    'relation_parent_entity' => $options['data'],
-                    'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Country'),
-                )
-            );
-            $builder->add($countriesGroup);
+            $countries             = $this->addFieldGroup($builder, $options, 'countries');
+            $countriesFieldOptions = $this->getFieldOptions('persons');
+            $countriesFieldOptions->add('relation_parent_entity', $options['data']);
+            $countriesFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Country'));
+            $countries->add('countries', 'relatedList', $countriesFieldOptions->toArray());
         }
     }
 }

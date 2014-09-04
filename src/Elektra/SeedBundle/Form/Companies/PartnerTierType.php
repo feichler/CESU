@@ -14,8 +14,12 @@ class PartnerTierType extends CrudForm
     /**
      * {@inheritdoc}
      */
-    protected function setSpecificDefaultOptions(OptionsResolverInterface $resolver)
+    protected function getUniqueEntityFields()
     {
+
+        return array(
+            'name',
+        );
     }
 
     /**
@@ -23,7 +27,10 @@ class PartnerTierType extends CrudForm
      */
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add($builder->create('name', 'text', CommonOptions::getRequiredNotBlank())->addModelTransformer(new ToUppercaseTransformer()));
-        $builder->add('unitsLimit', 'integer', CommonOptions::getRequiredNotBlank());
+
+        $common = $this->addFieldGroup($builder, $options, 'common');
+
+        $common->add('name', 'text', $this->getFieldOptions('name')->required()->notBlank()->toArray());
+        $common->add('unitsLimit', 'integer', $this->getFieldOptions('unitsLimit')->required()->notBlank()->toArray());
     }
 }

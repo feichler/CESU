@@ -13,7 +13,7 @@ class CustomerTable extends Table
     protected function initialiseColumns()
     {
 
-        $customer = $this->getColumns()->addTitleColumn('table.companies.company.name');
+        $customer = $this->getColumns()->addTitleColumn('tables.companies.company.name');
         $customer->setFieldData(array('shortName', 'name'));
         $customer->setSearchable();
         $customer->setSortable()->setFieldSort('shortName');

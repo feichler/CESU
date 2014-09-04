@@ -23,50 +23,89 @@ class RequestType extends CrudForm
      */
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
+
+        $commonGroup = $this->getFieldGroup($builder, $options, 'common'); // TRANSLATE this
+
         if ($options['crud_action'] == 'view') {
-            $builder->add('requestNumber', 'integer',
+            $commonGroup->add(
+                'requestNumber',
+                'integer',
                 array(
-                    'label'     => 'Request No'
+                    'label' => $this->getFieldLabel('requestNumber'),
+                    //                    'label'     => 'Request No',
                 )
             );
         }
 
-        $builder->add('numberOfUnitsRequested', 'integer', array_merge(CommonOptions::getRequiredNotBlank(),
-            array(
-                'label'     => 'Units requested'
+        $commonGroup->add(
+            'numberOfUnitsRequested',
+            'integer',
+            array_merge(
+                CommonOptions::getRequiredNotBlank(),
+                array(
+                    'label' => $this->getFieldLabel('numberOfUnitsRequested'),
+                    //                'label'     => 'Units requested',
+                )
             )
-        ));
+        );
 
-        $builder->add('company', 'entity', array_merge(CommonOptions::getRequiredNotBlank(),
-            array(
-                'class'    => CompanyDefinitions::getRequestingCompany()->getClassEntity(),
-                'property' => 'title',
+        $commonGroup->add(
+            'company',
+            'entity',
+            array_merge(
+                CommonOptions::getRequiredNotBlank(),
+                array(
+                    'label' => $this->getFieldLabel('company'),
+                    'class'    => CompanyDefinitions::getRequestingCompany()->getClassEntity(),
+                    'property' => 'title',
+                    'group_by'=>'companyType',
+                )
             )
-        ));
+        );
 
-        $builder->add('requesterPerson', 'entity', array_merge(CommonOptions::getRequiredNotBlank(),
-            array(
-                'class'    => CompanyDefinitions::getCompanyPerson()->getClassEntity(),
-                'property' => 'title',
+        $commonGroup->add(
+            'requesterPerson',
+            'entity',
+            array_merge(
+                CommonOptions::getRequiredNotBlank(),
+                array(
+                    'label' => $this->getFieldLabel('requesterPerson'),
+                    'class'    => CompanyDefinitions::getCompanyPerson()->getClassEntity(),
+                    'property' => 'title',
+                )
             )
-        ));
+        );
 
-        $builder->add('receiverPerson', 'entity', array_merge(CommonOptions::getRequiredNotBlank(),
-            array(
-                'class'    => CompanyDefinitions::getCompanyPerson()->getClassEntity(),
-                'property' => 'title',
+        $commonGroup->add(
+            'receiverPerson',
+            'entity',
+            array_merge(
+                CommonOptions::getRequiredNotBlank(),
+                array(
+                    'label' => $this->getFieldLabel('receiverPerson'),
+                    'class'    => CompanyDefinitions::getCompanyPerson()->getClassEntity(),
+                    'property' => 'title',
+                )
             )
-        ));
+        );
 
-        $builder->add('shippingLocation', 'entity', array_merge(CommonOptions::getOptional(),
-            array(
-                'class'    => CompanyDefinitions::getCompanyLocation()->getClassEntity(),
-                'property' => 'title',
+        $commonGroup->add(
+            'shippingLocation',
+            'entity',
+            array_merge(
+                CommonOptions::getOptional(),
+                array(
+                    'label' => $this->getFieldLabel('shippingLocation'),
+                    'class'    => CompanyDefinitions::getCompanyLocation()->getClassEntity(),
+                    'property' => 'title',
+                )
             )
-        ));
+        );
+        $builder->add($commonGroup);
 
         if ($options['crud_action'] == 'view') {
-            $builder->add(
+            $unitsGroup =  $this->getFieldGroup($builder, $options, 'units'); // TRANSLATE this
+            $unitsGroup->add(
                 'seedUnits',
                 'relatedList',
                 array(
@@ -74,6 +113,7 @@ class RequestType extends CrudForm
                     'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'),
                 )
             );
+            $builder->add($unitsGroup);
         }
     }
 }

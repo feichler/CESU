@@ -9,17 +9,17 @@ class ContactInfoTable extends Table
 
     protected function initialiseColumns()
     {
-        $text = $this->getColumns()->addTitleColumn('table.companies.contactInfo.text');
+        $text = $this->getColumns()->addTitleColumn('tables.companies.contact_info.text');
         $text->setFieldData("text");
         $text->setSortable();
         $text->setSearchable();
 
-        $name = $this->getColumns()->add('table.companies.contactInfo.name');
+        $name = $this->getColumns()->add('tables.companies.contact_info.name');
         $name->setFieldData('name');
         $name->setSortable();
         $name->setSearchable();
 
-        $contactInfoType = $this->getColumns()->add('table.companies.contactInfo.contactInfoType');
+        $contactInfoType = $this->getColumns()->add('tables.companies.contact_info.contact_info_type');
         $contactInfoType->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'ContactInfoType'));
         $contactInfoType->setFieldData('contactInfoType.name');
         $contactInfoType->setSortable();

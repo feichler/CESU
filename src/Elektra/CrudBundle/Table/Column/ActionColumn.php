@@ -10,7 +10,7 @@ class ActionColumn extends Column
     public function __construct(Columns $columns)
     {
 
-        parent::__construct($columns, 'table.columns.action');
+        parent::__construct($columns, 'tables.generic.columns.action');
         $this->setType('action');
     }
 

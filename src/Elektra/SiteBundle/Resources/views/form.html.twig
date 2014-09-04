@@ -74,7 +74,14 @@
 {% block form_rows %}
     {# First, check if rows are grouped#}
     {% set groups, groupsType = false, '' %}
+    {% for child in form if child.vars.name == 'actions_top' %}
+        {# if an actions_top field is found, render this first (in order to be compatible with the tab navigation) #}
+        {#<div class="pull-right">#}
+        {{ form_row(child) }}
+        {#</div>#}
+    {% endfor %}
     {% for child in form if child.vars.render_type is defined %}
+
         {% set groups, groupsType = true, child.vars.render_type %}
     {% endfor %}
 
@@ -136,24 +143,24 @@
 {# start of a form group #}
 {% block form_rows_group_start %}
     {% if groupsType == 'fieldset' %}
-<fieldset>
+{#<fieldset>#}
     {% elseif groupsType == 'panel' %}
-    <div class="panel-group" id="form-panel">
-        {% elseif groupsType == 'tab' %}
-        <div class="panel panel-default">
-            <div class="tab-content" id="form-tab-content">
-                {% endif %}
-                {% endblock form_rows_group_start %}
+<div class="panel-group" id="form-panel">
+    {% elseif groupsType == 'tab' %}
+    <div class="panel panel-default">
+        <div class="tab-content" id="form-tab-content">
+            {% endif %}
+            {% endblock form_rows_group_start %}
 
-                {# end of a form group #}
-                {% block form_rows_group_end %}
-                {% if groupsType == 'tab' %}
-            </div>
+            {# end of a form group #}
+            {% block form_rows_group_end %}
+            {% if groupsType == 'tab' %}
         </div>
-        {% elseif groupsType == 'panel' %}
     </div>
+    {% elseif groupsType == 'panel' %}
+</div>
     {% elseif groupsType == 'fieldset' %}
-</fieldset>
+        {#</fieldset>#}
     {% endif %}
 {% endblock form_rows_group_end %}
 
@@ -224,7 +231,11 @@
 
 {# generic button rows #}
 {% block button_row -%}
-    <div class="form-group text-center">
+    {% set cssClass = 'form-group' %}
+    {% if form.vars.alignment is defined %}
+        {% set cssClass = cssClass ~ ' text-' ~ form.vars.alignment %}
+    {% endif %}
+    <div class="{{ cssClass }}">
         {{- form_widget(form) -}}
     </div>
 {%- endblock button_row %}
@@ -240,8 +251,8 @@
 {% block parent_row %}
     {% if form.vars.show_field %}
         {{ block('form_row') }}
-        {% else %}
-            {{- form_widget(form) -}}
+    {% else %}
+        {{- form_widget(form) -}}
     {% endif %}
 {% endblock parent_row %}
 
@@ -359,9 +370,12 @@
 
 {# choice widget options #}
 {% block choice_widget_options -%}
+
     {% for group_label, choice in options %}
         {%- if choice is iterable -%}
-            <optgroup label="{{ group_label|trans({}, translation_domain) }}">
+
+            <optgroup label="{{ siteLanguage.required(group_label) }}">
+                {#<optgroup label="{{ group_label|trans({}, translation_domain) }}">#}
                 {% set options = choice %}
                 {{- block('choice_widget_options') -}}
             </optgroup>

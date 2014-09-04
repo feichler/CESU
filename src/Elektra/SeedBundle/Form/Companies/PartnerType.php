@@ -13,8 +13,12 @@ class PartnerType extends CrudForm
     /**
      * {@inheritdoc}
      */
-    protected function setSpecificDefaultOptions(OptionsResolverInterface $resolver)
+    protected function getUniqueEntityFields()
     {
+
+        return array(
+            'shortName',
+        );
     }
 
     /**
@@ -23,36 +27,23 @@ class PartnerType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
-        $commonGroup = $this->getFieldGroup($builder, $options, 'Common Data'); // TRANSLATE this
-        $commonGroup->add('shortName', 'text', CommonOptions::getRequiredNotBlank());
-        $commonGroup->add('name', 'text', CommonOptions::getOptional());
-        $commonGroup->add(
-            'partnerTier',
-            'entity',
-            array_merge(
-                CommonOptions::getRequiredNotBlank(),
-                array(
-                    'class'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'PartnerTier')->getClassEntity(),
-                    'property' => 'title',
-                )
-            )
-        );
-        $commonGroup->add('unitsLimit', 'integer', CommonOptions::getOptional());
-        $builder->add($commonGroup);
+        $common = $this->addFieldGroup($builder, $options, 'common');
+
+        $common->add('shortName', 'text', $this->getFieldOptions('shortName')->required()->notBlank()->toArray());
+        $common->add('name', 'text', $this->getFieldOptions('name')->optional()->toArray());
+        $partnerTierFieldOptions = $this->getFieldOptions('partnerTier')->required()->notBlank();
+        $partnerTierFieldOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'PartnerTier')->getClassEntity());
+        $partnerTierFieldOptions->add('property', 'title');
+        $common->add('partnerTier', 'entity', $partnerTierFieldOptions->toArray());
+        $common->add('unitsLimit', 'integer', $this->getFieldOptions('unitsLimit')->optional()->toArray());
 
         if ($options['crud_action'] == 'view') {
-            $locationsGroup = $this->getFieldGroup($builder, $options, 'Locations'); // TRANSLATE this
-            $locationsGroup->add(
-                'locations',
-                'relatedList',
-                array(
-                    'label'                  => false,
-                    'relation_parent_entity' => $options['data'],
-                    'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation'),
-                    'relation_name'          => 'company',
-                )
-            );
-            $builder->add($locationsGroup);
+            $locations             = $this->addFieldGroup($builder, $options, 'locations');
+            $locationsFieldOptions = $this->getFieldOptions('locations');
+            $locationsFieldOptions->add('relation_parent_entity', $options['data']);
+            $locationsFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation'));
+            $locationsFieldOptions->add('relation_name', 'company');
+            $locations->add('locations', 'relatedList', $locationsFieldOptions->toArray());
             // URGENT find a solution to display the persons at the company view
         }
     }

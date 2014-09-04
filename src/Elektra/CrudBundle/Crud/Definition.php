@@ -2,6 +2,8 @@
 
 namespace Elektra\CrudBundle\Crud;
 
+use Elektra\SiteBundle\Site\Helper;
+
 abstract class Definition
 {
 
@@ -57,7 +59,11 @@ abstract class Definition
          * set some common composite data bits
          */
         // language key used for all translations
-        $this->setData('languageKey', strtolower($this->getData('group')) . '.' . strtolower($this->getData('name')));
+        //        $langGroup = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $this->getData('group')));
+        $langGroup = Helper::camelToUnderScore($this->getData('group'));
+        //        $langName = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $this->getData('name')));
+        $langName = Helper::camelToUnderScore($this->getData('name'));
+        $this->setData('languageKey', $langGroup . '.' . $langName);
         // full bundle name - symfony style
         $this->setData('bundleFull', $this->getData('vendor') . $this->getData('bundle'));
         // namespace of the bundle
@@ -402,7 +408,9 @@ abstract class Definition
         return true;
     }
 
-    public function getTest(){
+    public function getTest()
+    {
+
         return '';
     }
 }

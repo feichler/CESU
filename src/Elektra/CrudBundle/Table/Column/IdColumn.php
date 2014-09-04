@@ -10,7 +10,7 @@ class IdColumn extends Column
     public function __construct(Columns $columns)
     {
 
-        parent::__construct($columns, 'table.columns.id');
+        parent::__construct($columns, 'tables.generic.columns.id');
         $this->setType('id');
         $this->setFieldData('id');
         $this->setSortable();

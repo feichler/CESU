@@ -13,13 +13,13 @@ class RegistrationTable extends Table
     protected function initialiseColumns()
     {
 
-        $registrant = $this->getColumns()->addTitleColumn('table.trainings.registration.registrant');
+        $registrant = $this->getColumns()->addTitleColumn('tables.trainings.registration.registrant');
         $registrant->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'));
         $registrant->setFieldData('person.lastName');
         $registrant->setSearchable();
         $registrant->setSortable();
 
-        $training = $this->getColumns()->addTitleColumn('table.trainings.registration.training');
+        $training = $this->getColumns()->addTitleColumn('tables.trainings.registration.training');
         $training->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Trainings', 'Training'));
         $training->setFieldData('training.name');
         $training->setFilterable();

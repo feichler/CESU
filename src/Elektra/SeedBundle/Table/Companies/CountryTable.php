@@ -14,12 +14,12 @@ class CountryTable extends Table
     protected function initialiseColumns()
     {
 
-        $country = $this->getColumns()->addTitleColumn('table.companies.country.country');
+        $country = $this->getColumns()->addTitleColumn('tables.companies.country.country');
         $country->setFieldData('name');
         $country->setSearchable();
         $country->setSortable();
 
-        $region = $this->getColumns()->add('table.companies.country.region');
+        $region = $this->getColumns()->add('tables.companies.country.region');
         $region->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Region'));
         $region->setFieldData('region.name');
         $region->setFilterable()->setFieldFilter('name');

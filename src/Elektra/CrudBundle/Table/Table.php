@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\CrudBundle\Crud\Crud;
 
 use Elektra\CrudBundle\Crud\Definition;
+use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\FormBuilder;
 
 // TODO add a "clear all filters" button
@@ -558,7 +559,8 @@ abstract class Table
             ),
         );
 
-        $options = $this->getCrud()->mergeOptions($defaultOptions, $options);
+        $options = Helper::mergeOptions($defaultOptions, $options);
+//        $options = $this->getCrud()->mergeOptions($defaultOptions, $options);
 
         if ($data != null && !empty($data)) {
             $options['data'] = $data;

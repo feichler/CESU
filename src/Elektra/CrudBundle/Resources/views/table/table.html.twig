@@ -65,7 +65,7 @@
             {% import 'ElektraSiteBundle:macros:actions.html.twig' as actions %}
             {#{{ table.crud.linker.listAddLink() }}#}
             {#{{ siteLanguage.alternate('table.' ~ table.crud.languageKey ~ '.actions.add', 'table.actions.add') }}#}
-            <span class="pull-right">{{ attribute(actions, 'add', [table.crud.linker.listAddLink(), siteLanguage.alternate('table.' ~ table.crud.languageKey ~ '.actions.add', 'table.actions.add'), {}]) }}</span>
+            <span class="pull-right">{{ attribute(actions, 'add', [table.crud.linker.listAddLink(), siteLanguage.alternate('tables.' ~ table.crud.languageKey ~ '.actions.add', 'actions.add'), {}]) }}</span>
             {# URGENT embedded functionality #}
             {% if not table.crud.hasParent() %}
                 <span>{{ siteLanguage.get('pagination.pages') }}</span>
@@ -80,7 +80,7 @@
     {% if table.entries|length == 0 %}
         <tr class="warning">
             <td class="datarow-empty" colspan="{{ table.columns.all|length }}">
-                {{ siteLanguage.alternate('table.' ~ table.crud.languageKey ~ '.empty', 'table.empty') }}
+                {{ siteLanguage.alternate('tables.' ~ table.crud.languageKey ~ '.empty', 'tables.generic.empty') }}
             </td>
         </tr>
     {% else %}
@@ -136,11 +136,11 @@
     {% import 'ElektraSiteBundle:macros:actions.html.twig' as actions %}
 
     {% for type, action in data %}
-        {% set typeKey = 'table.' ~ action.langKey ~ '.actions.' ~ type %}
-        {% set alternateTypeKey = 'table.actions.' ~ type %}
+        {% set typeKey = 'tables.' ~ action.langKey ~ '.actions.' ~ type %}
+        {% set alternateTypeKey = 'actions.' ~ type %}
         {% if action.confirm %}
-            {% set confirmKey = 'table.' ~ action.langKey ~ '.actions.confirm_' ~ type %}
-            {% set alternateConfirmKey = 'common.confirm_' ~ type %}
+            {% set confirmKey = 'tables.' ~ action.langKey ~ '.actions.confirmations.' ~ type %}
+            {% set alternateConfirmKey = 'actions.confirmations.' ~ type %}
             {{ attribute(actions, type, [action.link, siteLanguage.alternate(typeKey, alternateTypeKey), { 'confirmMsg': siteLanguage.alternate(confirmKey, alternateConfirmKey) }]) }}
         {% else %}
             {{ attribute(actions, type, [action.link, siteLanguage.alternate(typeKey, alternateTypeKey), {  }]) }}

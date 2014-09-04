@@ -13,36 +13,36 @@ class SeedUnitTable extends Table
     protected function initialiseColumns()
     {
 
-        $serial = $this->getColumns()->addTitleColumn('table.seed_units.seed_unit.serial');
+        $serial = $this->getColumns()->addTitleColumn('tables.seed_units.seed_unit.serial_number');
         $serial->setFieldData('serialNumber');
         $serial->setSearchable();
         $serial->setSortable();
 
-        $model = $this->getColumns()->add('table.seed_units.seed_unit.model');
+        $model = $this->getColumns()->add('tables.seed_units.seed_unit.model');
         $model->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model'));
         $model->setFieldData('model.name');
         $model->setSortable();
         $model->setFilterable()->setFieldFilter('name');
 
-        $power = $this->getColumns()->add('table.seed_units.seed_unit.power_cord_type');
+        $power = $this->getColumns()->add('tables.seed_units.seed_unit.power_cord_type');
         $power->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType'));
         $power->setFieldData('powerCordType.name');
         $power->setSortable();
         $power->setFilterable()->setFieldFilter('name');
 
-        $status = $this->getColumns()->add('table.seed_units.seed_unit.status');
+        $status = $this->getColumns()->add('tables.seed_units.seed_unit.status');
         $status->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'));
         $status->setFieldData('unitStatus.name');
         $status->setSortable();
         $status->setFilterable()->setFieldFilter('name');
 
-        $location = $this->getColumns()->add('table.seed_units.seed_unit.location');
+        $location = $this->getColumns()->add('tables.seed_units.seed_unit.location');
         $location->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location'));
         $location->setFieldData('location.shortName');
         $location->setSortable();
         $location->setFilterable()->setFieldFilter('shortName');
 
-        $request = $this->getColumns()->add('table.seed_units.seed_unit.request');
+        $request = $this->getColumns()->add('tables.seed_units.seed_unit.request');
         $request->setFieldData('request.requestNumber');
         $request->setSearchable();
         $request->setSortable();
