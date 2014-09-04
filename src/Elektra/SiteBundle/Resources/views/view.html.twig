@@ -148,10 +148,15 @@
 {# choice widget (collapsed form) #}
 {% block choice_widget_collapsed -%}
     {% for group_label, choice in choices %}
-        {% if choice is selectedchoice(value) %}
-            <span class="form-control">
+        {% if choice is iterable %}
+            {% set options = choice %}
+            {{- block('choice_widget_options') -}}
+        {% else %}
+            {% if choice is selectedchoice(value) %}
+                <span class="form-control">
                 {{ choice.label|trans({}, translation_domain) }}
             </span>
+            {% endif %}
         {% endif %}
     {% endfor %}
 {%- endblock choice_widget_collapsed %}
@@ -179,7 +184,7 @@
 {% endblock relatedList_widget %}
 
 {% block list_widget %}
-{% set controller = form.vars.crud.definition.controller ~ ':childList' %}
+    {% set controller = form.vars.crud.definition.controller ~ ':childList' %}
     {% set childType = form.vars.relation_child_type %}
     {% set parentEntity = form.vars.relation_parent_entity %}
     {% set relationName = form.vars.relation_name %}
