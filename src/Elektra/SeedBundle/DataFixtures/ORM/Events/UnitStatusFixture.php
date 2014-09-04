@@ -30,19 +30,17 @@ class UnitStatusFixture extends SeedBundleFixture
     {
 
         $statuses = array(
-            array("Available", "A", "available"),
-            array("Reserved", "R", "reserved"),
-            array("Exception", "E", "exception"),
-            array("In transit", "I", "inTransit"),
-            array("Delivered", "D", "delivered"),
-            array("Ackn. Attempt", "AA", "acknowledgeAttempt"),
-            array("AA1 email sent", "AA1", "aa1sent"),
-            array("AA3 email sent", "AA2", "aa3sent"),
-            array("AA2 email sent", "AA3", "aa2sent"),
-            array("Escalation", "Es", "escalation"),
-            array("Delivery Verified", "DV", "deliveryVerified"),
-            array("Unit installed at partner", "PIP", "unitInstalledAtPartner"),
-            array("Unit installed at customer", "PIC", "unitInstalledAtCustomer")
+            array("Available", "A", UnitStatus::AVAILABLE),
+            array("Reserved", "R", UnitStatus::RESERVED),
+            array("Exception", "E", UnitStatus::EXCEPTION),
+            array("In transit", "I", UnitStatus::IN_TRANSIT),
+            array("Delivered", "D", UnitStatus::DELIVERED),
+            array("Ackn. Attempt", "AA", UnitStatus::ACKNOWLEDGE_ATTEMPT),
+            array("AA1 email sent", "AA1", UnitStatus::AA1SENT),
+            array("AA3 email sent", "AA2", UnitStatus::AA2SENT),
+            array("AA2 email sent", "AA3", UnitStatus::AA3SENT),
+            array("Escalation", "Es", UnitStatus::ESCALATION),
+            array("Delivery Verified", "DV", UnitStatus::DELIVERY_VERIFIED),
         );
 
         foreach ($statuses as $data) {
