@@ -65,6 +65,7 @@ abstract class Table
     {
 
         $this->crud = $crud;
+        Helper::setCrud($this->crud);
 
         $this->pagination    = new Pagination($this);
         $this->columns       = new Columns($this);
@@ -257,9 +258,9 @@ abstract class Table
 
         $repositoryClass = $this->getCrud()->getDefinition()->getClassRepository();
         $repository      = $this->getCrud()->getController()->getDoctrine()->getRepository($repositoryClass);
-//        echo get_class($repository);
+        //        echo get_class($repository);
         $this->entries = $repository->getEntries($page, $this->pagination->getLimit(), $search, $filters, $order);
-//        echo count($this->entries);
+        //        echo count($this->entries);
         $this->pagination->setPage($page);
         $language = $this->getCrud()->getService('siteLanguage');
         if ($language instanceof Language) {
@@ -560,7 +561,7 @@ abstract class Table
         );
 
         $options = Helper::mergeOptions($defaultOptions, $options);
-//        $options = $this->getCrud()->mergeOptions($defaultOptions, $options);
+        //        $options = $this->getCrud()->mergeOptions($defaultOptions, $options);
 
         if ($data != null && !empty($data)) {
             $options['data'] = $data;

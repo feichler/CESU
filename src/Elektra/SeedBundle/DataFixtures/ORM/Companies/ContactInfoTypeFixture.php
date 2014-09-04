@@ -30,13 +30,18 @@ class ContactInfoTypeFixture extends SeedBundleFixture
     {
 
         $statuses = array(
-            "Email",
-            "Phone"
+            array("Email", ContactInfoType::EMAIL),
+            array("Phone", ContactInfoType::PHONE),
+            array("Fax", ContactInfoType::FAX),
+            array("Mobile", ContactInfoType::MOBILE),
+            array("Messenger", ContactInfoType::MESSENGER),
+            array("Other", ContactInfoType::OTHER),
         );
 
         foreach ($statuses as $data) {
             $status = new ContactInfoType();
-            $status->setName($data);
+            $status->setName($data[0]);
+            $status->setInternalName($data[1]);
             $manager->persist($status);
 
             $this->addReference('contact_info_type-' . strtolower($status->getName()), $status);

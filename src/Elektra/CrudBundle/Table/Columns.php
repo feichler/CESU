@@ -154,7 +154,7 @@ class Columns
      *
      * @return Column
      */
-    private function addColumn(Column $column, $index)
+    public function addColumn(Column $column, $index)
     {
 
         if (is_int($index)) {

@@ -14,11 +14,11 @@ class AuditColumn extends Column
     public function __construct(Columns $columns)
     {
 
-        parent::__construct($columns, 'tables.generic.columns.audit');
+        parent::__construct($columns, 'audit');
         $this->setType('audit');
     }
 
-    public function getDisplayData($entry)
+    public function getDisplayData($entry, $rowNumber)
     {
 
         $return = array();

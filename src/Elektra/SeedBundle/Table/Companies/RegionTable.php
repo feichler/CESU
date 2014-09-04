@@ -13,12 +13,12 @@ class RegionTable extends Table
     protected function initialiseColumns()
     {
 
-        $region = $this->getColumns()->addTitleColumn('tables.companies.region.region');
+        $region = $this->getColumns()->addTitleColumn('region');
         $region->setFieldData('name');
         $region->setSearchable();
         $region->setSortable();
 
-        $countries = $this->getColumns()->addCountColumn('tables.companies.region.countries');
+        $countries = $this->getColumns()->addCountColumn('countries');
         $countries->setFieldData('countries');
         $countries->setSortable();
     }

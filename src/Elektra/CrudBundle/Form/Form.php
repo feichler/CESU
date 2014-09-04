@@ -264,12 +264,29 @@ abstract class Form extends AbstractType
 
     protected final function addNotesGroup(FormBuilderInterface $builder, array $options)
     {
-        // TODO implement this method
+
+        if ($options['crud_action'] == 'view' && array_key_exists('data', $options)) { // key exists check for special case "address" - don't know why, but in this case, data is not set
+            $notes             = $this->addFieldGroup($builder, $options, 'notes');
+            $notesFieldOptions = $this->getFieldOptions('notes', false);
+            $notesFieldOptions->add('crud', $this->getCrud());
+                        $notesFieldOptions->add('relation_parent_entity', $options['data']);
+            $notesFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Notes', 'Note'));
+            $notesFieldOptions->add('relation_name', 'notes');
+            $notes->add('notes', 'list', $notesFieldOptions->toArray());
+        }
     }
 
     protected final function addAuditsGroup(FormBuilderInterface $builder, array $options)
     {
-        // TODO implement this method
+        if ($options['crud_action'] == 'view' && array_key_exists('data', $options)) { // key exists check for special case "address" - don't know why, but in this case, data is not set
+         $audits = $this->addFieldGroup($builder,$options,'audits');
+            $auditsFieldOptions = $this->getFieldOptions('audits', false);
+            $auditsFieldOptions->add('crud', $this->getCrud());
+            $auditsFieldOptions->add('relation_parent_entity', $options['data']);
+            $auditsFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Auditing', 'Audit'));
+            $auditsFieldOptions->add('relation_name', 'audits');
+            $audits->add('audits','list',$auditsFieldOptions->toArray());
+        }
     }
 
     /*************************************************************************
@@ -470,7 +487,7 @@ abstract class Form extends AbstractType
     protected final function getButtonClass($type, $position)
     {
 
-        $class = 'btn btn-' . $type;
+        $class = 'btn btn-' . Helper::camelToUnderScore($type);
         if ($position == 'top') {
             $class .= ' btn-sm';
         }
@@ -630,21 +647,21 @@ abstract class Form extends AbstractType
     /**
      * {@inheritdoc}
      */
-//    public final function buildForm1(FormBuilderInterface $builder, array $options)
-//    {
-//
-//        parent::buildForm($builder, $options);
-//
-//        $this->buildSpecificForm($builder, $options);
-//
-//        if ($this->getCrud()->getDefinition()->isEntityAnnotable()) {
-//            $this->addNotesGroup($builder, $options);
-//        }
-//
-//        if ($options['show_buttons'] == true) {
-//            $this->buildFormButtons($builder, $options);
-//        }
-//    }
+    //    public final function buildForm1(FormBuilderInterface $builder, array $options)
+    //    {
+    //
+    //        parent::buildForm($builder, $options);
+    //
+    //        $this->buildSpecificForm($builder, $options);
+    //
+    //        if ($this->getCrud()->getDefinition()->isEntityAnnotable()) {
+    //            $this->addNotesGroup($builder, $options);
+    //        }
+    //
+    //        if ($options['show_buttons'] == true) {
+    //            $this->buildFormButtons($builder, $options);
+    //        }
+    //    }
 
     protected function addNotesGroup1(FormBuilderInterface $builder, array $options)
     {
@@ -666,38 +683,38 @@ abstract class Form extends AbstractType
         }
     }
 
-//    public final function addParentField1(FormBuilderInterface $builder, array $options, Definition $definition, $fieldName, $mapped = true)
-//    {
-//
-//        $crudAction  = $options['crud_action'];
-//        $preSelectId = $this->getCrud()->getParentId();
-//
-//        //echo $definition->getClassEntity();
-//        $parentOptions = array(
-//            'class'    => $definition->getClassEntity(),
-//            'property' => 'title',
-//        );
-//
-//        if ($crudAction == 'add') {
-//            $em                    = $this->getCrud()->getService('doctrine')->getManager();
-//            $parentRef             = $em->getReference($definition->getClassEntity(), $preSelectId);
-//            $parentOptions['data'] = $parentRef;
-//        }
-//        if ($crudAction == 'add' || $crudAction == 'edit') {
-//            // URGENT CHECK should the parent relation field be editable?
-//            $parentOptions['read_only'] = true;
-//            //            $parentOptions['disabled']  = true;
-//        }
-//
-//        if (!$mapped) {
-//            $parentOptions['mapped']     = false;
-//            $parentOptions['show_field'] = false;
-//        }
-//
-//        $options = $this->getCrud()->mergeOptions(CommonOptions::getRequiredNotBlank(), $parentOptions);
-//
-//        $builder->add($fieldName, 'parent', $options);
-//    }
+    //    public final function addParentField1(FormBuilderInterface $builder, array $options, Definition $definition, $fieldName, $mapped = true)
+    //    {
+    //
+    //        $crudAction  = $options['crud_action'];
+    //        $preSelectId = $this->getCrud()->getParentId();
+    //
+    //        //echo $definition->getClassEntity();
+    //        $parentOptions = array(
+    //            'class'    => $definition->getClassEntity(),
+    //            'property' => 'title',
+    //        );
+    //
+    //        if ($crudAction == 'add') {
+    //            $em                    = $this->getCrud()->getService('doctrine')->getManager();
+    //            $parentRef             = $em->getReference($definition->getClassEntity(), $preSelectId);
+    //            $parentOptions['data'] = $parentRef;
+    //        }
+    //        if ($crudAction == 'add' || $crudAction == 'edit') {
+    //            // URGENT CHECK should the parent relation field be editable?
+    //            $parentOptions['read_only'] = true;
+    //            //            $parentOptions['disabled']  = true;
+    //        }
+    //
+    //        if (!$mapped) {
+    //            $parentOptions['mapped']     = false;
+    //            $parentOptions['show_field'] = false;
+    //        }
+    //
+    //        $options = $this->getCrud()->mergeOptions(CommonOptions::getRequiredNotBlank(), $parentOptions);
+    //
+    //        $builder->add($fieldName, 'parent', $options);
+    //    }
 
     //    public final function buildView1(FormView $view, FormInterface $form, array $options)
     //    {
@@ -935,25 +952,25 @@ abstract class Form extends AbstractType
     //        return $options;
     //    }
 
-//    protected function fieldOptionsLabel($options, $name)
-//    {
-//
-//        if (is_array($options)) {
-//            echo 'array';
-//        } else {
-//            echo 'no array';
-//        }
-//        $options['label']       = 'asdf';
-//        $options[]              = 'asdf';
-//        $test                   = array();
-//        $test['asf']            = 1;
-//        $options['constraints'] = $test;
-//        //        $options['constraints'][] = 'test';
-//        //        $options['other']['test'] = 1;
-//
-//        var_dump($options);
-//        var_dump(iterator_to_array($options));
-//    }
+    //    protected function fieldOptionsLabel($options, $name)
+    //    {
+    //
+    //        if (is_array($options)) {
+    //            echo 'array';
+    //        } else {
+    //            echo 'no array';
+    //        }
+    //        $options['label']       = 'asdf';
+    //        $options[]              = 'asdf';
+    //        $test                   = array();
+    //        $test['asf']            = 1;
+    //        $options['constraints'] = $test;
+    //        //        $options['constraints'][] = 'test';
+    //        //        $options['other']['test'] = 1;
+    //
+    //        var_dump($options);
+    //        var_dump(iterator_to_array($options));
+    //    }
 
     //    protected function getFieldOptions($fieldName, )
     //    {

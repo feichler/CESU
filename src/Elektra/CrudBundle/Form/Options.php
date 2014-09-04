@@ -87,39 +87,11 @@ class Options implements \ArrayAccess, \IteratorAggregate
     public function notBlank()
     {
 
-        $language = $this->crudForm->getCrud()->getService('siteLanguage');
-        $langKey  = $this->crudForm->getCrud()->getLanguageKey();
+        $errorMsg = Helper::languageAlternate('forms', 'constraints.not_blank', $this->fieldName);
 
-        $key       = 'forms.' . $langKey . '.constraints.' . $this->fieldLangKey . '.not_blank';
-        $alternate = 'forms.generic.constraints.not_blank';
-
-        $this->data['constraints'][] = new NotBlank(array('message' => $language->getAlternate($key, $alternate)));
+        $this->data['constraints'][] = new NotBlank(array('message' => $errorMsg));
 
         return $this;
-    }
-
-    public function uniqueEntity($name = 'name')
-    {
-
-        $language = $this->crudForm->getCrud()->getService('siteLanguage');
-        $langKey  = $this->crudForm->getCrud()->getLanguageKey();
-
-        $key       = 'forms.' . $langKey . '.constraints.' . $this->fieldLangKey . '.unique_entity.' . $name;
-        $alternate = 'forms.generic.constraints.not_blank';
-
-        $this->data['constraints'][] = new UniqueEntity(array(
-            'fields'  => $name,
-            'message' => $language->getAlternate($key, $alternate),
-        ));
-
-        return $this;
-    }
-
-    public function uniqueName()
-    {
-
-        return $this->uniqueEntity('name');
-        //        return $this;
     }
 
     public function add($name, $value)

@@ -16,7 +16,7 @@ class CountColumn extends Column
 
 
 
-    protected function getCustomDisplayDataSingle($entry, $field)
+    protected function getCustomDisplayDataSingle($entry, $field, $rowNumber)
     {
 
         $method = 'get' . ucfirst($this->getFieldData());

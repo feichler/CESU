@@ -17,7 +17,7 @@ class DateColumn extends Column
         $this->setType('date');
     }
 
-    protected function getCustomDisplayDataSingle($entry, $field)
+    protected function getCustomDisplayDataSingle($entry, $field, $rowNumber)
     {
 
         $method    = 'get' . ucfirst($this->getFieldData());
