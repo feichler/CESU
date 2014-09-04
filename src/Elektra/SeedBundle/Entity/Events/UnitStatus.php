@@ -27,6 +27,17 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  */
 class UnitStatus implements AuditableInterface, CrudInterface
 {
+    const AVAILABLE = "available";
+    const RESERVED = "reserved";
+    const EXCEPTION = "exception";
+    const IN_TRANSIT = "inTransit";
+    const DELIVERED = "delivered";
+    const ACKNOWLEDGE_ATTEMPT = "acknowledgeAttempt";
+    const AA1SENT = "aa1sent";
+    const AA3SENT = "aa3sent";
+    const AA2SENT = "aa2sent";
+    const ESCALATION = "escalation";
+    const DELIVERY_VERIFIED = "deliveryVerified";
 
     /**
      * @var int

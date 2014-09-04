@@ -22,11 +22,15 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Events\EventTypeRepository")
  * @ORM\Table(name="eventTypes")
  */
 class EventType implements AuditableInterface, CrudInterface
 {
+    const SHIPPING = "shipping";
+    const PARTNER = "partner";
+    const SALES = "sales";
+    const COMMUNICATION = "communication";
 
     /**
      * @var int
