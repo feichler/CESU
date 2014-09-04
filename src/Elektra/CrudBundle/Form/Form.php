@@ -16,6 +16,8 @@ use Symfony\Component\Validator\Exception\InvalidArgumentException;
 
 abstract class Form extends AbstractType
 {
+    const BUTTON_TOP = 'top';
+    const BUTTON_BOTTOM = 'bottom';
 
     /**
      * @var Crud
@@ -149,8 +151,8 @@ abstract class Form extends AbstractType
         }
         $this->initialiseButtons($crudAction, $options);
 
-        if (array_key_exists('top', $this->buttons) && !empty($this->buttons['top'])) {
-            $builder->add('actions_top', 'buttonGroup', array('buttons' => $this->buttons['top'], 'alignment' => 'right'));
+        if (array_key_exists(Form::BUTTON_TOP, $this->buttons) && !empty($this->buttons[Form::BUTTON_TOP])) {
+            $builder->add('actions_top', 'buttonGroup', array('buttons' => $this->buttons[Form::BUTTON_TOP], 'alignment' => 'right'));
         }
 
         $this->buildSpecificForm($builder, $options);
@@ -162,8 +164,8 @@ abstract class Form extends AbstractType
             $this->addAuditsGroup($builder, $options);
         }
 
-        if (array_key_exists('bottom', $this->buttons) && !empty($this->buttons['bottom'])) {
-            $builder->add('actions', 'buttonGroup', array('buttons' => $this->buttons['bottom']));
+        if (array_key_exists(Form::BUTTON_BOTTOM, $this->buttons) && !empty($this->buttons[Form::BUTTON_BOTTOM])) {
+            $builder->add('actions', 'buttonGroup', array('buttons' => $this->buttons[Form::BUTTON_BOTTOM]));
         }
     }
 
@@ -386,10 +388,10 @@ abstract class Form extends AbstractType
      *
      * @throws \InvalidArgumentException
      */
-    protected final function addFormButton($name, $type, $options = array(), $position = 'bottom')
+    protected final function addFormButton($name, $type, $options = array(), $position = Form::BUTTON_BOTTOM)
     {
 
-        if (!in_array($position, array('top', 'bottom'))) {
+        if (!in_array($position, array(Form::BUTTON_TOP, Form::BUTTON_BOTTOM))) {
             throw new \InvalidArgumentException('Invalid position "' . $position . '" given');
         }
 
