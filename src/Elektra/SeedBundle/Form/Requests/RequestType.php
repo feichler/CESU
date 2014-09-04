@@ -57,7 +57,7 @@ class RequestType extends CrudForm
                 array(
                     'label' => $this->getFieldLabel('company'),
                     'class'    => CompanyDefinitions::getRequestingCompany()->getClassEntity(),
-                    'property' => 'title',
+                    'property' => 'shortName',
                     'group_by'=>'companyType',
                 )
             )

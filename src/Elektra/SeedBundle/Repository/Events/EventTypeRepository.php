@@ -31,7 +31,7 @@ class EventTypeRepository extends Repository
     {
         $builder = $this->getEntityManager()->createQueryBuilder();
         $builder->select('et')
-            ->from('EventType', 'et')
+            ->from('ElektraSeedBundle:Events\EventType', 'et')
             ->where('et.internalName = :internalName')
             ->setParameter("internalName", $internalName);
 
