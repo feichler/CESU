@@ -149,8 +149,13 @@
 {% block choice_widget_collapsed -%}
     {% for group_label, choice in choices %}
         {% if choice is iterable %}
-            {% set options = choice %}
-            {{- block('choice_widget_options') -}}
+            {% for label, groupedChoice in choice %}
+                {% if groupedChoice is selectedchoice(value) %}
+                    <span class="form-control">
+                        {{ groupedChoice.label|trans({}, translation_domain) }}
+                    </span>
+                {% endif %}
+            {% endfor %}
         {% else %}
             {% if choice is selectedchoice(value) %}
                 <span class="form-control">
