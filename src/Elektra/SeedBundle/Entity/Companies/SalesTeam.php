@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\SalesTeamRepository")
  * @ORM\Table(name="salesTeamCompanies")
- * @UniqueEntity(fields={ "shortName" })
+ * @UniqueEntity(fields={ "shortName" }, message="")
  */
 class SalesTeam extends RequestingCompany
 {
@@ -33,5 +33,16 @@ class SalesTeam extends RequestingCompany
     {
 
         parent::__construct();
+    }
+
+    /**
+     * Used for grouping (translation key)
+     *
+     * @return string
+     */
+    public function getCompanyType()
+    {
+
+        return 'forms.requests.request.companies.sales_team';
     }
 }

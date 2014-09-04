@@ -27,7 +27,7 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\ModelRepository")
  * @ORM\Table(name="models")
  *
- * @UniqueEntity(fields={"name"}, message="error.constraint.unique_name")
+ * @UniqueEntity(fields={"name"}, message="")
  */
 class Model implements AuditableInterface, CrudInterface
 {
@@ -182,7 +182,9 @@ class Model implements AuditableInterface, CrudInterface
         return null;
     }
 
-    public function setId($id) {
-        $this->modelId=$id;
+    public function setId($id)
+    {
+
+        $this->modelId = $id;
     }
 }

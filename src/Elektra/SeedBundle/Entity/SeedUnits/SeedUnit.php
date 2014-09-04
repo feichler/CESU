@@ -29,7 +29,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\SeedUnitRepository")
  * @ORM\Table(name="seedUnits")
- * @UniqueEntity(fields={ "serialNumber" })
+ * @UniqueEntity(fields={ "serialNumber" }, message="")
  */
 class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
 {
