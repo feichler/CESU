@@ -24,7 +24,7 @@ class RequestType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
-        $commonGroup = $this->getFieldGroup($builder, $options, 'common'); // TRANSLATE this
+        $commonGroup = $this->addFieldGroup($builder, $options, 'common'); // TRANSLATE this
 
         if ($options['crud_action'] == 'view') {
             $commonGroup->add(
@@ -104,7 +104,7 @@ class RequestType extends CrudForm
         $builder->add($commonGroup);
 
         if ($options['crud_action'] == 'view') {
-            $unitsGroup =  $this->getFieldGroup($builder, $options, 'units'); // TRANSLATE this
+            $unitsGroup =  $this->addFieldGroup($builder, $options, 'units'); // TRANSLATE this
             $unitsGroup->add(
                 'seedUnits',
                 'relatedList',
