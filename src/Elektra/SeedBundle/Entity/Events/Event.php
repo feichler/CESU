@@ -118,6 +118,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface, CrudInte
 
         $this->notes  = new ArrayCollection();
         $this->audits = new ArrayCollection();
+        $this->timestamp = time();
     }
 
     /**

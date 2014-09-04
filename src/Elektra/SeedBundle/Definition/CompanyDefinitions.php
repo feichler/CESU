@@ -2,7 +2,7 @@
 
 namespace Elektra\SeedBundle\Definition;
 
-use Elektra\CrudBundle\Definition\Definition;
+use Elektra\CrudBundle\Crud\Definition;
 use Elektra\SeedBundle\Definition\Companies\AddressDefinition;
 use Elektra\SeedBundle\Definition\Companies\AddressTypeDefinition;
 use Elektra\SeedBundle\Definition\Companies\CompanyLocationDefinition;

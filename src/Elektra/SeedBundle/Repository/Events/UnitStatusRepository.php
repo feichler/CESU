@@ -32,7 +32,7 @@ class UnitStatusRepository extends Repository
     {
         $builder = $this->getEntityManager()->createQueryBuilder();
         $builder->select('us')
-            ->from('UnitStatus', 'us')
+            ->from('ElektraSeedBundle:Events\UnitStatus', 'us')
             ->where('us.internalName = :internalName')
             ->setParameter("internalName", $internalName);
 

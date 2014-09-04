@@ -9,8 +9,14 @@
 
 namespace Elektra\SeedBundle\Controller\Requests;
 
+use Doctrine\ORM\EntityManager;
 use Elektra\CrudBundle\Controller\Controller;
 use Elektra\SeedBundle\Entity\EntityInterface;
+use Elektra\SeedBundle\Entity\Events\EventType;
+use Elektra\SeedBundle\Entity\Events\ShippingEvent;
+use Elektra\SeedBundle\Entity\Events\UnitStatus;
+use Elektra\SeedBundle\Entity\Requests\Request;
+use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Elektra\SeedBundle\Form\Requests\AddUnitsType;
 use Symfony\Component\Form\FormInterface;
 
@@ -39,6 +45,7 @@ class RequestController extends Controller
         $this->initialise('addUnits');
 
         // get the existing entity
+        /* @var $entity Request */
         $entity = $this->getEntity($id);
 
         $options = array('crud_action' => 'addUnits');
@@ -48,12 +55,23 @@ class RequestController extends Controller
 
         $form->handleRequest($this->getCrud()->getRequest());
 
-        if ($form->isValid()) {
+        if ($form->isValid())
+        {
+            /* @var $manager EntityManager */
+            $manager = $this->getDoctrine()->getManager();
+
+            /* @var $su SeedUnit */
             foreach ($entity->getSeedUnits() as $su)
             {
                 $su->setRequest($entity);
+                $shippingEvent = new ShippingEvent();
+                $shippingEvent->setTitle("Reserved for request " . $entity->getRequestNumber());
+                $shippingEvent->setLocation($su->getLocation());
+                $shippingEvent->setUnitStatus($manager->getRepository('ElektraSeedBundle:Events\UnitStatus')->findByInternalName(UnitStatus::RESERVED));
+                $shippingEvent->setEventType($manager->getRepository('ElektraSeedBundle:Events\EventType')->findByInternalName(EventType::SHIPPING));
+                $shippingEvent->setSeedUnit($su);
+                $su->getEvents()->add($shippingEvent);
             }
-            $manager = $this->getDoctrine()->getManager();
             $manager->flush();
 
             $returnUrl = $this->getCrud()->getLinker()->getRedirectAfterProcess($entity);

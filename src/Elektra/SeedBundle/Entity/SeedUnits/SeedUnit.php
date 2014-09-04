@@ -69,7 +69,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\Events\Event", mappedBy="seedUnit", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\Events\Event", mappedBy="seedUnit", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * )
      */

@@ -20,7 +20,7 @@ class RequestTable extends Table
 
         $company = $this->getColumns()->add('company');
         $company->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'RequestingCompany'));
-        $company->setFieldData(array('shortName', 'name'));
+        $company->setFieldData(array('company.shortName', 'company.name'), true);
         $company->setSortable();
         $company->setFilterable()->setFieldFilter('shortName');
 
@@ -38,7 +38,7 @@ class RequestTable extends Table
 
         $shippingAddress = $this->getColumns()->add('shipping_location');
         $shippingAddress->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation'));
-        $company->setFieldData(array('shippingLocation.shortName', 'shippingLocation.name'));
+        $shippingAddress->setFieldData(array('shippingLocation.shortName', 'shippingLocation.name'), true);
         $shippingAddress->setSortable();
     }
 }
