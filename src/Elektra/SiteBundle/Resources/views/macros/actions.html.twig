@@ -31,7 +31,7 @@
 
 {% macro view(href, text, options) %}
     {% import _self as actions %}
-    {% set text = text|default(siteLanguage.required('common.action.view')) %}
+    {% set text = text|default(siteLanguage.required('actions.view')) %}
     {% set options = options|default({}) %}
     {% if options.render is not defined %}
         {% set options = options|merge({'render': 'link'}) %}
@@ -42,21 +42,21 @@
 
 {% macro add(href, text, options) %}
     {% import _self as actions %}
-    {% set text = text|default(siteLanguage.required('common.action.add')) %}
+    {% set text = text|default(siteLanguage.required('actions.add')) %}
     {% set options = options|default({}) %}
     {{ actions.action('add', href, text, options) }}
 {% endmacro %}
 
 {% macro edit(href, text, options) %}
     {% import _self as actions %}
-    {% set text = text|default(siteLanguage.required('common.action.edit')) %}
+    {% set text = text|default(siteLanguage.required('actions.edit')) %}
     {% set options = options|default({}) %}
     {{ actions.action('edit', href, text, options) }}
 {% endmacro %}
 
 {% macro delete(href, text, options) %}
     {% import _self as actions %}
-    {% set text = text|default(siteLanguage.required('common.action.delete')) %}
+    {% set text = text|default(siteLanguage.required('actions.delete')) %}
     {% set options = options|default({}) %}
     {% if options.confirmMsg is not defined %}
         {% set options = options|merge({'confirmMsg': siteLanguage.required('common.confirm_delete')}) %}

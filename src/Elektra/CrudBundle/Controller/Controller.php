@@ -5,6 +5,7 @@ namespace Elektra\CrudBundle\Controller;
 use Elektra\CrudBundle\Crud\Crud;
 use Elektra\CrudBundle\Crud\Definition;
 use Elektra\SeedBundle\Entity\EntityInterface;
+use Elektra\SiteBundle\Site\Helper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormInterface;
@@ -278,7 +279,8 @@ $method = 'get'.ucfirst($relationName);
     {
 
         $formClass = $this->getCrud()->getDefinition()->getClassForm();
-        $options   = $this->getCrud()->mergeOptions(
+        $options = Helper::mergeOptions(
+//        $options   = $this->getCrud()->mergeOptions(
             array('crud_action' => $crudAction),
             $this->getFormOptions($entity, $crudAction)
         );

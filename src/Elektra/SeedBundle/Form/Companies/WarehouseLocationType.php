@@ -23,14 +23,15 @@ class WarehouseLocationType extends CrudForm
      */
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('locationIdentifier', 'text', CommonOptions::getRequiredNotBlank());
-        $builder->add('shortName', 'text', CommonOptions::getRequiredNotBlank());
 
-        $addressOptions = array(
-            'data_class' =>   $this->getCrud()->getDefinition('Elektra','Seed','Companies','Address')->getClassEntity(),
-            'crud_action' => $options['crud_action'],
-            'show_buttons' => false
-        );
-        $builder->add("address", new AddressType($this->getCrud()), $addressOptions);
+        $common = $this->addFieldGroup($builder, $options, 'common');
+
+        $common->add('locationIdentifier', 'text', $this->getFieldOptions('locationIdentifier')->required()->notBlank()->toArray());
+        $common->add('shortName', 'text', $this->getFieldOptions('shortName')->required()->notBlank()->toArray());
+        $addressFieldOptions = $this->getFieldOptions('address', false);
+        $addressFieldOptions->add('data_class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Address')->getClassEntity());
+        $addressFieldOptions->add('crud_action', $options['crud_action']);
+        $addressFieldOptions->add('default_actions', false);
+        $common->add('address', new AddressType($this->getCrud()), $addressFieldOptions->toArray());
     }
 }

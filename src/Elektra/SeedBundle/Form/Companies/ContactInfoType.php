@@ -14,8 +14,12 @@ class ContactInfoType extends CrudForm
     /**
      * {@inheritdoc}
      */
-    protected function setSpecificDefaultOptions(OptionsResolverInterface $resolver)
+    protected function getUniqueEntityFields()
     {
+
+        return array(
+            array('name', 'person', 'contactInfoType'),
+        );
     }
 
     /**
@@ -24,22 +28,17 @@ class ContactInfoType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
+        $common = $this->addFieldGroup($builder, $options, 'common');
+
         $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'Person');
-        $this->addParentField($builder, $options, $parentDefinition, 'person');
+        $this->addParentField('common', $builder, $options, $parentDefinition, 'person');
 
-        $builder->add('name', 'text', CommonOptions::getRequiredNotBlank());
-        $builder->add('text', 'text', CommonOptions::getRequiredNotBlank());
-
-        $builder->add(
-            'contactInfoType',
-            'entity',
-            array_merge(
-                CommonOptions::getRequiredNotBlank(),
-                array(
-                    'class'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'ContactInfoType')->getClassEntity(),
-                    'property' => 'title',
-                )
-            )
-        );
+        $contactInfoTypeFieldOptions = $this->getFieldOptions('contactInfoType');
+        $contactInfoTypeFieldOptions->required()->notBlank();
+        $contactInfoTypeFieldOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'ContactInfoType')->getClassEntity());
+        $contactInfoTypeFieldOptions->add('property', 'title');
+        $common->add('contactInfoType', 'entity', $contactInfoTypeFieldOptions->toArray());
+        $common->add('name', 'text', $this->getFieldOptions('name')->required()->notBlank()->toArray());
+        $common->add('text', 'text', $this->getFieldOptions('text')->required()->notBlank()->toArray());
     }
 }

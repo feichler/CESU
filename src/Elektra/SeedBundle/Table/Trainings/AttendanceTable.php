@@ -13,13 +13,13 @@ class AttendanceTable extends Table
     protected function initialiseColumns()
     {
 
-        $registrant = $this->getColumns()->addTitleColumn('table.trainings.attendance.attendee');
+        $registrant = $this->getColumns()->addTitleColumn('tables.trainings.attendance.attendee');
         $registrant->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'));
         $registrant->setFieldData('person.lastName');
         $registrant->setSearchable();
         $registrant->setSortable();
 
-        $training = $this->getColumns()->addTitleColumn('table.trainings.attendance.training');
+        $training = $this->getColumns()->addTitleColumn('tables.trainings.attendance.training');
         $training->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Trainings', 'Training'));
         $training->setFieldData('training.name');
         $training->setFilterable();

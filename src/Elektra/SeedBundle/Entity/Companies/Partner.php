@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\PartnerRepository")
  * @ORM\Table(name="partnerCompanies")
- * @UniqueEntity(fields={ "shortName" })
+ * @UniqueEntity(fields={ "shortName" }, message="")
  */
 class Partner extends RequestingCompany
 {
@@ -84,5 +84,16 @@ class Partner extends RequestingCompany
     {
 
         return $this->unitsLimit;
+    }
+
+    /**
+     * Used for grouping (translation key)
+     *
+     * @return string
+     */
+    public function getCompanyType()
+    {
+
+        return 'forms.requests.request.companies.partner';
     }
 }

@@ -13,8 +13,12 @@ class CompanyLocationType extends CrudForm
     /**
      * {@inheritdoc}
      */
-    protected function setSpecificDefaultOptions(OptionsResolverInterface $resolver)
+    protected function getUniqueEntityFields()
     {
+
+        return array(
+            array('shortName', 'company'),
+        );
     }
 
     /**
@@ -23,50 +27,32 @@ class CompanyLocationType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
-        $commonGroup = $this->getFieldGroup($builder, $options, 'Common Data'); // TRANSLATE this
+        $common = $this->addFieldGroup($builder, $options, 'common');
 
         $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'Company');
-        $this->addParentField($commonGroup, $options, $parentDefinition, 'company');
+        $this->addParentField('common', $builder, $options, $parentDefinition, 'company');
+        $common->add('shortName', 'text', $this->getFieldOptions('shortName')->required()->notBlank()->toArray());
+        $common->add('name', 'text', $this->getFieldOptions('name')->optional()->toArray());
+        $common->add('isPrimary', 'checkbox', $this->getFieldOptions('isPrimary')->optional()->toArray());
 
-        $commonGroup->add('shortName', 'text', CommonOptions::getRequiredNotBlank());
-        $commonGroup->add('name', 'text', CommonOptions::getOptional());
-        $commonGroup->add('isPrimary', 'checkbox', CommonOptions::getOptional());
-
-        $builder->add($commonGroup);
-
-        $addressGroup = $this->getFieldGroup($builder, $options, 'Address Data'); // TRANSLATE this
-        $addressGroup->add(
-            'addressType',
-            'entity',
-            array_merge(
-                CommonOptions::getRequiredNotBlank(),
-                array(
-                    'class'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'AddressType')->getClassEntity(),
-                    'property' => 'title',
-                )
-            )
-        );
-        $addressOptions = array(
-            'data_class'   => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Address')->getClassEntity(),
-            'crud_action'  => $options['crud_action'],
-            'show_buttons' => false,
-            'label'        => false,
-        );
-        $addressGroup->add("address", new AddressType($this->getCrud()), $addressOptions);
-        $builder->add($addressGroup);
+        $address                 = $this->addFieldGroup($builder, $options, 'address');
+        $addressTypeFieldOptions = $this->getFieldOptions('addressType')->required()->notBlank();
+        $addressTypeFieldOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'AddressType')->getClassEntity());
+        $addressTypeFieldOptions->add('property', 'title');
+        $address->add('addressType', 'entity', $addressTypeFieldOptions->toArray());
+        $addressFieldOptions = $this->getFieldOptions('address', false);
+        $addressFieldOptions->add('data_class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Address')->getClassEntity());
+        $addressFieldOptions->add('crud_action', $options['crud_action']);
+        $addressFieldOptions->add('default_actions', false);
+        $address->add('address', new AddressType($this->getCrud()), $addressFieldOptions->toArray());
 
         if ($options['crud_action'] == 'view') {
-            $personsGroup = $this->getFieldGroup($builder, $options, 'Persons'); // TRANSLATE this
-            $personsGroup->add(
-                'persons',
-                'relatedList',
-                array(
-                    'relation_parent_entity' => $options['data'],
-                    'relation_child_type'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'),
-                    'relation_name'          => 'location',
-                )
-            );
-            $builder->add($personsGroup);
+            $persons             = $this->addFieldGroup($builder, $options, 'persons');
+            $personsFieldOptions = $this->getFieldOptions('persons');
+            $personsFieldOptions->add('relation_parent_entity', $options['data']);
+            $personsFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'));
+            $personsFieldOptions->add('relation_name', 'location');
+            $persons->add('persons', 'relatedList', $personsFieldOptions->toArray());
         }
     }
 }

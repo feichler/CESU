@@ -25,7 +25,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\PowerCordTypeRepository")
  * @ORM\Table(name="powerCordTypes")
- * @UniqueEntity(fields={ "name" })
+ * @UniqueEntity(fields={ "name" }, message="")
  */
 class PowerCordType implements AuditableInterface, CrudInterface
 {

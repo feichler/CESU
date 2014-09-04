@@ -10,7 +10,7 @@ class NoteColumn extends CountColumn
     public function __construct(Columns $columns)
     {
 
-        parent::__construct($columns, 'table.columns.note');
+        parent::__construct($columns, 'tables.generic.columns.note');
         $this->setFieldData('notes');
         $this->setType('note');
     }

@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity
  * @ORM\Table(name="genericLocations")
- * @UniqueEntity(fields={ "shortName" })
+ * @UniqueEntity(fields={ "shortName" }, message="")
  */
 class GenericLocation extends Location
 {

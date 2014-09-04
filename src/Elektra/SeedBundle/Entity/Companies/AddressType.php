@@ -25,7 +25,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity
  * @ORM\Table(name="addressTypes")
- * @UniqueEntity(fields={ "name" })
+ * @UniqueEntity(fields={ "name" }, message="")
  */
 class AddressType implements AuditableInterface, CrudInterface
 {

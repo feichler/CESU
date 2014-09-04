@@ -41,10 +41,10 @@ class Language
     private function setDefaults()
     {
 
-        $this->add('user.login', 'common.user.generic.login');
-        $this->add('user.logout', 'common.user.generic.logout');
-        $this->add('copyright', 'common.copyright');
-        $this->add('brand', 'common.brand');
+        $this->add('user.login', 'user.login');
+        $this->add('user.logout', 'user.logout');
+        $this->add('copyright', 'generic.copyright');
+        $this->add('brand', 'generic.brand');
         $this->add('title', 'pages.generic.title');
         $this->add('title_prefix', 'pages.generic.title_prefix');
         $this->add('title_suffix', 'pages.generic.title_suffix');
@@ -179,12 +179,14 @@ class Language
         $newParameters = array();
 
         foreach ($parameters as $key => $value) {
+
             if ($key[0] != '%') {
                 $key = '%' . $key;
             }
             if (substr($key, -1) != '%') {
                 $key = $key . '%';
             }
+
             $newParameters[$key] = $value;
         }
 
@@ -233,7 +235,7 @@ class Language
         return $this->getString($key, true);
     }
 
-    public function getAlternate($langKey, $alternateKey)
+    public function getAlternate($langKey, $alternateKey, $alternateKey2 = null)
     {
 
         $this->add($langKey, $langKey);
@@ -241,13 +243,16 @@ class Language
             return $this->get($langKey);
         }
 
-        return $this->getRequired($alternateKey);
+        if ($alternateKey2 !== null) {
+            unset($this->strings[$langKey]);
+            $this->add($langKey, $alternateKey);
+            if ($this->isTranslated($langKey)) {
+                return $this->get($langKey);
+            }
 
-        $this->override($key, $langKey);
-        if (!$this->isTranslated($key)) {
-            $this->restore($key);
+            return $this->getRequired($alternateKey2);
         }
 
-        return $this->get($key);
+        return $this->getRequired($alternateKey);
     }
 }

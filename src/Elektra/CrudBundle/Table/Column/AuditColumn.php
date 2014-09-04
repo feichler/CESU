@@ -14,7 +14,7 @@ class AuditColumn extends Column
     public function __construct(Columns $columns)
     {
 
-        parent::__construct($columns, 'table.columns.audit');
+        parent::__construct($columns, 'tables.generic.columns.audit');
         $this->setType('audit');
     }
 
@@ -24,15 +24,6 @@ class AuditColumn extends Column
         $return = array();
 
         if ($entry instanceof AuditableInterface) {
-            $created     = $entry->getCreationAudit();
-            $createdDate = date($this->dateFormat, $created->getTimestamp());
-            $createdBy   = $created->getUser()->getUsername();
-
-            $return['created'] = array(
-                'date' => $createdDate,
-                'by'   => $createdBy,
-            );
-
             $modified = $entry->getLastModifiedAudit();
             if ($modified != null) {
                 $modifiedDate       = date($this->dateFormat, $modified->getTimestamp());
@@ -42,6 +33,15 @@ class AuditColumn extends Column
                     'by'   => $modifiedBy,
                 );
             }
+
+            $created     = $entry->getCreationAudit();
+            $createdDate = date($this->dateFormat, $created->getTimestamp());
+            $createdBy   = $created->getUser()->getUsername();
+
+            $return['created'] = array(
+                'date' => $createdDate,
+                'by'   => $createdBy,
+            );
         }
 
         return $return;

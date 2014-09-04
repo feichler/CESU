@@ -59,6 +59,8 @@ class ButtonGroupType extends AbstractType
         }
 
         array_map(array($this, 'validateButton'), $form->all());
+
+        $view->vars['alignment'] = $options['alignment'];
     }
 
     /**
@@ -109,9 +111,10 @@ class ButtonGroupType extends AbstractType
 
         $resolver->setDefaults(
             array(
-                'buttons' => array(),
-                'options' => array(),
-                'mapped'  => false,
+                'alignment' => 'center',
+                'buttons'   => array(),
+                'options'   => array(),
+                'mapped'    => false,
             )
         );
     }

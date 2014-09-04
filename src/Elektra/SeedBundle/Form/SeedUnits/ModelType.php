@@ -4,6 +4,8 @@ namespace Elektra\SeedBundle\Form\SeedUnits;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
 use Elektra\CrudBundle\Form\CommonOptions;
+use Elektra\CrudBundle\Form\Options;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -13,8 +15,12 @@ class ModelType extends CrudForm
     /**
      * {@inheritdoc}
      */
-    protected function setSpecificDefaultOptions(OptionsResolverInterface $resolver)
+    protected function getUniqueEntityFields()
     {
+
+        return array(
+            'name',
+        );
     }
 
     /**
@@ -23,9 +29,9 @@ class ModelType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
-        // all crud actions have the same definition - no difference between view / add / edit
+        $common = $this->addFieldGroup($builder, $options, 'common');
 
-        $builder->add('name', 'text', CommonOptions::getRequiredNotBlank());
-        $builder->add('description', 'textarea', CommonOptions::getOptional());
+        $common->add('name', 'text', $this->getFieldOptions('name')->required()->notBlank()->toArray());
+        $common->add('description', 'textarea', $this->getFieldOptions('description')->optional()->toArray());
     }
 }

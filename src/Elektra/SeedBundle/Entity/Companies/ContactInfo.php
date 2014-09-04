@@ -26,7 +26,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\ContactInfoRepository")
  * @ORM\Table(name="contactInfo")
- * @UniqueEntity(fields={ "person", "text" }, errorPath="text")
+ * @UniqueEntity(fields={ "name", "person", "contactInfoType" }, errorPath="name", message="")
  */
 class ContactInfo implements AuditableInterface, AnnotableInterface, CrudInterface
 {

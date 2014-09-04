@@ -25,7 +25,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity
  * @ORM\Table(name="contactInfoTypes")
- * @UniqueEntity(fields={ "name" })
+ * @UniqueEntity(fields={ "name" }, message="")
  */
 class ContactInfoType implements AuditableInterface, CrudInterface
 {

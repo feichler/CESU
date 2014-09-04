@@ -13,8 +13,12 @@ class PowerCordTypeType extends CrudForm
     /**
      * {@inheritdoc}
      */
-    protected function setSpecificDefaultOptions(OptionsResolverInterface $resolver)
+    protected function getUniqueEntityFields()
     {
+
+        return array(
+            'name',
+        );
     }
 
     /**
@@ -23,8 +27,9 @@ class PowerCordTypeType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('name', 'text', CommonOptions::getRequiredNotBlank());
-        $builder->add('description', 'textarea', CommonOptions::getOptional());
+        $common = $this->addFieldGroup($builder, $options, 'common');
 
+        $common->add('name', 'text', $this->getFieldOptions('name')->required()->notBlank()->toArray());
+        $common->add('description', 'textarea', $this->getFieldOptions('description')->optional()->toArray());
     }
 }

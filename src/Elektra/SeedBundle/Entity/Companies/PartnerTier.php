@@ -25,7 +25,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\PartnerTierRepository")
  * @ORM\Table(name="partnerTiers")
- * @UniqueEntity(fields={ "name" })
+ * @UniqueEntity(fields={ "name" }, message="")
  */
 class PartnerTier implements AuditableInterface, CrudInterface
 {

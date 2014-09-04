@@ -24,8 +24,10 @@ class NoteType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
-        $this->addParentField($builder, $options, $this->getCrud()->getParentDefinition(), 'noteParent', false);
-        $builder->add('title', 'text', array('required' => true));
-        $builder->add('text', 'textarea', array('required' => false));
+        $common = $this->addFieldGroup($builder, $options, 'common');
+
+        $this->addParentField('common', $builder, $options, $this->getCrud()->getParentDefinition(), 'noteParent', false);
+        $common->add('title', 'text', $this->getFieldOptions('title')->required()->notBlank()->toArray());
+        $common->add('text', 'textarea', $this->getFieldOptions('text')->optional()->toArray());
     }
 }

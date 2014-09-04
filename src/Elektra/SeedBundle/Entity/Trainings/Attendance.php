@@ -27,7 +27,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Trainings\AttendanceRepository")
  * @ORM\Table(name="attendances")
- * @UniqueEntity(fields={ "training", "person" })
+ * @UniqueEntity(fields={ "training", "person" }, message="")
  */
 class Attendance implements AuditableInterface, AnnotableInterface, CrudInterface
 {

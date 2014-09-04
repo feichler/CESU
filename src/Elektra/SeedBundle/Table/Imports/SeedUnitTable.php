@@ -17,7 +17,7 @@ class SeedUnitTable extends FileTable
 //    protected function initialiseColumns()
 //    {
 //
-//        //        $SeedUnit = $this->getColumns()->addTitleColumn('table.seed_units.SeedUnit.name');
+//        //        $SeedUnit = $this->getColumns()->addTitleColumn('tables.seed_units.SeedUnit.name');
 //        //        $SeedUnit->setFieldData(array('name', 'description'));
 //        //        $SeedUnit->setSearchable();
 //        //        $SeedUnit->setSortable();

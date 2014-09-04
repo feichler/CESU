@@ -13,24 +13,24 @@ class TrainingTable extends Table
     protected function initialiseColumns()
     {
 
-        $training = $this->getColumns()->addTitleColumn('table.trainings.training.training');
+        $training = $this->getColumns()->addTitleColumn('tables.trainings.training.training');
         $training->setFieldData('name');
         $training->setSearchable();
         $training->setSortable();
 
-        $start = $this->getColumns()->addDateColumn('table.trainings.training.start');
+        $start = $this->getColumns()->addDateColumn('tables.trainings.training.start');
         $start->setFieldData('startedAt');
         $start->setSortable();
 
-        $end = $this->getColumns()->addDateColumn('table.trainings.training.end');
+        $end = $this->getColumns()->addDateColumn('tables.trainings.training.end');
         $end->setFieldData('endedAt');
         $end->setSortable();
 
-        $registrations = $this->getColumns()->addCountColumn('table.trainings.training.registrations');
+        $registrations = $this->getColumns()->addCountColumn('tables.trainings.training.registrations');
         $registrations->setFieldData('registrations');
         $registrations->setSortable();
 
-        $attendances = $this->getColumns()->addCountColumn('table.trainings.training.attendances');
+        $attendances = $this->getColumns()->addCountColumn('tables.trainings.training.attendances');
         $attendances->setFieldData('attendances');
         $attendances->setSortable();
     }
