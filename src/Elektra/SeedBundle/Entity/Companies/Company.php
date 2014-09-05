@@ -140,6 +140,26 @@ abstract class Company implements AuditableInterface, AnnotableInterface, CrudIn
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function getPersons()
+    {
+
+        $persons   = new ArrayCollection();
+        $locations = $this->getLocations();
+        foreach ($locations as $location) {
+            if ($location instanceof CompanyLocation) {
+
+                foreach ($location->getPersons() as $person) {
+                    $persons->add($person);
+                }
+            }
+        }
+
+        return $persons;
+    }
+
+    /**
      * @param string $name
      */
     public function setName($name)

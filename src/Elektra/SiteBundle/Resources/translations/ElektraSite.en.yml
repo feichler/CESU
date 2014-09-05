@@ -298,6 +298,7 @@ tables:
                 is_primary:                                             Primary
                 salutation:                                             Salutation
                 job_title:                                              Job Title
+                location:                                               Location
         contact_info:
             columns:
                 text:                                                   ''
@@ -366,15 +367,18 @@ forms:
         partner:
             groups:
                 locations:                                              Locations
+                persons:                                                Persons
             fields:
                 partner_tier:                                           Tier
                 units_limit:                                            Unit Limit
         customer:
             groups:
                 locations:                                              Locations
+                persons:                                                Persons
         sales_team:
             groups:
                 locations:                                              Locations
+                persons:                                                Persons
         company_location:
             groups:
                 common:                                                 Location Information

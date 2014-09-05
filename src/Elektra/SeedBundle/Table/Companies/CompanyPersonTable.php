@@ -40,5 +40,14 @@ class CompanyPersonTable extends Table
         $jobTitle->setSortable();
         $jobTitle->setSearchable();
 
+        $location = $this->getColumns()->add('location');
+        $location->setFieldData('location.title');
+
+        if($this->getCrud()->isEmbedded()) {
+            if($this->getCrud()->getParentDefinition()->getName() == 'CompanyLocation') {
+                $location->setHidden();
+            }
+        }
+
     }
 }

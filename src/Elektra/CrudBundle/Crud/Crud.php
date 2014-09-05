@@ -247,7 +247,6 @@ final class Crud
      */
     public function setParentId($id)
     {
-
         $this->setData('parent', $id);
     }
 
@@ -288,18 +287,23 @@ final class Crud
     public function getParentDefinition()
     {
 
-        if ($this->parentEntity == null) {
+        if ($this->getParentEntity() == null) {
             $routeParts = explode('.', $this->linker->getActiveRoute());
             // remove the action
             array_pop($routeParts);
             // next pop is the actual type
             $last = array_pop($routeParts);
-            if ($last == 'note') {
-                $parent     = array_pop($routeParts);
+//            if ($last == 'note') {
+//                $parent     = array_pop($routeParts);
+//                $definition = $this->getNavigator()->getDefinition($parent);
+//
+//                return $definition;
+//            } else {
+                $parent = array_pop($routeParts);
                 $definition = $this->getNavigator()->getDefinition($parent);
 
                 return $definition;
-            }
+//            }
         }
 
         return $this->getNavigator()->getDefinition(get_class($this->parentEntity));

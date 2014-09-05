@@ -15,9 +15,58 @@ class CompanyPersonType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
-        $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation');
-
         $common = $this->addFieldGroup($builder, $options, 'common');
+        $def    = $this->getCrud()->getParentDefinition();
+        if ($def->getName() == 'Partner' || $def->getName() == 'Customer' || $def->getName() == 'SalesTeam') {
+            $this->buildCompanyForm($builder, $options, $common);
+        } else {
+            $this->buildLocationForm($builder, $options, $common);
+        }
+    }
+
+    private function buildCompanyForm(FormBuilderInterface $builder, array $options, FormBuilderInterface $common)
+    {
+
+        $parentDefinition = $this->getCrud()->getParentDefinition();
+
+        if ($options['crud_action'] != 'add') {
+            $company         = $options['data']->getLocation()->getCompany();
+            $companyData     = $company->getTitle();
+            $companyTypeData = $company->getCompanyType();
+        } else {
+            $parentRepository = $this->getCrud()->getService('doctrine')->getRepository($parentDefinition->getClassRepository());
+            $company          = $parentRepository->find($this->getCrud()->getParentId());
+            $companyData      = $company->getTitle();
+            $companyTypeData  = $company->getCompanyType();
+        }
+
+        $companyTypeFieldOptions = $this->getFieldOptions('companyType');
+        $companyFieldOptions     = $this->getFieldOptions('company');
+        $companyTypeFieldOptions->notMapped();
+        $companyFieldOptions->notMapped();
+        if ($options['crud_action'] != 'view') {
+            $companyTypeFieldOptions->readOnly();
+            $companyFieldOptions->readOnly();
+        }
+        $companyTypeFieldOptions->add('data', Helper::translate($companyTypeData));
+        $companyFieldOptions->add('data', $companyData);
+        $common->add('companyType', 'text', $companyTypeFieldOptions->toArray());
+        $common->add('company', 'text', $companyFieldOptions->toArray());
+
+        $locationFieldOptions = $this->getFieldOptions('location');
+        $locationFieldOptions->required()->notBlank();
+        $locationFieldOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation')->getClassEntity());
+        $locationFieldOptions->add('property', 'title');
+        $locationFieldOptions->add('choices', $company->getLocations());
+        $common->add('location', 'entity', $locationFieldOptions->toArray());
+
+        $this->buildCommonForm($builder, $options, $common);
+    }
+
+    private function buildLocationForm(FormBuilderInterface $builder, array $options, FormBuilderInterface $common)
+    {
+
+        $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation');
 
         if ($options['crud_action'] != 'add') {
             $companyData     = $options['data']->getLocation()->getCompany()->getTitle();
@@ -42,15 +91,13 @@ class CompanyPersonType extends CrudForm
         $common->add('companyType', 'text', $companyTypeFieldOptions->toArray());
         $common->add('company', 'text', $companyFieldOptions->toArray());
 
-        //        $companyTypeFieldOptions = $this->getFieldOptions('company');
-        //        $companyTypeFieldOptions->notMapped();
-        //        if ($options['crud_action'] != 'view') {
-        //            $companyTypeFieldOptions->readOnly();
-        //        }
-        //        $companyTypeFieldOptions->add('data', Helper::translate($options['data']->getLocation()->getCompany()->getCompanyType()) . ' - ' . $options['data']->getLocation()->getCompany()->getTitle());
-        //        $common->add('company', 'text', $companyTypeFieldOptions->toArray());
-
         $this->addParentField('common', $builder, $options, $parentDefinition, 'location');
+
+        $this->buildCommonForm($builder, $options, $common);
+    }
+
+    private function buildCommonForm(FormBuilderInterface $builder, array $options, FormBuilderInterface $common)
+    {
 
         $common->add('firstName', 'text', $this->getFieldOptions('firstName')->required()->notBlank()->toArray());
         $common->add('lastName', 'text', $this->getFieldOptions('lastName')->required()->notBlank()->toArray());

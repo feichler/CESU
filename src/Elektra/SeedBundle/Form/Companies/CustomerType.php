@@ -41,6 +41,14 @@ class CustomerType extends CrudForm
             $locationsFieldOptions->add('relation_name', 'company');
             $locations->add('locations', 'relatedList', $locationsFieldOptions->toArray());
             // URGENT find a solution to display the persons at the company view
+
+            $persons             = $this->addFieldGroup($builder, $options, 'persons');
+            $personsFieldOptions = $this->getFieldOptions('persons', false);
+            $personsFieldOptions->add('crud', $this->getCrud());
+            $personsFieldOptions->add('relation_parent_entity', $options['data']);
+            $personsFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'));
+            $personsFieldOptions->add('relation_name', 'persons');
+            $persons->add('persons', 'list', $personsFieldOptions->toArray());
         }
     }
 }
