@@ -13,24 +13,13 @@ class EventTable extends Table
     protected function initialiseColumns()
     {
 
-        $timestamp = $this->getColumns()->addDateColumn('timestamp');
-        $timestamp->setFieldData('timestamp');
-        $timestamp->setSearchable();
-        $timestamp->setSortable();
-
-/*        $seedUnit = $this->getColumns()->add('seed_unit');
+        $seedUnit = $this->getColumns()->add('seed_unit');
         $seedUnit->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'));
         $seedUnit->setFieldData('seedUnit.serialNumber');
         $seedUnit->setSortable();
-        $seedUnit->setSearchable();*/
+        $seedUnit->setSearchable();
 
-        $status = $this->getColumns()->add('unitStatus');
-        $status->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'));
-        $status->setFieldData('unitStatus.name');
-        $status->setSortable();
-        $status->setFilterable()->setFieldFilter('name');
-
-        $eventType = $this->getColumns()->add('eventType');
+        $eventType = $this->getColumns()->add('event_type');
         $eventType->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'EventType'));
         $eventType->setFieldData('eventType.name');
         $eventType->setSortable();
@@ -52,6 +41,11 @@ class EventTable extends Table
         $location->setFieldData(array('location.shortName', 'location.name'), true);
         $location->setSortable();
         $location->setFilterable()->setFieldFilter('shortName');
+
+        $timestamp = $this->getColumns()->addDateColumn('date');
+        $timestamp->setFieldData('timestamp');
+        $timestamp->setSearchable();
+        $timestamp->setSortable();
 
         if ($this->getCrud()->isEmbedded()) {
             if ($this->getCrud()->getParentDefinition()->getName() == 'SeedUnit') {
