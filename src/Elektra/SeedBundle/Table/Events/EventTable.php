@@ -19,7 +19,7 @@ class EventTable extends Table
         $seedUnit->setSortable();
         $seedUnit->setSearchable();
 
-        $eventType = $this->getColumns()->add('event_type');
+        $eventType = $this->getColumns()->addTitleColumn('event_type');
         $eventType->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'EventType'));
         $eventType->setFieldData('eventType.name');
         $eventType->setSortable();
