@@ -317,6 +317,7 @@ tables:
         event:
             columns:
                 event_type:                                             Type
+                title:                                                  Information
                 company:                                                Company
                 location:                                               Location
 forms:
@@ -349,7 +350,7 @@ forms:
     requests:
         request:
             companies:
-                partner:                                                Parnter
+                partner:                                                Partner
                 sales_team:                                             Sales Team
                 customer:                                               Customer
             groups:
