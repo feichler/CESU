@@ -7,6 +7,15 @@ use Elektra\CrudBundle\Table\Table;
 class EventTable extends Table
 {
 
+    protected function initialiseActions()
+    {
+
+        $this->disallowAction('view');
+        $this->disallowAction('edit');
+        $this->disallowAction('delete');
+        $this->disallowAction('add');
+    }
+
     /**
      * {@inheritdoc}
      */
