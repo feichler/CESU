@@ -44,11 +44,12 @@
 {# Include the scripts #}
 {% include "ElektraSiteBundle:base:scripts.html.twig" %}
 {% block javascripts %}
-<script type="text/javascript">
-    jQuery(document).ready(function() {
-       jQuery('.audit-tooltip').tooltip();
-    });
-</script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            jQuery('.audit-tooltip').tooltip();
+            jQuery('.date-tooltip').tooltip();
+        });
+    </script>
 {% endblock javascripts %}
 </body>
 </html>

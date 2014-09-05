@@ -22,15 +22,15 @@
             {% endif %}
         {% endif %}
         <div class="col-md-{{ tableWidth }}">
-        <div class="table-responsive">
     {% endif %}
-    <table class="{{ classes }}">
-        {{ block('table_head') }}
-        {{ block('table_foot') }}
-        {{ block('table_body') }}
-    </table>
+    <div class="table-responsive">
+        <table class="{{ classes }}">
+            {{ block('table_head') }}
+            {{ block('table_foot') }}
+            {{ block('table_body') }}
+        </table>
+    </div>
     {% if table.inView == false %}
-        </div>
         {# URGENT embedded functionality #}
         {% if not table.crud.hasParent() %}
             {#{{ block('table_navigation') }}#}
@@ -109,6 +109,8 @@
             {{ block('table_body_cell_action') }}
         {% elseif colType == 'audit' %}
             {{ block('table_body_cell_audit') }}
+        {% elseif colType == 'date' %}
+            {{ block('table_body_cell_date') }}
         {% else %}
             {{ block('table_body_cell_default') }}
         {% endif %}
@@ -169,6 +171,14 @@
         </div>
     {% endfor %}
 {% endblock table_body_cell_audit %}
+
+{% block table_body_cell_date %}
+    <div>
+        <span class="date-tooltip" title="{{ data.dateGMT }} {{ data.timeGMT }} {{ data.timeZoneGMT }}">
+            {{ data.dateGMT }} <span class="hidden-sm hidden-xs">{{ data.timeGMT }}</span>
+        </span>
+    </div>
+{% endblock table_body_cell_date %}
 
 {% block table_body_cell_default %}
     {% if data is iterable %}

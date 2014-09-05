@@ -9,7 +9,7 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
 class AuditColumn extends Column
 {
 
-    protected $dateFormat = 'Y-m-d H:i:s P';
+    protected $dateFormat = 'Y-m-d H:i:s T (P)';
 
     public function __construct(Columns $columns)
     {
@@ -26,7 +26,7 @@ class AuditColumn extends Column
         if ($entry instanceof AuditableInterface) {
             $modified = $entry->getLastModifiedAudit();
             if ($modified != null) {
-                $modifiedDate       = date($this->dateFormat, $modified->getTimestamp());
+                $modifiedDate       = gmdate($this->dateFormat, $modified->getTimestamp());
                 $modifiedBy         = $modified->getUser()->getUsername();
                 $return['modified'] = array(
                     'date' => $modifiedDate,
@@ -35,7 +35,7 @@ class AuditColumn extends Column
             }
 
             $created     = $entry->getCreationAudit();
-            $createdDate = date($this->dateFormat, $created->getTimestamp());
+            $createdDate = gmdate($this->dateFormat, $created->getTimestamp());
             $createdBy   = $created->getUser()->getUsername();
 
             $return['created'] = array(
