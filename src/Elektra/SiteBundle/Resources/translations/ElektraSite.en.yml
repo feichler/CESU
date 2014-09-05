@@ -316,7 +316,9 @@ tables:
     events:
         event:
             columns:
-                event_type:                                             Type
+                timestamp:                                              Timestamp
+                unitStatus:                                             Status
+                eventType:                                              Type
                 company:                                                Company
                 location:                                               Location
 forms:
