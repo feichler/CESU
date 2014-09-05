@@ -332,7 +332,7 @@ forms:
             edit:                                                       Edit
             delete:                                                     Delete
         groups:
-            common:                                                     Common Data
+            common:                                                     General
             notes:                                                      Notes
             audits:                                                     Audits
         fields:
