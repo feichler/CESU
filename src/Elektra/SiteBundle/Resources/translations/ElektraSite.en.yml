@@ -350,7 +350,7 @@ forms:
     requests:
         request:
             companies:
-                partner:                                                Parnter
+                partner:                                                Partner
                 sales_team:                                             Sales Team
                 customer:                                               Customer
             groups:
