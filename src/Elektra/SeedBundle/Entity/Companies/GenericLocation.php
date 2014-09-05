@@ -25,6 +25,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class GenericLocation extends Location
 {
+    const IN_TRANSIT = "inTransit";
+    const UNKNOWN = "unknown";
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=25, unique=true)
+     */
+    protected $internalName;
 
     /**
      *
@@ -33,5 +42,23 @@ class GenericLocation extends Location
     {
 
         parent::__construct();
+    }
+
+    /**
+     * @param string $internalName
+     */
+    public function setInternalName($internalName)
+    {
+
+        $this->internalName = $internalName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInternalName()
+    {
+
+        return $this->internalName;
     }
 }

@@ -45,7 +45,7 @@ class CompanyLocation extends PhysicalLocation
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="CompanyPerson", mappedBy="location",fetch="EXTRA_LAZY", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="CompanyPerson", mappedBy="location",fetch="EXTRA_LAZY", cascade={"remove", "persist"})
      */
     protected $persons;
 

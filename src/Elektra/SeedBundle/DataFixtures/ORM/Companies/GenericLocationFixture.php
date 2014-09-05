@@ -29,16 +29,18 @@ class GenericLocationFixture extends SeedBundleFixture
     protected function doLoad(ObjectManager $manager)
     {
 
-        $statuses = array(
-            "In transit"
+        $data = array(
+            array("In transit", GenericLocation::IN_TRANSIT),
+            array("n/a", GenericLocation::UNKNOWN)
         );
 
-        foreach ($statuses as $data) {
-            $status = new GenericLocation();
-            $status->setShortName($data);
-            $manager->persist($status);
+        foreach ($data as $entry) {
+            $location = new GenericLocation();
+            $location->setShortName($entry[0]);
+            $location->setInternalName($entry[1]);
+            $manager->persist($location);
 
-            $this->addReference('generic_location-' . strtolower($status->getShortName()), $status);
+            $this->addReference('generic_location-' . strtolower($location->getInternalName()), $location);
         }
 
         $manager->flush();

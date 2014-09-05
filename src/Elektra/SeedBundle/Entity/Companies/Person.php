@@ -74,7 +74,7 @@ class Person implements AuditableInterface, AnnotableInterface, CrudInterface
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="ContactInfo", mappedBy="person", fetch="EXTRA_LAZY", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="ContactInfo", mappedBy="person", fetch="EXTRA_LAZY", cascade={"remove", "persist"})
      */
     protected $contactInfo;
 
