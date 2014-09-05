@@ -12,6 +12,7 @@ use Elektra\SeedBundle\Definition\Companies\ContactInfoDefinition;
 use Elektra\SeedBundle\Definition\Companies\ContactInfoTypeDefinition;
 use Elektra\SeedBundle\Definition\Companies\CountryDefinition;
 use Elektra\SeedBundle\Definition\Companies\CustomerDefinition;
+use Elektra\SeedBundle\Definition\Companies\GenericLocationDefinition;
 use Elektra\SeedBundle\Definition\Companies\LocationDefinition;
 use Elektra\SeedBundle\Definition\Companies\PartnerDefinition;
 use Elektra\SeedBundle\Definition\Companies\PartnerTierDefinition;
@@ -74,6 +75,7 @@ final class Navigator
         $this->addDefinition(new ContactInfoTypeDefinition());
         $this->addDefinition(new CountryDefinition());
         $this->addDefinition(new CustomerDefinition());
+        $this->addDefinition(new GenericLocationDefinition());
         $this->addDefinition(new LocationDefinition());
         $this->addDefinition(new PartnerDefinition());
         $this->addDefinition(new PartnerTierDefinition());

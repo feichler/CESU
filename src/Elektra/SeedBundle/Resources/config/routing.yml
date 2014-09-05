@@ -16,5 +16,5 @@ request.seedUnit.add:
     defaults: { _controller: ElektraSeedBundle:Requests/Request:addUnit }
 
 seedUnit.changeStatus:
-    pattern:  /seedUnit/changeStatus/{id}
+    pattern:  /seedUnit/changeStatus/{id}-{status}
     defaults: { _controller: ElektraSeedBundle:SeedUnits/SeedUnit:changeStatus }
