@@ -486,6 +486,7 @@ class TestDataFixture extends SeedBundleFixture
             {
                 $location = new CompanyLocation();
                 $partner->getLocations()->add($location);
+                $location->setCompany($partner);
                 $location->setShortName($entryLocation[0]);
                 $location->setName($entryLocation[1]);
                 $location->setIsPrimary($entryLocation[2]);
@@ -498,11 +499,11 @@ class TestDataFixture extends SeedBundleFixture
                 $address->setCity($entryLocation[5]);
                 $address->setCountry($this->getReference($entryLocation[6]));
 
-
                 foreach($entryLocation[7] as $entryPerson)
                 {
                     $person = new CompanyPerson();
                     $location->getPersons()->add($person);
+                    $person->setLocation($location);
                     $person->setFirstName($entryPerson[0]);
                     $person->setLastName($entryPerson[1]);
                     $person->setSalutation($entryPerson[2]);
