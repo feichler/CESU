@@ -2,7 +2,7 @@
 
 namespace Elektra\CrudBundle\Table;
 
-use Elektra\CrudBundle\Navigator\Navigator;
+use Elektra\CrudBundle\Crud\Navigator;
 
 class Pagination
 {
@@ -67,6 +67,8 @@ class Pagination
         if ($navigator instanceof Navigator) {
             // URGENT get the correct link here
             $link = $navigator->getLink($this->table->getCrud()->getDefinition(), 'browse', array('page' => $page));
+        } else {
+            $link = '';
         }
 
         return $link;

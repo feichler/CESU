@@ -34,7 +34,7 @@
     {% if table.inView == false %}
         {# URGENT embedded functionality #}
         {% if not table.crud.hasParent() %}
-            {#{{ block('table_navigation') }}#}
+            {{ block('table_navigation') }}
         {% endif %}
         </div>
         </form>
