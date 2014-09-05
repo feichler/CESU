@@ -46,5 +46,11 @@ class EventTable extends Table
         $location->setFieldData(array('location.shortName', 'location.name'), true);
         $location->setSortable();
         $location->setFilterable()->setFieldFilter('shortName');
+
+        if ($this->getCrud()->isEmbedded()) {
+            if ($this->getCrud()->getParentDefinition()->getName() == 'SeedUnit') {
+                $seedUnit->setHidden();
+            }
+        }
     }
 }
