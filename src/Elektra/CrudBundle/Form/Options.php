@@ -68,6 +68,22 @@ class Options implements \ArrayAccess, \IteratorAggregate
         unset($this->data[$offset]);
     }
 
+    public function readOnly()
+    {
+
+        $this->data['read_only'] = true;
+
+        return $this;
+    }
+
+    public function notMapped()
+    {
+
+        $this->data['mapped'] = false;
+
+        return $this;
+    }
+
     public function required()
     {
 

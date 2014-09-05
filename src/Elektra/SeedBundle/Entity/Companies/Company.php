@@ -16,6 +16,7 @@ use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SiteBundle\Site\Helper;
 
 /**
  * Class Company
@@ -258,4 +259,6 @@ abstract class Company implements AuditableInterface, AnnotableInterface, CrudIn
 
         return $primaryLocation;
     }
+
+    public abstract function getCompanyType();
 }

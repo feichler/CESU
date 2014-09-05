@@ -34,4 +34,15 @@ class Customer extends Company
 
         parent::__construct();
     }
+
+    /**
+     * Used for grouping (translation key)
+     *
+     * @return string
+     */
+    public function getCompanyType()
+    {
+
+        return 'forms.requests.request.companies.customer';
+    }
 }

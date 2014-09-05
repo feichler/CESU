@@ -106,6 +106,30 @@ pages:
             view:
                 title:                                                  View
                 heading:                                                View Customer
+        company_location:
+            title_prefix:                                               Company Locations
+            section:                                                    Company Locations
+            add:
+                title:                                                  New
+                heading:                                                New Company Location
+            edit:
+                title:                                                  Edit
+                heading:                                                Edit Company Location
+            view:
+                title:                                                  View
+                heading:                                                View Company Location
+        company_person:
+            title_prefix:                                               Company Persons
+            section:                                                    Company Persons
+            add:
+                title:                                                  New
+                heading:                                                New Company Person
+            edit:
+                title:                                                  Edit
+                heading:                                                Edit Company Person
+            view:
+                title:                                                  View
+                heading:                                                View Company Person
         region:
             title_prefix:                                               Regions
             section:                                                    Regions
@@ -324,6 +348,10 @@ forms:
                 text:                                                   Note
     requests:
         request:
+            companies:
+                partner:                                                Parnter
+                sales_team:                                             Sales Team
+                customer:                                               Customer
             groups:
                 common:                                                 Request Data
                 units:                                                  Seed Units
@@ -353,6 +381,7 @@ forms:
                 address:                                                Address
                 persons:                                                Persons
             fields:
+                company_type:                                           Company Type
                 company:                                                Company
                 is_primary:                                             Primary
                 address_type:                                           Type
@@ -368,6 +397,8 @@ forms:
                 common:                                                 Person Information
                 contact_infos:                                          Contact Information
             fields:
+                company_type:                                           Company Type
+                company:                                                Company
                 location:                                               Location
                 first_name:                                             First Name
                 last_name:                                              Last Name

@@ -59,5 +59,5 @@ abstract class RequestingCompany extends Company
         return $this->requests;
     }
 
-    public abstract function getCompanyType();
+
 }

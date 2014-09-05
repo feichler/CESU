@@ -3,6 +3,7 @@
 namespace Elektra\SeedBundle\Form\Companies;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
+use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class CompanyPersonType extends CrudForm
@@ -14,9 +15,41 @@ class CompanyPersonType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
+        $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation');
+
         $common = $this->addFieldGroup($builder, $options, 'common');
 
-        $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation');
+        if ($options['crud_action'] != 'add') {
+            $companyData     = $options['data']->getLocation()->getCompany()->getTitle();
+            $companyTypeData = $options['data']->getLocation()->getCompany()->getCompanyType();
+        } else {
+            $parentRepository = $this->getCrud()->getService('doctrine')->getRepository($parentDefinition->getClassRepository());
+            $parentEntity     = $parentRepository->find($this->getCrud()->getParentId());
+            $companyData      = $parentEntity->getCompany()->getTitle();
+            $companyTypeData  = $parentEntity->getCompany()->getCompanyType();
+        }
+
+        $companyTypeFieldOptions = $this->getFieldOptions('companyType');
+        $companyFieldOptions     = $this->getFieldOptions('company');
+        $companyTypeFieldOptions->notMapped();
+        $companyFieldOptions->notMapped();
+        if ($options['crud_action'] != 'view') {
+            $companyTypeFieldOptions->readOnly();
+            $companyFieldOptions->readOnly();
+        }
+        $companyTypeFieldOptions->add('data', Helper::translate($companyTypeData));
+        $companyFieldOptions->add('data', $companyData);
+        $common->add('companyType', 'text', $companyTypeFieldOptions->toArray());
+        $common->add('company', 'text', $companyFieldOptions->toArray());
+
+        //        $companyTypeFieldOptions = $this->getFieldOptions('company');
+        //        $companyTypeFieldOptions->notMapped();
+        //        if ($options['crud_action'] != 'view') {
+        //            $companyTypeFieldOptions->readOnly();
+        //        }
+        //        $companyTypeFieldOptions->add('data', Helper::translate($options['data']->getLocation()->getCompany()->getCompanyType()) . ' - ' . $options['data']->getLocation()->getCompany()->getTitle());
+        //        $common->add('company', 'text', $companyTypeFieldOptions->toArray());
+
         $this->addParentField('common', $builder, $options, $parentDefinition, 'location');
 
         $common->add('firstName', 'text', $this->getFieldOptions('firstName')->required()->notBlank()->toArray());

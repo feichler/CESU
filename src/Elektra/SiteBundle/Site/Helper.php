@@ -96,4 +96,12 @@ abstract class Helper
 
         return $language->getAlternate($defaultKey, $commonKey);
     }
+
+    public static function translate($key) {
+
+        $crud = static::getCrud();
+        $language = $crud->getService('siteLanguage');
+
+        return $language->getRequired($key);
+    }
 }
