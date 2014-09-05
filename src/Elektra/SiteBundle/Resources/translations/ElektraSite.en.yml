@@ -15,142 +15,188 @@
 ###############################################################################
 
 generic:
-    brand: CESU Admin
-    copyright: 2014 Cisco Elektra Seed Unit Program
-
+    brand:                                                              CESU Admin
+    copyright:                                                          2014 Cisco Elektra Seed Unit Program
 user:
-    logged_in: Logged in as %firstname% %lastname% (%username%)
-    login: Login
-    logout: Logout
+    logged_in:                                                          Logged in as %firstname% %lastname% (%username%)
+    login:                                                              Login
+    logout:                                                             Logout
     form:
-        username: Username
-        password: Password
-        remember: Remember Me
-        submit: Login
-
+        username:                                                       Username
+        password:                                                       Password
+        remember:                                                       Remember Me
+        submit:                                                         Login
 actions:
-    add: Add
-    view: View
-    edit: Edit
-    delete: Delete
+    add:                                                                Add
+    view:                                                               View
+    edit:                                                               Edit
+    delete:                                                             Delete
     confirmations:
-        delete: Do you really want to delete this entry?
-
+        delete:                                                         Do you really want to delete this entry?
 pages:
     generic:
-        title: CESU Administration
-        title_prefix: ''
-        title_suffix: ''
-        heading: Welcome
-        section: Administration
+        title:                                                          ''
+        title_prefix:                                                   ''
+        title_suffix:                                                   CESU Administration
+        heading:                                                        Welcome
+        section:                                                        Administration
     security:
         login:
-            title: Login
-            heading: Please Login
+            title:                                                      Login
+            heading:                                                    Please Login
     requests:
         request:
-            section: Requests
+            title_prefix:                                               Requests
+            section:                                                    Requests
             browse:
-                heading: Request List
+                title:                                                  List
+                heading:                                                Request List
             add:
-                heading: New Request
+                title:                                                  New
+                heading:                                                New Request
             edit:
-                heading: Edit Request
+                title:                                                  Edit
+                heading:                                                Edit Request
             view:
-                heading: View Request
+                title:                                                  View
+                heading:                                                View Request
     companies:
         partner:
-            section: Partners
+            title_prefix:                                               Partners
+            section:                                                    Partners
             browse:
-                heading: Partner List
+                title:                                                  List
+                heading:                                                Partner List
             add:
-                heading: New Partner
+                title:                                                  New
+                heading:                                                New Partner
             edit:
-                heading: Edit Partner
+                title:                                                  Edit
+                heading:                                                Edit Partner
             view:
-                heading: View Partner
+                title:                                                  View
+                heading:                                                View Partner
         sales_team:
-            section: Sales Teams
+            title_prefix:                                               Sales Teams
+            section:                                                    Sales Teams
             browse:
-                heading: Sales Team List
+                title:                                                  List
+                heading:                                                Sales Team List
             add:
-                heading: New Sales Team
+                title:                                                  New
+                heading:                                                New Sales Team
             edit:
-                heading: Edit Sales Team
+                title:                                                  Edit
+                heading:                                                Edit Sales Team
             view:
-                heading: View Sales Team
+                title:                                                  View
+                heading:                                                View Sales Team
         customer:
-            section: Customers
+            title_prefix:                                               Customers
+            section:                                                    Customers
             browse:
-                heading: Customer List
+                title:                                                  List
+                heading:                                                Customer List
             add:
-                heading: New Customer
+                title:                                                  New
+                heading:                                                New Customer
             edit:
-                heading: Edit Customer
+                title:                                                  Edit
+                heading:                                                Edit Customer
             view:
-                heading: View Customer
+                title:                                                  View
+                heading:                                                View Customer
         region:
-            section: Regions
+            title_prefix:                                               Regions
+            section:                                                    Regions
             browse:
-                heading: Region List
+                title:                                                  List
+                heading:                                                Region List
             add:
-                heading: New Region
+                title:                                                  New
+                heading:                                                New Region
             edit:
-                heading: Edit Region
+                title:                                                  Edit
+                heading:                                                Edit Region
             view:
-                heading: View Region
+                title:                                                  View
+                heading:                                                View Region
         country:
-            section: Countrys
+            title_prefix:                                               Countries
+            section:                                                    Countries
             browse:
-                heading: Country List
+                title:                                                  List
+                heading:                                                Country List
             add:
-                heading: New Country
+                title:                                                  New
+                heading:                                                New Country
             edit:
-                heading: Edit Country
+                title:                                                  Edit
+                heading:                                                Edit Country
             view:
-                heading: View Country
+                title:                                                  View
+                heading:                                                View Country
         warehouse_location:
-            section: Warehouses
+            title_prefix:                                               Warehouses
+            section:                                                    Warehouses
             browse:
-                heading: Warehouse List
+                title:                                                  List
+                heading:                                                Warehouse List
             add:
-                heading: New Warehouse
+                title:                                                  New
+                heading:                                                New Warehouse
             edit:
-                heading: Edit Warehouse
+                title:                                                  Edit
+                heading:                                                Edit Warehouse
             view:
-                heading: View Warehouse
+                title:                                                  View
+                heading:                                                View Warehouse
     seed_units:
         seed_unit:
-            section: Seed Units
+            title_prefix:                                               Seed Units
+            section:                                                    Seed Units
             browse:
-                heading: Seed Unit List
+                title:                                                  List
+                heading:                                                Seed Unit List
             add:
-                heading: New Seed Unit
+                title:                                                  New
+                heading:                                                New Seed Unit
             edit:
-                heading: Edit Seed Unit
+                title:                                                  Edit
+                heading:                                                Edit Seed Unit
             view:
-                heading: View Seed Unit
+                title:                                                  View
+                heading:                                                View Seed Unit
         model:
-            section: Models
+            title_prefix:                                               Models
+            section:                                                    Models
             browse:
-                heading: Model List
+                title:                                                  List
+                heading:                                                Model List
             add:
-                heading: New Model
+                title:                                                  New
+                heading:                                                New Model
             edit:
-                heading: Edit Model
+                title:                                                  Edit
+                heading:                                                Edit Model
             view:
-                heading: View Model
+                title:                                                  View
+                heading:                                                View Model
         power_cord_type:
-            section: Power Cord Types
+            title_prefix:                                               Power Cord Types
+            section:                                                    Power Cord Types
             browse:
-                heading: Power Cord Type List
+                title:                                                  List
+                heading:                                                Power Cord Type List
             add:
-                heading: New Power Cord Type
+                title:                                                  New
+                heading:                                                New Power Cord Type
             edit:
-                heading: Edit Power Cord Type
+                title:                                                  Edit
+                heading:                                                Edit Power Cord Type
             view:
-                heading: View Power Cord Type
-
+                title:                                                  View
+                heading:                                                View Power Cord Type
 tables:
     generic:
         empty:                                                          No data found
@@ -249,7 +295,6 @@ tables:
                 event_type:                                             Type
                 company:                                                Company
                 location:                                               Location
-
 forms:
     generic:
         constraints:
@@ -375,248 +420,23 @@ forms:
                 power_cord_type:                                        Power Cord Type
                 location:                                               Location
                 unit_status:                                            Status
-
-
-
-
-
 menu:
-    requests: Requests
-    reports: Reports
-    companies: Companies
-    partners: Partners
-    sales_teams: Sales Teams
-    customers: Customers
-    master_data: Master Data
-    seed_units: Seed Units
-    seed_unit_models: Models
-    seed_unit_power_cord_types: Power Cord Types
-    trainings: Trainings
-    registrations: Registrations
-    attendances: Attendances
-    regions: Regions
-    countries: Countries
-    warehouses: Warehouses
-    import: Import
-    import_seed_units: Seed Units
+    requests:                                                           Requests
+    reports:                                                            Reports
+    companies:                                                          Companies
+    partners:                                                           Partners
+    sales_teams:                                                        Sales Teams
+    customers:                                                          Customers
+    master_data:                                                        Master Data
+    seed_units:                                                         Seed Units
+    seed_unit_models:                                                   Models
+    seed_unit_power_cord_types:                                         Power Cord Types
+    trainings:                                                          Trainings
+    registrations:                                                      Registrations
+    attendances:                                                        Attendances
+    regions:                                                            Regions
+    countries:                                                          Countries
+    warehouses:                                                         Warehouses
+    import:                                                             Import
+    import_seed_units:                                                  Seed Units
 
-#
-#forms2:
-#    generic:
-#        groups:
-#            common: Common Data
-#            locations: Locations
-#            persons: Persons
-#            notes: Notes
-#        fields:
-#            description: Description
-#    # Override example
-#    requests:
-#        request:
-#            groups:
-#                common: Request Data
-#                units: Seed Units
-#            fields:
-#                number_of_units_requested: Units requested
-#                company: Company
-#                requester_person: Requester
-#                receiver_person: Receiver
-#                shipping_location: Shipping Location
-#            # used for grouping companies
-#            companies:
-#                partner: Partners
-#                sales_team: Sales Teams
-#            buttons:
-#                save: Save
-#    companies:
-#        partner:
-#            groups:
-#                common: Common Data
-#                locations: Locations
-#                notes: Notes
-#        company_location:
-#            constraints:
-#                unique:
-#                    short_name: Short Name is already in use at this company
-#            groups:
-#                address: Address Data
-#    seed_units:
-#        model:
-#            constraints:
-#                unique:
-#                    name: Not an unique Model Name
-#            fields:
-#                name: Model Name
-
-
-#common:
-#    brand: CESU Admin
-#    copyright: 2014 Cisco Elektra Seed Unit Program
-#    user:
-#        generic:
-#            logged_in: Logged in as %firstname% %lastname% (%username%)
-#            login: Login
-#            logout: Logout
-#        login:
-#            username: Username
-#            password: Password
-#            remember: Remember Me
-#            submit: Login
-#    toggle:
-#        navbar: Toggle Navigation
-#        footer: Toogle Footer
-#    actions:
-#        add: Add
-#        view: View
-#        edit: Edit
-#        delete: Delete
-#    confirm_delete: Do you really want to delete this entry?
-#    pagination:
-#        pages: Page %page% of %max%
-#
-#table:
-#    empty: No entries match the specified criteria(s)
-#    actions:
-#        add: Add
-#        view: View
-#        edit: Edit
-#        delete: Delete
-#    columns:
-#        id: Id
-#        audit: ''
-#        action: Actions
-#        note: Notes
-#    companies:
-#        companyLocation:
-#            name: Name
-#            isPrimary: Primary
-#            addressType: Type
-#        country:
-#            country: Country
-#            region: Region
-#        company:
-#            name: Name
-#        contactInfo:
-#            text: Text
-#            name: Name
-#            contactInfoType: Type
-#        contactInfoType:
-#            name: Name:
-#        location:
-#            shortName: Short Name
-#        partner:
-#            partnerTier: Tier
-#            unitsLimit: Unit Limit
-#        partnerTier:
-#            name: Name
-#            unitsLimit: Unit Limit
-#        person:
-#            name: Name
-#            firstName: First Name
-#            lastName: Last Name
-#            isPrimary: Primary
-#            salutation: Salutation
-#            jobTitle: Job Title
-#        region:
-#            region: Region
-#            countries: '# Countries'
-#        warehouseLocation:
-#            locationIdentifier: Location ID
-#    imports:
-#        file:
-#            filename: Uploaded File
-#            newfilename: Stored as
-#            processed: Processed
-#    requests:
-#        request:
-#            requestNumber: 'Requests No'
-#            unitsRequested: Units requested
-#            requestStatus: Status
-#            company: Company
-#            requester: Requester
-#            receiver: Receiver
-#            shippingLocation: Shipping Loc.
-#            seedUnits: Seed Units
-#    seed_units:
-#        seed_unit:
-#            serial: Serial Number
-#            model: Model
-#            power_cord_type: Power Cord Type
-#            request: Requests
-#            status: Status
-#            location: Location
-#        model:
-#            name: Name
-#        powerCordType:
-#            name: Name
-#    trainings:
-#        training:
-#            training: Training
-#            start: Start
-#            end: End
-#            registrations: '# Reg.'
-#            attendances: '# Att.'
-#        registration:
-#            registrant: Registrant
-#            training: Training
-#        attendance:
-#            attendee: Attendee
-#            training: Training
-#
-#
-#form:
-#    buttons:
-#        save: Save
-#        reset: Reset
-#        cancel: Cancel
-#        close: Close
-#        edit: Edit
-#        delete: Delete
-#
-#actions:
-#
-#menu:
-#    requests: Requests
-#    reports: Reports
-#    companies: Companies
-#    partners: Partners
-#    sales_teams: Sales Teams
-#    customers: Customers
-#    master_data: Master Data
-#    seed_units: Seed Units
-#    seed_unit_models: Models
-#    seed_unit_power_cord_types: Power Cord Types
-#    trainings: Trainings
-#    registrations: Registrations
-#    attendances: Attendances
-#    geographic: Geographic
-#    regions: Regions
-#    countries: Countries
-#    import: Import
-#    import_seed_units: Seed Units
-#
-#pages:
-#    generic:
-#        title: Welcome
-#        title_prefix: ''
-#        title_suffix: CESU Administration
-#        heading: Welcome
-#        section: Administration
-#    security:
-#        login:
-#            title: Login
-#            heading: Please Login
-#    seed_units:
-#        section: Master Data
-#        seed_unit:
-#            browse:
-#                heading: Browse Seed Units
-#            add:
-#                heading: Add a Seed Unit
-#        model:
-#            section: Master Data - Seed Units
-#            browse:
-#                heading: Browse Models
-#
-#
-#
