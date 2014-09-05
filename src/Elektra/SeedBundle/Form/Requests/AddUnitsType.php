@@ -2,6 +2,7 @@
 
 namespace Elektra\SeedBundle\Form\Requests;
 
+use Doctrine\ORM\EntityRepository;
 use Elektra\CrudBundle\Form\Form as CrudForm;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -26,7 +27,12 @@ class AddUnitsType extends CrudForm
                 'class'    => $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit')->getClassEntity(),
                 'property' => 'title',
                 'expanded' => true,
-                'multiple' => true
+                'multiple' => true,
+                'query_builder' => function(EntityRepository $er)
+                    {
+                        return $er->createQueryBuilder('su')
+                            ->where("su.request is null");
+                    }
             )
         );
 
