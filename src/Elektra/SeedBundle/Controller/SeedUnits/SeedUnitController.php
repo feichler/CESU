@@ -140,6 +140,14 @@ class SeedUnitController extends Controller
                 $event->setLocation($seedUnit->getRequest()->getShippingLocation());
                 $event->setTitle("Escalation: Delivery couldn't be verified.");
                 break;
+
+            case UnitStatus::DELIVERY_VERIFIED:
+                $event = new ShippingEvent();
+                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
+                $event->setUnitStatus($newStatus);
+                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
+                $event->setTitle("Delivery verified.");
+                break;
         }
 
         if ($event != null)
