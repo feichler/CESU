@@ -1,23 +1,25 @@
 {% extends "ElektraSiteBundle::form.html.twig" %}
 
 {% block choice_widget_collapsed -%}
-    <div class="form-group">
+    {% set class="input-sm" %}
+    {#<div class="form-group">#}
         {{ parent() }}
-    </div>
+    {#</div>#}
 {%- endblock choice_widget_collapsed %}
 
 {% block search_widget -%}
-    <div class="form-group">
+    {% set class="input-sm" %}
+    {#<div class="form-group">#}
         <div class="input-group">
             {{ parent() }}
             <span class="input-group-btn">
-                <button type="submit" class="btn btn-default">
-                    <span class="glyphicon glyphicon-search" style="line-height: inherit;"></span>
+                <button type="submit" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-search" style=""></span>
                 </button>
-                <button type="submit" class="btn btn-danger" onclick="jQuery('#table-search').val('');">
-                    <span class="glyphicon glyphicon-remove" style="line-height: inherit;"></span>
+                <button type="submit" class="btn btn-danger btn-sm" onclick="jQuery('#table-search').val('');">
+                    <span class="glyphicon glyphicon-remove" style=""></span>
                 </button>
             </span>
         </div>
-    </div>
+    {#</div>#}
 {%- endblock search_widget %}

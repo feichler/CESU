@@ -310,8 +310,9 @@
 
 {# simple input widget #}
 {% block form_widget_simple -%}
+    {% set class = class|default('') %}
     {% set type = type|default('text') -%}
-    <input class="form-control" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    <input class="form-control {{ class }}" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
 {%- endblock form_widget_simple %}
 
 {# compound widget #}
@@ -349,10 +350,11 @@
 
 {# choice widget (collapsed form) #}
 {% block choice_widget_collapsed -%}
+    {% set class = class|default('') %}
     {% if required and empty_value is none and not empty_value_in_choices and not multiple -%}
         {% set required = false %}
     {%- endif -%}
-    <select class="form-control" {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+    <select class="form-control {{ class }}" {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
         {% if empty_value is not none -%}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ empty_value|trans({}, translation_domain) }}</option>
         {%- endif %}

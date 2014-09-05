@@ -7,10 +7,11 @@
         {# URGENT embedded functionality #}
         {% if not table.crud.hasParent() %}
             {% if table.hasFilters or table.hasSearch %}
-                {% set filtersWidth = 2 %}
-                {% set tableWidth = tableWidth - filtersWidth %}
-                <div class="col-md-{{ filtersWidth }}">
-                    <div class="table-filters">
+                {% set inFilter = true %}
+                {#{% set filtersWidth = 2 %}#}
+                {#{% set tableWidth = tableWidth - filtersWidth %}#}
+                <div class="col-md-12">
+                    <div class="table-filters form-group">
                         {% if table.hasSearch() %}
                             {{ block('table_search') }}
                         {% endif %}
@@ -198,15 +199,19 @@
 
 {% block table_filters %}
     {% for definition in table.filters %}
-        {% form_theme definition "ElektraSiteBundle::filter.html.twig" %}
-        {{ form_widget(definition) }}
+        <div class="col-md-2">
+            {% form_theme definition "ElektraSiteBundle::filter.html.twig" %}
+            {{ form_widget(definition) }}
+        </div>
     {% endfor %}
 {% endblock table_filters %}
 
 {% block table_search %}
-    {% set field = table.searchField %}
-    {% form_theme field "ElektraSiteBundle::filter.html.twig" %}
-    {{ form_widget(field) }}
+    <div class="col-md-2">
+        {% set field = table.searchField %}
+        {% form_theme field "ElektraSiteBundle::filter.html.twig" %}
+        {{ form_widget(field) }}
+    </div>
 {% endblock table_search %}
 
 {% block table_navigation %}
