@@ -446,7 +446,15 @@ forms:
                 description:                                            Description
         seed_unit:
             buttons:
-                change_status:                                          Update Status
+                in_transit:                                             In transit
+                exception:                                              Exception
+                delivered:                                              Delivered
+                acknowledge_attempt:                                    Acknowledge attempt
+                aa1sent:                                                AA1 sent
+                aa2sent:                                                AA2 sent
+                aa3sent:                                                AA3 sent
+                escalation:                                             AA3 sent
+                delivery_verified:                                      AA3 sent
             groups:
                 history:                                                History
             fields:

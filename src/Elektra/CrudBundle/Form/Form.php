@@ -489,7 +489,7 @@ abstract class Form extends AbstractType
     protected final function getButtonClass($type, $position)
     {
 
-        $class = 'btn btn-' . Helper::camelToUnderScore($type);
+        $class = 'btn btn-default btn-' . Helper::camelToUnderScore($type);
         if ($position == 'top') {
             $class .= ' btn-sm';
         }
