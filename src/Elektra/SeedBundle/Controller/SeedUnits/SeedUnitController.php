@@ -91,14 +91,63 @@ class SeedUnitController extends Controller
                 $event->setTitle('Unit arrived at target location.');
                 break;
 
+            case UnitStatus::EXCEPTION:
+                $event = new ShippingEvent();
+                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
+                $event->setUnitStatus($newStatus);
+                $event->setLocation($mgr
+                    ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'GenericLocation')
+                        ->getClassRepository())->findByInternalName(GenericLocation::UNKNOWN));
+                $event->setTitle('Exception: Unit lost in transit.');
+                break;
+
+            case UnitStatus::ACKNOWLEDGE_ATTEMPT:
+                $event = new ShippingEvent();
+                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
+                $event->setUnitStatus($newStatus);
+                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
+                $event->setTitle("Acknowledge attempted - delivery couldn't be verified.");
+                break;
+
+            case UnitStatus::AA1SENT:
+                $event = new ShippingEvent();
+                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
+                $event->setUnitStatus($newStatus);
+                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
+                $event->setTitle("AA1 attempted - delivery couldn't be verified.");
+                break;
+
+            case UnitStatus::AA2SENT:
+                $event = new ShippingEvent();
+                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
+                $event->setUnitStatus($newStatus);
+                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
+                $event->setTitle("AA2 attempted - delivery couldn't be verified.");
+                break;
+
+            case UnitStatus::AA3SENT:
+                $event = new ShippingEvent();
+                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
+                $event->setUnitStatus($newStatus);
+                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
+                $event->setTitle("AA3 attempted - delivery couldn't be verified.");
+                break;
+
+            case UnitStatus::ESCALATION:
+                $event = new ShippingEvent();
+                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
+                $event->setUnitStatus($newStatus);
+                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
+                $event->setTitle("Escalation: Delivery couldn't be verified.");
+                break;
         }
 
         if ($event != null)
         {
             $seedUnit->getEvents()->add($event);
             $event->setSeedUnit($seedUnit);
+            $mgr->flush();
         }
-        $mgr->flush();
 
         $returnUrl = $this->getCrud()->getNavigator()->getLink($this->getCrud()
             ->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'), 'view', array('id' => $id));

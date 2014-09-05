@@ -37,8 +37,8 @@ class UnitStatusFixture extends SeedBundleFixture
             array("Delivered", "D", UnitStatus::DELIVERED),
             array("Ackn. Attempt", "AA", UnitStatus::ACKNOWLEDGE_ATTEMPT),
             array("AA1 email sent", "AA1", UnitStatus::AA1SENT),
-            array("AA3 email sent", "AA2", UnitStatus::AA2SENT),
-            array("AA2 email sent", "AA3", UnitStatus::AA3SENT),
+            array("AA2 email sent", "AA2", UnitStatus::AA2SENT),
+            array("AA3 email sent", "AA3", UnitStatus::AA3SENT),
             array("Escalation", "Es", UnitStatus::ESCALATION),
             array("Delivery Verified", "DV", UnitStatus::DELIVERY_VERIFIED),
         );

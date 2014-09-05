@@ -105,6 +105,9 @@ class SeedUnitType extends Form
                 break;
 
             case UnitStatus::DELIVERED:
+                $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
+                    'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
+                );
                 $buttons[UnitStatus::ACKNOWLEDGE_ATTEMPT] = array(
                     'link' => $this->getChangeStatusLink($entity, UnitStatus::ACKNOWLEDGE_ATTEMPT)
                 );

@@ -449,12 +449,12 @@ forms:
                 in_transit:                                             In transit
                 exception:                                              Exception
                 delivered:                                              Delivered
-                acknowledge_attempt:                                    Acknowledge attempt
-                aa1sent:                                                AA1 sent
-                aa2sent:                                                AA2 sent
-                aa3sent:                                                AA3 sent
-                escalation:                                             AA3 sent
-                delivery_verified:                                      AA3 sent
+                acknowledge_attempt:                                    Delivery NOT verified
+                aa1sent:                                                Delivery NOT verified
+                aa2sent:                                                Delivery NOT verified
+                aa3sent:                                                Delivery NOT verified
+                escalation:                                             Delivery NOT verified
+                delivery_verified:                                      Delivery verified
             groups:
                 history:                                                History
             fields:
