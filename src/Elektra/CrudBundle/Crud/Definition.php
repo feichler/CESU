@@ -407,10 +407,4 @@ abstract class Definition
 
         return true;
     }
-
-    public function getTest()
-    {
-
-        return '';
-    }
 }

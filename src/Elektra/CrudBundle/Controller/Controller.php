@@ -4,10 +4,10 @@ namespace Elektra\CrudBundle\Controller;
 
 use Elektra\CrudBundle\Crud\Crud;
 use Elektra\CrudBundle\Crud\Definition;
+use Elektra\CrudBundle\Table\Table;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SiteBundle\Site\Helper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,7 +20,8 @@ abstract class Controller extends BaseController
     protected $crud;
 
     /**
-     * @param string $action
+     * @param string     $action
+     * @param Definition $definition
      */
     protected final function initialise($action, Definition $definition = null)
     {
@@ -47,6 +48,11 @@ abstract class Controller extends BaseController
      * Controller Actions
      *************************************************************************/
 
+    /**
+     * @param int $page
+     *
+     * @return Response
+     */
     public function browseAction($page)
     {
 
@@ -65,6 +71,11 @@ abstract class Controller extends BaseController
         return $this->render($viewName, array('table' => $table));
     }
 
+    /**
+     * @param int|null $id
+     *
+     * @return Response
+     */
     public function addAction($id = null)
     {
 
@@ -90,6 +101,11 @@ abstract class Controller extends BaseController
         return $this->render($viewName, array('form' => $formView));
     }
 
+    /**
+     * @param int $id
+     *
+     * @return Response
+     */
     public function viewAction($id)
     {
 
@@ -109,6 +125,11 @@ abstract class Controller extends BaseController
         return $this->render($viewName, array('form' => $formView));
     }
 
+    /**
+     * @param int $id
+     *
+     * @return Response
+     */
     public function editAction($id)
     {
 
@@ -134,6 +155,11 @@ abstract class Controller extends BaseController
         return $this->render($viewName, array('form' => $formView));
     }
 
+    /**
+     * @param int $id
+     *
+     * @return Response
+     */
     public function deleteAction($id)
     {
 
@@ -145,6 +171,13 @@ abstract class Controller extends BaseController
         return $this->processAction('delete', $entity);
     }
 
+    /**
+     * @param EntityInterface $parentEntity
+     * @param string          $parentRoute
+     * @param string|null     $relationName
+     *
+     * @return Response
+     */
     public function relatedListAction(EntityInterface $parentEntity, $parentRoute, $relationName = null)
     {
 
@@ -160,6 +193,14 @@ abstract class Controller extends BaseController
         return $this->render($viewName, array('table' => $table));
     }
 
+    /**
+     * @param EntityInterface $parentEntity
+     * @param Definition      $childType
+     * @param string          $parentRoute
+     * @param string|null     $relationName
+     *
+     * @return Response
+     */
     public function childListAction(EntityInterface $parentEntity, Definition $childType, $parentRoute, $relationName = null)
     {
 
@@ -168,20 +209,14 @@ abstract class Controller extends BaseController
 
         $table = $this->getTable(1, false);
         $table->setInView(true);
-$method = 'get'.ucfirst($relationName);
+        $method = 'get' . ucfirst($relationName);
 
-        if(method_exists($parentEntity,$method)) {
-//            $childs = $parentEntity->$method();
-//            echo get_class($childs);
+        if (method_exists($parentEntity, $method)) {
             $table->setEntries($parentEntity->$method());
         }
-        //        $repository = $this->getDoctrine()->getRepository($childType->getClassRepository());
-        //
-        //        echo get_class($repository);
 
         $viewName = $this->getCrud()->getView('childList');
 
-        //        return new Response('test');
         return $this->render($viewName, array('table' => $table));
     }
 
@@ -189,6 +224,13 @@ $method = 'get'.ucfirst($relationName);
      * Controller Action Helpers
      *************************************************************************/
 
+    /**
+     * @param string        $action
+     * @param mixed         $entity
+     * @param FormInterface $form
+     *
+     * @return Response
+     */
     protected function processAction($action, $entity, FormInterface $form = null)
     {
 
@@ -239,6 +281,12 @@ $method = 'get'.ucfirst($relationName);
         return $this->redirect($returnUrl);
     }
 
+    /**
+     * @param int  $page
+     * @param bool $autoload
+     *
+     * @return Table
+     */
     protected function getTable($page, $autoload = true)
     {
 
@@ -252,6 +300,11 @@ $method = 'get'.ucfirst($relationName);
         return $table;
     }
 
+    /**
+     * @param int|null $id
+     *
+     * @return EntityInterface
+     */
     protected function getEntityForAdd($id = null)
     {
 
@@ -265,6 +318,11 @@ $method = 'get'.ucfirst($relationName);
         return $entity;
     }
 
+    /**
+     * @param int $id
+     *
+     * @return EntityInterface
+     */
     protected function getEntity($id)
     {
 
@@ -275,12 +333,17 @@ $method = 'get'.ucfirst($relationName);
         return $entity;
     }
 
+    /**
+     * @param EntityInterface $entity
+     * @param string          $crudAction
+     *
+     * @return Form
+     */
     protected function getForm(EntityInterface $entity, $crudAction)
     {
 
         $formClass = $this->getCrud()->getDefinition()->getClassForm();
-        $options = Helper::mergeOptions(
-//        $options   = $this->getCrud()->mergeOptions(
+        $options   = Helper::mergeOptions(
             array('crud_action' => $crudAction),
             $this->getFormOptions($entity, $crudAction)
         );
@@ -309,6 +372,7 @@ $method = 'get'.ucfirst($relationName);
 
     /**
      * @param EntityInterface $entity
+     * @param FormInterface   $form
      *
      * @return bool
      */
@@ -322,6 +386,7 @@ $method = 'get'.ucfirst($relationName);
 
     /**
      * @param EntityInterface $entity
+     * @param FormInterface   $form
      */
     public function afterAddEntity(EntityInterface $entity, FormInterface $form = null)
     {
@@ -330,6 +395,7 @@ $method = 'get'.ucfirst($relationName);
 
     /**
      * @param EntityInterface $entity
+     * @param FormInterface   $form
      *
      * @return bool
      */
@@ -344,6 +410,7 @@ $method = 'get'.ucfirst($relationName);
 
     /**
      * @param EntityInterface $entity
+     * @param FormInterface   $form
      */
     public function afterEditEntity(EntityInterface $entity, FormInterface $form = null)
     {
@@ -352,6 +419,7 @@ $method = 'get'.ucfirst($relationName);
 
     /**
      * @param EntityInterface $entity
+     * @param FormInterface   $form
      *
      * @return bool
      */
@@ -366,6 +434,7 @@ $method = 'get'.ucfirst($relationName);
 
     /**
      * @param EntityInterface $entity
+     * @param FormInterface   $form
      */
     public function afterDeleteEntity(EntityInterface $entity, FormInterface $form = null)
     {

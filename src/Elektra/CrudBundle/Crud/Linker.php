@@ -2,6 +2,8 @@
 
 namespace Elektra\CrudBundle\Crud;
 
+use Elektra\SeedBundle\Entity\EntityInterface;
+
 final class Linker
 {
 
@@ -37,6 +39,9 @@ final class Linker
         return $this->crud;
     }
 
+    /**
+     * @return Navigator
+     */
     protected function getNavigator()
     {
 
@@ -52,6 +57,9 @@ final class Linker
         return $this->activeRoute;
     }
 
+    /**
+     * @return string
+     */
     public function getListAddLink()
     {
 
@@ -77,6 +85,11 @@ final class Linker
         return $link;
     }
 
+    /**
+     * @param EntityInterface $entity
+     *
+     * @return string
+     */
     public function getListViewLink($entity)
     {
 
@@ -103,6 +116,11 @@ final class Linker
         return $link;
     }
 
+    /**
+     * @param EntityInterface $entity
+     *
+     * @return string
+     */
     public function getListEditLink($entity)
     {
 
@@ -129,6 +147,11 @@ final class Linker
         return $link;
     }
 
+    /**
+     * @param EntityInterface $entity
+     *
+     * @return string
+     */
     public function getListDeleteLink($entity)
     {
 
@@ -155,6 +178,11 @@ final class Linker
         return $link;
     }
 
+    /**
+     * @param EntityInterface $entity
+     *
+     * @return string
+     */
     public function getFormCloseLink($entity)
     {
 
@@ -181,74 +209,14 @@ final class Linker
             $link = $this->getNavigator()->getLinkFromRoute($routeName, $params);
         }
 
-
         return $link;
-
-//        $link  = '';
-//        $parts = explode('.', $this->getActiveRoute());
-//        // in this case the last part must be the action -> this is not needed now
-//        $action = array_pop($parts);
-//
-//        if (count($parts) == 1) {
-//            // close returns to root list
-//            $rootDefinition = $this->getNavigator()->getDefinition($parts[0]);
-//            $routeName      = $rootDefinition->getRoutePlural();
-//            $params         = array('page' => $this->getCrud()->getData('page', 'browse'));
-//            $link           = $this->getNavigator()->getLinkFromRoute($routeName, $params);
-//        } else {
-//            // last part of the array is the current entity type
-//            array_pop($parts);
-//            // last part is the parent
-//            $last = end($parts);
-//
-//            $id = $this->getCrud()->getParentId();
-//
-//            echo 'last: ' . $last . '<br />';
-//            echo 'ID from crud: ' . $id . '<br />';
-//
-//            $routeName = implode('.', $parts) . '.view';
-//            $params    = array('id' => $id);
-//            $link      = $this->getNavigator()->getLinkFromRoute($routeName, $params);
-//            echo $routeName . '<br />';
-//
-//            //            // last part of the array is the current entity type
-//            //            array_pop($parts);
-//            //            // last part is the parent
-//            //            $last = end($parts);
-//            //            // if not at a root definition, the last page was a "view"
-//            //            $routeName = implode('.', $parts) . '.view';
-//            //            // try to get the parent's id
-//            ////            var_dump($this->getCrud()->getParentRelationName());
-//            ////            echo $this->getCrud()->getParentRelationName();
-//            //            $id = $this->getCrud()->getParentId();
-//            //            $method   = 'get' . ucfirst($last);
-//            //            if(method_exists($entity,$method)) {
-//            //                $returnId = $id;
-//            ////                $returnId = $entity->$method()->getId();
-//            //            } else {
-//            //
-//            //                echo 'ID: '.$id.'<br />';
-//            //                $def = $this->getCrud()->getNavigator()->getDefinition($last);
-//            ////                echo $def->getKey();
-//            //                $method = 'get'.ucfirst($this->getCrud()->getNavigator()->getDefinition($last)->getTest());
-//            //                if(method_exists($entity,$method)) {
-//            //                    echo get_class($entity).'<br />';
-//            //                    echo $method.'<br />';
-//            //                    $test = $entity->$method();
-//            //
-//            //                    echo get_class($test).'<br />';
-//            //                    $returnId = $entity->$method()->getId();
-//            //                }
-//            ////                echo $method;
-//            //            }
-//            //            // generate the link
-//            //            $params = array('id' => $returnId);
-//            //            $link = $this->getNavigator()->getLinkFromRoute($routeName, $params);
-//        }
-//
-//        return $link;
     }
 
+    /**
+     * @param EntityInterface $entity
+     *
+     * @return string
+     */
     public function getFormEditLink($entity)
     {
 
@@ -260,7 +228,7 @@ final class Linker
         if (count($parts) == 1) {
             $rootDefinition = $this->getNavigator()->getDefinition($parts[0]);
 
-            $routeName = $rootDefinition->getRouteSingular().'.edit';
+            $routeName = $rootDefinition->getRouteSingular() . '.edit';
             $params    = array('id' => $entity->getId());
 
             $link = $this->getNavigator()->getLinkFromRoute($routeName, $params);
@@ -271,25 +239,14 @@ final class Linker
             $link = $this->getNavigator()->getLinkFromRoute($routeName, $params);
         }
 
-
         return $link;
-
-//        $link  = '';
-//        $parts = explode('.', $this->getActiveRoute());
-//        // in this case the last part must be the action -> this is not needed now
-//        array_pop($parts);
-//
-//        if (count($parts) == 1) {
-//            // from a root list
-//            $rootDefinition = $this->getNavigator()->getDefinition($parts[0]);
-//            $routeName      = $rootDefinition->getRouteSingular() . '.edit';
-//            $params         = array('id' => $entity->getId());
-//            $link           = $this->getNavigator()->getLinkFromRoute($routeName, $params);
-//        }
-//
-//        return $link;
     }
 
+    /**
+     * @param EntityInterface $entity
+     *
+     * @return string
+     */
     public function getFormDeleteLink($entity)
     {
 
@@ -301,7 +258,7 @@ final class Linker
         if (count($parts) == 1) {
             $rootDefinition = $this->getNavigator()->getDefinition($parts[0]);
 
-            $routeName = $rootDefinition->getRouteSingular().'.delete';
+            $routeName = $rootDefinition->getRouteSingular() . '.delete';
             $params    = array('id' => $entity->getId());
 
             $link = $this->getNavigator()->getLinkFromRoute($routeName, $params);
@@ -312,30 +269,18 @@ final class Linker
             $link = $this->getNavigator()->getLinkFromRoute($routeName, $params);
         }
 
-
         return $link;
-//
-//        $link = '';
-//
-//        $parts = explode('.', $this->getActiveRoute());
-//        // in this case the last part must be the action -> this is not needed now
-//        array_pop($parts);
-//
-//        if (count($parts) == 1) {
-//            // from a root list
-//            $rootDefinition = $this->getNavigator()->getDefinition($parts[0]);
-//            $routeName      = $rootDefinition->getRouteSingular() . '.delete';
-//            $params         = array('id' => $entity->getId());
-//            $link           = $this->getNavigator()->getLinkFromRoute($routeName, $params);
-//        }
-//
-//        return $link;
     }
 
+    /**
+     * @param EntityInterface $entity
+     *
+     * @return string
+     */
     public function getRedirectAfterProcess($entity)
     {
 
-//        echo $this->getActiveRoute();
+        //        echo $this->getActiveRoute();
         $link  = '';
         $parts = explode('.', $this->getActiveRoute());
         // in this case the last part must be the action -> this is not needed now
@@ -348,9 +293,6 @@ final class Linker
             $params         = array('page' => $this->getCrud()->getData('page', 'browse'));
             $link           = $this->getNavigator()->getLinkFromRoute($routeName, $params);
         } else {
-//            echo '<br/>';
-//            var_dump($parts);
-//            echo '<br />';
             // last part of the array is the current entity type
             array_pop($parts);
             // last part is the parent
@@ -358,13 +300,10 @@ final class Linker
             // if not at a root definition, the last page was a "view"
             $routeName = implode('.', $parts) . '.view';
             // try to get the parent's id
-            $method   = 'get' . ucfirst($last);
             $returnId = $this->getCrud()->getParentId();
-            if (empty($returnId))
-            {
+            if (empty($returnId)) {
                 $returnId = $entity->getId();
             }
-            //            $returnId = $entity->$method()->getId();
             // generate the link
             $params = array('id' => $returnId);
             $link   = $this->getNavigator()->getLinkFromRoute($routeName, $params);

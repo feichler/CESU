@@ -2,7 +2,6 @@
 
 namespace Elektra\CrudBundle\Crud;
 
-
 use Elektra\SeedBundle\Definition\Auditing\AuditDefinition;
 use Elektra\SeedBundle\Definition\Companies\AddressDefinition;
 use Elektra\SeedBundle\Definition\Companies\AddressTypeDefinition;
@@ -32,8 +31,6 @@ use Elektra\SeedBundle\Definition\SeedUnits\SeedUnitDefinition;
 use Elektra\SeedBundle\Definition\Trainings\AttendanceDefinition;
 use Elektra\SeedBundle\Definition\Trainings\RegistrationDefinition;
 use Elektra\SeedBundle\Definition\Trainings\TrainingDefinition;
-use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
-use Elektra\SeedBundle\Entity\Companies\ContactInfoType;
 use Symfony\Component\Routing\RouterInterface;
 
 final class Navigator
@@ -96,8 +93,6 @@ final class Navigator
         $this->addDefinition(new RegistrationDefinition());
         $this->addDefinition(new TrainingDefinition());
 
-
-
         $this->addDefinition(new EventTypeDefinition());
         $this->addDefinition(new UnitStatusDefinition());
         $this->addDefinition(new EventDefinition());
@@ -147,13 +142,6 @@ final class Navigator
     public function getDefinition($vendor, $bundle = null, $group = null, $name = null)
     {
 
-        ob_start();
-        //        var_dump(func_get_args());
-        $test = ob_get_clean();
-        //        echo '<br />';
-        //        var_dump(func_get_args());
-        //        echo '<br />';
-        //        echo '<br />';
         if ($bundle !== null && $group !== null && $name !== null) {
             if (is_string($vendor)) {
                 $key = Definition::generateKey($vendor, $bundle, $group, $name);
@@ -175,11 +163,8 @@ final class Navigator
         } else if (array_key_exists($key, $this->definitionsMap)) {
             return $this->definitions[$this->definitionsMap[$key]];
         }
-        //        echo '<br />22';
-        //        var_dump(func_get_args());
-        //        echo '<br />';
-        //        echo '<br />';
-        throw new \InvalidArgumentException('Cannot get a definition from the given parameters' . $test);
+
+        throw new \InvalidArgumentException('Cannot get a definition from the given parameters');
     }
 
     // URGENT get route
@@ -200,12 +185,15 @@ final class Navigator
         }
 
         return $this->getLink($definition, 'browse', $parameters);
-
-        //        $route = $definition->getRoutePlural();
-        //
-        //        return $this->router->generate($route, $parameters);
     }
 
+    /**
+     * @param mixed  $definition
+     * @param string $action
+     * @param array  $parameters
+     *
+     * @return string
+     */
     public function getLink($definition, $action, $parameters = array())
     {
 
@@ -220,6 +208,12 @@ final class Navigator
         return $this->getLinkFromRoute($routeName, $parameters);
     }
 
+    /**
+     * @param string $routeName
+     * @param array  $parameters
+     *
+     * @return string
+     */
     public function getLinkFromRoute($routeName, $parameters = array())
     {
 

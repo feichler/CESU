@@ -11,12 +11,18 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ListType extends AbstractType
 {
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
 
         return 'list';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
 
@@ -50,12 +56,18 @@ class ListType extends AbstractType
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
         parent::buildForm($builder, $options);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
 
@@ -66,6 +78,9 @@ class ListType extends AbstractType
         parent::buildView($view, $form, $options);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
 

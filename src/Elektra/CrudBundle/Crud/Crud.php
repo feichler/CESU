@@ -227,6 +227,11 @@ final class Crud
      */
     protected $relationName;
 
+    /**
+     * @param EntityInterface $parentEntity
+     * @param string          $parentRoute
+     * @param string          $relationName
+     */
     public function setParent(EntityInterface $parentEntity, $parentRoute, $relationName)
     {
 
@@ -235,27 +240,38 @@ final class Crud
         $this->relationName = $relationName;
 
         $this->setParentId($this->parentEntity->getId());
-        //        $this->setData('parent',);
     }
 
+    /**
+     * @param int $id
+     */
     public function setParentId($id)
     {
 
         $this->setData('parent', $id);
     }
 
+    /**
+     * @return int
+     */
     public function getParentId()
     {
 
         return $this->getData('parent');
     }
 
+    /**
+     * @return bool
+     */
     public function isEmbedded()
     {
 
         return $this->hasParent();
     }
 
+    /**
+     * @return bool
+     */
     public function hasParent()
     {
 
@@ -264,13 +280,11 @@ final class Crud
         }
 
         return false;
-        //        $route = $this->getLinker()->getActiveRoute();
-        //        echo $route . '<br />';
-        //        echo $this->getDefinition()->getName();
-        //
-        //        return false;
     }
 
+    /**
+     * @return Definition
+     */
     public function getParentDefinition()
     {
 
@@ -287,189 +301,34 @@ final class Crud
                 return $definition;
             }
         }
-        //
-        //        $last = array_pop($routeParts);
-        //        $last2 = array_pop($routeParts);
-        //        echo $last.'<br />';
-        //        echo $last2.'<br />';
-        //        if($last2 == 'note') {
-        //            echo get_class($definition);
-        //        }
-        //
-        //        var_dump($this->linker->getActiveRoute());
-        //        var_dump($this->parentRoute);
-        //        var_dump($this->parentEntity);
-        //echo get_class($this->parentEntity);
+
         return $this->getNavigator()->getDefinition(get_class($this->parentEntity));
-        //        echo get_class($this->parentEntity);
     }
 
+    /**
+     * @return EntityInterface
+     */
     public function getParentEntity()
     {
 
         return $this->parentEntity;
     }
 
+    /**
+     * @return string
+     */
     public function getParentRoute()
     {
 
         return $this->parentRoute;
     }
 
+    /**
+     * @return string
+     */
     public function getParentRelationName()
     {
 
         return $this->relationName;
-    }
-
-    /*************************************************************************
-     * Link methods
-     *************************************************************************/
-
-    //    public function getAfterProcessReturnUrl1()
-    //    {
-    //
-    //        $routeParts = explode('.', $this->getRouteName());
-    //        // pop the action off
-    //        $action = array_pop($routeParts);
-    //
-    //        if (count($routeParts) == 1) {
-    //            // root route -> return to browsing
-    //            $rootDefinition = $this->getNavigator()->getDefinition($routeParts[0]);
-    //            //            $browseRouteName = $rootDefinition->getRoutePlural();
-    //            $page = $this->getData('page', 'browse');
-    //            $url  = $this->getNavigator()->getBrowseLink($rootDefinition, array('page' => $page));
-    //
-    //            //            echo $url;
-    //
-    //            return $url;
-    //        } else {
-    //            // embedded -> return to parent view
-    //            $last = end($routeParts);
-    //            reset($routeParts);
-    //            $routeName = implode('.', $routeParts);
-    //            $routeName .= '.view';
-    //            // URGENT how to get the parent id?!
-    //            // URGENT implement this method
-    //        }
-    //    }
-    //
-    //    public function getCloseLink1($entry)
-    //    {
-    //
-    //        $routeParts = explode('.', $this->getRouteName());
-    //        $action     = array_pop($routeParts);
-    //
-    //        if (count($routeParts) == 1) {
-    //            $rootDefinition = $this->getNavigator()->getDefinition($routeParts[0]);
-    //            $page           = $this->getData('page', 'browse');
-    //            $url            = $this->getNavigator()->getBrowseLink($rootDefinition, array('page' => $page));
-    //
-    //            return $url;
-    //        } else {
-    //            // URGENT implement
-    //        }
-    //    }
-    //
-    //    public function getEditLink1($entry)
-    //    {
-    //
-    //        $routeParts = explode('.', $this->getRouteName());
-    //        $action     = array_pop($routeParts);
-    //
-    //        if (count($routeParts) == 1) {
-    //            $rootDefinition = $this->getNavigator()->getDefinition($routeParts[0]);
-    //            $url            = $this->getNavigator()->getLink($rootDefinition, 'edit', array('id' => $entry->getId()));
-    //
-    //            return $url;
-    //        } else {
-    //            // URGENT implement
-    //        }
-    //    }
-    //
-    //    public function getDeleteLink1($entry)
-    //    {
-    //
-    //        $routeParts = explode('.', $this->getRouteName());
-    //        $action     = array_pop($routeParts);
-    //
-    //        if (count($routeParts) == 1) {
-    //            $rootDefinition = $this->getNavigator()->getDefinition($routeParts[0]);
-    //            $url            = $this->getNavigator()->getLink($rootDefinition, 'delete', array('id' => $entry->getId()));
-    //
-    //            return $url;
-    //        } else {
-    //            // URGENT implement
-    //        }
-    //    }
-    //
-    //    public function getLink1($action, $entry = null)
-    //    {
-    //
-    //        if ($action == 'browse') {
-    //            $parameters = array('page' => $this->getData('page', 'browse', 1));
-    //
-    //            return $this->getNavigator()->getBrowseLink($this->getDefinition(), $parameters);
-    //        }
-    //
-    //        $routeParts = explode('.', $this->getRouteName());
-    //        $action     = array_pop($routeParts);
-    //
-    //        if (count($routeParts) == 1) {
-    //            // root route
-    //            $rootDefinition = $this->getNavigator()->getDefinition($routeParts[0]);
-    //            $routeName      = $rootDefinition->getRouteSingular() . '.' . $action;
-    //            $link           = $this->getNavigator()->getLinkFromRoute($routeName, array('id' => $entry->getId()));
-    //
-    //            return $link;
-    //        } else {
-    //        }
-    //
-    //        var_dump($routeParts);
-    //        $routeName = $this->getRouteName();
-    //        if (strpos($routeName, '.') !== false) {
-    //            // URGENT prepare the route name
-    //        } else {
-    //            $linkRouteName = $this->getDefinition()->getRouteSingular() . '.' . $action;
-    //        }
-    //
-    //        $parameters = array();
-    //        if ($entry !== null && $entry instanceof EntityInterface) {
-    //            $parameters['id'] = $entry->getId();
-    //        }
-    //        echo $routeName . '<br />';
-    //
-    //        return $this->getNavigator()->getLinkFromRoute($linkRouteName, $parameters);
-    //
-    //        //        echo $addRouteName.'<br />';
-    //
-    //        //        echo $this->getRouteName();
-    //        //        echo 'ASDF';
-    //    }
-
-    /*************************************************************************
-     * Generic Helper methods
-     *************************************************************************/
-
-    /**
-     * @param array $options1
-     * @param array $options2
-     *
-     * @return array
-     */
-    public function mergeOptions(array $options1, array $options2)
-    {
-
-        $merged = $options1;
-
-        foreach ($options2 as $key => $value) {
-            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
-                $merged[$key] = $this->mergeOptions($merged[$key], $value);
-            } else {
-                $merged[$key] = $value;
-            }
-        }
-
-        return $merged;
     }
 }
