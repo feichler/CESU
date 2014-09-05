@@ -18,13 +18,19 @@ class EventTable extends Table
         $timestamp->setSearchable();
         $timestamp->setSortable();
 
-        $seedUnit = $this->getColumns()->add('seed_unit');
+/*        $seedUnit = $this->getColumns()->add('seed_unit');
         $seedUnit->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'));
         $seedUnit->setFieldData('seedUnit.serialNumber');
         $seedUnit->setSortable();
-        $seedUnit->setSearchable();
+        $seedUnit->setSearchable();*/
 
-        $eventType = $this->getColumns()->add('event_type');
+        $status = $this->getColumns()->add('unitStatus');
+        $status->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'));
+        $status->setFieldData('unitStatus.name');
+        $status->setSortable();
+        $status->setFilterable()->setFieldFilter('name');
+
+        $eventType = $this->getColumns()->add('eventType');
         $eventType->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'EventType'));
         $eventType->setFieldData('eventType.name');
         $eventType->setSortable();
