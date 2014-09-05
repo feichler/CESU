@@ -160,13 +160,14 @@
     {# TODO add audits #}
     {% for type, audit in data %}
         <div>
-            <span class="audit-tooltip" data-toggle="tooltip" title="{{ audit.date }}">
+            <span class="audit-tooltip" audit-toggle="tooltip" title="{{ audit.by }} - {{ audit.dateGMT }} {{ audit.timeGMT }} {{ audit.timeZoneGMT }}">
                 {% if type == 'created' %}
                     <i class="fa fa-plus-square" style="color: #5cb85c;"></i>
                 {% else %}
                     <i class="fa fa-pencil-square" style="color: #f0ad4e;"></i>
                 {% endif %}
-                {{ audit.by }}
+                {{ audit.dateGMT }} <span class="hidden-sm hidden-xs">{{ audit.timeGMT }}</span>
+                {#{{ audit.by }}#}
             </span>
         </div>
     {% endfor %}

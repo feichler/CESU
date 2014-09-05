@@ -9,7 +9,11 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
 class AuditColumn extends Column
 {
 
-    protected $dateFormat = 'Y-m-d H:i:s T (P)';
+    protected $dateFormat = 'Y-m-d';
+
+    protected $timeFormat = 'H:i:s';
+
+    protected $timeZoneFormat = 'T (P)';
 
     public function __construct(Columns $columns)
     {
@@ -26,21 +30,23 @@ class AuditColumn extends Column
         if ($entry instanceof AuditableInterface) {
             $modified = $entry->getLastModifiedAudit();
             if ($modified != null) {
-                $modifiedDate       = gmdate($this->dateFormat, $modified->getTimestamp());
                 $modifiedBy         = $modified->getUser()->getUsername();
                 $return['modified'] = array(
-                    'date' => $modifiedDate,
-                    'by'   => $modifiedBy,
+                    'dateGMT'     => gmdate($this->dateFormat, $modified->getTimestamp()),
+                    'timeGMT'     => gmdate($this->timeFormat, $modified->getTimestamp()),
+                    'timeZoneGMT' => gmdate($this->timeZoneFormat, $modified->getTimestamp()),
+                    'by'          => $modifiedBy,
                 );
             }
 
-            $created     = $entry->getCreationAudit();
-            $createdDate = gmdate($this->dateFormat, $created->getTimestamp());
-            $createdBy   = $created->getUser()->getUsername();
+            $created   = $entry->getCreationAudit();
+            $createdBy = $created->getUser()->getUsername();
 
             $return['created'] = array(
-                'date' => $createdDate,
-                'by'   => $createdBy,
+                'dateGMT'     => gmdate($this->dateFormat, $created->getTimestamp()),
+                'timeGMT'     => gmdate($this->timeFormat, $created->getTimestamp()),
+                'timeZoneGMT' => gmdate($this->timeZoneFormat, $created->getTimestamp()),
+                'by'          => $createdBy,
             );
         }
 
