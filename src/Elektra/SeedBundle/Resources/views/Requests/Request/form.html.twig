@@ -2,5 +2,114 @@
 
 
 {% block javascripts %}
+    <script type="text/javascript">
 
+        var companyChange = function(fieldId) {
+
+            var $company = jQuery(fieldId);
+            var $form = $company.closest('form');
+            var data = {};
+
+            checkFields($company);
+
+            $company.change(function() {
+
+                var $backdrop = showBackdrop();
+
+                data[$company.attr('name')] = $company.val();
+
+                jQuery.ajax({
+                                url: $form.attr('action'),
+                                type: $form.attr('method'),
+                                data: data,
+                                success: function(response) {
+
+                                    injectResponse('#request_group_common_requesterPerson', response);
+                                    injectResponse('#request_group_common_shippingLocation', response);
+
+                                    checkFields($company);
+
+                                    removeBackdrop($backdrop);
+
+                                    locationChange('#request_group_common_shippingLocation');
+                                }
+                            });
+            })
+        }
+
+        var locationChange = function(fieldId) {
+
+            var $location = jQuery(fieldId);
+            var $form = $location.closest('form');
+            var data = {};
+
+            $location.change(function() {
+
+                var $backdrop = showBackdrop();
+
+                data[$location.attr('name')] = $location.val();
+
+                jQuery.ajax({
+                                url: $form.attr('action'),
+                                type: $form.attr('method'),
+                                data: data,
+                                success: function(response) {
+
+                                    injectResponse('#request_group_common_receiverPerson', response);
+                                    enableField('#request_group_common_receiverPerson');
+
+                                    if ($location.val() == '') {
+                                        disableField('#request_group_common_receiverPerson');
+                                    }
+
+                                    removeBackdrop($backdrop);
+                                }
+                            });
+            });
+        }
+
+
+        var checkFields = function($company) {
+
+            if ($company.val() == '') {
+                disableField('#request_group_common_requesterPerson');
+                disableField('#request_group_common_shippingLocation');
+                disableField('#request_group_common_receiverPerson');
+            }
+        }
+
+        var enableField = function(id) {
+            jQuery(id).removeAttr('disabled');
+        }
+
+        var disableField = function(id) {
+            jQuery(id).attr('disabled', 'disabled');
+        }
+
+        var showBackdrop = function() {
+            var $backdrop = jQuery('<div id="#request_backdrop" class="modal-backdrop fade"></div>').appendTo(jQuery('body'));
+            $backdrop.animate({opacity: 0.75}, 75);
+
+            return $backdrop;
+        }
+
+        var removeBackdrop = function($backdrop) {
+
+            $backdrop.animate({opacity: 0}, 75);
+            $backdrop.remove();
+        }
+
+
+        var injectResponse = function(id, response) {
+            jQuery(id).replaceWith(jQuery(response).find(id));
+            enableField(id);
+        }
+
+
+        jQuery(document).ready(function() {
+
+            companyChange('#request_group_common_company');
+
+        });
+    </script>
 {% endblock javascripts %}
