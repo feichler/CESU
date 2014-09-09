@@ -296,17 +296,21 @@ abstract class Table
         // URGENT check the embedded functionality
         if ($this->getCrud()->hasParent()) {
             $filters = $this->getLoadRelationFilter();
-//            var_dump($this->options);
+            //            var_dump($this->options);
             if (isset($this->options['orderingField'])) {
                 $order = array(
                     $this->options['orderingField'] => $this->options['orderingDirection']
                 );
             }
-//            var_dump($order);
+            //            var_dump($order);
         } else {
             $search  = $this->getLoadSearch();
             $filters = $this->getLoadFilters();
             $order   = $this->getLoadOrder();
+        }
+
+        if (isset($this->options['listLimit']) && $this->options['listLimit'] != '') {
+            $this->pagination->setLimit($this->options['listLimit']);
         }
 
         $repositoryClass = $this->getCrud()->getDefinition()->getClassRepository();
