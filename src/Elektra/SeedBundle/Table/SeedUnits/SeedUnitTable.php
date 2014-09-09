@@ -7,11 +7,38 @@ use Elektra\CrudBundle\Table\Table;
 class SeedUnitTable extends Table
 {
 
+    protected function initialiseActions()
+    {
+
+        $crud  = $this->getColumns()->getTable()->getCrud();
+        $route = $crud->getLinker()->getActiveRoute();
+
+        if ($route == 'request.seedUnit.add') {
+            $this->disallowAction('add');
+            $this->disallowAction('edit');
+            $this->disallowAction('view');
+            $this->disallowAction('delete');
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function initialiseColumns()
     {
+
+        $crud  = $this->getColumns()->getTable()->getCrud();
+        $route = $crud->getLinker()->getActiveRoute();
+        //        var_dump($render);
+        //        echo $render;
+        ////        echo $crud->getDefinition()->getName();
+        ////        echo get_class($crud->getController());
+        //        $session = $crud->getService('session');
+        //        echo '<pre>';
+        //        var_dump($session->all());
+        //        echo '</pre>';
+
+        $select = $this->getColumns()->addSelectColumn();
 
         $serial = $this->getColumns()->addTitleColumn('serial_number');
         $serial->setFieldData('serialNumber');
@@ -34,18 +61,25 @@ class SeedUnitTable extends Table
         $status->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'));
         $status->setFieldData('unitStatus.name');
         $status->setSortable();
-//        $status->setFilterable()->setFieldFilter('name');
+        //        $status->setFilterable()->setFieldFilter('name');
 
         $location = $this->getColumns()->add('location');
         $location->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location'));
         $location->setFieldData('location.shortName');
         $location->setSortable();
-//        $location->setFilterable()->setFieldFilter('shortName');
+        //        $location->setFilterable()->setFieldFilter('shortName');
 
         $request = $this->getColumns()->add('request');
         $request->setFieldData('request.requestNumber');
         $request->setSearchable();
         $request->setSortable();
+
+        if ($route == 'request.seedUnit.add') {
+            $status->setHidden();
+            //            $request->setHidden();
+        } else {
+            $select->setHidden();
+        }
     }
 
     /**
@@ -73,23 +107,30 @@ class SeedUnitTable extends Table
     protected function getCustomLoadFilter($options)
     {
 
+        $crud  = $this->getColumns()->getTable()->getCrud();
+        $route = $crud->getLinker()->getActiveRoute();
+
         $filter = array();
 
-        switch ($options['name']) {
-            case 'inUse':
-                $filterName = $this->getFilterFieldName($options);
-                $fieldName  = 'request';
+        if ($route == 'request.seedUnit.add') {
+            $filter['request'] = 'NULL';
+        } else {
+            switch ($options['name']) {
+                case 'inUse':
+                    $filterName = $this->getFilterFieldName($options);
+                    $fieldName  = 'request';
 
-                $value = $this->getRequestData('custom-filters', $filterName);
-                if ($value == 'n') {
-                    $filter[$fieldName] = 'NULL';
-                } else if ($value == 'y') {
-                    $filter[$fieldName] = 'NOT NULL';
-                }
-                break;
-            default:
-                throw new \RuntimeException('Unknown filter "' . $options['name'] . '"');
-                break;
+                    $value = $this->getRequestData('custom-filters', $filterName);
+                    if ($value == 'n') {
+                        $filter[$fieldName] = 'NULL';
+                    } else if ($value == 'y') {
+                        $filter[$fieldName] = 'NOT NULL';
+                    }
+                    break;
+                default:
+                    throw new \RuntimeException('Unknown filter "' . $options['name'] . '"');
+                    break;
+            }
         }
 
         return $filter;

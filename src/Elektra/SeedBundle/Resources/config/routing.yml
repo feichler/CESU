@@ -12,8 +12,8 @@ ElektraSeedBundle:
     type: routing
 
 request.seedUnit.add:
-    pattern:  /request/addUnits/{id}
-    defaults: { _controller: ElektraSeedBundle:Requests/Request:addUnit }
+    pattern:  /request/addUnits/{id}/{page}
+    defaults: { _controller: ElektraSeedBundle:Requests/Request:addUnit, page: 1 }
 
 seedUnit.changeStatus:
     pattern:  /seedUnit/changeStatus/{id}-{status}

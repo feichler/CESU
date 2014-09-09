@@ -18,6 +18,7 @@ use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Requests\Request;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Elektra\SeedBundle\Form\Requests\AddUnitsType;
+use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\FormInterface;
 
 /**
@@ -39,30 +40,30 @@ class RequestController extends Controller
         return $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Requests', 'Request');
     }
 
-    public function addUnitAction($id = null)
+    public function addUnitAction($id = null, $page = null)
     {
 
         $this->initialise('addUnits');
+
+        $this->getCrud()->setData('page', $page, 'addUnits');
+        $this->getCrud()->setData('id', $id, 'addUnits');
 
         // get the existing entity
         /* @var $entity Request */
         $entity = $this->getEntity($id);
 
-        $options = array('crud_action' => 'addUnits');
+        $options = Helper::mergeOptions(array('crud_action' => 'addUnits'), $this->getFormOptions($entity, 'addUnits'));
 
-        // get the associated form
         $form = $this->createForm(new AddUnitsType($this->getCrud()), $entity, $options);
 
         $form->handleRequest($this->getCrud()->getRequest());
 
-        if ($form->isValid())
-        {
+        if ($form->isValid() && !$this->filterSubmitted) {
             /* @var $manager EntityManager */
             $manager = $this->getDoctrine()->getManager();
 
             /* @var $su SeedUnit */
-            foreach ($entity->getSeedUnits() as $su)
-            {
+            foreach ($entity->getSeedUnits() as $su) {
                 $su->setRequest($entity);
                 $shippingEvent = new ShippingEvent();
                 $shippingEvent->setTitle("Reserved for request " . $entity->getRequestNumber());
@@ -75,6 +76,7 @@ class RequestController extends Controller
             $manager->flush();
 
             $returnUrl = $this->getCrud()->getLinker()->getRedirectAfterProcess($entity);
+
             return $this->redirect($returnUrl);
         }
 
