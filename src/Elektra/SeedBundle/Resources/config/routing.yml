@@ -15,6 +15,14 @@ request.seedUnit.add:
     pattern:  /request/addUnits/{id}/{page}
     defaults: { _controller: ElektraSeedBundle:Requests/Request:addUnit, page: 1 }
 
-seedUnit.changeStatus:
-    pattern:  /seedUnit/changeStatus/{id}-{status}
-    defaults: { _controller: ElektraSeedBundle:SeedUnits/SeedUnit:changeStatus }
+seedUnit.changeShippingStatus:
+    pattern:  /seedUnit/changeShippingStatus/{id}-{status}
+    defaults: { _controller: ElektraSeedBundle:SeedUnits/SeedUnit:changeShippingStatus }
+
+seedUnit.changeSalesStatus:
+    pattern:  /seedUnit/changeSalesStatus/{id}-{statusId}
+    defaults: { _controller: ElektraSeedBundle:SeedUnits/SeedUnit:changeSalesStatus }
+
+seedUnit.changeUsage:
+    pattern:  /seedUnit/changeUsage/{id}-{usageId}
+    defaults: { _controller: ElektraSeedBundle:SeedUnits/SeedUnit:changeUsage }
