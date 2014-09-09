@@ -2,7 +2,6 @@
 
 namespace Elektra\CrudBundle\Table\Column;
 
-use Elektra\CrudBundle\Entity\EntityInterface;
 use Elektra\CrudBundle\Table\Columns;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 

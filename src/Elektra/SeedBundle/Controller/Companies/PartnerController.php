@@ -3,6 +3,7 @@
 namespace Elektra\SeedBundle\Controller\Companies;
 
 use Elektra\CrudBundle\Controller\Controller;
+use Elektra\CrudBundle\Crud\Definition;
 
 class PartnerController extends Controller
 {

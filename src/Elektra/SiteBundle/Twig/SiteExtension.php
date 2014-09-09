@@ -6,7 +6,6 @@ use Elektra\SiteBundle\Menu\Item;
 use Elektra\SiteBundle\Menu\Menu;
 use Elektra\SiteBundle\Site\Base;
 use Elektra\SiteBundle\Site\Language;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 class SiteExtension extends \Twig_Extension
 {

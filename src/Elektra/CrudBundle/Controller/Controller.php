@@ -4,6 +4,7 @@ namespace Elektra\CrudBundle\Controller;
 
 use Elektra\CrudBundle\Crud\Crud;
 use Elektra\CrudBundle\Crud\Definition;
+use Elektra\CrudBundle\Form\Form;
 use Elektra\CrudBundle\Table\Table;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SiteBundle\Site\Helper;

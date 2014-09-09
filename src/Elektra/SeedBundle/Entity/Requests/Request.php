@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Entity\Requests;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
+use Elektra\SeedBundle\Auditing\Helper;
 use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
 use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -325,7 +326,7 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
      */
     public function getCreationAudit()
     {
-        return \Elektra\SeedBundle\Auditing\Helper::getFirstAudit($this->getAudits());
+        return Helper::getFirstAudit($this->getAudits());
 
     }
 
@@ -334,7 +335,7 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
      */
     public function getLastModifiedAudit()
     {
-        return \Elektra\SeedBundle\Auditing\Helper::getLastAudit($this->getAudits());
+        return Helper::getLastAudit($this->getAudits());
 
     }
 

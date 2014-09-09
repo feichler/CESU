@@ -3,9 +3,7 @@
 namespace Elektra\SeedBundle\Form\SeedUnits;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
-use Elektra\CrudBundle\Form\CommonOptions;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class PowerCordTypeType extends CrudForm
 {

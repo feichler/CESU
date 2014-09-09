@@ -2,10 +2,8 @@
 
 namespace Elektra\SeedBundle\Controller\Imports;
 
-use Elektra\CrudBundle\Controller\Controller;
-use Elektra\SeedBundle\Entity\EntityInterface;
+use Elektra\CrudBundle\Crud\Definition;
 use Elektra\SeedBundle\Entity\Imports\File;
-use Elektra\SeedBundle\Entity\Imports\SeedUnit;
 
 class SeedUnitController extends FileController
 {

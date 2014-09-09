@@ -11,7 +11,6 @@ namespace Elektra\SeedBundle\DataFixtures\ORM\Events;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\DataFixtures\SeedBundleFixture;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Events\UnitUsage;
 
 /**

@@ -2,10 +2,8 @@
 
 namespace Elektra\SeedBundle\Form\Companies;
 
-use Elektra\CrudBundle\Form\CommonOptions;
 use Elektra\CrudBundle\Form\Form as CrudForm;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class AddressType extends CrudForm
 {

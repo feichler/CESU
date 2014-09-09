@@ -3,7 +3,6 @@
 namespace Elektra\SeedBundle\Table\Auditing;
 
 use Elektra\CrudBundle\Table\Table;
-use Elektra\SiteBundle\Site\Helper;
 
 class AuditTable extends Table
 {

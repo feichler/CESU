@@ -12,6 +12,7 @@ namespace Elektra\SeedBundle\Entity\Companies;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
+use Elektra\SeedBundle\Auditing\Helper;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
@@ -176,7 +177,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CrudI
      */
     public function getCreationAudit()
     {
-        return \Elektra\SeedBundle\Auditing\Helper::getFirstAudit($this->getAudits());
+        return Helper::getFirstAudit($this->getAudits());
 
     }
 
@@ -185,7 +186,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CrudI
      */
     public function getLastModifiedAudit()
     {
-        return \Elektra\SeedBundle\Auditing\Helper::getLastAudit($this->getAudits());
+        return Helper::getLastAudit($this->getAudits());
 
     }
 }

@@ -5,7 +5,6 @@ namespace Elektra\CrudBundle\Table\Column;
 use Elektra\CrudBundle\Crud\Definition;
 use Elektra\CrudBundle\Table\Columns;
 use Elektra\SiteBundle\Site\Helper;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class Column
 {

@@ -12,7 +12,6 @@ namespace Elektra\SeedBundle\DataFixtures\ORM\Events;
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\DataFixtures\SeedBundleFixture;
 use Elektra\SeedBundle\Entity\Events\EventType;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
 
 /**
  * Class EventTypeFixture

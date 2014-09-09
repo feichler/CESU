@@ -2,11 +2,9 @@
 
 namespace Elektra\SeedBundle\Form\Companies;
 
-use Elektra\CrudBundle\Form\CommonOptions;
 use Elektra\CrudBundle\Form\Form as CrudForm;
 use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class CompanyLocationType extends CrudForm
 {

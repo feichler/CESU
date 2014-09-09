@@ -2,12 +2,11 @@
 
 namespace Elektra\SeedBundle\Form\Imports;
 
-use Elektra\CrudBundle\Form\Form as CrudForm;
-use Elektra\CrudBundle\Form\CommonOptions;
+use Elektra\CrudBundle\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class SeedUnitType extends CrudForm
+class SeedUnitType extends Form
 {
 
     /**

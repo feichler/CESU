@@ -10,7 +10,6 @@
 namespace Elektra\SeedBundle\Entity\Events;
 
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\SeedBundle\Entity\Companies\ContactInfo;
 
 /**
  * Class ActivityEvent

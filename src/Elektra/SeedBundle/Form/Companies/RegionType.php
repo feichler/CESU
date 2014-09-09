@@ -3,11 +3,8 @@
 namespace Elektra\SeedBundle\Form\Companies;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
-use Elektra\CrudBundle\Form\CommonOptions;
 use Elektra\SiteBundle\Form\DataTransformer\ToUppercaseTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegionType extends CrudForm
 {

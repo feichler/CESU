@@ -9,9 +9,6 @@
 
 namespace Elektra\SeedBundle\Repository\Companies;
 
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\Query;
-use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class PartnerRepository

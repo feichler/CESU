@@ -6,7 +6,6 @@ use Elektra\CrudBundle\Form\Form as CrudForm;
 use Elektra\CrudBundle\Form\CommonOptions;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationType extends CrudForm
 {

@@ -3,11 +3,8 @@
 namespace Elektra\SeedBundle\Form\Requests;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
-use Elektra\SeedBundle\Definition\CompanyDefinitions as CompanyDefinitions;
-use Elektra\CrudBundle\Form\CommonOptions;
 use Elektra\SeedBundle\Entity\Companies\Company;
 use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
-use Elektra\SeedBundle\Form\Requests\Listener\CompanyFieldSubscriber;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;

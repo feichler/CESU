@@ -12,6 +12,7 @@ namespace Elektra\SeedBundle\Entity\Companies;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
+use Elektra\SeedBundle\Auditing\Helper;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 
@@ -225,7 +226,7 @@ class Country implements AuditableInterface, CrudInterface
      */
     public function getCreationAudit()
     {
-        return \Elektra\SeedBundle\Auditing\Helper::getFirstAudit($this->getAudits());
+        return Helper::getFirstAudit($this->getAudits());
 
     }
 
@@ -234,7 +235,7 @@ class Country implements AuditableInterface, CrudInterface
      */
     public function getLastModifiedAudit()
     {
-        return \Elektra\SeedBundle\Auditing\Helper::getLastAudit($this->getAudits());
+        return Helper::getLastAudit($this->getAudits());
 
     }
 

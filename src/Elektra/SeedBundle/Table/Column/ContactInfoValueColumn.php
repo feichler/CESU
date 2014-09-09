@@ -2,12 +2,9 @@
 
 namespace Elektra\SeedBundle\Table\Column;
 
-use Elektra\CrudBundle\Table\Column\Column;
 use Elektra\CrudBundle\Table\Column\TitleColumn;
 use Elektra\CrudBundle\Table\Columns;
 use Elektra\SeedBundle\Entity\Companies\ContactInfo;
-use Elektra\SeedBundle\Entity\Companies\ContactInfoType;
-use Elektra\SiteBundle\Site\Helper;
 
 class ContactInfoValueColumn extends TitleColumn
 

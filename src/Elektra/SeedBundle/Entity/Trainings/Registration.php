@@ -12,6 +12,7 @@ namespace Elektra\SeedBundle\Entity\Trainings;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
+use Elektra\SeedBundle\Auditing\Helper;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
@@ -186,7 +187,7 @@ class Registration implements AuditableInterface, AnnotableInterface, CrudInterf
      */
     public function getCreationAudit()
     {
-        return \Elektra\SeedBundle\Auditing\Helper::getFirstAudit($this->getAudits());
+        return Helper::getFirstAudit($this->getAudits());
 
     }
 
@@ -195,7 +196,7 @@ class Registration implements AuditableInterface, AnnotableInterface, CrudInterf
      */
     public function getLastModifiedAudit()
     {
-        return \Elektra\SeedBundle\Auditing\Helper::getLastAudit($this->getAudits());
+        return Helper::getLastAudit($this->getAudits());
 
     }
 

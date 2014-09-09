@@ -3,9 +3,7 @@
 namespace Elektra\CrudBundle\Form;
 
 use Elektra\SiteBundle\Site\Helper;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Traversable;
 
 class Options implements \ArrayAccess, \IteratorAggregate
 {

@@ -2,7 +2,6 @@
 
 namespace Elektra\SeedBundle\Table\Imports;
 
-use Elektra\CrudBundle\Table\Table;
 
 class SeedUnitTable extends FileTable
 {

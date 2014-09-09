@@ -3,11 +3,7 @@
 namespace Elektra\SeedBundle\Form\SeedUnits;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
-use Elektra\CrudBundle\Form\CommonOptions;
-use Elektra\CrudBundle\Form\Options;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ModelType extends CrudForm
 {

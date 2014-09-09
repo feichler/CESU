@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Entity\Events;
 
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
+use Elektra\SeedBundle\Auditing\Helper;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
@@ -270,7 +271,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface, CrudInte
      */
     public function getCreationAudit()
     {
-        return \Elektra\SeedBundle\Auditing\Helper::getFirstAudit($this->getAudits());
+        return Helper::getFirstAudit($this->getAudits());
 
     }
 
@@ -279,7 +280,7 @@ abstract class Event implements AuditableInterface, AnnotableInterface, CrudInte
      */
     public function getLastModifiedAudit()
     {
-        return \Elektra\SeedBundle\Auditing\Helper::getLastAudit($this->getAudits());
+        return Helper::getLastAudit($this->getAudits());
 
     }
 }

@@ -10,7 +10,6 @@
 namespace Elektra\SeedBundle\Controller\Notes;
 
 use Elektra\CrudBundle\Controller\Controller;
-use Elektra\SeedBundle\Entity\Companies\Partner;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Symfony\Component\Form\FormInterface;
 

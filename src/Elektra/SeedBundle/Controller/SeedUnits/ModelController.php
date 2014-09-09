@@ -3,6 +3,7 @@
 namespace Elektra\SeedBundle\Controller\SeedUnits;
 
 use Elektra\CrudBundle\Controller\Controller;
+use Elektra\CrudBundle\Crud\Definition;
 
 class ModelController extends Controller
 {
