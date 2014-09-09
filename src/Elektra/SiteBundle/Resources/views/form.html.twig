@@ -8,9 +8,11 @@
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
+    {{ block('table_filter_row') }}
 {% endblock form %}
 
 {% block form_start %}
+    {% set form_started = true %}
     {# check the form method #}
     {% set method = method|upper %}
     {%- if method in ["GET", "POST"] -%}
@@ -337,15 +339,21 @@
 
 {# checkbox widget #}
 {% block checkbox_widget -%}
-    {% if label is empty -%}
-        {% set label = name|humanize %}
-    {%- endif -%}
-    <div class="checkbox">
+    {% if inTable is not defined %}
+        {% if label is empty -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+    {% endif %}
+    {% if inTable is not defined %}
+        <div class="checkbox">
         <label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {% endif %}
+    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {% if inTable is not defined %}
         <b>{{ label|trans({}, translation_domain) }}</b>
         </label>
-    </div>
+        </div>
+    {% endif %}
 {%- endblock checkbox_widget %}
 
 {# choice widget (collapsed form) #}
@@ -417,6 +425,19 @@
     {% endif %}
 {% endblock %}
 
+{# display widget (custom type) #}
+{% block display_widget %}
+    {#{% set type = type|default('text') -%}#}
+    <span class="form-control" {{ block('widget_attributes') }}>
+        {% if value is not empty %}{{ value }}{% endif %}
+    </span>
+{% endblock display_widget %}
+
+{# display widget (custom type) #}
+{% block selectList_widget %}
+
+    {{ table(table) }}
+{% endblock selectList_widget %}
 
 {#############################################################################
  # attribute helpers

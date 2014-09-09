@@ -58,6 +58,9 @@ pages:
             view:
                 title:                                                  View
                 heading:                                                View Request
+            addUnits:
+                title:                                                  Assign Units
+                heading:                                                Assign Units
     companies:
         partner:
             title_prefix:                                               Partners
@@ -374,6 +377,7 @@ forms:
                 customer:                                               Customer
             groups:
                 common:                                                 Request Data
+                assign:                                                 Assign Seed Units
                 units:                                                  Seed Units
             fields:
                 request_number:                                         'Request #'
@@ -382,6 +386,7 @@ forms:
                 requester_person:                                       Requester
                 receiver_person:                                        Receiver
                 shipping_location:                                      Ship to
+                seed_units:                                             Select Units
     companies:
         partner:
             groups:

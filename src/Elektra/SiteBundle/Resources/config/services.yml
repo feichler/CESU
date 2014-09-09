@@ -50,3 +50,8 @@ services:
         class: Elektra\SiteBundle\Form\Field\ParentType
         tags:
             - { name: form.type, alias: parent }
+
+    elektra_site.form.type.display: # Display Text for Forms
+        class: Elektra\SiteBundle\Form\Field\DisplayType
+        tags:
+            - { name: form.type, alias: display }

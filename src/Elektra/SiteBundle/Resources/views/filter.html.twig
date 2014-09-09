@@ -3,23 +3,23 @@
 {% block choice_widget_collapsed -%}
     {% set class="input-sm" %}
     {#<div class="form-group">#}
-        {{ parent() }}
+    {{ parent() }}
     {#</div>#}
 {%- endblock choice_widget_collapsed %}
 
 {% block search_widget -%}
     {% set class="input-sm" %}
     {#<div class="form-group">#}
-        <div class="input-group">
-            {{ parent() }}
-            <span class="input-group-btn">
-                <button type="submit" class="btn btn-default btn-sm">
+    <div class="input-group">
+        {{ parent() }}
+        <span class="input-group-btn">
+                <button type="submit" name="filter-submit" class="btn btn-default btn-sm" onclick="jQuery(this).closest('form').trigger('submit', {filter: true});">
                     <span class="glyphicon glyphicon-search" style=""></span>
                 </button>
-                <button type="submit" class="btn btn-danger btn-sm" onclick="jQuery('#table-search').val('');">
+                <button type="submit" name="filter-submit" class="btn btn-danger btn-sm" onclick="jQuery('#table-search').val('');jQuery(this).closest('form').trigger('submit', {filter: true});">
                     <span class="glyphicon glyphicon-remove" style=""></span>
                 </button>
             </span>
-        </div>
+    </div>
     {#</div>#}
 {%- endblock search_widget %}
