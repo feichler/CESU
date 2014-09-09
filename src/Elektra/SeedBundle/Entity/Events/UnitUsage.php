@@ -23,7 +23,7 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Events\UnitUsagesRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Events\UnitUsageRepository")
  * @ORM\Table(name="unitUsages")
  */
 class UnitUsage implements AuditableInterface, CrudInterface

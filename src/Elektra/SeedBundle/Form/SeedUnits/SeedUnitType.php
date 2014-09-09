@@ -3,7 +3,9 @@
 namespace Elektra\SeedBundle\Form\SeedUnits;
 
 use Elektra\CrudBundle\Form\Form;
+use Elektra\CrudBundle\Repository\Repository;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
+use Elektra\SeedBundle\Entity\Events\UnitUsage;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -62,6 +64,17 @@ class SeedUnitType extends Form
 
             $this->addHistoryGroup($builder, $options);
         }
+
+        /* @var $entity SeedUnit */
+        $entity = $options['data'];
+
+        if ($entity->getUnitStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED)
+        {
+            $usageOptions = $this->getFieldOptions('unitUsage')
+                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassEntity())
+                ->add('property', 'title');
+            $commonGroup->add('unitUsage', 'entity', $usageOptions->toArray());
+        }
     }
 
     private function addHistoryGroup(FormBuilderInterface $builder, array $options)
@@ -93,7 +106,7 @@ class SeedUnitType extends Form
         }
         else
         {
-            $buttons = $this->initialiseShippingButtons($unitStatus);
+            $buttons = $this->initialiseShippingButtons($entity, $unitStatus);
         }
 
         foreach ($buttons as $key => $button)
@@ -109,6 +122,33 @@ class SeedUnitType extends Form
     private function initialiseUsageButtons(SeedUnit $seedUnit)
     {
         $buttons = array();
+        /* @var $repo Repository */
+        $repo = $this->getCrud()->getService('doctrine')
+            ->getRepository($this->getCrud()->getNavigator()
+                ->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassRepository());
+
+        $usages = $repo->findAll();
+
+        $currentUsage = $seedUnit->getUnitUsage();
+
+        /* @var $usage UnitUsage */
+        foreach($usages as $usage)
+        {
+            if ($currentUsage != null && $usage->getId() == $currentUsage->getId())
+                continue;
+
+            // TODO language add
+            //$this->getCrud()->getService("siteLanguage")->add($usage->getAbbreviation(),
+
+            $buttons[$usage->getAbbreviation()] = array(
+                'link' => $this->getCrud()->getNavigator()
+                        ->getLinkFromRoute('seedUnit.changeUsage', array(
+                            'id' => $seedUnit->getId(),
+                            'usageId' => $usage->getId()
+                        ))
+            );
+        }
+
         return $buttons;
     }
 
@@ -116,7 +156,7 @@ class SeedUnitType extends Form
      * @param UnitStatus $unitStatus
      * @return array
      */
-    private function initialiseShippingButtons(UnitStatus $unitStatus)
+    private function initialiseShippingButtons(SeedUnit $entity, UnitStatus $unitStatus)
     {
         $buttons = array();
         switch($unitStatus->getInternalName())
@@ -207,7 +247,7 @@ class SeedUnitType extends Form
      */
     private function getChangeStatusLink($entity, $status)
     {
-        $link = $this->getCrud()->getNavigator()->getLinkFromRoute('seedUnit.changeStatus', array(
+        $link = $this->getCrud()->getNavigator()->getLinkFromRoute('seedUnit.changeShippingStatus', array(
             'id' => $entity->getId(),
             'status' => $status
         ));

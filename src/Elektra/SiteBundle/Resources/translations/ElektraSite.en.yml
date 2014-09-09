@@ -489,6 +489,7 @@ forms:
                 power_cord_type:                                        Power Cord Type
                 location:                                               Location
                 unit_status:                                            Status
+                unit_usage:                                             Usage
 menu:
     requests:                                                           Requests
     reports:                                                            Reports

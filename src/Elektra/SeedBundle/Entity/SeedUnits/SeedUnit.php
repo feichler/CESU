@@ -16,6 +16,7 @@ use Elektra\SeedBundle\Auditing\Helper;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
+use Elektra\SeedBundle\Entity\Events\PartnerEvent;
 use Elektra\SeedBundle\Entity\Events\ShippingEvent;
 use Elektra\SeedBundle\Entity\Events\StatusEvent;
 use Elektra\SeedBundle\Entity\Requests\Request;
@@ -319,5 +320,21 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
             })->first();
 
         return $event != null ? $event->getUnitStatus() : null;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Events\UnitUsage
+     */
+    public function getUnitUsage()
+    {
+
+        /* @var $event PartnerEvent */
+        $event = $this->getEvents()->filter(
+            function($entry) {
+
+                return $entry instanceof PartnerEvent;
+            })->first();
+
+        return $event != null ? $event->getUsage() : null;
     }
 }
