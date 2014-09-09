@@ -8,16 +8,16 @@
  */
 
 namespace Elektra\SeedBundle\Repository\Companies;
+use Elektra\CrudBundle\Repository\Repository;
 
 /**
- * Class SalesTeamRepository
+ * Class PartnerTypeRepository
  *
  * @package Elektra\SeedBundle\Repository\Companies
  *
  * @version 0.1-dev
  */
-class SalesTeamRepository extends CompanyRepository
+class PartnerTypeRepository extends Repository
 {
-
 
 }

@@ -17,7 +17,7 @@ class CompanyPersonType extends CrudForm
 
         $common = $this->addFieldGroup($builder, $options, 'common');
         $def    = $this->getCrud()->getParentDefinition();
-        if ($def->getName() == 'Partner' || $def->getName() == 'Customer' || $def->getName() == 'SalesTeam') {
+        if ($def->getName() == 'Partner' || $def->getName() == 'Customer') {
             $this->buildCompanyForm($builder, $options, $common);
         } else {
             $this->buildLocationForm($builder, $options, $common);

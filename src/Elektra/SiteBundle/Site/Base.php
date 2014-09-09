@@ -398,9 +398,6 @@ class Base
             new Item($siteLanguage->getRequired('menu.partners'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'Partner')))
         );
         $companiesItem->addItem(
-            new Item($siteLanguage->getRequired('menu.sales_teams'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'SalesTeam')))
-        );
-        $companiesItem->addItem(
             new Item($siteLanguage->getRequired('menu.customers'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'Customer')))
         );
 
@@ -425,6 +422,12 @@ class Base
         );
         $masterDataItem->addItem(
             new Item($siteLanguage->getRequired('menu.seed_unit_power_cord_types'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')))
+        );
+//        $masterDataItem->addItem($seedUnits);
+        $masterDataItem->addItem(new Separator());
+
+        $masterDataItem->addItem(
+            new Item($siteLanguage->getRequired('menu.partner_types'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'PartnerType')))
         );
 //        $masterDataItem->addItem($seedUnits);
         $masterDataItem->addItem(new Separator());

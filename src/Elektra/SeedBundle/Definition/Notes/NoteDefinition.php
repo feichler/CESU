@@ -19,8 +19,6 @@ class NoteDefinition extends Definition
         $this->addParent('Elektra', 'Seed', 'Companies', 'Address');
         $this->addParent('Elektra', 'Seed', 'Companies', 'Partner');
         $this->addParent('Elektra', 'Seed', 'Companies', 'Customer');
-        $this->addParent('Elektra', 'Seed', 'Companies', 'SalesTeam');
-        $this->addParent('Elektra', 'Seed', 'Companies', 'RequestingCompany');
         $this->addParent('Elektra', 'Seed', 'Companies', 'ContactInfo');
         $this->addParent('Elektra', 'Seed', 'Companies', 'CompanyLocation');
         $this->addParent('Elektra', 'Seed', 'Companies', 'WarehouseLocation');

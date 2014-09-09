@@ -19,7 +19,7 @@ class RequestTable extends Table
         $requestNumber->setSortable();
 
         $company = $this->getColumns()->add('company');
-        $company->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'RequestingCompany'));
+        $company->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Partner'));
         $company->setFieldData(array('company.shortName', 'company.name'), true);
         $company->setSortable();
         $company->setFilterable()->setFieldFilter('shortName');

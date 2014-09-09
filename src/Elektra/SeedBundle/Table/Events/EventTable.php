@@ -40,7 +40,7 @@ class EventTable extends Table
         $subject->setSearchable();
 
         $company = $this->getColumns()->add('company');
-        $company->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'RequestingCompany'));
+        $company->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Partner'));
         $company->setFieldData(array('location.company.shortName', 'location.company.name'), true);
         $company->setSortable();
         $company->setSearchable();

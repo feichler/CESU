@@ -51,7 +51,7 @@ class SeedUnitController extends Controller
      * @param int $id
      * @param string $status
      */
-    public function changeStatusAction($id = null, $status = null)
+    public function changeShippingStatusAction($id = null, $status = null)
     {
         $this->initialise('changeStatus');
 

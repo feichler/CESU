@@ -12,13 +12,13 @@ namespace Elektra\SeedBundle\Controller\Companies;
 use Elektra\CrudBundle\Controller\Controller;
 
 /**
- * Class SalesTeamController
+ * Class PartnerTypeController
  *
  * @package   Elektra\SeedBundle\Controller\Companies
  *
  * @version   0.1-dev
  */
-class SalesTeamController extends Controller
+class PartnerTypeController extends Controller
 {
 
     /**
@@ -27,6 +27,6 @@ class SalesTeamController extends Controller
     protected function getDefinition()
     {
 
-        return $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'SalesTeam');
+        return $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Companies', 'PartnerType');
     }
 }

@@ -9,6 +9,7 @@
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -23,8 +24,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="partnerCompanies")
  * @UniqueEntity(fields={ "shortName" }, message="")
  */
-class Partner extends RequestingCompany
+class Partner extends Company
 {
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\Requests\Request", mappedBy="company", fetch="EXTRA_LAZY")
+     */
+    protected $requests;
 
     /**
      * @var PartnerTier
@@ -33,6 +41,14 @@ class Partner extends RequestingCompany
      * @ORM\JoinColumn(name="partnerTierId", referencedColumnName="partnerTierId")
      */
     protected $partnerTier;
+
+    /**
+     * @var PartnerTier
+     *
+     * @ORM\ManyToOne(targetEntity="PartnerType", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="partnerTypeId", referencedColumnName="partnerTypeId", nullable=false)
+     */
+    protected $partnerType;
 
     /**
      * @var int
@@ -48,6 +64,7 @@ class Partner extends RequestingCompany
     {
 
         parent::__construct();
+        $this->requests = new ArrayCollection();
     }
 
     /**
@@ -95,5 +112,39 @@ class Partner extends RequestingCompany
     {
 
         return 'forms.requests.request.companies.partner';
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection $requests
+     */
+    public function setRequests($requests)
+    {
+
+        $this->requests = $requests;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getRequests()
+    {
+
+        return $this->requests;
+    }
+
+    /**
+     * @param PartnerTier $partnerType
+     */
+    public function setPartnerType($partnerType)
+    {
+        $this->partnerType = $partnerType;
+    }
+
+    /**
+     * @return PartnerTier
+     */
+    public function getPartnerType()
+    {
+        return $this->partnerType;
     }
 }

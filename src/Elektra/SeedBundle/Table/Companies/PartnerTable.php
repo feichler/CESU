@@ -24,8 +24,14 @@ class PartnerTable extends Table
         $tier->setFilterable()->setFieldFilter('name');
         $tier->setSortable();*/
 
-/*        $limit = $this->getColumns()->add('units_limit');
-        $limit->setFieldData('unitsLimit');
-        $limit->setSortable();*/
+        $tier = $this->getColumns()->add('partner_type');
+        $tier->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'PartnerType'));
+        $tier->setFieldData('partnerType.name');
+        $tier->setFilterable()->setFieldFilter('name');
+        $tier->setSortable();
+
+        /*        $limit = $this->getColumns()->add('units_limit');
+                $limit->setFieldData('unitsLimit');
+                $limit->setSortable();*/
     }
 }

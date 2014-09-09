@@ -283,6 +283,7 @@ tables:
             columns:
                 partner_tier:                                           Tier
                 units_limit:                                            Unit Limit
+                partner_type:                                           Organisation Type
             actions:
                 add:                                                    Add Partner
         customer:
@@ -389,6 +390,7 @@ forms:
             fields:
                 partner_tier:                                           Tier
                 units_limit:                                            Unit Limit
+                partner_type:                                           Organisation Type
         customer:
             groups:
                 locations:                                              Locations
@@ -493,6 +495,7 @@ menu:
     seed_units:                                                         Seed Units
     seed_unit_models:                                                   Models
     seed_unit_power_cord_types:                                         Power Cord Types
+    partner_types:                                                      Organisation Types
     trainings:                                                          Trainings
     registrations:                                                      Registrations
     attendances:                                                        Attendances

@@ -35,6 +35,11 @@ class PartnerType extends CrudForm
         $partnerTierFieldOptions->add('property', 'title');
         $common->add('partnerTier', 'entity', $partnerTierFieldOptions->toArray());*/
 
+        $partnerTypeFieldOptions = $this->getFieldOptions('partnerType')->required()->notBlank();
+        $partnerTypeFieldOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'PartnerType')->getClassEntity());
+        $partnerTypeFieldOptions->add('property', 'title');
+        $common->add('partnerType', 'entity', $partnerTypeFieldOptions->toArray());
+
 //        $common->add('unitsLimit', 'integer', $this->getFieldOptions('unitsLimit')->optional()->toArray());
 
         if ($options['crud_action'] == 'view') {

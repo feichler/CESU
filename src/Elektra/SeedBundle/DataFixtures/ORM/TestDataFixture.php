@@ -453,23 +453,23 @@ class TestDataFixture extends SeedBundleFixture
     private function addPartners(ObjectManager $manager)
     {
         $data = array(
-            array('PT1', 'Partner 1', 'partner_tier-tier 1', null, array(
+            array('PT1', 'Partner 1', 'partner_type-partner organisation', null, array(
                 array('HQ-AT', 'Headquarter Austria', true, 'street1', 1234, 'Vienna', 'country-two-at', array(
                     array('Max', 'Test', 'Mr.', 'Product Manager', true),
                     array('John', 'Doe', 'Mr.', 'CEO', false)
                 )),
                 array('HQ-DE', 'Headquarter Germany', true, 'street1', 1234, 'Berlin', 'country-two-de', array())
             )),
-            array('PT2', 'Partner 2', 'partner_tier-tier 1', null, array(
+            array('PT2', 'Partner 2', 'partner_type-partner organisation', null, array(
                 array('HQ', 'Headquarter', true, 'street1', 1234, 'Berlin', 'country-two-de', array())
             )),
-            array('PT3', 'Partner 3', 'partner_tier-tier 1', 3, array(
+            array('PT3', 'Partner 3', 'partner_type-partner organisation', 3, array(
                 array('HQ', 'Headquarter', true, 'street1', 1234, 'Vienna', 'country-two-at', array())
             )),
-            array('PT4', 'Partner 4', 'partner_tier-tier 2', null, array(
+            array('PT4', 'Partner 4', 'partner_type-sales team', null, array(
                 array('HQ', 'Headquarter', true, 'street1', 1234, 'Vienna', 'country-two-at', array())
             )),
-            array('PT5', 'Partner 5', 'partner_tier-tier 2', 10, array(
+            array('PT5', 'Partner 5', 'partner_type-sales team', 10, array(
                 array('HQ', 'Headquarter', true, 'street1', 1234, 'Vienna', 'country-two-at', array())
             )),
         );
@@ -478,7 +478,7 @@ class TestDataFixture extends SeedBundleFixture
             $partner = new Partner();
             $partner->setName($entryPartner[1]);
             $partner->setShortName($entryPartner[0]);
-            $partner->setPartnerTier($this->getReference($entryPartner[2]));
+            $partner->setPartnerType($this->getReference($entryPartner[2]));
             $partner->setUnitsLimit($entryPartner[3]);
             $this->addReference('partner-' . strtolower($partner->getShortName()), $partner);
 

@@ -16,8 +16,6 @@ use Elektra\SeedBundle\Definition\Companies\PartnerDefinition;
 use Elektra\SeedBundle\Definition\Companies\PartnerTierDefinition;
 use Elektra\SeedBundle\Definition\Companies\PersonDefinition;
 use Elektra\SeedBundle\Definition\Companies\RegionDefinition;
-use Elektra\SeedBundle\Definition\Companies\RequestingCompanyDefinition;
-use Elektra\SeedBundle\Definition\Companies\SalesTeamDefinition;
 use Elektra\SeedBundle\Definition\Companies\WarehouseLocationDefinition;
 
 class CompanyDefinitions
@@ -145,24 +143,6 @@ class CompanyDefinitions
     /**
      * @return Definition
      */
-    public static function getRequestingCompany()
-    {
-
-        return CompanyDefinitions::$definitions['RequestingCompany'];
-    }
-
-    /**
-     * @return Definition
-     */
-    public static function getSalesTeam()
-    {
-
-        return CompanyDefinitions::$definitions['SalesTeam'];
-    }
-
-    /**
-     * @return Definition
-     */
     public static function getWarehouseLocation()
     {
 
@@ -192,8 +172,6 @@ class CompanyDefinitions
             'PartnerTier'       => new PartnerTierDefinition(),
             'Person'            => new PersonDefinition(),
             'Region'            => new RegionDefinition(),
-            'RequestingCompany' => new RequestingCompanyDefinition(),
-            'SalesTeam'         => new SalesTeamDefinition(),
             'WarehouseLocation' => new WarehouseLocationDefinition(),
 
         );

@@ -18,8 +18,5 @@ class CompanyLocationDefinition extends Definition
         // has valid parents
         $this->addParent('Elektra', 'Seed', 'Companies', 'Partner');
         $this->addParent('Elektra', 'Seed', 'Companies', 'Customer');
-        $this->addParent('Elektra', 'Seed', 'Companies', 'SalesTeam');
     }
-
-
 }

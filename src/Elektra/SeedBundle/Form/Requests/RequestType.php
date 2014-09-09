@@ -80,7 +80,7 @@ class RequestType extends CrudForm
         $common->add('numberOfUnitsRequested', 'integer', $this->getFieldOptions('numberOfUnitsRequested')->notBlank()->required()->toArray());
 
         $companyOptions = $this->getFieldOptions('company')->required()->notBlank();
-        $companyOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'RequestingCompany')->getClassEntity());
+        $companyOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Partner')->getClassEntity());
         $companyOptions->add('empty_value', 'Select Company');
         $companyOptions->add('property', 'shortName');
         $companyOptions->add('group_by', 'companyType');

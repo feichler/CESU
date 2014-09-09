@@ -16,10 +16,9 @@ use Elektra\SeedBundle\Definition\Companies\GenericLocationDefinition;
 use Elektra\SeedBundle\Definition\Companies\LocationDefinition;
 use Elektra\SeedBundle\Definition\Companies\PartnerDefinition;
 use Elektra\SeedBundle\Definition\Companies\PartnerTierDefinition;
+use Elektra\SeedBundle\Definition\Companies\PartnerTypeDefinition;
 use Elektra\SeedBundle\Definition\Companies\PersonDefinition;
 use Elektra\SeedBundle\Definition\Companies\RegionDefinition;
-use Elektra\SeedBundle\Definition\Companies\RequestingCompanyDefinition;
-use Elektra\SeedBundle\Definition\Companies\SalesTeamDefinition;
 use Elektra\SeedBundle\Definition\Companies\WarehouseLocationDefinition;
 use Elektra\SeedBundle\Definition\Events\EventDefinition;
 use Elektra\SeedBundle\Definition\Events\EventTypeDefinition;
@@ -79,10 +78,9 @@ final class Navigator
         $this->addDefinition(new LocationDefinition());
         $this->addDefinition(new PartnerDefinition());
         $this->addDefinition(new PartnerTierDefinition());
+        $this->addDefinition(new PartnerTypeDefinition());
         $this->addDefinition(new PersonDefinition());
         $this->addDefinition(new RegionDefinition());
-        $this->addDefinition(new RequestingCompanyDefinition());
-        $this->addDefinition(new SalesTeamDefinition());
         $this->addDefinition(new WarehouseLocationDefinition());
 
         $this->addDefinition(new RequestDefinition());

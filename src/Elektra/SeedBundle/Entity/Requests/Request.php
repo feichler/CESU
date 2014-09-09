@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
-use Elektra\SeedBundle\Entity\Companies\RequestingCompany;
+use Elektra\SeedBundle\Entity\Companies\Partner;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 
 /**
@@ -68,9 +68,9 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     protected $requestStatus;
 
     /**
-     * @var RequestingCompany
+     * @var Partner
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\RequestingCompany", inversedBy="requests", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Partner", inversedBy="requests", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="companyId", referencedColumnName="companyId")
      */
     protected $company;
@@ -349,7 +349,7 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Companies\Company $company
+     * @param Partner $company
      */
     public function setCompany($company)
     {
@@ -357,7 +357,7 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Companies\Company
+     * @return Partner
      */
     public function getCompany()
     {
