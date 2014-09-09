@@ -551,7 +551,7 @@ abstract class Form extends AbstractType
     {
 
         // NOTE override for other styles
-        $classes = $this->getRenderingWidth(10);
+        $classes = $this->getRenderingWidth(12);
         $classes = trim($classes . ' ' . $this->getRenderingHorizontal());
 
         return $classes;

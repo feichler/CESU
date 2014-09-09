@@ -21,7 +21,7 @@ class RequestType extends CrudForm
     {
     }
 
-    protected function locationModifier(FormInterface $form, CompanyLocation $location = null)
+    public function locationModifier(FormInterface $form, CompanyLocation $location = null)
     {
 
         $persons = array();
@@ -37,7 +37,7 @@ class RequestType extends CrudForm
         $form->add('receiverPerson', 'entity', $receiverOptions->toArray());
     }
 
-    protected function companyModifier(FormInterface $form, Company $company = null)
+    public function companyModifier(FormInterface $form, Company $company = null)
     {
 
         $persons   = array();

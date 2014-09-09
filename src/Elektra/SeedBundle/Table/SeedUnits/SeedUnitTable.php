@@ -76,7 +76,7 @@ class SeedUnitTable extends Table
 
         if ($route == 'request.seedUnit.add') {
             $status->setHidden();
-            //            $request->setHidden();
+                        $request->setHidden();
         } else {
             $select->setHidden();
         }
@@ -88,6 +88,12 @@ class SeedUnitTable extends Table
     protected function initialiseCustomFilters()
     {
 
+        $crud  = $this->getColumns()->getTable()->getCrud();
+        $route = $crud->getLinker()->getActiveRoute();
+
+        if ($route == 'request.seedUnit.add') {
+
+        } else {
         $this->addCustomFilter(
             'inUse',
             'choice',
@@ -99,6 +105,7 @@ class SeedUnitTable extends Table
                 ),
             )
         );
+        }
     }
 
     /**
