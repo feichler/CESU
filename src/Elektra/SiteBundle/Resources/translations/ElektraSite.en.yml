@@ -482,6 +482,7 @@ forms:
                 aa3sent:                                                Delivery NOT verified
                 escalation:                                             Delivery NOT verified
                 delivery_verified:                                      Delivery verified
+                usage:                                                  Usage: %usage%
             groups:
                 history:                                                History
             fields:

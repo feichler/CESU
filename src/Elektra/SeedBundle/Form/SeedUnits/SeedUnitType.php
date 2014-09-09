@@ -7,6 +7,7 @@ use Elektra\CrudBundle\Repository\Repository;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Events\UnitUsage;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
+use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -25,41 +26,39 @@ class SeedUnitType extends Form
      */
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
+
         $commonGroup = $this->addFieldGroup($builder, $options, 'Common'); // TRANSLATE this
 
         $commonGroup->add('serialNumber', 'text', $this->getFieldOptions('serialNumber')->required()->notBlank()->toArray());
 
-        $modelOptions = $this->getFieldOptions('model')
-            ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model')->getClassEntity())
-            ->add('property', 'title');
+        $modelOptions = $this->getFieldOptions('model')->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model')->getClassEntity())->add('property', 'title');
         $commonGroup->add('model', 'entity', $modelOptions->toArray());
 
-        $powerCordTypeOptions = $this->getFieldOptions('powerCordType')
-            ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')->getClassEntity())
-            ->add('property', 'title');
+        $powerCordTypeOptions = $this->getFieldOptions('powerCordType')->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')->getClassEntity())->add(
+                'property',
+                'title'
+            );
         $commonGroup->add('powerCordType', 'entity', $powerCordTypeOptions->toArray());
 
-        if ($options['crud_action'] == 'add')
-        {
-            $locationOptions = $this->getFieldOptions('location')
-                ->add('mapped', false)
-                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'WarehouseLocation')->getClassEntity())
-                ->add('property', 'title');
+        if ($options['crud_action'] == 'add') {
+            $locationOptions = $this->getFieldOptions('location')->add('mapped', false)->add(
+                    'class',
+                    $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'WarehouseLocation')->getClassEntity()
+                )->add('property', 'title');
             $commonGroup->add('location', 'entity', $locationOptions->toArray());
         }
 
-        if ($options['crud_action'] != 'add')
-        {
-            $locationOptions = $this->getFieldOptions('location')
-                ->add('read_only', true)
-                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location')->getClassEntity())
-                ->add('property', 'title');
+        if ($options['crud_action'] != 'add') {
+            $locationOptions = $this->getFieldOptions('location')->add('read_only', true)->add(
+                    'class',
+                    $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location')->getClassEntity()
+                )->add('property', 'title');
             $commonGroup->add('location', 'entity', $locationOptions->toArray());
 
-            $statusOptions = $this->getFieldOptions('unitStatus')
-                ->add('read_only', true)
-                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassEntity())
-                ->add('property', 'title');
+            $statusOptions = $this->getFieldOptions('unitStatus')->add('read_only', true)->add(
+                    'class',
+                    $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassEntity()
+                )->add('property', 'title');
             $commonGroup->add('unitStatus', 'entity', $statusOptions->toArray());
 
             $this->addHistoryGroup($builder, $options);
@@ -68,87 +67,84 @@ class SeedUnitType extends Form
         /* @var $entity SeedUnit */
         $entity = $options['data'];
 
-        if ($entity->getUnitStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED)
-        {
-            $usageOptions = $this->getFieldOptions('unitUsage')
-                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassEntity())
-                ->add('property', 'title');
+        if ($entity->getUnitStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED) {
+            $usageOptions = $this->getFieldOptions('unitUsage')->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassEntity())->add('property', 'title');
             $commonGroup->add('unitUsage', 'entity', $usageOptions->toArray());
         }
     }
 
     private function addHistoryGroup(FormBuilderInterface $builder, array $options)
     {
+
         $historyGroup = $this->addFieldGroup($builder, $options, 'History'); // TRANSLATE this
 
-        $eventsOptions = $this->getFieldOptions('events')
-            ->add('relation_parent_entity', $options['data'])
-            ->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'Event'))
-            ->add('ordering_field', 'timestamp')
-            ->add('ordering_direction', 'DESC')
-            ->add('list_limit', 100);
+        $eventsOptions = $this->getFieldOptions('events')->add('relation_parent_entity', $options['data'])->add(
+                'relation_child_type',
+                $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'Event')
+            )->add('ordering_field', 'timestamp')->add('ordering_direction', 'DESC')->add('list_limit', 100);
         $historyGroup->add('events', 'relatedList', $eventsOptions->toArray());
 
         return $historyGroup;
     }
-
 
     /**
      * @inheritdoc
      */
     protected function initialiseButtons($crudAction, array $options)
     {
+
         /* @var $entity SeedUnit */
         $entity = $options['data'];
         /* @var $unitStatus UnitStatus */
         $unitStatus = $entity->getUnitStatus();
 
-        if ($unitStatus->getInternalName() == UnitStatus::DELIVERY_VERIFIED)
-        {
+        if ($unitStatus->getInternalName() == UnitStatus::DELIVERY_VERIFIED) {
             $buttons = $this->initialiseUsageButtons($entity);
-        }
-        else
-        {
+        } else {
             $buttons = $this->initialiseShippingButtons($entity, $unitStatus);
         }
 
-        foreach ($buttons as $key => $button)
-        {
+        foreach ($buttons as $key => $button) {
             $this->addFormButton($key, 'link', $button, Form::BUTTON_TOP);
         }
     }
 
     /**
      * @param SeedUnit $seedUnit
+     *
      * @return array
      */
     private function initialiseUsageButtons(SeedUnit $seedUnit)
     {
+
         $buttons = array();
         /* @var $repo Repository */
-        $repo = $this->getCrud()->getService('doctrine')
-            ->getRepository($this->getCrud()->getNavigator()
-                ->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassRepository());
+        $repo = $this->getCrud()->getService('doctrine')->getRepository(
+                $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassRepository()
+            );
 
         $usages = $repo->findAll();
 
         $currentUsage = $seedUnit->getUnitUsage();
-
+        $siteLanguage = $this->getCrud()->getService('siteLanguage');
         /* @var $usage UnitUsage */
-        foreach($usages as $usage)
-        {
-            if ($currentUsage != null && $usage->getId() == $currentUsage->getId())
+        foreach ($usages as $usage) {
+            if ($currentUsage != null && $usage->getId() == $currentUsage->getId()) {
                 continue;
+            }
 
-            // TODO language add
-            //$this->getCrud()->getService("siteLanguage")->add('forms.seed_units.seed_unit.buttons.' . $usage->getAbbreviation(), $usage->getTitle());
+            $langKey        = 'forms.seed_units.seed_unit.buttons.' . Helper::camelToUnderScore($usage->getAbbreviation());
+            $langIdentifier = 'forms.seed_units.seed_unit.buttons.usage';
+            $siteLanguage->add($langKey, $langIdentifier, array('usage' => $usage->getName()));
 
             $buttons[$usage->getAbbreviation()] = array(
-                'link' => $this->getCrud()->getNavigator()
-                        ->getLinkFromRoute('seedUnit.changeUsage', array(
-                            'id' => $seedUnit->getId(),
-                            'usageId' => $usage->getId()
-                        ))
+                'link' => $this->getCrud()->getNavigator()->getLinkFromRoute(
+                            'seedUnit.changeUsage',
+                            array(
+                                'id'      => $seedUnit->getId(),
+                                'usageId' => $usage->getId()
+                            )
+                        )
             );
         }
 
@@ -157,13 +153,14 @@ class SeedUnitType extends Form
 
     /**
      * @param UnitStatus $unitStatus
+     *
      * @return array
      */
     private function initialiseShippingButtons(SeedUnit $entity, UnitStatus $unitStatus)
     {
+
         $buttons = array();
-        switch($unitStatus->getInternalName())
-        {
+        switch ($unitStatus->getInternalName()) {
             case UnitStatus::RESERVED:
                 $buttons[UnitStatus::SHIPPED] = array(
                     'link' => $this->getChangeStatusLink($entity, UnitStatus::SHIPPED)
@@ -186,7 +183,7 @@ class SeedUnitType extends Form
                 break;
 
             case UnitStatus::DELIVERED:
-                $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
+                $buttons[UnitStatus::DELIVERY_VERIFIED]   = array(
                     'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
                 );
                 $buttons[UnitStatus::ACKNOWLEDGE_ATTEMPT] = array(
@@ -198,7 +195,7 @@ class SeedUnitType extends Form
                 $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
                     'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
                 );
-                $buttons[UnitStatus::AA1SENT] = array(
+                $buttons[UnitStatus::AA1SENT]           = array(
                     'link' => $this->getChangeStatusLink($entity, UnitStatus::AA1SENT)
                 );
                 break;
@@ -207,7 +204,7 @@ class SeedUnitType extends Form
                 $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
                     'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
                 );
-                $buttons[UnitStatus::AA2SENT] = array(
+                $buttons[UnitStatus::AA2SENT]           = array(
                     'link' => $this->getChangeStatusLink($entity, UnitStatus::AA2SENT)
                 );
                 break;
@@ -216,7 +213,7 @@ class SeedUnitType extends Form
                 $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
                     'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
                 );
-                $buttons[UnitStatus::AA3SENT] = array(
+                $buttons[UnitStatus::AA3SENT]           = array(
                     'link' => $this->getChangeStatusLink($entity, UnitStatus::AA3SENT)
                 );
                 break;
@@ -225,7 +222,7 @@ class SeedUnitType extends Form
                 $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
                     'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
                 );
-                $buttons[UnitStatus::ESCALATION] = array(
+                $buttons[UnitStatus::ESCALATION]        = array(
                     'link' => $this->getChangeStatusLink($entity, UnitStatus::ESCALATION)
                 );
                 break;
@@ -245,15 +242,20 @@ class SeedUnitType extends Form
 
     /**
      * @param SeedUnit $entity
-     * @param string $status
+     * @param string   $status
+     *
      * @return string
      */
     private function getChangeStatusLink($entity, $status)
     {
-        $link = $this->getCrud()->getNavigator()->getLinkFromRoute('seedUnit.changeShippingStatus', array(
-            'id' => $entity->getId(),
-            'status' => $status
-        ));
+
+        $link = $this->getCrud()->getNavigator()->getLinkFromRoute(
+            'seedUnit.changeShippingStatus',
+            array(
+                'id'     => $entity->getId(),
+                'status' => $status
+            )
+        );
 
         return $link;
     }
