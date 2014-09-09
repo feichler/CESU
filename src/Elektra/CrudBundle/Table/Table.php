@@ -297,7 +297,7 @@ abstract class Table
         if ($this->getCrud()->hasParent()) {
             $filters = $this->getLoadRelationFilter();
             //            var_dump($this->options);
-            if (isset($this->options['orderingField'])) {
+            if (isset($this->options['orderingField']) && $this->options['orderingField'] != '') {
                 $order = array(
                     $this->options['orderingField'] => $this->options['orderingDirection']
                 );
