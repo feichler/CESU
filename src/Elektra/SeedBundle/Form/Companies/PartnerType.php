@@ -48,6 +48,8 @@ class PartnerType extends CrudForm
             $locationsFieldOptions->add('relation_parent_entity', $options['data']);
             $locationsFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation'));
             $locationsFieldOptions->add('relation_name', 'company');
+            $locationsFieldOptions->add('ordering_field', 'name');
+            $locationsFieldOptions->add('ordering_direction', 'ASC');
             $locations->add('locations', 'relatedList', $locationsFieldOptions->toArray());
             // URGENT find a solution to display the persons at the company view
 

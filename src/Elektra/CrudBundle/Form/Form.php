@@ -272,6 +272,9 @@ abstract class Form extends AbstractType
                         $notesFieldOptions->add('relation_parent_entity', $options['data']);
             $notesFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Notes', 'Note'));
             $notesFieldOptions->add('relation_name', 'notes');
+            $notesFieldOptions->add('list_limit', 100);
+            $notesFieldOptions->add('ordering_field', 'timestamp');
+            $notesFieldOptions->add('ordering_direction', 'DESC');
             $notes->add('notes', 'list', $notesFieldOptions->toArray());
         }
     }

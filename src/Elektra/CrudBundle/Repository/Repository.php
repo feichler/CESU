@@ -162,6 +162,9 @@ abstract class Repository extends EntityRepository
      */
     private function prepareQueryBuilderOrder(QueryBuilder $builder, $queryAlias, $order)
     {
-        // URGENT implement table ordering
+
+        foreach ($order as $field => $direction) {
+            $builder->addOrderBy($queryAlias . '.' . $field, $direction);
+        }
     }
 }

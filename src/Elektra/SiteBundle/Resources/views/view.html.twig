@@ -185,7 +185,8 @@
     {% set controller = form.vars.relation_child_type.controller ~ ':relatedList' %}
     {% set parentEntity = form.vars.relation_parent_entity %}
     {% set relationName = form.vars.relation_name %}
-    {{ render(controller(controller, {'parentEntity': parentEntity,'parentRoute':app.request.get('_route'),'relationName':relationName})) }}
+    {% set options = {'listLimit': form.vars.list_limit, 'orderingField': form.vars.ordering_field, 'orderingDirection': form.vars.ordering_direction} %}
+    {{ render(controller(controller, {'parentEntity': parentEntity,'parentRoute':app.request.get('_route'),'relationName':relationName, 'options': options})) }}
 {% endblock relatedList_widget %}
 
 {% block list_widget %}
@@ -193,7 +194,8 @@
     {% set childType = form.vars.relation_child_type %}
     {% set parentEntity = form.vars.relation_parent_entity %}
     {% set relationName = form.vars.relation_name %}
-    {{ render(controller(controller,{'parentEntity': parentEntity,'childType': childType,'parentRoute':app.request.get('_route'), 'relationName': relationName})) }}
+    {% set options = {'listLimit': form.vars.list_limit, 'orderingField': form.vars.ordering_field, 'orderingDirection': form.vars.ordering_direction} %}
+    {{ render(controller(controller,{'parentEntity': parentEntity,'childType': childType,'parentRoute':app.request.get('_route'), 'relationName': relationName, 'options': options})) }}
     {#{{ controller }}<br />#}
     {#{{ childType }}<br />#}
     {#{{ relationName }}#}

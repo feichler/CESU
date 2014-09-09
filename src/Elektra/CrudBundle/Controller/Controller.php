@@ -38,18 +38,18 @@ abstract class Controller extends BaseController
         $siteBase->initialisePageFromDefinition($this->getCrud()->getDefinition(), $action);
 
         $filtersSubmit = $this->get('request')->get('filter-submit');
-        if($filtersSubmit !== null) {
+        if ($filtersSubmit !== null) {
             $this->filterSubmitted = true;
         }
 
-//        exit();
-//        $test = $this->getRequest()->get('filter-submit');
-//        if($test !== null) {
-//            var_dump($this->getRequest()->get('filter'));
-//                exit();
-//        }
-//                var_dump($test);
-//                exit();
+        //        exit();
+        //        $test = $this->getRequest()->get('filter-submit');
+        //        if($test !== null) {
+        //            var_dump($this->getRequest()->get('filter'));
+        //                exit();
+        //        }
+        //                var_dump($test);
+        //                exit();
     }
 
     /**
@@ -196,15 +196,17 @@ abstract class Controller extends BaseController
      *
      * @return Response
      */
-    public function relatedListAction(EntityInterface $parentEntity, $parentRoute, $relationName = null)
+    public function relatedListAction(EntityInterface $parentEntity, $parentRoute, $relationName = null, $options = null)
     {
 
         // URGENT define this action
         $this->initialise('relatedList');
         $this->getCrud()->setParent($parentEntity, $parentRoute, $relationName);
 
-        $table = $this->getTable(1);
+        $table = $this->getTable(1, false);
         $table->setInView(true);
+        $table->setOptions($options);
+        $table->load(1);
 
         $viewName = $this->getCrud()->getView('relatedList');
 
@@ -227,6 +229,7 @@ abstract class Controller extends BaseController
 
         $table = $this->getTable(1, false);
         $table->setInView(true);
+//        $table->setOptions($options);
         $method = 'get' . ucfirst($relationName);
 
         if (method_exists($parentEntity, $method)) {

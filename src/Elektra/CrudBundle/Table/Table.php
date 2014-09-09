@@ -58,6 +58,11 @@ abstract class Table
      */
     protected $inView;
 
+    /**
+     * @var
+     */
+    protected $options;
+
     /*************************************************************************
      * Construction & Initialisation
      *************************************************************************/
@@ -84,6 +89,7 @@ abstract class Table
             'delete' => true,
         );
         $this->inView  = false;
+        $this->options = array();
 
         // call the specific initialisation methods for this specific table
         $this->initialiseColumns();
@@ -103,6 +109,24 @@ abstract class Table
         $this->getColumns()->addIdColumn();
 
         $this->initialiseRequestData();
+    }
+
+    /**
+     * @param mixed $options
+     */
+    public function setOptions($options)
+    {
+
+        $this->options = $options;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOptions()
+    {
+
+        return $this->options;
     }
 
     /**
@@ -272,6 +296,13 @@ abstract class Table
         // URGENT check the embedded functionality
         if ($this->getCrud()->hasParent()) {
             $filters = $this->getLoadRelationFilter();
+//            var_dump($this->options);
+            if (isset($this->options['orderingField'])) {
+                $order = array(
+                    $this->options['orderingField'] => $this->options['orderingDirection']
+                );
+            }
+//            var_dump($order);
         } else {
             $search  = $this->getLoadSearch();
             $filters = $this->getLoadFilters();
@@ -608,7 +639,7 @@ abstract class Table
             'label'    => false,
             'required' => false,
             'attr'     => array(
-                'name' => 'filter-submit',
+                'name'     => 'filter-submit',
                 'onchange' => 'jQuery(this).closest(\'form\').find(\'[name="filter-submit"]\').trigger(\'click\');',
             ),
         );
