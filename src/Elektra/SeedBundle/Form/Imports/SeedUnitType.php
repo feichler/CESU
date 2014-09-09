@@ -23,7 +23,11 @@ class SeedUnitType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('file', 'file', array('required' => true));
+        $common = $this->addFieldGroup($builder,$options,'common');
+
+        $common->add('file','file',$this->getFieldOptions('file')->required()->notBlank()->toArray());
+
+//        $builder->add('file', 'file', array('required' => true));
 
         // all crud actions have the same definition - no difference between view / add / edit
 

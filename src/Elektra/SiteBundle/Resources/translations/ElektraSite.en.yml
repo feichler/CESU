@@ -6,14 +6,6 @@
 # @version   0.1-dev
 ###############################################################################
 
-###############################################################################
-# @author    Florian Eichler <florian@eichler.co.at>
-# @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
-# @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
-# @license   MINOR add a license
-# @version   0.1-dev
-###############################################################################
-
 generic:
     brand:                                                              CESU Admin
     copyright:                                                          2014 Cisco Elektra Seed Unit Program
@@ -40,6 +32,12 @@ pages:
         title_suffix:                                                   CESU Administration
         heading:                                                        Welcome
         section:                                                        Administration
+    imports:
+        title_prefix:                                                   Import
+        section:                                                        Import
+        seed_unit:
+            title:                                                      Seed Units
+            heading:                                                    Import Seed Units
     security:
         login:
             title:                                                      Login
@@ -238,6 +236,15 @@ tables:
             first_name:                                                 First Name
             last_name:                                                  Last Name
             title:                                                      Title
+    imports:
+        seed_unit:
+            empty:                                                      No imports found
+            columns:
+                filename:                                               Original Filename
+                new_filename:                                           Filename on Server
+                processed:                                              Processed
+            actions:
+                add:                                                    New Import
     auditing:
         audit:
             columns: ~
@@ -340,6 +347,12 @@ forms:
             name:                                                       Name
             short_name:                                                 Alias
             title:                                                      Title
+    imports:
+        seed_unit:
+            fields:
+                file:                                                   File
+            buttons:
+                save:                                                   Import
     auditing:
         audit:
             fields: ~
