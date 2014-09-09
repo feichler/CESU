@@ -27,6 +27,7 @@ final class Linker
 
         $this->activeRoute = $this->getCrud()->getRequest()->get('_route');
 
+
         $this->getCrud()->setData('route', $this->activeRoute);
     }
 

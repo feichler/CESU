@@ -20,6 +20,8 @@ abstract class Controller extends BaseController
      */
     protected $crud;
 
+    protected $filterSubmitted = false;
+
     /**
      * @param string     $action
      * @param Definition $definition
@@ -34,6 +36,20 @@ abstract class Controller extends BaseController
         }
         $siteBase = $this->get('siteBase');
         $siteBase->initialisePageFromDefinition($this->getCrud()->getDefinition(), $action);
+
+        $filtersSubmit = $this->get('request')->get('filter-submit');
+        if($filtersSubmit !== null) {
+            $this->filterSubmitted = true;
+        }
+
+//        exit();
+//        $test = $this->getRequest()->get('filter-submit');
+//        if($test !== null) {
+//            var_dump($this->getRequest()->get('filter'));
+//                exit();
+//        }
+//                var_dump($test);
+//                exit();
     }
 
     /**
@@ -90,7 +106,8 @@ abstract class Controller extends BaseController
 
         // check the form
         $form->handleRequest($this->getCrud()->getRequest());
-        if ($form->isValid()) {
+
+        if ($form->isValid() && !$this->filterSubmitted) {
             return $this->processAction('add', $entity, $form);
         }
 
@@ -144,7 +161,7 @@ abstract class Controller extends BaseController
 
         // check the form
         $form->handleRequest($this->getCrud()->getRequest());
-        if ($form->isValid()) {
+        if ($form->isValid() && !$this->filterSubmitted) {
             return $this->processAction('edit', $entity, $form);
         }
         //var_dump($this->getCrud()->getLinker()->getRedirectAfterProcess($entity));

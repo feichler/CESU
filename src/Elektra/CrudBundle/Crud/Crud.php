@@ -85,6 +85,12 @@ final class Crud
         }
     }
 
+    public function setDefinition(Definition $definition)
+    {
+
+        $this->definition = $definition;
+    }
+
     /**
      * @return ContainerInterface
      */
@@ -247,6 +253,7 @@ final class Crud
      */
     public function setParentId($id)
     {
+
         $this->setData('parent', $id);
     }
 
@@ -293,17 +300,17 @@ final class Crud
             array_pop($routeParts);
             // next pop is the actual type
             $last = array_pop($routeParts);
-//            if ($last == 'note') {
-//                $parent     = array_pop($routeParts);
-//                $definition = $this->getNavigator()->getDefinition($parent);
-//
-//                return $definition;
-//            } else {
-                $parent = array_pop($routeParts);
-                $definition = $this->getNavigator()->getDefinition($parent);
+            //            if ($last == 'note') {
+            //                $parent     = array_pop($routeParts);
+            //                $definition = $this->getNavigator()->getDefinition($parent);
+            //
+            //                return $definition;
+            //            } else {
+            $parent     = array_pop($routeParts);
+            $definition = $this->getNavigator()->getDefinition($parent);
 
-                return $definition;
-//            }
+            return $definition;
+            //            }
         }
 
         return $this->getNavigator()->getDefinition(get_class($this->parentEntity));
