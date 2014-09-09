@@ -34,6 +34,8 @@ class UnitStatus implements AuditableInterface, CrudInterface
 
     const EXCEPTION = "exception";
 
+    const SHIPPED = "shipped";
+
     const IN_TRANSIT = "inTransit";
 
     const DELIVERED = "delivered";
@@ -179,7 +181,7 @@ class UnitStatus implements AuditableInterface, CrudInterface
     public function getTitle()
     {
 
-        return $this->getName();
+        return $this->getAbbreviation() . " (" . $this->getName() . ")";
     }
 
     /**

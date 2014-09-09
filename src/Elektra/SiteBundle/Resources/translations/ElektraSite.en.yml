@@ -464,7 +464,8 @@ forms:
                 description:                                            Description
         seed_unit:
             buttons:
-                in_transit:                                             Shipped
+                shipped:                                                Shipped
+                in_transit:                                             In-transit
                 exception:                                              Exception
                 delivered:                                              Delivered
                 acknowledge_attempt:                                    Delivery NOT verified

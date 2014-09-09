@@ -33,6 +33,7 @@ class UnitStatusFixture extends SeedBundleFixture
             array("Available", "A", UnitStatus::AVAILABLE),
             array("Reserved", "R", UnitStatus::RESERVED),
             array("Exception", "E", UnitStatus::EXCEPTION),
+            array("Shipped", "S", UnitStatus::SHIPPED),
             array("In transit", "I", UnitStatus::IN_TRANSIT),
             array("Delivered", "D", UnitStatus::DELIVERED),
             array("Ackn. Attempt", "AA", UnitStatus::ACKNOWLEDGE_ATTEMPT),

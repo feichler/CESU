@@ -73,6 +73,16 @@ class SeedUnitController extends Controller
         $event = null;
         switch($status)
         {
+            case UnitStatus::SHIPPED:
+                $event = new ShippingEvent();
+                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
+                $event->setUnitStatus($newStatus);
+                $event->setLocation($mgr
+                    ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'GenericLocation')
+                        ->getClassRepository())->findByInternalName(GenericLocation::IN_TRANSIT));
+                $event->setTitle('Unit has been shipped.');
+                break;
+
             case UnitStatus::IN_TRANSIT:
                 $event = new ShippingEvent();
                 $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));

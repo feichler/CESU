@@ -90,6 +90,12 @@ class SeedUnitType extends Form
         switch($unitStatus->getInternalName())
         {
             case UnitStatus::RESERVED:
+                $buttons[UnitStatus::SHIPPED] = array(
+                    'link' => $this->getChangeStatusLink($entity, UnitStatus::SHIPPED)
+                );
+                break;
+
+            case UnitStatus::SHIPPED:
                 $buttons[UnitStatus::IN_TRANSIT] = array(
                     'link' => $this->getChangeStatusLink($entity, UnitStatus::IN_TRANSIT)
                 );
