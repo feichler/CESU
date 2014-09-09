@@ -273,6 +273,7 @@ tables:
                 status:                                                 Status
                 location:                                               Location
                 request:                                                Request
+                usage:                                                  Usage
     companies:
         region:
             columns:
