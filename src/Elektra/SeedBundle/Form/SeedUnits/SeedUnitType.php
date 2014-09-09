@@ -83,7 +83,10 @@ class SeedUnitType extends Form
 
         $eventsOptions = $this->getFieldOptions('events')
             ->add('relation_parent_entity', $options['data'])
-            ->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'Event'));
+            ->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'Event'))
+            ->add('ordering_field', 'timestamp')
+            ->add('ordering_direction', 'DESC')
+            ->add('list_limit', 100);
         $historyGroup->add('events', 'relatedList', $eventsOptions->toArray());
 
         return $historyGroup;
@@ -138,7 +141,7 @@ class SeedUnitType extends Form
                 continue;
 
             // TODO language add
-            //$this->getCrud()->getService("siteLanguage")->add($usage->getAbbreviation(),
+            //$this->getCrud()->getService("siteLanguage")->add('forms.seed_units.seed_unit.buttons.' . $usage->getAbbreviation(), $usage->getTitle());
 
             $buttons[$usage->getAbbreviation()] = array(
                 'link' => $this->getCrud()->getNavigator()
