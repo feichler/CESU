@@ -19,3 +19,10 @@ services:
         class: Elektra\CrudBundle\Form\Field\ListType
         tags:
             - { name: form.type, alias: list }
+
+    elektra_crud.form.type.selectList:
+        class: Elektra\CrudBundle\Form\Field\SelectListType
+        arguments:
+            - "@doctrine"
+        tags:
+            - { name: form.type, alias: selectList }

@@ -9,6 +9,7 @@ use Elektra\CrudBundle\Table\Column\CountColumn;
 use Elektra\CrudBundle\Table\Column\DateColumn;
 use Elektra\CrudBundle\Table\Column\IdColumn;
 use Elektra\CrudBundle\Table\Column\NoteColumn;
+use Elektra\CrudBundle\Table\Column\SelectColumn;
 use Elektra\CrudBundle\Table\Column\TitleColumn;
 
 class Columns
@@ -78,77 +79,6 @@ class Columns
     }
 
     /**
-     * @param string          $title
-     * @param int|string|null $index
-     *
-     * @return Column
-     */
-    public function addTitleColumn($title, $index = null)
-    {
-
-        $column = new TitleColumn($this, $title);
-
-        return $this->addColumn($column, $index);
-    }
-
-    /**
-     * @param string          $title
-     * @param int|string|null $index
-     *
-     * @return Column
-     */
-    public function addCountColumn($title, $index = null)
-    {
-
-        $column = new CountColumn($this, $title);
-
-        return $this->addColumn($column, $index);
-    }
-
-    public function addDateColumn($title, $index = null)
-    {
-
-        $column = new DateColumn($this, $title);
-
-        return $this->addColumn($column, $index);
-    }
-
-    /**
-     * @param int $index
-     *
-     * @return bool
-     */
-    public function has($index)
-    {
-
-        return array_key_exists($index, $this->columns);
-    }
-
-    /**
-     * @param int $index
-     *
-     * @return Column
-     * @throws \OutOfBoundsException
-     */
-    public function get($index)
-    {
-
-        if ($this->has($index)) {
-            return $this->columns[$index];
-        }
-        throw new \OutOfBoundsException('Column index ' . $index . ' does not exist');
-    }
-
-    /**
-     * @return array
-     */
-    public function getAll()
-    {
-
-        return $this->columns;
-    }
-
-    /**
      * @param Column          $column
      * @param int|string|null $index
      *
@@ -211,6 +141,87 @@ class Columns
 
         return $this->addColumn($column, null);
     }
+
+    /**
+     * @param string          $title
+     * @param int|string|null $index
+     *
+     * @return Column
+     */
+    public function addTitleColumn($title, $index = null)
+    {
+
+        $column = new TitleColumn($this, $title);
+
+        return $this->addColumn($column, $index);
+    }
+
+    /**
+     * @param string          $title
+     * @param int|string|null $index
+     *
+     * @return Column
+     */
+    public function addCountColumn($title, $index = null)
+    {
+
+        $column = new CountColumn($this, $title);
+
+        return $this->addColumn($column, $index);
+    }
+
+    public function addDateColumn($title, $index = null)
+    {
+
+        $column = new DateColumn($this, $title);
+
+        return $this->addColumn($column, $index);
+    }
+
+    public function addSelectColumn($index = null)
+    {
+
+        $column = new SelectColumn($this);
+
+        return $this->addColumn($column, $index);
+    }
+
+    /**
+     * @param int $index
+     *
+     * @return bool
+     */
+    public function has($index)
+    {
+
+        return array_key_exists($index, $this->columns);
+    }
+
+    /**
+     * @param int $index
+     *
+     * @return Column
+     * @throws \OutOfBoundsException
+     */
+    public function get($index)
+    {
+
+        if ($this->has($index)) {
+            return $this->columns[$index];
+        }
+        throw new \OutOfBoundsException('Column index ' . $index . ' does not exist');
+    }
+
+    /**
+     * @return array
+     */
+    public function getAll()
+    {
+
+        return $this->columns;
+    }
+
+
 
     /*************************************************************************
      * "Action" specific functions

@@ -3,46 +3,65 @@
         {% set classes = 'table table-condensed table-striped table-' ~ table.crud.definition.name|lower %}
         {% if table.inView == false %}
         {% set classes = classes ~ ' table-bordered' %}
-        <form method="post" class="form-horizontal">
-            {% set tableWidth = 12 %}
-            {# URGENT embedded functionality #}
-            {% if not table.crud.hasParent() %}
-                {% if table.hasFilters or table.hasSearch %}
-                    {% set inFilter = true %}
-                    {#{% set filtersWidth = 2 %}#}
-                    {#{% set tableWidth = tableWidth - filtersWidth %}#}
-                    <div class="col-md-12">
-                        <div class="table-filters form-group">
-                            {% if table.hasSearch() %}
-                                {{ block('table_search') }}
-                            {% endif %}
-                            {% if table.hasFilters %}
-                                {{ block('table_filters') }}
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endif %}
-            {% endif %}
-            <div class="col-md-{{ tableWidth }}">
-                {% endif %}
-                <div class="table-responsive">
-                    <table class="{{ classes }}">
-                        {{ block('table_head') }}
-                        {{ block('table_foot') }}
-                        {{ block('table_body') }}
-                    </table>
-                </div>
+        {#{% if form_started is defined %}#}
+        {#asdf#}
+        {#{% endif %}#}
+        {#{% if form is defined %}#}
+        {#asdf1234#}
+        {#{% endif %}#}
+        {% set tableWidth = 12 %}
+        {# URGENT embedded functionality #}
+        {% if not table.crud.hasParent() %}
+            {% if table.hasFilters or table.hasSearch %}
+                {% set inFilter = true %}
+                {#{% set filtersWidth = 2 %}#}
+                {#{% set tableWidth = tableWidth - filtersWidth %}#}
 
-                {% if table.inView == false %}
-                {# URGENT embedded functionality #}
-                {#{% if not table.crud.hasParent() %}#}
-                {{ block('table_navigation') }}
-                {#{% endif %}#}
+                    {{ block('table_filter_row') }}
+
+
+            {% endif %}
+        {% endif %}
+        <div class="col-md-{{ tableWidth }}">
+            {% endif %}
+            <div class="table-responsive">
+                <table class="{{ classes }}">
+                    {{ block('table_head') }}
+                    {{ block('table_foot') }}
+                    {{ block('table_body') }}
+                </table>
             </div>
-        </form>
+
+            {% if table.inView == false %}
+            {# URGENT embedded functionality #}
+            {#{% if not table.crud.hasParent() %}#}
+            {{ block('table_navigation') }}
+            {#{% endif %}#}
+        </div>
+
         {% endif %}
     </div>
 {% endblock table %}
+
+{% block table_filter_row %}
+    <div class="col-md-12">
+        {% if form is not defined %}
+        <form method="post" class="form-horizontal">
+            {% endif %}
+            {#{% endif %}#}
+            <div class="table-filters form-group">
+                {% if table.hasSearch() %}
+                    {{ block('table_search') }}
+                {% endif %}
+                {% if table.hasFilters %}
+                    {{ block('table_filters') }}
+                {% endif %}
+            </div>
+            {% if form is not defined %}
+        </form>
+        {% endif %}
+    </div>
+{% endblock table_filter_row %}
 
 {% block table_head %}
     <thead>
@@ -57,11 +76,31 @@
 {% endblock table_head %}
 
 {% block table_head_cell %}
-    <th class="head-{{ index }} head-{{ column.type }}">
-        {{ column.title }}
+    {% set colType = column.type %}
+    <th class="head-{{ index }} head-{{ colType }}">
+        {% if colType == 'select' %}
+            {{ block('table_head_cell_select') }}
+        {% else %}
+            {{ column.title }}
+        {% endif %}
         {#{{ siteLanguage.required(column.title) }}#}
     </th>
 {% endblock %}
+
+{% block table_head_cell_select %}
+    {% if form is defined %}
+        <script type="text/javascript">
+            function checkAll(elem) {
+                checked = elem.checked;
+                var boxes = jQuery('input[name^="{{ full_name }}"]');
+                jQuery(boxes).each(function(index, element) {
+                    element.checked = checked;
+                });
+            }
+        </script>
+        <input type="checkbox" onclick="checkAll(this);"/>
+    {% endif %}
+{% endblock table_head_cell_select %}
 
 {% block table_foot %}
     <tfoot>
@@ -89,8 +128,27 @@
             </td>
         </tr>
     {% else %}
+        {% if form is defined %}
+            {% set offset = (table.pagination.page - 1) * table.pagination.limit %}
+            {#{%  for key, child in form %}#}
+                {#{{ key }} ->#}
+                {#{{ child.vars.name }}<br />#}
+            {#{% endfor %}#}
+        {% endif %}
+
+        {#{% if form is defined %}#}
+        {#{{ form|getClass }}#}
+        {#{{ form_widget(form[1]) }}#}
+        {#{{ form[1]|getClass }}#}
+        {#{{ form.count }}#}
+        {#&#123;&#35;{{ dump(form.hasChildren()) }}&#35;&#125;#}
+        {#{% endif %}#}
+
+        {#Offset: {{ offset }}<br/>#}
+        {#{{ table.pagination.page }}#}
         {% for count, entry in table.entries %}
             <tr class="datarow-{{ count }}">
+                {#count: {{ count }}<br/>#}
                 {% for index, column in table.columns.all %}
                     {% if not column.hidden %}
                         {{ block('table_body_cell') }}
@@ -103,10 +161,11 @@
 {% endblock table_body %}
 
 {% block table_body_cell %}
+
     {% set colType = column.type %}
     {% set rowNumber = count %}
     {% set data = column.displayData(entry, rowNumber) %}
-    <td class="col-{{ index }} col-{{ column.type }}">
+    <td class="col-{{ index }} col-{{ colType }}">
         {% if colType == 'title' %}
             {{ block('table_body_cell_title') }}
         {% elseif colType == 'action' %}
@@ -115,11 +174,22 @@
             {{ block('table_body_cell_audit') }}
         {% elseif colType == 'date' %}
             {{ block('table_body_cell_date') }}
+        {% elseif colType == 'select' %}
+            {{ block('table_body_cell_select') }}
         {% else %}
             {{ block('table_body_cell_default') }}
         {% endif %}
     </td>
 {% endblock table_body_cell %}
+
+{% block table_body_cell_select %}
+    {#{{ entry.id }}#}
+    {% if form is defined %}
+        {% set widgetIndex = offset + count + 1 %} {# form widgets are 1-relative #}
+        {#{{ form_widget(form[widgetIndex],{'inTable':true}) }}#}
+        {{ form_widget(form[entry.id],{'inTable':true}) }}
+    {% endif %}
+{% endblock table_body_cell_select %}
 
 {% block table_body_cell_title %}
     {% import 'ElektraSiteBundle:macros:actions.html.twig' as actions %}
@@ -280,41 +350,41 @@
         {% endif %}
     </div>
     {% if table.crud.hasParent() %}
-        <script type="text/javascript">
-            var showBackdrop = function() {
-                var $backdrop = jQuery('<div id="#request_backdrop" class="modal-backdrop fade"></div>').appendTo(jQuery('body'));
-                $backdrop.animate({opacity: 0.75}, 75);
+        {#<script type="text/javascript">#}
+            {#var showBackdrop = function() {#}
+                {#var $backdrop = jQuery('<div id="#request_backdrop" class="modal-backdrop fade"></div>').appendTo(jQuery('body'));#}
+                {#$backdrop.animate({opacity: 0.75}, 75);#}
 
-                return $backdrop;
-            }
+                {#return $backdrop;#}
+            {#}#}
 
-            var removeBackdrop = function($backdrop) {
+            {#var removeBackdrop = function($backdrop) {#}
 
-                $backdrop.animate({opacity: 0}, 75);
-                $backdrop.remove();
-            }
+                {#$backdrop.animate({opacity: 0}, 75);#}
+                {#$backdrop.remove();#}
+            {#}#}
 
-            jQuery(document).ready(function() {
-                var $tableId = '#{{ table.id }}';
-                var $paginationId = '#{{ table.id }}' + '-pagination';
+            {#jQuery(document).ready(function() {#}
+                {#var $tableId = '#{{ table.id }}';#}
+                {#var $paginationId = '#{{ table.id }}' + '-pagination';#}
 
-                jQuery($paginationId + " a").each(function(index, element) {
-                    jQuery(element).on('click', function(event) {
-                        event.preventDefault();
-                        var $link = jQuery(this).attr('href');
-                        var $backdrop = showBackdrop();
-                        jQuery.ajax({
-                                        url: $link,
-                                        success: function(response) {
-                                            jQuery($tableId).replaceWith(jQuery(response).find($tableId));
-                                            removeBackdrop($backdrop);
-                                        }
-                                    })
-                    })
-                });
+                {#jQuery($paginationId + " a").each(function(index, element) {#}
+                    {#jQuery(element).on('click', function(event) {#}
+                        {#event.preventDefault();#}
+                        {#var $link = jQuery(this).attr('href');#}
+                        {#var $backdrop = showBackdrop();#}
+                        {#jQuery.ajax({#}
+                                        {#url: $link,#}
+                                        {#success: function(response) {#}
+                                            {#jQuery($tableId).replaceWith(jQuery(response).find($tableId));#}
+                                            {#removeBackdrop($backdrop);#}
+                                        {#}#}
+                                    {#})#}
+                    {#})#}
+                {#});#}
 
-            });
-        </script>
+            {#});#}
+        {#</script>#}
     {% endif %}
 {% endblock table_navigation %}
 

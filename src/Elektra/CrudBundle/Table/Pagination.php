@@ -25,9 +25,9 @@ class Pagination
         $this->limit = 20; // TODO make parameter
 
         // URGENT embedded functionality
-//        if ($this->table->getCrud()->isEmbedded()) {
-//            $this->limit = 150;
-//        }
+        //        if ($this->table->getCrud()->isEmbedded()) {
+        //            $this->limit = 150;
+        //        }
     }
 
     public function setPage($page)
@@ -63,10 +63,18 @@ class Pagination
     public function getPageLink($page)
     {
 
+        $route= $this->table->getCrud()->getLinker()->getActiveRoute();
         $navigator = $this->table->getCrud()->getService('navigator');
+
         if ($navigator instanceof Navigator) {
-            // URGENT get the correct link here
-            $link = $navigator->getLink($this->table->getCrud()->getDefinition(), 'browse', array('page' => $page));
+            if ($route == 'request.seedUnit.add') {
+                $routeName = $this->table->getCrud()->getLinker()->getActiveRoute();
+                $id        = $this->table->getCrud()->getRequest()->get('id');
+                $link      = $navigator->getLinkFromRoute($routeName, array('id' => $id, 'page' => $page));
+            } else {
+                // URGENT get the correct link here
+                $link = $navigator->getLink($this->table->getCrud()->getDefinition(), 'browse', array('page' => $page));
+            }
         } else {
             $link = '';
         }

@@ -604,10 +604,12 @@ abstract class Table
     {
 
         $defaultOptions = array(
+
             'label'    => false,
             'required' => false,
             'attr'     => array(
-                'onchange' => 'jQuery(this).closest(\'form\').trigger(\'submit\');',
+                'name' => 'filter-submit',
+                'onchange' => 'jQuery(this).closest(\'form\').find(\'[name="filter-submit"]\').trigger(\'click\');',
             ),
         );
 

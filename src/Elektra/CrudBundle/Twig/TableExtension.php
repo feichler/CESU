@@ -32,7 +32,15 @@ class TableExtension extends \Twig_Extension
     {
 
         return array(
-            'table' => new \Twig_SimpleFunction('table', array($this, 'renderTable'), array('is_safe' => array('html'), 'needs_context' => true, 'needs_environment' => true))
+            'table' => new \Twig_SimpleFunction('table', array($this, 'renderTable'), array('is_safe' => array('html'), 'needs_context' => true, 'needs_environment' => true)),
+        );
+    }
+
+    public function getFilters()
+    {
+
+        return array(
+            'getClass' => new \Twig_SimpleFilter('getClass', 'get_class'),
         );
     }
 
