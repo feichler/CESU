@@ -124,8 +124,8 @@ class RequestStatus implements AuditableInterface, CrudInterface
      */
     public function getCreationAudit()
     {
+        return \Elektra\SeedBundle\Auditing\Helper::getFirstAudit($this->getAudits());
 
-        return $this->getAudits()->slice(0, 1);
     }
 
     /**
@@ -133,10 +133,8 @@ class RequestStatus implements AuditableInterface, CrudInterface
      */
     public function getLastModifiedAudit()
     {
+        return \Elektra\SeedBundle\Auditing\Helper::getLastAudit($this->getAudits());
 
-        $audits = $this->getAudits();
-
-        return $audits->count() > 1 ? $audits->slice($audits->count() - 1, 1) : null;
     }
 
     /**

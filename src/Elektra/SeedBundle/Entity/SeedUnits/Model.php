@@ -160,10 +160,8 @@ class Model implements AuditableInterface, CrudInterface
      */
     public function getCreationAudit()
     {
+        return \Elektra\SeedBundle\Auditing\Helper::getFirstAudit($this->getAudits());
 
-        $audits = $this->getAudits()->slice(0, 1);
-
-        return $audits[0];
     }
 
     /**
@@ -171,15 +169,8 @@ class Model implements AuditableInterface, CrudInterface
      */
     public function getLastModifiedAudit()
     {
+        return \Elektra\SeedBundle\Auditing\Helper::getLastAudit($this->getAudits());
 
-        $audits = $this->getAudits();
-        if ($audits->count() > 1) {
-            $audits = $audits->slice($audits->count() - 1, 1);
-
-            return $audits[0];
-        }
-
-        return null;
     }
 
     public function setId($id)

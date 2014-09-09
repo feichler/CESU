@@ -3,10 +3,12 @@
 namespace Elektra\CrudBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
 abstract class Repository extends EntityRepository
 {
+
     /**
      * @var array
      */
@@ -24,7 +26,9 @@ abstract class Repository extends EntityRepository
         $builder->setMaxResults($perPage);
         $builder->setFirstResult(($page - 1) * $perPage);
 
-        $entries = $builder->getQuery()->getResult();
+        $query = $builder->getQuery();
+
+        $entries = $query->getResult();
 
         return $entries;
     }
@@ -35,7 +39,6 @@ abstract class Repository extends EntityRepository
         $alias   = $this->getNextAlias();
         $builder = $this->prepareQueryBuilder($alias, $search, $filters, $order);
         $builder->select($builder->expr()->count($alias));
-
 
         $count = $builder->getQuery()->getSingleScalarResult();
 

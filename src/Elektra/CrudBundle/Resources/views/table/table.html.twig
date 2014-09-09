@@ -1,44 +1,47 @@
 {% block table %}
-    {% set classes = 'table table-condensed table-striped table-' ~ table.crud.definition.name|lower %}
-    {% if table.inView == false %}
+    <div id="{{ table.id }}">
+        {% set classes = 'table table-condensed table-striped table-' ~ table.crud.definition.name|lower %}
+        {% if table.inView == false %}
         {% set classes = classes ~ ' table-bordered' %}
         <form method="post" class="form-horizontal">
-        {% set tableWidth = 12 %}
-        {# URGENT embedded functionality #}
-        {% if not table.crud.hasParent() %}
-            {% if table.hasFilters or table.hasSearch %}
-                {% set inFilter = true %}
-                {#{% set filtersWidth = 2 %}#}
-                {#{% set tableWidth = tableWidth - filtersWidth %}#}
-                <div class="col-md-12">
-                    <div class="table-filters form-group">
-                        {% if table.hasSearch() %}
-                            {{ block('table_search') }}
-                        {% endif %}
-                        {% if table.hasFilters %}
-                            {{ block('table_filters') }}
-                        {% endif %}
+            {% set tableWidth = 12 %}
+            {# URGENT embedded functionality #}
+            {% if not table.crud.hasParent() %}
+                {% if table.hasFilters or table.hasSearch %}
+                    {% set inFilter = true %}
+                    {#{% set filtersWidth = 2 %}#}
+                    {#{% set tableWidth = tableWidth - filtersWidth %}#}
+                    <div class="col-md-12">
+                        <div class="table-filters form-group">
+                            {% if table.hasSearch() %}
+                                {{ block('table_search') }}
+                            {% endif %}
+                            {% if table.hasFilters %}
+                                {{ block('table_filters') }}
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             {% endif %}
-        {% endif %}
-        <div class="col-md-{{ tableWidth }}">
-    {% endif %}
-    <div class="table-responsive">
-        <table class="{{ classes }}">
-            {{ block('table_head') }}
-            {{ block('table_foot') }}
-            {{ block('table_body') }}
-        </table>
-    </div>
-    {% if table.inView == false %}
-        {# URGENT embedded functionality #}
-        {% if not table.crud.hasParent() %}
-            {{ block('table_navigation') }}
-        {% endif %}
-        </div>
+            <div class="col-md-{{ tableWidth }}">
+                {% endif %}
+                <div class="table-responsive">
+                    <table class="{{ classes }}">
+                        {{ block('table_head') }}
+                        {{ block('table_foot') }}
+                        {{ block('table_body') }}
+                    </table>
+                </div>
+
+                {% if table.inView == false %}
+                {# URGENT embedded functionality #}
+                {#{% if not table.crud.hasParent() %}#}
+                {{ block('table_navigation') }}
+                {#{% endif %}#}
+            </div>
         </form>
-    {% endif %}
+        {% endif %}
+    </div>
 {% endblock table %}
 
 {% block table_head %}
@@ -69,9 +72,9 @@
                 <span class="pull-right">{{ attribute(actions, 'add', [table.crud.linker.listAddLink(), siteLanguage.alternate('tables.' ~ table.crud.languageKey ~ '.actions.add', 'actions.add'), {}]) }}</span>
             {% endif %}
             {# URGENT embedded functionality #}
-            {% if not table.crud.hasParent() %}
-                <span>{{ siteLanguage.get('pagination.pages') }}</span>
-            {% endif %}
+            {#{% if not table.crud.hasParent() %}#}
+            <span>{{ siteLanguage.get('pagination.pages') }}</span>
+            {#{% endif %}#}
         </td>
     </tr>
     </tfoot>
@@ -215,7 +218,7 @@
 {% endblock table_search %}
 
 {% block table_navigation %}
-    <div class="table-pagination text-center">
+    <div id="{{ table.id }}-pagination" class="table-pagination text-center">
         {% if table.entryCount > 0 %}
             {% if table.pagination.page > 1 %} {# Previous Link #}
                 <ul class="pager pull-left">
@@ -276,5 +279,42 @@
             {% endif %}
         {% endif %}
     </div>
+    {% if table.crud.hasParent() %}
+        <script type="text/javascript">
+            var showBackdrop = function() {
+                var $backdrop = jQuery('<div id="#request_backdrop" class="modal-backdrop fade"></div>').appendTo(jQuery('body'));
+                $backdrop.animate({opacity: 0.75}, 75);
+
+                return $backdrop;
+            }
+
+            var removeBackdrop = function($backdrop) {
+
+                $backdrop.animate({opacity: 0}, 75);
+                $backdrop.remove();
+            }
+
+            jQuery(document).ready(function() {
+                var $tableId = '#{{ table.id }}';
+                var $paginationId = '#{{ table.id }}' + '-pagination';
+
+                jQuery($paginationId + " a").each(function(index, element) {
+                    jQuery(element).on('click', function(event) {
+                        event.preventDefault();
+                        var $link = jQuery(this).attr('href');
+                        var $backdrop = showBackdrop();
+                        jQuery.ajax({
+                                        url: $link,
+                                        success: function(response) {
+                                            jQuery($tableId).replaceWith(jQuery(response).find($tableId));
+                                            removeBackdrop($backdrop);
+                                        }
+                                    })
+                    })
+                });
+
+            });
+        </script>
+    {% endif %}
 {% endblock table_navigation %}
 

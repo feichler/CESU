@@ -34,13 +34,13 @@ class SeedUnitTable extends Table
         $status->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'));
         $status->setFieldData('unitStatus.name');
         $status->setSortable();
-        $status->setFilterable()->setFieldFilter('name');
+//        $status->setFilterable()->setFieldFilter('name');
 
         $location = $this->getColumns()->add('location');
         $location->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location'));
         $location->setFieldData('location.shortName');
         $location->setSortable();
-        $location->setFilterable()->setFieldFilter('shortName');
+//        $location->setFilterable()->setFieldFilter('shortName');
 
         $request = $this->getColumns()->add('request');
         $request->setFieldData('request.requestNumber');

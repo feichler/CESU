@@ -27,16 +27,27 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  */
 class UnitStatus implements AuditableInterface, CrudInterface
 {
+
     const AVAILABLE = "available";
+
     const RESERVED = "reserved";
+
     const EXCEPTION = "exception";
+
     const IN_TRANSIT = "inTransit";
+
     const DELIVERED = "delivered";
+
     const ACKNOWLEDGE_ATTEMPT = "acknowledgeAttempt";
+
     const AA1SENT = "aa1sent";
+
     const AA3SENT = "aa3sent";
+
     const AA2SENT = "aa2sent";
+
     const ESCALATION = "escalation";
+
     const DELIVERY_VERIFIED = "deliveryVerified";
 
     /**
@@ -149,10 +160,8 @@ class UnitStatus implements AuditableInterface, CrudInterface
      */
     public function getCreationAudit()
     {
+        return \Elektra\SeedBundle\Auditing\Helper::getFirstAudit($this->getAudits());
 
-        $audits = $this->getAudits()->slice(0, 1);
-
-        return $audits[0];
     }
 
     /**
@@ -160,15 +169,8 @@ class UnitStatus implements AuditableInterface, CrudInterface
      */
     public function getLastModifiedAudit()
     {
+        return \Elektra\SeedBundle\Auditing\Helper::getLastAudit($this->getAudits());
 
-        $audits = $this->getAudits();
-        if ($audits->count() > 1) {
-            $audits = $audits->slice($audits->count() - 1, 1);
-
-            return $audits[0];
-        }
-
-        return null;
     }
 
     /**

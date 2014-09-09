@@ -22,7 +22,7 @@ class Pagination
     {
 
         $this->table = $table;
-        $this->limit = 25; // TODO make parameter
+        $this->limit = 20; // TODO make parameter
 
         // URGENT embedded functionality
 //        if ($this->table->getCrud()->isEmbedded()) {

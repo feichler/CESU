@@ -309,9 +309,7 @@ class Address implements AuditableInterface, AnnotableInterface, CrudInterface
     public function getCreationAudit()
     {
 
-        $audits = $this->getAudits()->slice(0, 1);
-
-        return $audits[0];
+        return \Elektra\SeedBundle\Auditing\Helper::getFirstAudit($this->getAudits());
     }
 
     /**
@@ -320,14 +318,7 @@ class Address implements AuditableInterface, AnnotableInterface, CrudInterface
     public function getLastModifiedAudit()
     {
 
-        $audits = $this->getAudits();
-        if ($audits->count() > 1) {
-            $audits = $audits->slice($audits->count() - 1, 1);
-
-            return $audits[0];
-        }
-
-        return null;
+        return \Elektra\SeedBundle\Auditing\Helper::getLastAudit($this->getAudits());
     }
 
     /**

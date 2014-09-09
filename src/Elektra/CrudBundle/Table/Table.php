@@ -2,17 +2,21 @@
 
 namespace Elektra\CrudBundle\Table;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\CrudBundle\Crud\Crud;
-
 use Elektra\CrudBundle\Crud\Definition;
 use Elektra\SiteBundle\Site\Helper;
+use Elektra\SiteBundle\Site\Language;
 use Symfony\Component\Form\FormBuilder;
 
 // TODO add a "clear all filters" button
 
 abstract class Table
 {
+
+    /**
+     * @var string
+     */
+    protected $id;
 
     /**
      * @var Crud
@@ -67,6 +71,7 @@ abstract class Table
         $this->crud = $crud;
         Helper::setCrud($this->crud);
 
+        $this->id            = $this->getCrud()->getDefinition()->getKey();
         $this->pagination    = new Pagination($this);
         $this->columns       = new Columns($this);
         $this->customFilters = array();
@@ -107,6 +112,15 @@ abstract class Table
     {
 
         return $this->crud;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+
+        return $this->id;
     }
 
     /**
@@ -189,6 +203,12 @@ abstract class Table
         }
     }
 
+    /**
+     * @param      $type
+     * @param null $id
+     *
+     * @return mixed
+     */
     public function getRequestData($type, $id = null)
     {
 
@@ -199,6 +219,11 @@ abstract class Table
         }
     }
 
+    /**
+     * @param      $type
+     * @param      $value
+     * @param null $id
+     */
     public function setRequestData($type, $value, $id = null)
     {
 
@@ -213,6 +238,11 @@ abstract class Table
      * Definition methods
      *************************************************************************/
 
+    /**
+     * @param $name
+     * @param $type
+     * @param $options
+     */
     protected final function addCustomFilter($name, $type, $options)
     {
 
@@ -229,17 +259,9 @@ abstract class Table
      * Execution methods - Entry querying
      *************************************************************************/
 
-    //    protected $relation;
-    //
-    //    protected $relatedEntity;
-    //
-    //    public function setRelation($relation, EntityInterface $entity)
-    //    {
-    //
-    //        $this->relation      = $relation;
-    //        $this->relatedEntity = $entity;
-    //    }
-
+    /**
+     * @param $page
+     */
     public function load($page)
     {
 
@@ -264,7 +286,7 @@ abstract class Table
         $this->pagination->setPage($page);
         $language = $this->getCrud()->getService('siteLanguage');
         if ($language instanceof Language) {
-            $language->add('pagination.pages', 'common.pagination.pages', array('page' => $page, 'max' => $this->pagination->getMaxPage()));
+            $language->add('pagination.pages', 'tables.generic.pagination.pages', array('page' => $page, 'max' => $this->pagination->getMaxPage()));
         }
     }
 
@@ -277,15 +299,20 @@ abstract class Table
         return $this->entries;
     }
 
+    /**
+     * @param $entries
+     *
+     * @throws \RuntimeException
+     */
     public function setEntries($entries)
     {
 
-        if ($entries instanceof \Traversable) {
+        if (is_array($entries) || $entries instanceof \Traversable) {
             foreach ($entries as $entry) {
                 $this->entries[] = $entry;
             }
         } else {
-            echo 'not traversable'; // URGENT error handling
+            throw new \RuntimeException('Given entries are not traversable');
         }
     }
 
@@ -426,6 +453,9 @@ abstract class Table
      * Filter related methods
      *************************************************************************/
 
+    /**
+     * @return bool
+     */
     public function hasFilters()
     {
 
@@ -440,20 +470,24 @@ abstract class Table
         return $return;
     }
 
+    /**
+     * @return array
+     */
     private function getLoadRelationFilter()
     {
 
         $filters = array();
-        //        var_dump($this->getCrud()->isEmbedded());
-        //        echo 'TESTING:<br/>';
-        //        $def = $this->getCrud()->getDefinition();
-        //        echo $def->getName();
 
         $filters[$this->getRelationFilterName($this->getCrud()->getParentDefinition())] = $this->getCrud()->getParentEntity()->getId();
 
         return $filters;
     }
 
+    /**
+     * @param Definition $parentDefinition
+     *
+     * @return string
+     */
     protected function getRelationFilterName(Definition $parentDefinition)
     {
 
@@ -466,6 +500,9 @@ abstract class Table
         return lcfirst($parentDefinition->getName());
     }
 
+    /**
+     * @return array
+     */
     private function getLoadFilters()
     {
 
@@ -491,12 +528,20 @@ abstract class Table
         return $filters;
     }
 
+    /**
+     * @param $options
+     *
+     * @throws \RuntimeException
+     */
     protected function getCustomLoadFilter($options)
     {
 
         throw new \RuntimeException('Method not implemented by specific table class');
     }
 
+    /**
+     * @return array
+     */
     public function getFilters()
     {
 
@@ -549,6 +594,12 @@ abstract class Table
         return $filters;
     }
 
+    /**
+     * @param      $options
+     * @param null $data
+     *
+     * @return array
+     */
     private function prepareFilterOptions($options, $data = null)
     {
 
@@ -570,6 +621,12 @@ abstract class Table
         return $options;
     }
 
+    /**
+     * @param $options
+     *
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     protected function getFilterFieldName($options)
     {
 
@@ -590,6 +647,9 @@ abstract class Table
      * Search related methods
      *************************************************************************/
 
+    /**
+     * @return bool
+     */
     public function hasSearch()
     {
 
@@ -599,6 +659,9 @@ abstract class Table
         return $return;
     }
 
+    /**
+     * @return \Symfony\Component\Form\FormView
+     */
     public function getSearchField()
     {
 
@@ -620,6 +683,9 @@ abstract class Table
         }
     }
 
+    /**
+     * @return array|null
+     */
     private function getLoadSearch()
     {
 
@@ -651,6 +717,9 @@ abstract class Table
         return $return;
     }
 
+    /**
+     * @return mixed
+     */
     public function getSearchString()
     {
 
@@ -661,6 +730,9 @@ abstract class Table
      * Ordering related methods
      *************************************************************************/
 
+    /**
+     * @return array
+     */
     private function getLoadOrder()
     {
 
