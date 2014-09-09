@@ -31,11 +31,11 @@ class PartnerType extends CrudForm
 
         $common->add('shortName', 'text', $this->getFieldOptions('shortName')->required()->notBlank()->toArray());
         $common->add('name', 'text', $this->getFieldOptions('name')->optional()->toArray());
-        $partnerTierFieldOptions = $this->getFieldOptions('partnerTier')->required()->notBlank();
+/*        $partnerTierFieldOptions = $this->getFieldOptions('partnerTier')->required()->notBlank();
         $partnerTierFieldOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'PartnerTier')->getClassEntity());
         $partnerTierFieldOptions->add('property', 'title');
-        $common->add('partnerTier', 'entity', $partnerTierFieldOptions->toArray());
-        $common->add('unitsLimit', 'integer', $this->getFieldOptions('unitsLimit')->optional()->toArray());
+        $common->add('partnerTier', 'entity', $partnerTierFieldOptions->toArray());*/
+//        $common->add('unitsLimit', 'integer', $this->getFieldOptions('unitsLimit')->optional()->toArray());
 
         if ($options['crud_action'] == 'view') {
             $locations             = $this->addFieldGroup($builder, $options, 'locations');

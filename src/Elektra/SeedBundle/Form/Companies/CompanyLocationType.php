@@ -14,17 +14,6 @@ class CompanyLocationType extends CrudForm
     /**
      * {@inheritdoc}
      */
-    protected function getUniqueEntityFields()
-    {
-
-        return array(
-            array('shortName', 'company'),
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -51,17 +40,16 @@ class CompanyLocationType extends CrudForm
         $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'Company');
         $this->addParentField('common', $builder, $options, $parentDefinition, 'company');
 
-        $commonGroup->add('shortName', 'text', $this->getFieldOptions('shortName')->required()->notBlank()->toArray());
-        $commonGroup->add('name', 'text', $this->getFieldOptions('name')->optional()->toArray());
+        $commonGroup->add('shortName', 'text', $this->getFieldOptions('shortName')->optional()->toArray());
+//        $commonGroup->add('name', 'text', $this->getFieldOptions('name')->optional()->toArray());
         $commonGroup->add('isPrimary', 'checkbox', $this->getFieldOptions('isPrimary')->optional()->toArray());
 
         $addressGroup = $this->addFieldGroup($builder, $options, 'address');
 
-        $addressTypeFieldOptions = $this->getFieldOptions('addressType')->required()->notBlank()->add(
-            'class',
-            $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'AddressType')->getClassEntity()
-        )->add('property', 'title');
-        $addressGroup->add('addressType', 'entity', $addressTypeFieldOptions->toArray());
+/*        $addressTypeFieldOptions = $this->getFieldOptions('addressType')->required()->notBlank()->add(
+            'class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'AddressType')->getClassEntity())
+            ->add('property', 'title');
+        $addressGroup->add('addressType', 'entity', $addressTypeFieldOptions->toArray());*/
 
         $addressFieldOptions = $this->getFieldOptions('address', false)->add('data_class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Address')->getClassEntity())->add(
             'crud_action',

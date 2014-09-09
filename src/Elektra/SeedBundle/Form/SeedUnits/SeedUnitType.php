@@ -27,7 +27,7 @@ class SeedUnitType extends Form
 
         $commonGroup->add('serialNumber', 'text', $this->getFieldOptions('serialNumber')->required()->notBlank()->toArray());
 
-        $modelOptions = $this->getFieldOptions('serialNumber')
+        $modelOptions = $this->getFieldOptions('model')
             ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model')->getClassEntity())
             ->add('property', 'title');
         $commonGroup->add('model', 'entity', $modelOptions->toArray());

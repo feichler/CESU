@@ -30,7 +30,7 @@ class Partner extends RequestingCompany
      * @var PartnerTier
      *
      * @ORM\ManyToOne(targetEntity="PartnerTier", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="partnerTierId", referencedColumnName="partnerTierId", nullable=false)
+     * @ORM\JoinColumn(name="partnerTierId", referencedColumnName="partnerTierId")
      */
     protected $partnerTier;
 

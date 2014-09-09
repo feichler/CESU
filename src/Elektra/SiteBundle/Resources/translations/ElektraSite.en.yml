@@ -295,6 +295,11 @@ tables:
             columns:
                 is_primary:                                             Primary
                 address_type:                                           Address Type
+                country:                                                Country
+                state:                                                  State
+                postal_code:                                            Postal Code
+                city:                                                   City
+                street1:                                                Street 1
         warehouse_location:
             columns:
                 location_identifier:                                    Alias
@@ -459,7 +464,7 @@ forms:
                 description:                                            Description
         seed_unit:
             buttons:
-                in_transit:                                             In transit
+                in_transit:                                             Shipped
                 exception:                                              Exception
                 delivered:                                              Delivered
                 acknowledge_attempt:                                    Delivery NOT verified

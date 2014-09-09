@@ -18,14 +18,14 @@ class PartnerTable extends Table
         $partner->setSearchable();
         $partner->setSortable()->setFieldSort('shortName');
 
-        $tier = $this->getColumns()->add('partner_tier');
+/*        $tier = $this->getColumns()->add('partner_tier');
         $tier->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'PartnerTier'));
         $tier->setFieldData('partnerTier.name');
         $tier->setFilterable()->setFieldFilter('name');
-        $tier->setSortable();
+        $tier->setSortable();*/
 
-        $limit = $this->getColumns()->add('units_limit');
+/*        $limit = $this->getColumns()->add('units_limit');
         $limit->setFieldData('unitsLimit');
-        $limit->setSortable();
+        $limit->setSortable();*/
     }
 }
