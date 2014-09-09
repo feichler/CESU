@@ -76,6 +76,7 @@ class SeedUnitType extends Form
         return $historyGroup;
     }
 
+
     /**
      * @inheritdoc
      */
@@ -86,6 +87,37 @@ class SeedUnitType extends Form
         /* @var $unitStatus UnitStatus */
         $unitStatus = $entity->getUnitStatus();
 
+        if ($unitStatus->getInternalName() == UnitStatus::DELIVERY_VERIFIED)
+        {
+            $buttons = $this->initialiseUsageButtons($entity);
+        }
+        else
+        {
+            $buttons = $this->initialiseShippingButtons($unitStatus);
+        }
+
+        foreach ($buttons as $key => $button)
+        {
+            $this->addFormButton($key, 'link', $button, Form::BUTTON_TOP);
+        }
+    }
+
+    /**
+     * @param SeedUnit $seedUnit
+     * @return array
+     */
+    private function initialiseUsageButtons(SeedUnit $seedUnit)
+    {
+        $buttons = array();
+        return $buttons;
+    }
+
+    /**
+     * @param UnitStatus $unitStatus
+     * @return array
+     */
+    private function initialiseShippingButtons(UnitStatus $unitStatus)
+    {
         $buttons = array();
         switch($unitStatus->getInternalName())
         {
@@ -165,10 +197,7 @@ class SeedUnitType extends Form
                 break;
         }
 
-        foreach ($buttons as $key => $button)
-        {
-            $this->addFormButton($key, 'link', $button, Form::BUTTON_TOP);
-        }
+        return $buttons;
     }
 
     /**

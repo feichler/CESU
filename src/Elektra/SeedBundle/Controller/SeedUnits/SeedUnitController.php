@@ -8,8 +8,10 @@ use Elektra\SeedBundle\Entity\Companies\GenericLocation;
 use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SeedBundle\Entity\Events\EventType;
+use Elektra\SeedBundle\Entity\Events\PartnerEvent;
 use Elektra\SeedBundle\Entity\Events\ShippingEvent;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
+use Elektra\SeedBundle\Entity\Events\UnitUsage;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Symfony\Component\Form\FormInterface;
 
@@ -53,7 +55,7 @@ class SeedUnitController extends Controller
      */
     public function changeShippingStatusAction($id = null, $status = null)
     {
-        $this->initialise('changeStatus');
+        $this->initialise('changeShippingStatus');
 
         /* @var SeedUnit $seedUnit  */
         $seedUnit = $this->getEntity($id);
@@ -63,7 +65,7 @@ class SeedUnitController extends Controller
         $newStatus = $mgr
             ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')
                 ->getClassRepository())->findByInternalName($status);
-        $options = array('crud_action' => 'changeStatus');
+        $options = array('crud_action' => 'changeShippingStatus');
         $eventTypeRepository = $mgr
             ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'EventType')
                 ->getClassRepository());
@@ -166,6 +168,64 @@ class SeedUnitController extends Controller
             $event->setSeedUnit($seedUnit);
             $mgr->flush();
         }
+
+        $returnUrl = $this->getCrud()->getNavigator()->getLink($this->getCrud()
+            ->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'), 'view', array('id' => $id));
+        return $this->redirect($returnUrl);
+    }
+
+    /**
+     * @param int $id
+     * @param int $statusId
+     */
+    public function changeSalesStatusAction($id = null, $statusId = null)
+    {
+        $this->initialise('changeSalesStatus');
+
+        /* @var SeedUnit $seedUnit  */
+        $seedUnit = $this->getEntity($id);
+        /* @var ObjectManager $mgr  */
+        $mgr = $this->getDoctrine()->getManager();
+        /* @var UnitStatus $newStatus  */
+        $newStatus = $mgr
+            ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')
+                ->getClassRepository())->find($statusId);
+        $options = array('crud_action' => 'changeSalesStatus');
+        $eventTypeRepository = $mgr
+            ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'EventType')
+                ->getClassRepository());
+
+    }
+
+    /**
+     * @param int $id
+     * @param int $usageId
+     */
+    public function changeUsageAction($id = null, $usageId = null)
+    {
+        $this->initialise('changeUsage');
+
+        /* @var SeedUnit $seedUnit  */
+        $seedUnit = $this->getEntity($id);
+        /* @var ObjectManager $mgr  */
+        $mgr = $this->getDoctrine()->getManager();
+        /* @var UnitUsage $newUsage  */
+        $newUsage = $mgr
+            ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')
+                ->getClassRepository())->find($usageId);
+        $options = array('crud_action' => 'changeUsage');
+        $eventTypeRepository = $mgr
+            ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'EventType')
+                ->getClassRepository());
+
+        $event = new PartnerEvent();
+        $event->setEventType($eventTypeRepository->findByInternalName(EventType::PARTNER));
+        $event->setUsage($newUsage);
+        $event->setTitle("Usage changed to '" . $newUsage->getName() . "'.");
+
+        $seedUnit->getEvents()->add($event);
+        $event->setSeedUnit($seedUnit);
+        $mgr->flush();
 
         $returnUrl = $this->getCrud()->getNavigator()->getLink($this->getCrud()
             ->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'), 'view', array('id' => $id));

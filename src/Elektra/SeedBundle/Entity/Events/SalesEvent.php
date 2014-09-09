@@ -12,7 +12,7 @@ namespace Elektra\SeedBundle\Entity\Events;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class ActivityEvent
+ * Class SalesEvent
  *
  * @package Elektra\SeedBundle\Entity\Events
  *
@@ -23,6 +23,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SalesEvent extends Event
 {
+    /**
+     * @var UnitSalesStatus
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitSalesStatus", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="unitSalesStatusId", referencedColumnName="unitSalesStatusId", nullable=false)
+     */
+    protected $salesStatus;
 
     /**
      *
@@ -31,5 +38,21 @@ class SalesEvent extends Event
     {
 
         parent::__construct();
+    }
+
+    /**
+     * @param UnitSalesStatus $salesStatus
+     */
+    public function setSalesStatus($salesStatus)
+    {
+        $this->salesStatus = $salesStatus;
+    }
+
+    /**
+     * @return UnitSalesStatus
+     */
+    public function getSalesStatus()
+    {
+        return $this->salesStatus;
     }
 }

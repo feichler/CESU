@@ -22,16 +22,24 @@ use Elektra\SeedBundle\Entity\Companies\Location;
  * @ORM\Entity
  * @ORM\Table(name="partnerEvents")
  */
-class PartnerEvent extends StatusEvent
+class PartnerEvent extends Event
 {
 
     /**
      * @var Location
      *
      * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Location", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="locationId", referencedColumnName="locationId", nullable=false)
+     * @ORM\JoinColumn(name="locationId", referencedColumnName="locationId")
      */
     protected $location;
+
+    /**
+     * @var UnitUsage
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitUsage", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="unitUsageId", referencedColumnName="unitUsageId")
+     */
+    protected $usage;
 
     /**
      *
@@ -58,5 +66,21 @@ class PartnerEvent extends StatusEvent
     {
 
         return $this->location;
+    }
+
+    /**
+     * @param UnitUsage $usage
+     */
+    public function setUsage($usage)
+    {
+        $this->usage = $usage;
+    }
+
+    /**
+     * @return UnitUsage
+     */
+    public function getUsage()
+    {
+        return $this->usage;
     }
 }
