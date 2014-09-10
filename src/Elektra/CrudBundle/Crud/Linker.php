@@ -3,6 +3,8 @@
 namespace Elektra\CrudBundle\Crud;
 
 use Elektra\SeedBundle\Entity\EntityInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\HttpKernel;
 
 final class Linker
 {
@@ -26,7 +28,13 @@ final class Linker
         $this->crud = $crud;
 
         $this->activeRoute = $this->getCrud()->getRequest()->get('_route');
-
+        if ($this->activeRoute === null) {
+            $requestStack  = $this->getCrud()->getService('request_stack');
+            $masterRequest = $requestStack->getMasterRequest();
+            if ($masterRequest != null) {
+                $this->activeRoute = $masterRequest->get('_route');
+            }
+        }
 
         $this->getCrud()->setData('route', $this->activeRoute);
     }

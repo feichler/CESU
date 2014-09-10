@@ -35,30 +35,30 @@ class SeedUnitType extends Form
         $commonGroup->add('model', 'entity', $modelOptions->toArray());
 
         $powerCordTypeOptions = $this->getFieldOptions('powerCordType')->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')->getClassEntity())->add(
-                'property',
-                'title'
-            );
+            'property',
+            'title'
+        );
         $commonGroup->add('powerCordType', 'entity', $powerCordTypeOptions->toArray());
 
         if ($options['crud_action'] == 'add') {
             $locationOptions = $this->getFieldOptions('location')->add('mapped', false)->add(
-                    'class',
-                    $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'WarehouseLocation')->getClassEntity()
-                )->add('property', 'title');
+                'class',
+                $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'WarehouseLocation')->getClassEntity()
+            )->add('property', 'title');
             $commonGroup->add('location', 'entity', $locationOptions->toArray());
         }
 
         if ($options['crud_action'] != 'add') {
             $locationOptions = $this->getFieldOptions('location')->add('read_only', true)->add(
-                    'class',
-                    $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location')->getClassEntity()
-                )->add('property', 'title');
+                'class',
+                $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location')->getClassEntity()
+            )->add('property', 'title');
             $commonGroup->add('location', 'entity', $locationOptions->toArray());
 
             $statusOptions = $this->getFieldOptions('unitStatus')->add('read_only', true)->add(
-                    'class',
-                    $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassEntity()
-                )->add('property', 'title');
+                'class',
+                $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassEntity()
+            )->add('property', 'title');
             $commonGroup->add('unitStatus', 'entity', $statusOptions->toArray());
 
             $this->addHistoryGroup($builder, $options);
@@ -79,9 +79,9 @@ class SeedUnitType extends Form
         $historyGroup = $this->addFieldGroup($builder, $options, 'History'); // TRANSLATE this
 
         $eventsOptions = $this->getFieldOptions('events')->add('relation_parent_entity', $options['data'])->add(
-                'relation_child_type',
-                $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'Event')
-            )->add('ordering_field', 'timestamp')->add('ordering_direction', 'DESC')->add('list_limit', 100);
+            'relation_child_type',
+            $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'Event')
+        )->add('ordering_field', 'timestamp')->add('ordering_direction', 'DESC')->add('list_limit', 100);
         $historyGroup->add('events', 'relatedList', $eventsOptions->toArray());
 
         return $historyGroup;
@@ -92,6 +92,14 @@ class SeedUnitType extends Form
      */
     protected function initialiseButtons($crudAction, array $options)
     {
+
+        $linker = $this->getCrud()->getLinker();
+        $route  = $linker->getActiveRoute();
+
+        if ($route == 'request.seedUnit.view') {
+            $this->removeButton('edit');
+            $this->removeButton('delete');
+        }
 
         /* @var $entity SeedUnit */
         $entity = $options['data'];
@@ -120,8 +128,8 @@ class SeedUnitType extends Form
         $buttons = array();
         /* @var $repo Repository */
         $repo = $this->getCrud()->getService('doctrine')->getRepository(
-                $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassRepository()
-            );
+            $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassRepository()
+        );
 
         $usages = $repo->findAll();
 
@@ -139,12 +147,12 @@ class SeedUnitType extends Form
 
             $buttons[$usage->getAbbreviation()] = array(
                 'link' => $this->getCrud()->getNavigator()->getLinkFromRoute(
-                            'seedUnit.changeUsage',
-                            array(
-                                'id'      => $seedUnit->getId(),
-                                'usageId' => $usage->getId()
-                            )
+                        'seedUnit.changeUsage',
+                        array(
+                            'id'      => $seedUnit->getId(),
+                            'usageId' => $usage->getId()
                         )
+                    )
             );
         }
 

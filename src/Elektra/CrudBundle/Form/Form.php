@@ -14,7 +14,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 abstract class Form extends AbstractType
 {
+
     const BUTTON_TOP = 'top';
+
     const BUTTON_BOTTOM = 'bottom';
 
     /**
@@ -269,7 +271,7 @@ abstract class Form extends AbstractType
             $notes             = $this->addFieldGroup($builder, $options, 'notes');
             $notesFieldOptions = $this->getFieldOptions('notes', false);
             $notesFieldOptions->add('crud', $this->getCrud());
-                        $notesFieldOptions->add('relation_parent_entity', $options['data']);
+            $notesFieldOptions->add('relation_parent_entity', $options['data']);
             $notesFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Notes', 'Note'));
             $notesFieldOptions->add('relation_name', 'notes');
             $notesFieldOptions->add('list_limit', 100);
@@ -281,14 +283,15 @@ abstract class Form extends AbstractType
 
     protected final function addAuditsGroup(FormBuilderInterface $builder, array $options)
     {
+
         if ($options['crud_action'] == 'view' && array_key_exists('data', $options)) { // key exists check for special case "address" - don't know why, but in this case, data is not set
-         $audits = $this->addFieldGroup($builder,$options,'audits');
+            $audits             = $this->addFieldGroup($builder, $options, 'audits');
             $auditsFieldOptions = $this->getFieldOptions('audits', false);
             $auditsFieldOptions->add('crud', $this->getCrud());
             $auditsFieldOptions->add('relation_parent_entity', $options['data']);
             $auditsFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Auditing', 'Audit'));
             $auditsFieldOptions->add('relation_name', 'audits');
-            $audits->add('audits','list',$auditsFieldOptions->toArray());
+            $audits->add('audits', 'list', $auditsFieldOptions->toArray());
         }
     }
 
@@ -424,7 +427,7 @@ abstract class Form extends AbstractType
      * @param $name
      * @param $position
      */
-    protected final function removeButton($name, $position)
+    protected final function removeButton($name, $position = Form::BUTTON_BOTTOM)
     {
 
         if (array_key_exists($position, $this->buttons)) {

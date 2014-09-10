@@ -17,7 +17,7 @@
                 {#{% set filtersWidth = 2 %}#}
                 {#{% set tableWidth = tableWidth - filtersWidth %}#}
 
-                    {{ block('table_filter_row') }}
+                {{ block('table_filter_row') }}
 
 
             {% endif %}
@@ -131,8 +131,8 @@
         {% if form is defined %}
             {% set offset = (table.pagination.page - 1) * table.pagination.limit %}
             {#{%  for key, child in form %}#}
-                {#{{ key }} ->#}
-                {#{{ child.vars.name }}<br />#}
+            {#{{ key }} ->#}
+            {#{{ child.vars.name }}<br />#}
             {#{% endfor %}#}
         {% endif %}
 
@@ -183,10 +183,7 @@
 {% endblock table_body_cell %}
 
 {% block table_body_cell_select %}
-    {#{{ entry.id }}#}
     {% if form is defined %}
-        {% set widgetIndex = offset + count + 1 %} {# form widgets are 1-relative #}
-        {#{{ form_widget(form[widgetIndex],{'inTable':true}) }}#}
         {{ form_widget(form[entry.id],{'inTable':true}) }}
     {% endif %}
 {% endblock table_body_cell_select %}
@@ -351,39 +348,39 @@
     </div>
     {% if table.crud.hasParent() %}
         {#<script type="text/javascript">#}
-            {#var showBackdrop = function() {#}
-                {#var $backdrop = jQuery('<div id="#request_backdrop" class="modal-backdrop fade"></div>').appendTo(jQuery('body'));#}
-                {#$backdrop.animate({opacity: 0.75}, 75);#}
+        {#var showBackdrop = function() {#}
+        {#var $backdrop = jQuery('<div id="#request_backdrop" class="modal-backdrop fade"></div>').appendTo(jQuery('body'));#}
+        {#$backdrop.animate({opacity: 0.75}, 75);#}
 
-                {#return $backdrop;#}
-            {#}#}
+        {#return $backdrop;#}
+        {#}#}
 
-            {#var removeBackdrop = function($backdrop) {#}
+        {#var removeBackdrop = function($backdrop) {#}
 
-                {#$backdrop.animate({opacity: 0}, 75);#}
-                {#$backdrop.remove();#}
-            {#}#}
+        {#$backdrop.animate({opacity: 0}, 75);#}
+        {#$backdrop.remove();#}
+        {#}#}
 
-            {#jQuery(document).ready(function() {#}
-                {#var $tableId = '#{{ table.id }}';#}
-                {#var $paginationId = '#{{ table.id }}' + '-pagination';#}
+        {#jQuery(document).ready(function() {#}
+        {#var $tableId = '#{{ table.id }}';#}
+        {#var $paginationId = '#{{ table.id }}' + '-pagination';#}
 
-                {#jQuery($paginationId + " a").each(function(index, element) {#}
-                    {#jQuery(element).on('click', function(event) {#}
-                        {#event.preventDefault();#}
-                        {#var $link = jQuery(this).attr('href');#}
-                        {#var $backdrop = showBackdrop();#}
-                        {#jQuery.ajax({#}
-                                        {#url: $link,#}
-                                        {#success: function(response) {#}
-                                            {#jQuery($tableId).replaceWith(jQuery(response).find($tableId));#}
-                                            {#removeBackdrop($backdrop);#}
-                                        {#}#}
-                                    {#})#}
-                    {#})#}
-                {#});#}
+        {#jQuery($paginationId + " a").each(function(index, element) {#}
+        {#jQuery(element).on('click', function(event) {#}
+        {#event.preventDefault();#}
+        {#var $link = jQuery(this).attr('href');#}
+        {#var $backdrop = showBackdrop();#}
+        {#jQuery.ajax({#}
+        {#url: $link,#}
+        {#success: function(response) {#}
+        {#jQuery($tableId).replaceWith(jQuery(response).find($tableId));#}
+        {#removeBackdrop($backdrop);#}
+        {#}#}
+        {#})#}
+        {#})#}
+        {#});#}
 
-            {#});#}
+        {#});#}
         {#</script>#}
     {% endif %}
 {% endblock table_navigation %}

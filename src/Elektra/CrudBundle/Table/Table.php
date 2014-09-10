@@ -266,14 +266,16 @@ abstract class Table
      * @param $name
      * @param $type
      * @param $options
+     * @param $visible
      */
-    protected final function addCustomFilter($name, $type, $options)
+    protected final function addCustomFilter($name, $type, $options, $visible = true)
     {
 
         $filter = array(
             'name'    => $name,
             'type'    => $type,
             'options' => $options,
+            'visible' => $visible,
         );
 
         $this->customFilters[] = $filter;
@@ -498,8 +500,14 @@ abstract class Table
         $return = $this->columns->hasFilterable();
 
         if ($return == false) {
+            foreach ($this->customFilters as $filter) {
+                if ($filter['visible'] == true) {
+                    $return = true;
+                    break;
+                }
+            }
             // check custom filters
-            $return = count($this->customFilters) != 0;
+//            $return = count($this->customFilters) != 0;
         }
 
         return $return;
@@ -586,6 +594,7 @@ abstract class Table
 
         // first, create the custom filters (type-specific)
         foreach ($this->customFilters as $filter) {
+            if($filter['visible']) {
             $filterName = $this->getFilterFieldName($filter);
             $selected   = $this->getRequestData('custom-filters', $filterName);
 
@@ -596,6 +605,7 @@ abstract class Table
             )->getForm()->createView();
 
             $filters[] = $filterField;
+            }
         }
 
         // second, create the column-related filters

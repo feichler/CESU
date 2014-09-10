@@ -13,6 +13,11 @@ class SeedUnitTable extends Table
         $crud  = $this->getColumns()->getTable()->getCrud();
         $route = $crud->getLinker()->getActiveRoute();
 
+        if ($route == 'request.view') {
+            $this->disallowAction('edit');
+            $this->disallowAction('delete');
+        }
+
         if ($route == 'request.seedUnit.add') {
             $this->disallowAction('add');
             $this->disallowAction('edit');
@@ -29,14 +34,6 @@ class SeedUnitTable extends Table
 
         $crud  = $this->getColumns()->getTable()->getCrud();
         $route = $crud->getLinker()->getActiveRoute();
-        //        var_dump($render);
-        //        echo $render;
-        ////        echo $crud->getDefinition()->getName();
-        ////        echo get_class($crud->getController());
-        //        $session = $crud->getService('session');
-        //        echo '<pre>';
-        //        var_dump($session->all());
-        //        echo '</pre>';
 
         $select = $this->getColumns()->addSelectColumn();
 
@@ -82,8 +79,11 @@ class SeedUnitTable extends Table
 
         if ($route == 'request.seedUnit.add') {
             $status->setHidden();
-                        $request->setHidden();
-        } else {
+            $request->setHidden();
+            $usage->setHidden();
+        } else if($route == 'request.view') {
+            $request->setHidden();
+        }else {
             $select->setHidden();
         }
     }
@@ -97,9 +97,12 @@ class SeedUnitTable extends Table
         $crud  = $this->getColumns()->getTable()->getCrud();
         $route = $crud->getLinker()->getActiveRoute();
 
-        if ($route == 'request.seedUnit.add') {
+        $visible = true;
 
-        } else {
+        if ($route == 'request.seedUnit.add') {
+            $visible = false;
+        }
+
         $this->addCustomFilter(
             'inUse',
             'choice',
@@ -109,9 +112,9 @@ class SeedUnitTable extends Table
                     'n' => 'No',
                     'y' => 'Yes',
                 ),
-            )
+            ),
+            $visible
         );
-        }
     }
 
     /**
