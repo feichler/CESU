@@ -61,6 +61,13 @@ class SelectListType extends EntityType
         $crud       = $options['crud'];
         $definition = $options['definition'];
 
+        if ($crud instanceof Crud) {
+
+            $doctrine = $crud->getService('doctrine')->getManager();
+            $entity   = $doctrine->getReference($crud->getDefinition()->getClassEntity(), $crud->getRequest()->get('id'));
+            $crud->setParent($entity, $crud->getLinker()->getActiveRoute(), null);
+        }
+
         $crud->setDefinition($definition);
         $tableClass = $definition->getClassTable();
         $table      = new $tableClass($crud);

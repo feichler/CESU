@@ -183,8 +183,10 @@
 {% endblock table_body_cell %}
 
 {% block table_body_cell_select %}
+    {{ entry.id }}
+    {{ dump(form.offsetExists(entry.id)) }}
     {% if form is defined %}
-        {{ form_widget(form[entry.id],{'inTable':true}) }}
+        {#{{ form_widget(form[entry.id],{'inTable':true}) }}#}
     {% endif %}
 {% endblock table_body_cell_select %}
 

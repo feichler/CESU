@@ -14,8 +14,10 @@ class SeedUnitTable extends Table
         $route = $crud->getLinker()->getActiveRoute();
 
         if ($route == 'request.view') {
+            $this->disallowAction('add');
             $this->disallowAction('edit');
             $this->disallowAction('delete');
+            $this->disallowAction('view');
         }
 
         if ($route == 'request.seedUnit.add') {
@@ -122,7 +124,6 @@ class SeedUnitTable extends Table
      */
     protected function getCustomLoadFilter($options)
     {
-
         $crud  = $this->getColumns()->getTable()->getCrud();
         $route = $crud->getLinker()->getActiveRoute();
 
@@ -130,6 +131,8 @@ class SeedUnitTable extends Table
 
         if ($route == 'request.seedUnit.add') {
             $filter['request'] = 'NULL';
+        } else if ($route == 'request.view') {
+//            $filter['request'] = $crud->getRequest()->get("id");
         } else {
             switch ($options['name']) {
                 case 'inUse':
@@ -149,6 +152,7 @@ class SeedUnitTable extends Table
             }
         }
 
+        var_dump($filter);
         return $filter;
     }
     //    /**
