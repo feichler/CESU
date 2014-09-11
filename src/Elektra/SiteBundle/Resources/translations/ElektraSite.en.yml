@@ -308,6 +308,7 @@ tables:
         warehouse_location:
             columns:
                 location_identifier:                                    Alias
+                short_name:                                             Name
             actions:
                 add:                                                    New Warehouse
         company_person:

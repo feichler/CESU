@@ -4,24 +4,24 @@
  # Top level Containers
  #############################################################################}
 
-{% block form_start %}
-    <div
-            name="{{ form.vars.name }}"
-    {% for attrname, attrvalue in attr %}
-        {% if attrname == 'css_class' %}
-            {% set attrname = 'class' %}
-        {% endif %}
-        {{ attrname }}="{{ attrvalue }}"
-    {% endfor %}
-    >
-{% endblock form_start %}
+{#{% block form_start %}#}
+    {#<div#}
+            {#name="{{ form.vars.name }}"#}
+    {#{% for attrname, attrvalue in attr %}#}
+        {#{% if attrname == 'css_class' %}#}
+            {#{% set attrname = 'class' %}#}
+        {#{% endif %}#}
+        {#{{ attrname }}="{{ attrvalue }}"#}
+    {#{% endfor %}#}
+    {#>#}
+{#{% endblock form_start %}#}
 
-{% block form_end %}
-    {% if not render_rest is defined or render_rest %}
-        {{- form_rest(form) -}}
-    {% endif -%}
-    </div>
-{% endblock form_end %}
+{#{% block form_end %}#}
+    {#{% if not render_rest is defined or render_rest %}#}
+        {#{{- form_rest(form) -}}#}
+    {#{% endif -%}#}
+    {#</div>#}
+{#{% endblock form_end %}#}
 
 {#############################################################################
  # Specific Row Containers
@@ -35,6 +35,11 @@
 {# groups #}
 {% block group_row %}
     {% set withBody = true %}
+    {% for child in form if child.vars.group_body is defined %}
+        {% if child.vars.group_body == false %}
+            {% set withBody = false %}
+        {% endif %}
+    {% endfor %}
     {% for child in form if child.vars.relation_name is defined %}
         {% set withBody = false %}
     {% endfor %}
@@ -89,6 +94,14 @@
     {#{% set innerClass = 'none' %}#}
     {#{{- block('form_row') -}}#}
 {% endblock relatedList_row %}
+
+{% block entityTable_row %}
+    {% if form.vars.group_body is defined and form.vars.group_body == false %}
+        {{ form_widget(form) }}
+    {% else %}
+        {{ block('form_row') }}
+    {% endif %}
+{% endblock entityTable_row %}
 
 {#############################################################################
  # Labels
@@ -185,7 +198,8 @@
     {% set controller = form.vars.relation_child_type.controller ~ ':relatedList' %}
     {% set parentEntity = form.vars.relation_parent_entity %}
     {% set relationName = form.vars.relation_name %}
-    {% set options = {'listLimit': form.vars.list_limit, 'orderingField': form.vars.ordering_field, 'orderingDirection': form.vars.ordering_direction} %}
+    {% set checkbox = form.vars.checkboxes %}
+    {% set options = {'listLimit': form.vars.list_limit, 'orderingField': form.vars.ordering_field, 'orderingDirection': form.vars.ordering_direction, 'checkboxes': checkbox} %}
     {{ render(controller(controller, {'parentEntity': parentEntity,'parentRoute':app.request.get('_route'),'relationName':relationName, 'options': options})) }}
 {% endblock relatedList_widget %}
 

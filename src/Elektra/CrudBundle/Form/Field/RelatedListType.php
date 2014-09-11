@@ -41,6 +41,7 @@ class RelatedListType extends AbstractListType
         $resolver->setDefaults(
             array(
                 'relation_name' => null,
+                'checkboxes'    => false,
             )
         );
 
@@ -70,6 +71,7 @@ class RelatedListType extends AbstractListType
         $view->vars['relation_child_type']    = $options['relation_child_type'];
         $view->vars['relation_parent_entity'] = $options['relation_parent_entity'];
         $view->vars['relation_name']          = $options['relation_name'];
+        $view->vars['checkboxes']          = $options['checkboxes'];
 
         parent::buildView($view, $form, $options);
     }

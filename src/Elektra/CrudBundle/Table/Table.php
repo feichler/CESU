@@ -43,6 +43,8 @@ abstract class Table
      */
     protected $entries;
 
+    protected $entriesSet = false;
+
     /**
      * @var array
      */
@@ -344,10 +346,17 @@ abstract class Table
     public function setEntries($entries)
     {
 
+
         if (is_array($entries) || $entries instanceof \Traversable) {
             foreach ($entries as $entry) {
-                $this->entries[] = $entry;
+                if (method_exists($entry, 'getId')) {
+                    //                    echo 'b';
+                    $this->entries[$entry->getId()] = $entry;
+                } else {
+                    $this->entries[] = $entry;
+                }
             }
+            $this->entriesSet = true;
         } else {
             throw new \RuntimeException('Given entries are not traversable');
         }
@@ -358,6 +367,10 @@ abstract class Table
      */
     public function getEntryCount()
     {
+
+        if ($this->entriesSet) {
+            return count($this->entries);
+        }
 
         $search  = null;
         $filters = null;
@@ -383,6 +396,11 @@ abstract class Table
     /*************************************************************************
      * Column related methods
      *************************************************************************/
+
+    public function setSelectable() {
+
+        $this->getColumns()->addSelectColumn('first');
+    }
 
     /**
      * @return Columns
@@ -507,7 +525,7 @@ abstract class Table
                 }
             }
             // check custom filters
-//            $return = count($this->customFilters) != 0;
+            //            $return = count($this->customFilters) != 0;
         }
 
         return $return;
@@ -594,17 +612,17 @@ abstract class Table
 
         // first, create the custom filters (type-specific)
         foreach ($this->customFilters as $filter) {
-            if($filter['visible']) {
-            $filterName = $this->getFilterFieldName($filter);
-            $selected   = $this->getRequestData('custom-filters', $filterName);
+            if ($filter['visible']) {
+                $filterName = $this->getFilterFieldName($filter);
+                $selected   = $this->getRequestData('custom-filters', $filterName);
 
-            $filterField = $builder->create(
-                $filterName,
-                $filter['type'],
-                $this->prepareFilterOptions($filter['options'], $selected)
-            )->getForm()->createView();
+                $filterField = $builder->create(
+                    $filterName,
+                    $filter['type'],
+                    $this->prepareFilterOptions($filter['options'], $selected)
+                )->getForm()->createView();
 
-            $filters[] = $filterField;
+                $filters[] = $filterField;
             }
         }
 

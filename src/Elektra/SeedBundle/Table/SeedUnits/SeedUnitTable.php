@@ -2,6 +2,7 @@
 
 namespace Elektra\SeedBundle\Table\SeedUnits;
 
+use Doctrine\ORM\EntityManager;
 use Elektra\CrudBundle\Table\Table;
 
 class SeedUnitTable extends Table
@@ -14,10 +15,10 @@ class SeedUnitTable extends Table
         $route = $crud->getLinker()->getActiveRoute();
 
         if ($route == 'request.view') {
-            $this->disallowAction('add');
+            //            $this->disallowAction('add');
             $this->disallowAction('edit');
             $this->disallowAction('delete');
-            $this->disallowAction('view');
+            //            $this->disallowAction('view');
         }
 
         if ($route == 'request.seedUnit.add') {
@@ -37,7 +38,7 @@ class SeedUnitTable extends Table
         $crud  = $this->getColumns()->getTable()->getCrud();
         $route = $crud->getLinker()->getActiveRoute();
 
-        $select = $this->getColumns()->addSelectColumn();
+        //        $select = $this->getColumns()->addSelectColumn();
 
         $serial = $this->getColumns()->addTitleColumn('serial_number');
         $serial->setFieldData('serialNumber');
@@ -60,18 +61,21 @@ class SeedUnitTable extends Table
         $status->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'));
         $status->setFieldData('unitStatus.name');
         $status->setSortable();
-        $status->setFilterable()->setFieldFilter('name');
+        // Filter not working
+//        $status->setFilterable()->setFieldFilter('name');
 
         $usage = $this->getColumns()->add('usage');
         $usage->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage'));
         $usage->setFieldData('unitUsage.title');
         $usage->setSortable();
-        $usage->setFilterable()->setFieldFilter('name');
+        // Filter not working
+//        $usage->setFilterable()->setFieldFilter('name');
 
         $location = $this->getColumns()->add('location');
         $location->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location'));
         $location->setFieldData('location.shortName');
         $location->setSortable();
+        // Filter not working
         //        $location->setFilterable()->setFieldFilter('shortName');
 
         $request = $this->getColumns()->add('request');
@@ -83,10 +87,10 @@ class SeedUnitTable extends Table
             $status->setHidden();
             $request->setHidden();
             $usage->setHidden();
-        } else if($route == 'request.view') {
+        } else if ($route == 'request.view') {
             $request->setHidden();
-        }else {
-            $select->setHidden();
+        } else {
+            //            $select->setHidden();
         }
     }
 
@@ -124,6 +128,7 @@ class SeedUnitTable extends Table
      */
     protected function getCustomLoadFilter($options)
     {
+
         $crud  = $this->getColumns()->getTable()->getCrud();
         $route = $crud->getLinker()->getActiveRoute();
 
@@ -132,7 +137,7 @@ class SeedUnitTable extends Table
         if ($route == 'request.seedUnit.add') {
             $filter['request'] = 'NULL';
         } else if ($route == 'request.view') {
-//            $filter['request'] = $crud->getRequest()->get("id");
+            $filter['request'] = $crud->getRequest()->get("id");
         } else {
             switch ($options['name']) {
                 case 'inUse':
@@ -146,13 +151,14 @@ class SeedUnitTable extends Table
                         $filter[$fieldName] = 'NOT NULL';
                     }
                     break;
+
                 default:
                     throw new \RuntimeException('Unknown filter "' . $options['name'] . '"');
                     break;
             }
         }
 
-        var_dump($filter);
+        //        var_dump($filter);
         return $filter;
     }
     //    /**

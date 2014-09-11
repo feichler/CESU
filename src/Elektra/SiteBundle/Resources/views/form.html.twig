@@ -435,9 +435,24 @@
 
 {# display widget (custom type) #}
 {% block selectList_widget %}
-
+{{ form_errors(form) }}
     {{ table(table) }}
 {% endblock selectList_widget %}
+
+{% block entityTable_widget %}
+{{ table(table) }}
+    {% for label, choice in choices %}
+        {#{{ choice|getClass }}#}
+        {#{{ choice.data|getClass }}#}
+        {#{{ choice.data.shortName }}#}
+        {#{{ choice.data.name }}#}
+{#{{ label }} - {{ choice.label }} - {{ choice.value }}<br />#}
+{% endfor %}
+{#{% for key, value in form %}#}
+    {#a#}
+{#{{ key }}#}
+{#{% endfor %}#}
+{% endblock entityTable_widget %}
 
 {#############################################################################
  # attribute helpers

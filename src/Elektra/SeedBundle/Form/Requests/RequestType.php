@@ -69,34 +69,75 @@ class RequestType extends CrudForm
 
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
+
         $requestId = $options['data']->getId();
-        $self   = $this;
-        $common = $this->addFieldGroup($builder, $options, 'common');
+        $self      = $this;
+        $common    = $this->addFieldGroup($builder, $options, 'common');
 
         if ($options['crud_action'] == 'view') {
             $common->add('requestNumber', 'text', $this->getFieldOptions('requestNumber')->toArray());
             $unitsGroup   = $this->addFieldGroup($builder, $options, 'units');
             $unitsOptions = $this->getFieldOptions('seedUnits', false);
-            //$unitsOptions->add('relation_parent_entity', $options['data']);
-            //$unitsOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'));
-            //$unitsGroup->add('seedUnits', 'relatedList', $unitsOptions->toArray());
-            $page = $this->getCrud()->getData('page', 'request');
-            //$unitsOptions->add('page',$page);
-            $unitsOptions->add('page', 1);
-            $unitsOptions->add('crud', $this->getCrud());
-            $unitsOptions->add('definition', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'));
-            $unitsOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit')->getClassEntity());
-            $unitsOptions->add('property', 'title');
-            $unitsOptions->add('query_builder',
-                function (EntityRepository $er) use($requestId) {
+            $unitsOptions->add('relation_parent_entity', $options['data']);
+            $unitsOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'));
+            $unitsOptions->add('checkboxes', true);
+            $unitsGroup->add('seedUnits', 'relatedList', $unitsOptions->toArray());
 
-                    $builder = $er->createQueryBuilder('su');
-                    $builder->where($builder->expr()->eq('su.request', $requestId));
-//                echo $builder->getDQL();
+            $uDefinition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
+            $uGroup = $this->addFieldGroup($builder,$options,'units2');
+            $uOptions = $this->getFieldOptions('seedUnits', false);
+            $this->getCrud()->setParent($options['data'], $this->getCrud()->getLinker()->getActiveRoute(), null);
+            $this->getCrud()->setDefinition($uDefinition);
+//            $uOptions = $this->getFieldOptions('locations', false)->notMapped();
+            $uOptions->add('multiple',true);
+            $uOptions->add('class', $uDefinition->getClassEntity());
+            $uOptions->add('crud', $this->getCrud());
+            $uOptions->add('child', $uDefinition);
+            $uOptions->add('parent', $this->getCrud()->getParentDefinition());
+            $uOptions->add(
+                'query_builder',
+                function (EntityRepository $repository) use ($options) {
+
+                    $builder = $repository->createQueryBuilder('u');
+                    $builder->where('u.request = :request');
+                    $builder->setParameter('request', $options['data']);
+
                     return $builder;
                 }
             );
-            $unitsGroup->add('seedUnits', 'selectList', $unitsOptions->toArray());
+            $uGroup->add('seedUnits','entityTable',$uOptions->toArray());
+
+//            $saveButton = array(
+//                'type' => 'submit',
+//                'options' => array(
+//                    'label' => 'save',
+//                    'attr' => array(
+//                        'class' => 'btn btn-default',
+//                    ),
+//                ),
+//            );
+//
+//            $unitsGroup->add('unitActions', 'buttonGroup', array('buttons' => array(
+//                    'save' => $saveButton,
+//                )));
+
+//            $page = $this->getCrud()->getData('page', 'request');
+            //$unitsOptions->add('page',$page);
+            //            $unitsOptions->add('page', 1);
+            //            $unitsOptions->add('crud', $this->getCrud());
+            //            $unitsOptions->add('definition', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'));
+            //            $unitsOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit')->getClassEntity());
+            //            $unitsOptions->add('property', 'title');
+            //            $unitsOptions->add('query_builder',
+            //                function (EntityRepository $er) use($requestId) {
+            //
+            //                    $builder = $er->createQueryBuilder('su');
+            //                    $builder->where($builder->expr()->eq('su.request', $requestId));
+            ////                echo $builder->getDQL();
+            //                    return $builder;
+            //                }
+            //            );
+            //            $unitsGroup->add('seedUnits', 'selectList', $unitsOptions->toArray());
         }
 
         $common->add('numberOfUnitsRequested', 'integer', $this->getFieldOptions('numberOfUnitsRequested')->notBlank()->required()->toArray());
@@ -142,7 +183,8 @@ class RequestType extends CrudForm
 
     protected function initialiseButtons($crudAction, array $options)
     {
-return;
+
+        return;
         /* @var $entity SeedUnit */
         $entity = $options['data'];
         /* @var $unitStatus UnitStatus */
@@ -247,7 +289,6 @@ return;
 
         return $buttons;
     }
-
 
     /**
      * @param SeedUnit $entity

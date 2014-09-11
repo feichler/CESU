@@ -27,7 +27,8 @@
 		"natxet/CssMin": "~3.0",
 		"raulfraile/ladybug-bundle": "~1.0",
 		"liuggio/ExcelBundle": "2.0.*@dev",
-		"knplabs/knp-snappy-bundle": "1.0.*@dev"
+		"knplabs/knp-snappy-bundle": "1.0.*@dev",
+		"knplabs/knp-paginator-bundle": "~2.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

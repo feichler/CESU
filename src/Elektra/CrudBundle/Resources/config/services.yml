@@ -26,3 +26,10 @@ services:
             - "@doctrine"
         tags:
             - { name: form.type, alias: selectList }
+
+    elektra_crud.form.type.entityTable:
+        class: Elektra\CrudBundle\Form\Field\EntityTableType
+        arguments:
+            - "@doctrine"
+        tags:
+            - { name: form.type, alias: entityTable }

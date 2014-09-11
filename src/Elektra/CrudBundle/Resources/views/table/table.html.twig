@@ -1,45 +1,58 @@
 {% block table %}
-    <div id="{{ table.id }}">
-        {% set classes = 'table table-condensed table-striped table-' ~ table.crud.definition.name|lower %}
-        {% if table.inView == false %}
-        {% set classes = classes ~ ' table-bordered' %}
-        {#{% if form_started is defined %}#}
-        {#asdf#}
-        {#{% endif %}#}
-        {#{% if form is defined %}#}
-        {#asdf1234#}
-        {#{% endif %}#}
-        {% set tableWidth = 12 %}
-        {# URGENT embedded functionality #}
-        {% if not table.crud.hasParent() %}
-            {% if table.hasFilters or table.hasSearch %}
-                {% set inFilter = true %}
-                {#{% set filtersWidth = 2 %}#}
-                {#{% set tableWidth = tableWidth - filtersWidth %}#}
-
-                {{ block('table_filter_row') }}
-
-
-            {% endif %}
+    {% set checkboxes = false %}
+    {% if table.options is defined %}
+        {% if table.options.checkboxes is defined and table.options.checkboxes %}
+            {% set checkboxes = true %}
         {% endif %}
-        <div class="col-md-{{ tableWidth }}">
+    {% endif %}
+    <div id="{{ table.id }}">
+        {% if checkboxes %}
+        <form method="post">
             {% endif %}
-            <div class="table-responsive">
-                <table class="{{ classes }}">
-                    {{ block('table_head') }}
-                    {{ block('table_foot') }}
-                    {{ block('table_body') }}
-                </table>
+            {% set classes = 'table table-condensed table-striped table-' ~ table.crud.definition.name|lower %}
+            {% if table.inView == false %}
+            {% set classes = classes ~ ' table-bordered' %}
+            {#{% if form_started is defined %}#}
+            {#asdf#}
+            {#{% endif %}#}
+            {#{% if form is defined %}#}
+            {#asdf1234#}
+            {#{% endif %}#}
+            {% set tableWidth = 12 %}
+            {# URGENT embedded functionality #}
+            {% if not table.crud.hasParent() %}
+                {% if table.hasFilters or table.hasSearch %}
+                    {% set inFilter = true %}
+                    {#{% set filtersWidth = 2 %}#}
+                    {#{% set tableWidth = tableWidth - filtersWidth %}#}
+
+                    {{ block('table_filter_row') }}
+
+
+                {% endif %}
+            {% endif %}
+            <div class="col-md-{{ tableWidth }}">
+                {% endif %}
+                <div class="table-responsive">
+                    <table class="{{ classes }}">
+                        {{ block('table_head') }}
+                        {{ block('table_foot') }}
+                        {{ block('table_body') }}
+                    </table>
+                </div>
+
+                {% if table.inView == false %}
+                {# URGENT embedded functionality #}
+                {#{% if not table.crud.hasParent() %}#}
+                {#{{ block('table_navigation') }}#}
+                {#{% endif %}#}
             </div>
 
-            {% if table.inView == false %}
-            {# URGENT embedded functionality #}
-            {#{% if not table.crud.hasParent() %}#}
-            {{ block('table_navigation') }}
-            {#{% endif %}#}
-        </div>
-
+            {% endif %}
+            {% if checkboxes %}
+        </form>
         {% endif %}
+
     </div>
 {% endblock table %}
 
@@ -99,6 +112,18 @@
             }
         </script>
         <input type="checkbox" onclick="checkAll(this);"/>
+    {% elseif checkboxes %}
+        {# URGENT implement second variant #}
+        <script type="text/javascript">
+            function checkAll(elem) {
+                checked = elem.checked;
+                var boxes = jQuery('input[name^="select"]');
+                jQuery(boxes).each(function(index, element) {
+                    element.checked = checked;
+                });
+            }
+        </script>
+        <input type="checkbox" onclick="checkAll(this);"/>
     {% endif %}
 {% endblock table_head_cell_select %}
 
@@ -128,13 +153,22 @@
             </td>
         </tr>
     {% else %}
-        {% if form is defined %}
-            {% set offset = (table.pagination.page - 1) * table.pagination.limit %}
-            {#{%  for key, child in form %}#}
-            {#{{ key }} ->#}
-            {#{{ child.vars.name }}<br />#}
-            {#{% endfor %}#}
-        {% endif %}
+        {#{{ form|length }}#}
+        {#{% if form is defined %}#}
+        {#asdf {{ form.vars.full_name }}#}
+        {#{{ form|length }}#}
+        {#{{ form.vars.child.name }}#}
+        {#{{ form.vars.choices|length }}#}
+        {#{% for key, value in form.vars.choices %}#}
+        {#{{ key }}#}
+        {#{% endfor %}#}
+        {#&#123;&#35;{{ form.vars }}&#35;&#125;#}
+        {#{% set offset = (table.pagination.page - 1) * table.pagination.limit %}#}
+        {#{%  for key, child in form %}#}
+        {#key {{ key }} ->#}
+        {#&#123;&#35;{{ child.vars.name }}<br />&#35;&#125;#}
+        {#{% endfor %}#}
+        {#{% endif %}#}
 
         {#{% if form is defined %}#}
         {#{{ form|getClass }}#}
@@ -183,10 +217,33 @@
 {% endblock table_body_cell %}
 
 {% block table_body_cell_select %}
-    {{ entry.id }}
-    {{ dump(form.offsetExists(entry.id)) }}
+    {#&#123;&#35;{{ form|length }}&#35;&#125;#}
+    {#&#123;&#35;{{ entry.id }}&#35;&#125;#}
+    {#&#123;&#35;{{ dump(form.offsetExists(entry.id)) }}&#35;&#125;#}
+    {#{{ entry.id }}#}
+
     {% if form is defined %}
+        {% if form.vars.renderType is defined %}
+            {% if form.vars.renderType == 'selectList' %}
+                {{ form_widget(form[entry.id],{'inTable':true}) }}
+            {% endif %}
+        {% else %}
+            <input type="checkbox" id="{{ id }}" name="{{ full_name }}" value="{{ entry.id }}"/>
+        {% endif %}
+
+        {#{{ id }}#}
+        {#{% set choice = form.vars.choices[entry.id] %}#}
+        {#{{ id }} - {{ full_name }}<br />#}
+        {#{% for a,b in value %}#}
+        {#{{ a }} => {{ b }}<br />#}
+        {#{% endfor %}#}
+
+
+        {#{{ form_widget(form.vars.choices[entry.id],{'inTable':true}) }}#}
+        {#{{    form.vars.choices[entry.id]|getClass }}}#}
         {#{{ form_widget(form[entry.id],{'inTable':true}) }}#}
+    {% elseif checkboxes %}
+        <input type="checkbox" id="select_{{ entry.id }}" name="select[]" value="{{ entry.id }}"/>
     {% endif %}
 {% endblock table_body_cell_select %}
 

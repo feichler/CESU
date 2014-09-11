@@ -66,3 +66,13 @@
     {% endif %}
     {{ actions.action('delete', href, text, options) }}
 {% endmacro %}
+
+{% macro custom(href, text, options) %}
+    {% import _self as actions %}
+    {% set text = text|default(siteLanguage.required('actions.custom')) %}
+    {% set options = options|default({}) %}
+    {% if options.confirmMsg is not defined %}
+        {% set options = options|merge({'confirmMsg': siteLanguage.required('common.confirm_custom')}) %}
+    {% endif %}
+    {{ actions.action('custom', href, text, options) }}
+{% endmacro %}
