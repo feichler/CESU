@@ -206,6 +206,7 @@ abstract class Controller extends BaseController
         $table = $this->getTable(1, false);
         $table->setInView(true);
         $table->setOptions($options);
+        $table->getPagination()->setLimit(100);
         $table->load(1);
 
         $viewName = $this->getCrud()->getView('relatedList');
