@@ -26,3 +26,7 @@ seedUnit.changeSalesStatus:
 seedUnit.changeUsage:
     pattern:  /seedUnit/changeUsage/{id}-{usageId}
     defaults: { _controller: ElektraSeedBundle:SeedUnits/SeedUnit:changeUsage }
+
+request.changeShippingStatus:
+    pattern:  /request/changeShippingStatus/{id}
+    defaults: { _controller: ElektraSeedBundle:Requests/Request:changeShippingStatus }

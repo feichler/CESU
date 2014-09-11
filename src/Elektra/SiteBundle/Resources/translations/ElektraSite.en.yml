@@ -373,6 +373,18 @@ forms:
                 text:                                                   Note
     requests:
         request:
+            buttons:
+                shipped:                                                Shipped
+                in_transit:                                             In-transit
+                exception:                                              Exception
+                delivered:                                              Delivered
+                acknowledge_attempt:                                    Delivery NOT verified
+                aa1sent:                                                Delivery NOT verified
+                aa2sent:                                                Delivery NOT verified
+                aa3sent:                                                Delivery NOT verified
+                escalation:                                             Delivery NOT verified
+                delivery_verified:                                      Delivery verified
+                usage:                                                  Usage: %usage%
             companies:
                 partner:                                                Partner
                 sales_team:                                             Sales Team
@@ -384,6 +396,7 @@ forms:
             fields:
                 request_number:                                         'Request #'
                 number_of_units_requested:                              '# Units'
+                number_of_units_required:                               '# Required'
                 company:                                                Requesting Company
                 requester_person:                                       Requester
                 receiver_person:                                        Receiver

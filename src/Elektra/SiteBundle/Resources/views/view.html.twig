@@ -137,13 +137,21 @@
 {# simple input widget #}
 {% block form_widget_simple -%}
     {% set type = type|default('text') -%}
-    <span class="form-control" {{ block('widget_attributes') }}>
+    {% if asInput is defined and asInput %}
+        {% set class = class|default('') %}
+        {% set type = type|default('text') -%}
+        <input class="form-control {{ class }}" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% else %}
+        <span class="form-control" {{ block('widget_attributes') }}>
         {% if value is not empty %}{{ value }}{% endif %}
     </span>
-{%- endblock form_widget_simple %}
+{% endif %}{%- endblock form_widget_simple %}
 
 {# hidden -> not displaying in view theme #}
 {% block hidden_widget %}
+    {% set asInput = true %}
+    {% set type = type|default('hidden') %}
+    {{- block('form_widget_simple') -}}
 {% endblock hidden_widget %}
 
 {# textarea widget #}

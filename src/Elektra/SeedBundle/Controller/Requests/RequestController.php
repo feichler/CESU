@@ -42,6 +42,63 @@ class RequestController extends Controller
         return $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Requests', 'Request');
     }
 
+    public function changeShippingStatusAction($id)
+    {
+        $this->initialise('changeShippingStatus');
+
+        // get the existing entity
+        $entity = $this->getEntity($id);
+
+        // get the associated form
+        $form = $this->getForm($entity, 'changeShippingStatus');
+
+        var_dump($this->getRequest()->get('_token'));
+
+        // check the form
+        $form->handleRequest($this->getCrud()->getRequest());
+
+        var_dump($form->isValid());
+        echo '<br />';
+        foreach($form->getErrors() as $error) {
+            if($error instanceof FormError) {
+                echo $error->getMessage().'<br />';
+                $cause = $error->getCause();
+                echo get_class($error->getOrigin());
+                echo "ORIGIN:".$error->getOrigin()->getName();
+                echo get_class($cause).'<br />';
+            }
+        }
+        echo "AFTER HANDLE";
+
+
+        if ($form->isValid() && !$this->filterSubmitted) {
+            echo "SUBMITTED";
+            //return $this->processAction('edit', $entity, $form);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function viewAction($id)
+    {
+
+        $this->initialise('view');
+
+        // get the existing entity
+        $entity = $this->getEntity($id);
+
+        // get the associated form
+        $form = $this->getForm($entity, 'view', 'request.changeShippingStatus');
+
+        // get the view name (specific or common) and prepare the form view
+        $viewName = $this->getCrud()->getView('view');
+        $formView = $form->createView();
+
+        // render the add-view with the form
+        return $this->render($viewName, array('form' => $formView));
+    }
+
     public function addUnitAction($id = null, $page = null)
     {
 
@@ -89,6 +146,8 @@ class RequestController extends Controller
         // render the add-view with the form
         return $this->render($viewName, array('form' => $formView));
     }
+
+
 
     /**
      * @param EntityInterface $entity

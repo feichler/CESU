@@ -361,14 +361,18 @@ abstract class Controller extends BaseController
      *
      * @return Form
      */
-    protected function getForm(EntityInterface $entity, $crudAction)
+    protected function getForm(EntityInterface $entity, $crudAction, $action = null)
     {
 
         $formClass = $this->getCrud()->getDefinition()->getClassForm();
-        $options   = Helper::mergeOptions(
-            array('crud_action' => $crudAction),
+        $options   = Helper::mergeOptions(array('crud_action' => $crudAction),
             $this->getFormOptions($entity, $crudAction)
         );
+
+        if ($action != null)
+        {
+            $options['action'] = $this->generateUrl($action, array('id' => $entity->getId()));
+        }
 
         $form = $this->createForm(new $formClass($this->getCrud()), $entity, $options);
 
