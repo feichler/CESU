@@ -6,9 +6,9 @@
         {% endif %}
     {% endif %}
     <div id="{{ table.id }}">
-        {% if checkboxes %}
-        <form method="post">
-            {% endif %}
+        {#{% if checkboxes %}#}
+        {#<form method="post">#}
+            {#{% endif %}#}
             {% set classes = 'table table-condensed table-striped table-' ~ table.crud.definition.name|lower %}
             {% if table.inView == false %}
             {% set classes = classes ~ ' table-bordered' %}
@@ -50,9 +50,9 @@
             </div>
 
             {% endif %}
-            {% if checkboxes %}
-        </form>
-        {% endif %}
+            {#{% if checkboxes %}#}
+        {#</form>#}
+        {#{% endif %}#}
 
     </div>
 {% endblock table %}
