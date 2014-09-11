@@ -166,83 +166,14 @@ class SeedUnitType extends Form
      */
     private function initialiseShippingButtons(SeedUnit $entity, UnitStatus $unitStatus)
     {
+        $allowedStatuses = UnitStatus::$ALLOWED_FROM[$unitStatus->getInternalName()];
 
         $buttons = array();
-        switch ($unitStatus->getInternalName()) {
-            case UnitStatus::RESERVED:
-                $buttons[UnitStatus::SHIPPED] = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::SHIPPED)
-                );
-                break;
-
-            case UnitStatus::SHIPPED:
-                $buttons[UnitStatus::IN_TRANSIT] = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::IN_TRANSIT)
-                );
-                break;
-
-            case UnitStatus::IN_TRANSIT:
-                $buttons[UnitStatus::DELIVERED] = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERED)
-                );
-                $buttons[UnitStatus::EXCEPTION] = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::EXCEPTION)
-                );
-                break;
-
-            case UnitStatus::DELIVERED:
-                $buttons[UnitStatus::DELIVERY_VERIFIED]   = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
-                );
-                $buttons[UnitStatus::ACKNOWLEDGE_ATTEMPT] = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::ACKNOWLEDGE_ATTEMPT)
-                );
-                break;
-
-            case UnitStatus::ACKNOWLEDGE_ATTEMPT:
-                $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
-                );
-                $buttons[UnitStatus::AA1SENT]           = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::AA1SENT)
-                );
-                break;
-
-            case UnitStatus::AA1SENT:
-                $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
-                );
-                $buttons[UnitStatus::AA2SENT]           = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::AA2SENT)
-                );
-                break;
-
-            case UnitStatus::AA2SENT:
-                $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
-                );
-                $buttons[UnitStatus::AA3SENT]           = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::AA3SENT)
-                );
-                break;
-
-            case UnitStatus::AA3SENT:
-                $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
-                );
-                $buttons[UnitStatus::ESCALATION]        = array(
-                    'link' => $this->getChangeStatusLink($entity, UnitStatus::ESCALATION)
-                );
-                break;
-
-            case UnitStatus::DELIVERY_VERIFIED:
-                break;
-
-            default:
-            case UnitStatus::AVAILABLE:
-            case UnitStatus::ESCALATION:
-            case UnitStatus::EXCEPTION:
-                break;
+        foreach($allowedStatuses as $allowedStatus)
+        {
+            $buttons[$allowedStatus] = array(
+                'link' => $this->getChangeStatusLink($entity, $allowedStatus)
+            );
         }
 
         return $buttons;

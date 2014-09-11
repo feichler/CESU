@@ -4,6 +4,7 @@ namespace Elektra\SeedBundle\Controller\SeedUnits;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\CrudBundle\Controller\Controller;
+use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\Companies\GenericLocation;
 use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
 use Elektra\SeedBundle\Entity\EntityInterface;
@@ -61,113 +62,32 @@ class SeedUnitController extends Controller
         $seedUnit = $this->getEntity($id);
         /* @var ObjectManager $mgr  */
         $mgr = $this->getDoctrine()->getManager();
-        /* @var UnitStatus $newStatus  */
-        $newStatus = $mgr
-            ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')
-                ->getClassRepository())->findByInternalName($status);
-        $options = array('crud_action' => 'changeShippingStatus');
-        $eventTypeRepository = $mgr
-            ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'EventType')
-                ->getClassRepository());
 
         // TODO: validate if transition is allowed
 
-        $event = null;
+        $eventFactory = new EventFactory($mgr);
+
+        $location = null;
         switch($status)
         {
-            case UnitStatus::SHIPPED:
-                $event = new ShippingEvent();
-                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
-                $event->setUnitStatus($newStatus);
-                $event->setLocation($mgr
-                    ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'GenericLocation')
-                        ->getClassRepository())->findByInternalName(GenericLocation::IN_TRANSIT));
-                $event->setTitle('Unit has been shipped.');
-                break;
-
-            case UnitStatus::IN_TRANSIT:
-                $event = new ShippingEvent();
-                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
-                $event->setUnitStatus($newStatus);
-                $event->setLocation($mgr
-                    ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'GenericLocation')
-                        ->getClassRepository())->findByInternalName(GenericLocation::IN_TRANSIT));
-                $event->setTitle('Unit is being delivered.');
-                break;
-
             case UnitStatus::DELIVERED:
-                $event = new ShippingEvent();
-                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
-                $event->setUnitStatus($newStatus);
-                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
-                $event->setTitle('Unit arrived at target location.');
-                break;
-
-            case UnitStatus::EXCEPTION:
-                $event = new ShippingEvent();
-                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
-                $event->setUnitStatus($newStatus);
-                $event->setLocation($mgr
-                    ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'GenericLocation')
-                        ->getClassRepository())->findByInternalName(GenericLocation::UNKNOWN));
-                $event->setTitle('Exception: Unit lost in transit.');
-                break;
-
             case UnitStatus::ACKNOWLEDGE_ATTEMPT:
-                $event = new ShippingEvent();
-                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
-                $event->setUnitStatus($newStatus);
-                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
-                $event->setTitle("Acknowledge attempted - delivery couldn't be verified.");
-                break;
-
             case UnitStatus::AA1SENT:
-                $event = new ShippingEvent();
-                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
-                $event->setUnitStatus($newStatus);
-                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
-                $event->setTitle("AA1 attempted - delivery couldn't be verified.");
-                break;
-
             case UnitStatus::AA2SENT:
-                $event = new ShippingEvent();
-                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
-                $event->setUnitStatus($newStatus);
-                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
-                $event->setTitle("AA2 attempted - delivery couldn't be verified.");
-                break;
-
             case UnitStatus::AA3SENT:
-                $event = new ShippingEvent();
-                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
-                $event->setUnitStatus($newStatus);
-                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
-                $event->setTitle("AA3 attempted - delivery couldn't be verified.");
-                break;
-
             case UnitStatus::ESCALATION:
-                $event = new ShippingEvent();
-                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
-                $event->setUnitStatus($newStatus);
-                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
-                $event->setTitle("Escalation: Delivery couldn't be verified.");
-                break;
-
             case UnitStatus::DELIVERY_VERIFIED:
-                $event = new ShippingEvent();
-                $event->setEventType($eventTypeRepository->findByInternalName(EventType::SHIPPING));
-                $event->setUnitStatus($newStatus);
-                $event->setLocation($seedUnit->getRequest()->getShippingLocation());
-                $event->setTitle("Delivery verified.");
+                $location = $seedUnit->getRequest()->getShippingLocation();
                 break;
         }
 
-        if ($event != null)
-        {
-            $seedUnit->getEvents()->add($event);
-            $event->setSeedUnit($seedUnit);
-            $mgr->flush();
-        }
+        $event = $eventFactory->createShippingEvent($status, array(
+            EventFactory::LOCATION => $location
+        ));
+
+        $seedUnit->getEvents()->add($event);
+        $event->setSeedUnit($seedUnit);
+        $mgr->flush();
 
         $returnUrl = $this->getCrud()->getNavigator()->getLink($this->getCrud()
             ->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'), 'view', array('id' => $id));
@@ -213,15 +133,9 @@ class SeedUnitController extends Controller
         $newUsage = $mgr
             ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')
                 ->getClassRepository())->find($usageId);
-        $options = array('crud_action' => 'changeUsage');
-        $eventTypeRepository = $mgr
-            ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'EventType')
-                ->getClassRepository());
 
-        $event = new PartnerEvent();
-        $event->setEventType($eventTypeRepository->findByInternalName(EventType::PARTNER));
-        $event->setUsage($newUsage);
-        $event->setTitle("Usage changed to '" . $newUsage->getName() . "'.");
+        $eventFactory = new EventFactory($mgr);
+        $event = $eventFactory->createUsageEvent($newUsage);
 
         $seedUnit->getEvents()->add($event);
         $event->setSeedUnit($seedUnit);

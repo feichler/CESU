@@ -154,90 +154,20 @@ class RequestType extends CrudForm
 
     protected function initialiseButtons($crudAction, array $options)
     {
-        //$buttons = $this->initialiseShippingButtons($entity, $unitStatus);
+        $seedUnits = $options['data']->getSeedUnits();
 
-        $buttons = array();
-        $buttons[UnitStatus::SHIPPED] = array(
-        );
-
-
-        foreach ($buttons as $key => $button) {
-            $this->addFormButton($key, 'submit', $button, Form::BUTTON_TOP);
+        // calculate allowed target statuses
+        $statuses = array();
+        foreach($seedUnits as $seedUnit)
+        {
+            $allowed = UnitStatus::$ALLOWED_FROM[$seedUnit->getUnitStatus()->getInternalName()];
+            $statuses = array_merge($statuses, $allowed);
         }
-    }
 
-    /**
-     * @param UnitStatus $unitStatus
-     *
-     * @return array
-     */
-    private function initialiseShippingButtons(SeedUnit $entity)
-    {
+        $statuses = array_unique($statuses);
 
-        $buttons = array();
-//        $buttons[UnitStatus::SHIPPED] = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::SHIPPED)
-//        );
-//        $buttons[UnitStatus::IN_TRANSIT] = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::IN_TRANSIT)
-//        );
-//        $buttons[UnitStatus::DELIVERED] = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERED)
-//        );
-//        $buttons[UnitStatus::EXCEPTION] = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::EXCEPTION)
-//        );
-//        $buttons[UnitStatus::DELIVERY_VERIFIED]   = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
-//        );
-//        $buttons[UnitStatus::ACKNOWLEDGE_ATTEMPT] = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::ACKNOWLEDGE_ATTEMPT)
-//        );
-//        $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
-//        );
-//        $buttons[UnitStatus::AA1SENT]           = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::AA1SENT)
-//        );
-//        $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
-//        );
-//        $buttons[UnitStatus::AA2SENT]           = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::AA2SENT)
-//        );
-//        $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
-//        );
-//        $buttons[UnitStatus::AA3SENT]           = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::AA3SENT)
-//        );
-//        $buttons[UnitStatus::DELIVERY_VERIFIED] = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::DELIVERY_VERIFIED)
-//        );
-//        $buttons[UnitStatus::ESCALATION]        = array(
-//            'link' => $this->getChangeStatusLink($entity, UnitStatus::ESCALATION)
-//        );
-
-        return $buttons;
-    }
-
-    /**
-     * @param SeedUnit $entity
-     * @param string   $status
-     *
-     * @return string
-     */
-    private function getChangeStatusLink($entity, $status)
-    {
-
-        $link = $this->getCrud()->getNavigator()->getLinkFromRoute(
-            'seedUnit.changeShippingStatus',
-            array(
-                'id'     => $entity->getId(),
-                'status' => $status
-            )
-        );
-
-        return $link;
+        foreach ($statuses as $status) {
+            $this->addFormButton($status, 'submit', array(), Form::BUTTON_TOP);
+        }
     }
 }

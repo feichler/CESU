@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Controller\Requests;
 
 use Doctrine\ORM\EntityManager;
 use Elektra\CrudBundle\Controller\Controller;
+use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SeedBundle\Entity\Events\EventType;
 use Elektra\SeedBundle\Entity\Events\ShippingEvent;
@@ -19,6 +20,7 @@ use Elektra\SeedBundle\Entity\Requests\Request;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Elektra\SeedBundle\Form\Requests\AddUnitsType;
 use Elektra\SiteBundle\Site\Helper;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -47,34 +49,111 @@ class RequestController extends Controller
         $this->initialise('changeShippingStatus');
 
         // get the existing entity
+        /** @var Request $entity */
         $entity = $this->getEntity($id);
 
         // get the associated form
-        $form = $this->getForm($entity, 'changeShippingStatus');
-
-        var_dump($this->getRequest()->get('_token'));
+        $form = $this->getForm($entity, 'view');
 
         // check the form
         $form->handleRequest($this->getCrud()->getRequest());
 
-        var_dump($form->isValid());
-        echo '<br />';
-        foreach($form->getErrors() as $error) {
-            if($error instanceof FormError) {
-                echo $error->getMessage().'<br />';
-                $cause = $error->getCause();
-                echo get_class($error->getOrigin());
-                echo "ORIGIN:".$error->getOrigin()->getName();
-                echo get_class($cause).'<br />';
+        /** @var $mgr EntityManager */
+        $mgr = $this->getDoctrine()->getManager();
+
+        // WORKAROUND: $form->handleRequest sets all fields null -> undo required!!
+        $mgr->refresh($entity);
+
+        if ($form instanceof Form)
+        {
+            if ($this->getCrud()->getRequest()->getMethod() == 'POST')
+            {
+                $ids = $this->getSelectedSeedUnitIds($form);
+                $newStatus = $this->getNewStatus($form);
+
+                $this->processShippingStatusChange($entity, $ids, $newStatus);
             }
         }
-        echo "AFTER HANDLE";
 
+        $returnUrl = $this->getCrud()->getNavigator()->getLink($this->getCrud()
+            ->getDefinition('Elektra', 'Seed', 'Requests', 'Request'), 'view', array('id' => $id));
+        return $this->redirect($returnUrl);
+    }
 
-        if ($form->isValid() && !$this->filterSubmitted) {
-            echo "SUBMITTED";
-            //return $this->processAction('edit', $entity, $form);
+    private function getNewStatus(Form $form)
+    {
+        $group = $form->get("actions_top");
+
+        $newStatus = null;
+        foreach(UnitStatus::$ALL_INTERNAL_NAMES as $status)
+        {
+            if ($group->has($status) and $group->get($status)->isClicked())
+            {
+                $newStatus = $status;
+                break;
+            }
         }
+
+        return $newStatus;
+    }
+
+    /**
+     * @param Form $form
+     * @return array
+     */
+    private function getSelectedSeedUnitIds(Form $form)
+    {
+        $ids = array();
+        foreach(array_values($form->get('group_units2')->get('seedUnits')->getViewData()) as $id)
+        {
+            array_push($ids, intval($id));
+        }
+
+        return $ids;
+    }
+
+    private function processShippingStatusChange(Request $request, array $ids, $newStatus)
+    {
+        /** @var $mgr EntityManager */
+        $mgr = $this->getDoctrine()->getManager();
+
+        $allowedStatuses = isset(UnitStatus::$ALLOWED_TO[$newStatus]) ? UnitStatus::$ALLOWED_TO[$newStatus] : array();
+
+        // retrieve seed units
+        $repo = $mgr->getRepository('ElektraSeedBundle:SeedUnits\SeedUnit');
+
+        // determine event properties
+        $location = null;
+        switch($newStatus)
+        {
+            case UnitStatus::DELIVERED:
+            case UnitStatus::ACKNOWLEDGE_ATTEMPT:
+            case UnitStatus::AA1SENT:
+            case UnitStatus::AA2SENT:
+            case UnitStatus::AA3SENT:
+            case UnitStatus::ESCALATION:
+            case UnitStatus::DELIVERY_VERIFIED:
+                $location = $request->getShippingLocation();
+                break;
+        }
+
+        $eventFactory = new EventFactory($mgr);
+        foreach($ids as $id)
+        {
+            $seedUnit = $repo->find($id);
+
+            if (in_array($seedUnit->getUnitStatus()->getInternalName(), $allowedStatuses))
+            {
+                $event = $eventFactory->createShippingEvent($newStatus, array(
+                    EventFactory::LOCATION => $location
+                ));
+
+                $seedUnit->getEvents()->add($event);
+                $event->setSeedUnit($seedUnit);
+            }
+        }
+
+        $mgr->flush();
     }
 
     /**

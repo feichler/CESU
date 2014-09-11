@@ -54,6 +54,60 @@ class UnitStatus implements AuditableInterface, CrudInterface
     const DELIVERY_VERIFIED = "deliveryVerified";
 
     /**
+     * @var array
+     */
+    static $ALL_INTERNAL_NAMES = array(
+        UnitStatus::AVAILABLE,
+        UnitStatus::RESERVED,
+        UnitStatus::EXCEPTION,
+        UnitStatus::IN_TRANSIT,
+        UnitStatus::SHIPPED,
+        UnitStatus::DELIVERED,
+        UnitStatus::ACKNOWLEDGE_ATTEMPT,
+        UnitStatus::AA1SENT,
+        UnitStatus::AA2SENT,
+        UnitStatus::AA2SENT,
+        UnitStatus::ESCALATION,
+        UnitStatus::DELIVERY_VERIFIED
+    );
+
+    /**
+     * @var array
+     */
+    static $ALLOWED_TO = array(
+        UnitStatus::AVAILABLE => array(),
+        UnitStatus::RESERVED => array(UnitStatus::AVAILABLE),
+        UnitStatus::SHIPPED => array(UnitStatus::RESERVED),
+        UnitStatus::EXCEPTION => array(UnitStatus::SHIPPED, UnitStatus::IN_TRANSIT),
+        UnitStatus::IN_TRANSIT => array(UnitStatus::SHIPPED),
+        UnitStatus::DELIVERED => array(UnitStatus::IN_TRANSIT),
+        UnitStatus::ACKNOWLEDGE_ATTEMPT => array(UnitStatus::DELIVERED),
+        UnitStatus::AA1SENT => array(UnitStatus::ACKNOWLEDGE_ATTEMPT),
+        UnitStatus::AA2SENT => array(UnitStatus::AA1SENT),
+        UnitStatus::AA3SENT => array(UnitStatus::AA2SENT),
+        UnitStatus::ESCALATION => array(UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::AA1SENT, UnitStatus::AA2SENT, UnitStatus::AA3SENT),
+        UnitStatus::DELIVERY_VERIFIED => array(UnitStatus::DELIVERED, UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::AA1SENT, UnitStatus::AA2SENT, UnitStatus::AA3SENT)
+    );
+
+    /**
+     * @var array
+     */
+    static $ALLOWED_FROM = array(
+        UnitStatus::AVAILABLE => array(UnitStatus::RESERVED),
+        UnitStatus::RESERVED => array(UnitStatus::SHIPPED),
+        UnitStatus::SHIPPED => array(UnitStatus::EXCEPTION, UnitStatus::IN_TRANSIT),
+        UnitStatus::EXCEPTION => array(),
+        UnitStatus::IN_TRANSIT => array(UnitStatus::EXCEPTION, UnitStatus::DELIVERED),
+        UnitStatus::DELIVERED => array(UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::DELIVERY_VERIFIED),
+        UnitStatus::ACKNOWLEDGE_ATTEMPT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION, UnitStatus::AA1SENT),
+        UnitStatus::AA1SENT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION, UnitStatus::AA2SENT),
+        UnitStatus::AA2SENT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION, UnitStatus::AA3SENT),
+        UnitStatus::AA3SENT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION),
+        UnitStatus::ESCALATION => array(),
+        UnitStatus::DELIVERY_VERIFIED => array()
+    );
+
+    /**
      * @var int
      *
      * @ORM\Id
