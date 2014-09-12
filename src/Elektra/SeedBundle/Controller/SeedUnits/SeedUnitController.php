@@ -29,14 +29,19 @@ class SeedUnitController extends Controller
     {
 
         if ($entity instanceof SeedUnit) {
-            $location = $form->get('location')->getData();
+            $location = $form->get('group_common')->get('location')->getData();
             if ($location instanceof WarehouseLocation) {
+                // get the unit status
+                $statusRepository = $this->getDoctrine()->getRepository($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassRepository());
+                $statusEntity = $statusRepository->findOneBy(array('internalName' => UnitStatus::AVAILABLE));
+
                 $event = new ShippingEvent();
                 $event->setLocation($location);
                 $event->setSeedUnit($entity);
                 $event->setTimestamp(time());
                 $event->setText('Seed Unit created');
                 $event->setTitle('Seed Unit created');
+                $event->setUnitStatus($statusEntity);
                 $entity->getEvents()->add($event);
 
                 $em           = $this->getDoctrine()->getManager();

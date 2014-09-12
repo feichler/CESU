@@ -209,11 +209,32 @@ final class Crud
         throw new \RuntimeException('Fatal Error: View of type "' . $type . '" could not be found');
     }
 
+    protected $overridenLangKey = null;
+
+    /**
+     * @param null $overridenLangKey
+     */
+    public function setOverridenLangKey($overridenLangKey)
+    {
+
+        $this->overridenLangKey = $overridenLangKey;
+    }
+
+    public function resetOverridenLangKey() {
+
+        $this->overridenLangKey = null;
+    }
+
+
+
     /**
      * @return string
      */
     public function getLanguageKey()
     {
+        if($this->overridenLangKey !== null) {
+            return $this->overridenLangKey;
+        }
 
         return $this->getDefinition()->getLanguageKey();
     }

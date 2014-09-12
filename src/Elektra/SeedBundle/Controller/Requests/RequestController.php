@@ -104,7 +104,7 @@ class RequestController extends Controller
     private function getSelectedSeedUnitIds(Form $form)
     {
         $ids = array();
-        foreach(array_values($form->get('group_units2')->get('seedUnits')->getViewData()) as $id)
+        foreach(array_values($form->get('group_units')->get('seedUnits')->getViewData()) as $id)
         {
             array_push($ids, intval($id));
         }

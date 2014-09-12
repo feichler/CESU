@@ -75,26 +75,23 @@ class RequestType extends CrudForm
         $common    = $this->addFieldGroup($builder, $options, 'common');
 
         if ($options['crud_action'] == 'view') {
+            // request number
             $common->add('requestNumber', 'text', $this->getFieldOptions('requestNumber')->toArray());
+
+            // seed units
+            $lastLangKey = $this->getCrud()->getLanguageKey();
+            $this->getCrud()->setOverridenLangKey($lastLangKey);
+            $unitsDefinition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
+            $this->getCrud()->setParent($options['data'], $this->getCrud()->getLinker()->getActiveRoute(), null);
+            $this->getCrud()->setDefinition($unitsDefinition);
             $unitsGroup   = $this->addFieldGroup($builder, $options, 'units');
             $unitsOptions = $this->getFieldOptions('seedUnits', false);
-            $unitsOptions->add('relation_parent_entity', $options['data']);
-            $unitsOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'));
-            $unitsOptions->add('checkboxes', true);
-            $unitsGroup->add('seedUnits', 'relatedList', $unitsOptions->toArray());
-
-            $uDefinition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
-            $uGroup = $this->addFieldGroup($builder,$options,'units2');
-            $uOptions = $this->getFieldOptions('seedUnits', false);
-            $this->getCrud()->setParent($options['data'], $this->getCrud()->getLinker()->getActiveRoute(), null);
-            $this->getCrud()->setDefinition($uDefinition);
-//            $uOptions = $this->getFieldOptions('locations', false)->notMapped();
-            $uOptions->add('multiple',true);
-            $uOptions->add('class', $uDefinition->getClassEntity());
-            $uOptions->add('crud', $this->getCrud());
-            $uOptions->add('child', $uDefinition);
-            $uOptions->add('parent', $this->getCrud()->getParentDefinition());
-            $uOptions->add(
+            $unitsOptions->add('multiple', true);
+            $unitsOptions->add('class', $unitsDefinition->getClassEntity());
+            $unitsOptions->add('crud', $this->getCrud());
+            $unitsOptions->add('child', $unitsDefinition);
+            $unitsOptions->add('parent', $this->getCrud()->getParentDefinition());
+            $unitsOptions->add(
                 'query_builder',
                 function (EntityRepository $repository) use ($options) {
 
@@ -105,7 +102,38 @@ class RequestType extends CrudForm
                     return $builder;
                 }
             );
-            $uGroup->add('seedUnits','entityTable',$uOptions->toArray());
+            $unitsGroup->add('seedUnits', 'entityTable', $unitsOptions->toArray());
+
+            //            $unitsGroup   = $this->addFieldGroup($builder, $options, 'units');
+            //            $unitsOptions = $this->getFieldOptions('seedUnits', false);
+            //            $unitsOptions->add('relation_parent_entity', $options['data']);
+            //            $unitsOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'));
+            //            $unitsOptions->add('checkboxes', true);
+            //            $unitsGroup->add('seedUnits', 'relatedList', $unitsOptions->toArray());
+            //
+            //            $uDefinition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
+            //            $uGroup      = $this->addFieldGroup($builder, $options, 'units2');
+            //            $uOptions    = $this->getFieldOptions('seedUnits', false);
+            //            $this->getCrud()->setParent($options['data'], $this->getCrud()->getLinker()->getActiveRoute(), null);
+            //            $this->getCrud()->setDefinition($uDefinition);
+            //            //            $uOptions = $this->getFieldOptions('locations', false)->notMapped();
+            //            $uOptions->add('multiple', true);
+            //            $uOptions->add('class', $uDefinition->getClassEntity());
+            //            $uOptions->add('crud', $this->getCrud());
+            //            $uOptions->add('child', $uDefinition);
+            //            $uOptions->add('parent', $this->getCrud()->getParentDefinition());
+            //            $uOptions->add(
+            //                'query_builder',
+            //                function (EntityRepository $repository) use ($options) {
+            //
+            //                    $builder = $repository->createQueryBuilder('u');
+            //                    $builder->where('u.request = :request');
+            //                    $builder->setParameter('request', $options['data']);
+            //
+            //                    return $builder;
+            //                }
+            //            );
+            //            $uGroup->add('seedUnits', 'entityTable', $uOptions->toArray());
         }
 
         $common->add('numberOfUnitsRequested', 'integer', $this->getFieldOptions('numberOfUnitsRequested')->notBlank()->required()->toArray());
@@ -117,8 +145,7 @@ class RequestType extends CrudForm
         $companyOptions->add('group_by', 'companyType');
         $common->add('company', 'entity', $companyOptions->toArray());
 
-        if (in_array($options['crud_action'], array('add', 'edit')))
-        {
+        if (in_array($options['crud_action'], array('add', 'edit'))) {
             $builder->addEventListener(
                 FormEvents::PRE_SET_DATA,
                 function (FormEvent $event) use ($self) {
@@ -150,17 +177,18 @@ class RequestType extends CrudForm
                 }
             );
         }
+        $this->getCrud()->resetOverridenLangKey();
     }
 
     protected function initialiseButtons($crudAction, array $options)
     {
+
         $seedUnits = $options['data']->getSeedUnits();
 
         // calculate allowed target statuses
         $statuses = array();
-        foreach($seedUnits as $seedUnit)
-        {
-            $allowed = UnitStatus::$ALLOWED_FROM[$seedUnit->getUnitStatus()->getInternalName()];
+        foreach ($seedUnits as $seedUnit) {
+            $allowed  = UnitStatus::$ALLOWED_FROM[$seedUnit->getUnitStatus()->getInternalName()];
             $statuses = array_merge($statuses, $allowed);
         }
 

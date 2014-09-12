@@ -160,7 +160,9 @@ abstract class Controller extends BaseController
         $form = $this->getForm($entity, 'edit');
 
         // check the form
+
         $form->handleRequest($this->getCrud()->getRequest());
+
         if ($form->isValid() && !$this->filterSubmitted) {
             return $this->processAction('edit', $entity, $form);
         }

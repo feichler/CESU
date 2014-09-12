@@ -23,7 +23,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
             new Liuggio\ExcelBundle\LiuggioExcelBundle(),
-            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+//            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             // Specific Elektra Bundles
             new Elektra\UserBundle\ElektraUserBundle(),
             new Elektra\SiteBundle\ElektraSiteBundle(),

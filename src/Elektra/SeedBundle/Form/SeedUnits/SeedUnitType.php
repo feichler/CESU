@@ -67,9 +67,11 @@ class SeedUnitType extends Form
         /* @var $entity SeedUnit */
         $entity = $options['data'];
 
+        if($entity->getUnitStatus() !== null) {
         if ($entity->getUnitStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED) {
             $usageOptions = $this->getFieldOptions('unitUsage')->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassEntity())->add('property', 'title');
             $commonGroup->add('unitUsage', 'entity', $usageOptions->toArray());
+        }
         }
     }
 
@@ -106,6 +108,8 @@ class SeedUnitType extends Form
         /* @var $unitStatus UnitStatus */
         $unitStatus = $entity->getUnitStatus();
 
+
+        if($unitStatus !== null) {
         if ($unitStatus->getInternalName() == UnitStatus::DELIVERY_VERIFIED) {
             $buttons = $this->initialiseUsageButtons($entity);
         } else {
@@ -114,6 +118,7 @@ class SeedUnitType extends Form
 
         foreach ($buttons as $key => $button) {
             $this->addFormButton($key, 'link', $button, Form::BUTTON_TOP);
+        }
         }
     }
 

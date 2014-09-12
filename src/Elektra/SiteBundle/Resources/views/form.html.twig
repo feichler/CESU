@@ -429,7 +429,7 @@
 {% block display_widget %}
     {#{% set type = type|default('text') -%}#}
     <span class="form-control" {{ block('widget_attributes') }}>
-        {% if value is not empty %}{{ value }}{% endif %}
+        {% if value is not empty %}{{ value|raw }}{% endif %}
     </span>
 {% endblock display_widget %}
 

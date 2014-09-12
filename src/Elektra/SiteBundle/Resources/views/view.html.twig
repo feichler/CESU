@@ -145,7 +145,8 @@
         <span class="form-control" {{ block('widget_attributes') }}>
         {% if value is not empty %}{{ value }}{% endif %}
     </span>
-{% endif %}{%- endblock form_widget_simple %}
+	{% endif %}
+{%- endblock form_widget_simple %}
 
 {# hidden -> not displaying in view theme #}
 {% block hidden_widget %}

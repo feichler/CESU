@@ -390,9 +390,9 @@ forms:
                 sales_team:                                             Sales Team
                 customer:                                               Customer
             groups:
+                units:                                                  Seed Units
                 common:                                                 Request Data
                 assign:                                                 Assign Seed Units
-                units:                                                  Seed Units
             fields:
                 request_number:                                         'Request #'
                 number_of_units_requested:                              '# Units'
@@ -401,7 +401,8 @@ forms:
                 requester_person:                                       Requester
                 receiver_person:                                        Receiver
                 shipping_location:                                      Ship to
-                seed_units:                                             Select Units
+                seed_units:                                             Select Uni
+
     companies:
         partner:
             groups:
