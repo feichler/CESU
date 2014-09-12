@@ -82,8 +82,8 @@ class RequestType extends CrudForm
             $lastLangKey = $this->getCrud()->getLanguageKey();
             $this->getCrud()->setOverridenLangKey($lastLangKey);
             $unitsDefinition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
-            $this->getCrud()->setParent($options['data'], $this->getCrud()->getLinker()->getActiveRoute(), null);
             $this->getCrud()->setDefinition($unitsDefinition);
+            $this->getCrud()->setParent($options['data'], $this->getCrud()->getLinker()->getActiveRoute(), null);
             $unitsGroup   = $this->addFieldGroup($builder, $options, 'units');
             $unitsOptions = $this->getFieldOptions('seedUnits', false);
             $unitsOptions->add('multiple', true);
@@ -177,6 +177,7 @@ class RequestType extends CrudForm
                 }
             );
         }
+
         $this->getCrud()->resetOverridenLangKey();
     }
 
