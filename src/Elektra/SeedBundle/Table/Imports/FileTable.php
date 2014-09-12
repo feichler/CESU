@@ -3,6 +3,7 @@
 namespace Elektra\SeedBundle\Table\Imports;
 
 use Elektra\CrudBundle\Table\Table;
+use Elektra\SeedBundle\Table\Column\ImportActionColumn;
 
 class FileTable extends Table
 {
@@ -27,5 +28,8 @@ class FileTable extends Table
 
         $processed = $this->getColumns()->add('processed');
         $processed->setFieldData('processed');
+
+//        $actions = new ImportActionColumn($this->getColumns());
+//        $this->getColumns()->addColumn($actions, null);
     }
 }
