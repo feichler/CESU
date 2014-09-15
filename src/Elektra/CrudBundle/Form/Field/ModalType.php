@@ -36,7 +36,7 @@ class ModalType extends AbstractType
         $resolver->setRequired(
             array(
                 //                'submit_button',
-                'header',
+//                'header',
             )
         );
     }
