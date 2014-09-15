@@ -10,6 +10,7 @@ use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Requests\Request;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
+use Elektra\SeedBundle\Form\Events\Types\ChangeUnitStatusType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -78,13 +79,21 @@ class RequestType extends CrudForm
             // request number
             $common->add('requestNumber', 'text', $this->getFieldOptions('requestNumber')->toArray());
 
+            $unitsGroup   = $this->addFieldGroup($builder, $options, 'units');
+
+            $unitsGroup->add('changeStatus', new ChangeUnitStatusType(), array(
+                'mapped' => false,
+                ChangeUnitStatusType::OPT_DATA => $options['data']->getSeedUnits()
+            ));
+
             // seed units
             $lastLangKey = $this->getCrud()->getLanguageKey();
             $this->getCrud()->setOverridenLangKey($lastLangKey);
             $unitsDefinition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
+
             $this->getCrud()->setDefinition($unitsDefinition);
             $this->getCrud()->setParent($options['data'], $this->getCrud()->getLinker()->getActiveRoute(), null);
-            $unitsGroup   = $this->addFieldGroup($builder, $options, 'units');
+
             $unitsOptions = $this->getFieldOptions('seedUnits', false);
             $unitsOptions->add('multiple', true);
             $unitsOptions->add('class', $unitsDefinition->getClassEntity());

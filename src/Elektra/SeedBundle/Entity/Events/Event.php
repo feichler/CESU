@@ -34,7 +34,6 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  *  "shipping" = "ShippingEvent",
  *  "partner" = "PartnerEvent",
  *  "activity" = "ActivityEvent",
- *  "response" = "ResponseEvent",
  *  "sales" = "SalesEvent"
  * })
  */

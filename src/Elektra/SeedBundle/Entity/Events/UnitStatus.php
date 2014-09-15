@@ -66,7 +66,7 @@ class UnitStatus implements AuditableInterface, CrudInterface
         UnitStatus::ACKNOWLEDGE_ATTEMPT,
         UnitStatus::AA1SENT,
         UnitStatus::AA2SENT,
-        UnitStatus::AA2SENT,
+        UnitStatus::AA3SENT,
         UnitStatus::ESCALATION,
         UnitStatus::DELIVERY_VERIFIED
     );

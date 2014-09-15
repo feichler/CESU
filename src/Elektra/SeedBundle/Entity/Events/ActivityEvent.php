@@ -10,6 +10,7 @@
 namespace Elektra\SeedBundle\Entity\Events;
 
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
 use Elektra\SeedBundle\Entity\Companies\ContactInfo;
 
 /**
@@ -26,19 +27,12 @@ class ActivityEvent extends StatusEvent
 {
 
     /**
-     * @var ContactInfo
+     * @var CompanyPerson
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\ContactInfo", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="contactInfoId", referencedColumnName="contactInfoId", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\CompanyPerson", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="personId", referencedColumnName="personId", nullable=true)
      */
-    protected $contactInfo;
-
-    /**
-     * @var ResponseEvent
-     *
-     * @ORM\OneToOne(targetEntity="ResponseEvent", mappedBy="activityEvent", fetch="EXTRA_LAZY")
-     */
-    protected $responseEvent;
+    protected $person;
 
     /**
      *
@@ -50,38 +44,18 @@ class ActivityEvent extends StatusEvent
     }
 
     /**
-     * @param ContactInfo $contactInfo
+     * @param \Elektra\SeedBundle\Entity\Companies\CompanyPerson $person
      */
-    public function setContactInfo($contactInfo)
+    public function setPerson($person)
     {
-
-        $this->contactInfo = $contactInfo;
+        $this->person = $person;
     }
 
     /**
-     * @return ContactInfo
+     * @return \Elektra\SeedBundle\Entity\Companies\CompanyPerson
      */
-    public function getContactInfo()
+    public function getPerson()
     {
-
-        return $this->contactInfo;
-    }
-
-    /**
-     * @param ResponseEvent $responseEvent
-     */
-    public function setResponseEvent($responseEvent)
-    {
-
-        $this->responseEvent = $responseEvent;
-    }
-
-    /**
-     * @return ResponseEvent
-     */
-    public function getResponseEvent()
-    {
-
-        return $this->responseEvent;
+        return $this->person;
     }
 }

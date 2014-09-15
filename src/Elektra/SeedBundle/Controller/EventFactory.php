@@ -11,9 +11,11 @@ namespace Elektra\SeedBundle\Controller;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
+use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
 use Elektra\SeedBundle\Entity\Companies\GenericLocation;
 use Elektra\SeedBundle\Entity\Companies\Location;
 use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
+use Elektra\SeedBundle\Entity\Events\ActivityEvent;
 use Elektra\SeedBundle\Entity\Events\Event;
 use Elektra\SeedBundle\Entity\Events\EventType;
 use Elektra\SeedBundle\Entity\Events\PartnerEvent;
@@ -46,6 +48,7 @@ class EventFactory {
     const TEXT = 'text';
     const LOCATION = 'location';
     const REQUEST_NUMBER = 'requestNumber';
+    const PERSON = 'person';
 
     /**
      *
@@ -96,20 +99,20 @@ class EventFactory {
                 break;
 
             case UnitStatus::ACKNOWLEDGE_ATTEMPT:
-                $event = $this->createAcknowledgeAttempt($this->_getMandatoryOption(EventFactory::LOCATION, $options),
+                $event = $this->createAcknowledgeAttempt($this->_getMandatoryOption(EventFactory::PERSON, $options),
                     $options);
                 break;
 
             case UnitStatus::AA1SENT:
-                $event = $this->createAA1Sent($this->_getMandatoryOption(EventFactory::LOCATION, $options), $options);
+                $event = $this->createAA1Sent($this->_getMandatoryOption(EventFactory::PERSON, $options), $options);
                 break;
 
             case UnitStatus::AA2SENT:
-                $event = $this->createAA2Sent($this->_getMandatoryOption(EventFactory::LOCATION, $options), $options);
+                $event = $this->createAA2Sent($this->_getMandatoryOption(EventFactory::PERSON, $options), $options);
                 break;
 
             case UnitStatus::AA3SENT:
-                $event = $this->createAA3Sent($this->_getMandatoryOption(EventFactory::LOCATION, $options), $options);
+                $event = $this->createAA3Sent($this->_getMandatoryOption(EventFactory::PERSON, $options), $options);
                 break;
 
             case UnitStatus::ESCALATION:
@@ -118,7 +121,7 @@ class EventFactory {
                 break;
 
             case UnitStatus::DELIVERY_VERIFIED:
-                $event = $this->createDeliveryVerified($this->_getMandatoryOption(EventFactory::LOCATION, $options),
+                $event = $this->createDeliveryVerified($this->_getMandatoryOption(EventFactory::PERSON, $options),
                     $options);
                 break;
 
@@ -190,44 +193,44 @@ class EventFactory {
         return $event;
     }
 
-    public function createAcknowledgeAttempt(CompanyLocation $location, array $options)
+    public function createAcknowledgeAttempt(CompanyPerson $person, array $options)
     {
-        $event = $this->_createShippingEvent("Acknowledge attempted - delivery couldn't be verified.",
+        $event = $this->_createActivityEvent("Acknowledge attempted - delivery couldn't be verified.",
             $this->unitStatusRepository->findByInternalName(UnitStatus::ACKNOWLEDGE_ATTEMPT),
-            $location,
+            $person,
             $options
         );
 
         return $event;
     }
 
-    public function createAA1Sent(CompanyLocation $location, array $options)
+    public function createAA1Sent(CompanyPerson $person, array $options)
     {
-        $event = $this->_createShippingEvent("Acknowledge attempted - delivery couldn't be verified.",
+        $event = $this->_createActivityEvent("Acknowledge attempted - delivery couldn't be verified.",
             $this->unitStatusRepository->findByInternalName(UnitStatus::AA1SENT),
-            $location,
+            $person,
             $options
         );
 
         return $event;
     }
 
-    public function createAA2Sent(CompanyLocation $location, array $options)
+    public function createAA2Sent(CompanyPerson $person, array $options)
     {
-        $event = $this->_createShippingEvent("Acknowledge attempted - delivery couldn't be verified.",
+        $event = $this->_createActivityEvent("Acknowledge attempted - delivery couldn't be verified.",
             $this->unitStatusRepository->findByInternalName(UnitStatus::AA2SENT),
-            $location,
+            $person,
             $options
         );
 
         return $event;
     }
 
-    public function createAA3Sent(CompanyLocation $location, array $options)
+    public function createAA3Sent(CompanyPerson $person, array $options)
     {
-        $event = $this->_createShippingEvent("Acknowledge attempted - delivery couldn't be verified.",
+        $event = $this->_createActivityEvent("Acknowledge attempted - delivery couldn't be verified.",
             $this->unitStatusRepository->findByInternalName(UnitStatus::AA3SENT),
-            $location,
+            $person,
             $options
         );
 
@@ -245,13 +248,26 @@ class EventFactory {
         return $event;
     }
 
-    public function createDeliveryVerified(CompanyLocation $location, array $options)
+    public function createDeliveryVerified(CompanyPerson $person, array $options)
     {
-        $event = $this->_createShippingEvent("Delivery verified.",
+        $event = $this->_createActivityEvent("Delivery verified.",
             $this->unitStatusRepository->findByInternalName(UnitStatus::DELIVERY_VERIFIED),
-            $location,
+            $person,
             $options
         );
+
+        return $event;
+    }
+
+    private function _createActivityEvent($title, UnitStatus $unitStatus, CompanyPerson $person, array $options)
+    {
+        $event = new ActivityEvent();
+        $this->_populateCommonFields($event, $options);
+
+        $event->setTitle($title);
+        $event->setEventType($this->eventTypeRepository->findByInternalName(EventType::SHIPPING));
+        $event->setUnitStatus($unitStatus);
+        $event->setPerson($person);
 
         return $event;
     }

@@ -82,18 +82,13 @@ class RequestController extends Controller
 
     private function getNewStatus(Form $form)
     {
-        $group = $form->get("actions_top");
-
         $newStatus = null;
-        foreach(UnitStatus::$ALL_INTERNAL_NAMES as $status)
+        if ($form->getClickedButton()->getName() == 'changeStatus')
         {
-            if ($group->has($status) and $group->get($status)->isClicked())
-            {
-                $newStatus = $status;
-                break;
-            }
+            $parent = $form->getClickedButton()->getParent();
+            $this->get("session")->getFlashBag()->add('info', get_class($parent));
+            $newStatus = $parent->get('unitStatus')->getData();
         }
-
         return $newStatus;
     }
 
@@ -200,21 +195,17 @@ class RequestController extends Controller
             /* @var $manager EntityManager */
             $manager = $this->getDoctrine()->getManager();
 
+            $eventFactory = new EventFactory($manager);
             /* @var $su SeedUnit */
             foreach ($entity->getSeedUnits() as $su) {
                 $su->setRequest($entity);
-                $shippingEvent = new ShippingEvent();
-                $shippingEvent->setTitle("Reserved for request " . $entity->getRequestNumber());
-                $shippingEvent->setLocation($su->getLocation());
-                $shippingEvent->setUnitStatus($manager->getRepository('ElektraSeedBundle:Events\UnitStatus')->findByInternalName(UnitStatus::RESERVED));
-                $shippingEvent->setEventType($manager->getRepository('ElektraSeedBundle:Events\EventType')->findByInternalName(EventType::SHIPPING));
+                $shippingEvent = $eventFactory->createReserved($su->getLocation(), $entity->getRequestNumber(), array());
                 $shippingEvent->setSeedUnit($su);
                 $su->getEvents()->add($shippingEvent);
             }
             $manager->flush();
 
             $returnUrl = $this->getCrud()->getLinker()->getRedirectAfterProcess($entity);
-
             return $this->redirect($returnUrl);
         }
 
