@@ -47,7 +47,7 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=10, unique=true)
+     * @ORM\Column(type="string", length=15, unique=true)
      */
     protected $requestNumber;
 
@@ -136,8 +136,8 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     public function __construct()
     {
 
-        $this->notes  = new ArrayCollection();
-        $this->audits = new ArrayCollection();
+        $this->notes     = new ArrayCollection();
+        $this->audits    = new ArrayCollection();
         $this->seedUnits = new ArrayCollection();
     }
 
@@ -326,8 +326,8 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
      */
     public function getCreationAudit()
     {
-        return Helper::getFirstAudit($this->getAudits());
 
+        return Helper::getFirstAudit($this->getAudits());
     }
 
     /**
@@ -335,8 +335,8 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
      */
     public function getLastModifiedAudit()
     {
-        return Helper::getLastAudit($this->getAudits());
 
+        return Helper::getLastAudit($this->getAudits());
     }
 
     /**
@@ -353,6 +353,7 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
      */
     public function setCompany($company)
     {
+
         $this->company = $company;
     }
 
@@ -361,6 +362,7 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
      */
     public function getCompany()
     {
+
         return $this->company;
     }
 
@@ -369,7 +371,41 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
      */
     public function prePersist()
     {
-        $tmp = (string)time();
-        $this->requestNumber=substr($tmp,  strlen($tmp)-10);
+
+        $alphabet      = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $requestNumber = 'REQ-';
+
+        $dateNow = new \DateTime('now UTC');
+        $dateWas = new \DateTime('01.01.2000 00:00:00 UTC');
+
+        $daysPart = str_pad($dateNow->diff($dateWas)->days, 5, '0', STR_PAD_LEFT);
+        $hourPart = $alphabet[$dateNow->format('H')];
+        $timePart = str_pad(($dateNow->format('i') * 60) + $dateNow->format('s'), 4, '0', STR_PAD_LEFT);
+
+        $requestNumber .=  $daysPart.$hourPart . $timePart;
+
+
+//        $requestNumber = 'REQ-';
+//        $alphabet      = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+//
+//        $dateNow = new \DateTime('now');
+//        $dateWas = new \DateTime('01.01.2000 00:00:00 UTC');
+//
+//        $diff = $dateNow->diff($dateWas);
+//
+//        $time  = time();
+//        $year  = date('y', $time);
+//        $month = date('n', $time);
+//        $day   = date('z', $time);
+//        $hour  = strftime('%H', $time) + 1; // 1 - 24
+//
+//        $requestNumber .= $alphabet[$hour];
+//
+//        $days =
+
+        $this->requestNumber = $requestNumber;
+
+        //        $tmp                 = (string) time();
+        //        $this->requestNumber = substr($tmp, strlen($tmp) - 10);
     }
 }

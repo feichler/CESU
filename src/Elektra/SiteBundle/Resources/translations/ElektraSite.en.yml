@@ -330,6 +330,13 @@ tables:
                 requester:                                              Requester
                 receiver:                                               Receiver
                 shipping_location:                                      Shipping to
+                serial_number:                                          'Serial #'
+                model:                                                  Model
+                power_cord_type:                                        Power Cord Type
+                status:                                                 Status
+                location:                                               Location
+                request:                                                Request
+                usage:                                                  Usage
             actions:
                 add:                                                    New Request
     events:
