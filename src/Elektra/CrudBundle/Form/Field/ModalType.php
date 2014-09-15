@@ -28,17 +28,17 @@ class ModalType extends AbstractType
         parent::setDefaultOptions($resolver);
 
         $resolver->setDefaults(
-            array( //                'label' => false,
-
+            array(
+//                'label' => false,
             )
         );
 
-//        $resolver->setRequired(
-//            array(
-//                //                'submit_button',
+        $resolver->setRequired(
+            array(
+//                'submit_button',
 //                'header',
-//            )
-//        );
+            )
+        );
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
