@@ -41,3 +41,13 @@ services:
           - "@form.type_guesser.doctrine"
       tags:
           - { name: form.type, alias: hiddenEntity }
+
+    elektra_crud.form.type.modal:
+        class: Elektra\CrudBundle\Form\Field\ModalType
+        tags:
+            - { name: form.type, alias: modal }
+
+    elektra_crud.form.type.modalButtons:
+        class: Elektra\CrudBundle\Form\Field\ModalButtonsType
+        tags:
+            - { name: form.type, alias: modalButtons }

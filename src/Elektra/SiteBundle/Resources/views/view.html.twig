@@ -29,7 +29,12 @@
 
 {# checkbox row #}
 {% block checkbox_row %}
+    {#{% if modalForm is defined %}#}
+    {#{{- block('form_row', {'modalForm': true}) -}}#}
+    {#{% else %}#}
     {{- block('form_row') -}}
+    {#{% endif %}#}
+
 {% endblock checkbox_row %}
 
 {# groups #}
@@ -109,6 +114,9 @@
 
 {# generic label #}
 {% block form_label %}
+    {#{% if modalForm is defined and modalForm == true %}#}
+    {#{{ parent({'modalForm': true}) }}#}
+    {#{% else %}#}
     {% if label is not sameas(false) %}
         {% if not compound %}
             {% set label_attr = label_attr|merge({'for': id}) %}
@@ -122,7 +130,9 @@
         <span class="col-md-2 control-label"{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
         {{ label|trans({}, translation_domain) }}
         </span>
+        {#{% endif %}#}
     {% endif %}
+    {#{% endif %}#}
 {% endblock form_label %}
 
 {# checkbox label #}
@@ -134,19 +144,86 @@
  # Widgets - core types
  #############################################################################}
 
+
+{# generic widget #}
+{% block form_widget %}
+    {#widget!#}
+    {#{% if modalForm is defined and modalForm == true %}#}
+        {#asdf#}
+    {#{% endif %}#}
+    {#widget!!!#}
+    {#{% if form.vars.modalForm is defined and modalForm == true %}#}
+        {#modal!!!#}
+    {#{% endif %}#}
+    {#asdfx1#}
+    {#{% if modalForm is defined %}#}
+    {#asdfx2#}
+    {#{% if compound %}#}
+    {#{{ block('form_widget_compound', {'modalForm': true}) }}#}
+    {#{% else %}#}
+    {#{{ block('form_widget_simple', {'modalForm': true}) }}#}
+    {#{% endif %}#}
+    {#{% else %}#}
+    {#asdfx3#}
+    {% if compound %}
+        {{ block('form_widget_compound') }}
+    {% else %}
+        {{ block('form_widget_simple') }}
+    {% endif %}
+    {#{% endif %}#}
+{% endblock form_widget %}
+
 {# simple input widget #}
 {% block form_widget_simple -%}
-    {% set type = type|default('text') -%}
-    {% if asInput is defined and asInput %}
-        {% set class = class|default('') %}
-        {% set type = type|default('text') -%}
-        <input class="form-control {{ class }}" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {#simple#}
+    {% if form.vars.modalForm is defined and form.vars.modalForm == true %}
+        {{ parent() }}
     {% else %}
-        <span class="form-control" {{ block('widget_attributes') }}>
+
+
+        {#simple#}
+        {#{% if form.vars.modalForm is defined %}#}
+        {#modal!!!#}
+        {#{{ form.vars.modalForm }}#}
+        {#{% endif %}#}
+        {#{% if modalForm is defined and modalForm == true %}#}
+        {#abc#}
+        {#{{ parent({'modalForm': true}) }}#}
+        {#{% else %}#}
+        {% set type = type|default('text') -%}
+        {% if asInput is defined and asInput %}
+            {% set class = class|default('') %}
+            {% set type = type|default('text') -%}
+            <input class="form-control {{ class }}" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        {% else %}
+            <span class="form-control" {{ block('widget_attributes') }}>
         {% if value is not empty %}{{ value }}{% endif %}
     </span>
-	{% endif %}
+        {% endif %}
+    {% endif %}
+    {#{% endif %}#}
 {%- endblock form_widget_simple %}
+
+{# compound widget #}
+{% block form_widget_compound -%}
+    {#compound#}
+    {% if form.vars.modalForm is defined and form.vars.modalForm == true %}
+        {{ parent() }}
+    {% else %}
+        {#xxxxxxxx#}
+        {%- if form.parent is not empty -%}
+            <div {{ block('widget_container_attributes') }}>
+        {% endif %}
+        {%- if form.parent is empty -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+        {%- if form.parent is not empty -%}
+            </div>
+        {% endif %}
+    {% endif %}
+{%- endblock form_widget_compound %}
 
 {# hidden -> not displaying in view theme #}
 {% block hidden_widget %}
@@ -157,35 +234,47 @@
 
 {# textarea widget #}
 {% block textarea_widget -%}
-    <div class="form-control" {{ block('widget_attributes') }}>{{ value }}</div>
+    {% if modalForm is defined and modalForm == true %}
+        {{ parent() }}
+    {% else %}
+        <div class="form-control" {{ block('widget_attributes') }}>{{ value }}</div>
+    {% endif %}
 {%- endblock textarea_widget %}
 
 {# checkbox widget #}
 {% block checkbox_widget -%}
+    {#{% if modalForm is defined and modalForm == true %}#}
+    {#{{ parent({'modalForm': true}) }}#}
+    {#{% else %}#}
     <span class="form-control">
         {% if checked %}Yes{% else %}No{% endif %}
     </span>
+    {#{% endif %}#}
 {%- endblock checkbox_widget %}
 
 {# choice widget (collapsed form) #}
 {% block choice_widget_collapsed -%}
-    {% for group_label, choice in choices %}
-        {% if choice is iterable %}
-            {% for label, groupedChoice in choice %}
-                {% if groupedChoice is selectedchoice(value) %}
-                    <span class="form-control">
+    {% if modalForm is defined and modalForm == true %}
+        {{ parent() }}
+    {% else %}
+        {% for group_label, choice in choices %}
+            {% if choice is iterable %}
+                {% for label, groupedChoice in choice %}
+                    {% if groupedChoice is selectedchoice(value) %}
+                        <span class="form-control">
                         {{ groupedChoice.label|trans({}, translation_domain) }}
                     </span>
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            {% if choice is selectedchoice(value) %}
-                <span class="form-control">
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% if choice is selectedchoice(value) %}
+                    <span class="form-control">
                 {{ choice.label|trans({}, translation_domain) }}
             </span>
+                {% endif %}
             {% endif %}
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
+    {% endif %}
 {%- endblock choice_widget_collapsed %}
 
 {#############################################################################
@@ -202,6 +291,11 @@
         {% endif %}
     {% endfor %}
 {% endblock %}
+
+{#{% block modal_widget %}#}
+    {#{% set modalForm = true %}#}
+    {#{{ parent({'modalForm': true}) }}#}
+{#{% endblock modal_widget %}#}
 
 {% block relatedList_widget %}
     {% set controller = form.vars.relation_child_type.controller ~ ':relatedList' %}
@@ -223,3 +317,98 @@
     {#{{ childType }}<br />#}
     {#{{ relationName }}#}
 {% endblock list_widget %}
+
+
+
+
+
+{#{% block datetime_widget -%}#}
+    {#{% if modalForm is defined and modalForm == true %}#}
+        {#datetime: modal!#}
+        {#{% if widget == 'single_text' %}#}
+            {#{{- block('form_widget_simple') -}}#}
+        {#{% else %}#}
+            {#<div {{ block('widget_container_attributes') }}>#}
+                {#{{- form_errors(form.date) -}}#}
+                {#{{- form_errors(form.time) -}}#}
+                {#{{- form_widget(form.date) -}}#}
+                {#{{- form_widget(form.time) -}}#}
+            {#</div>#}
+        {#{% endif %}#}
+    {#{% else %}#}
+        {#{% if widget == 'single_text' %}#}
+            {#{{- block('form_widget_simple') -}}#}
+        {#{% else %}#}
+            {#<div {{ block('widget_container_attributes') }}>#}
+                {#{{- form_errors(form.date) -}}#}
+                {#{{- form_errors(form.time) -}}#}
+                {#{{- form_widget(form.date) -}}#}
+                {#{{- form_widget(form.time) -}}#}
+            {#</div>#}
+        {#{% endif %}#}
+    {#{% endif %}#}
+{#{%- endblock datetime_widget %}#}
+
+{#{% block date_widget -%}#}
+    {#{% if modalForm is defined and modalForm == true %}#}
+        {#date: modal!#}
+        {#{% if widget == 'single_text' %}#}
+            {#{{- block('form_widget_simple', {'modalForm': true}) -}}#}
+        {#{% else -%}#}
+            {#&#123;&#35;{{ dump(form.year.vars) }}&#35;&#125;#}
+            {#<div {{ block('widget_container_attributes') }}>#}
+                {#{{- date_pattern|replace({#}
+                {#'{{ year }}':  form_widget(form.year, {'modalForm': true}),#}
+                {#'{{ month }}': form_widget(form.month, {'modalForm': true}),#}
+                {#'{{ day }}':   form_widget(form.day, {'modalForm': true}),#}
+                {#})|raw -}}#}
+            {#</div>#}
+        {#{%- endif %}#}
+    {#{% else %}#}
+        {#{% if widget == 'single_text' %}#}
+            {#{{- block('form_widget_simple') -}}#}
+        {#{% else -%}#}
+            {#<div {{ block('widget_container_attributes') }}>#}
+                {#{{- date_pattern|replace({#}
+                {#'{{ year }}':  form_widget(form.year),#}
+                {#'{{ month }}': form_widget(form.month),#}
+                {#'{{ day }}':   form_widget(form.day),#}
+                {#})|raw -}}#}
+            {#</div>#}
+        {#{%- endif %}#}
+    {#{% endif %}#}
+    {#&#123;&#35;{% if modalForm is defined and modalForm == true %}&#35;&#125;#}
+    {#&#123;&#35;modal&#35;&#125;#}
+    {#&#123;&#35;{{ parent({'modalForm': true}) }}&#35;&#125;#}
+    {#&#123;&#35;{% else %}&#35;&#125;#}
+    {#&#123;&#35;{% if widget == 'single_text' %}&#35;&#125;#}
+    {#&#123;&#35;{{- block('form_widget_simple') -}}&#35;&#125;#}
+    {#&#123;&#35;{% else -%}&#35;&#125;#}
+    {#&#123;&#35;<div {{ block('widget_container_attributes') }}>&#35;&#125;#}
+    {#&#123;&#35;{{- date_pattern|replace(&#123;&#35;}#}
+    {#&#123;&#35;'{{ year }}':  form_widget(form.year),&#35;&#125;#}
+    {#&#123;&#35;'{{ month }}': form_widget(form.month),&#35;&#125;#}
+    {#&#123;&#35;'{{ day }}':   form_widget(form.day),&#35;&#125;#}
+    {#&#123;&#35;})|raw -}}&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;{%- endif %}&#35;&#125;#}
+    {#&#123;&#35;{% endif %}&#35;&#125;#}
+{#{%- endblock date_widget %}#}
+
+{#{% block time_widget -%}#}
+    {#&#123;&#35;{% if modalForm is defined and modalForm == true %}&#35;&#125;#}
+        {#&#123;&#35;time: modal!&#35;&#125;#}
+        {#&#123;&#35;modal!&#35;&#125;#}
+
+        {#&#123;&#35;{{ parent({'modalForm': true}) }}&#35;&#125;#}
+    {#&#123;&#35;{% else %}&#35;&#125;#}
+        {#{% if widget == 'single_text' %}#}
+            {#{{- block('form_widget_simple') -}}#}
+        {#{% else -%}#}
+            {#{% set vars = widget == 'text' ? { 'attr': { 'size': 1 }} : {} %}#}
+            {#<div {{ block('widget_container_attributes') }}>#}
+            {#{{ form_widget(form.hour, vars) }}{% if with_minutes %}:{{ form_widget(form.minute, vars) }}{% endif %}{% if with_seconds %}:{{ form_widget(form.second, vars) }}{% endif %}#}
+        {#</div>#}
+    {#{%- endif %}#}
+    {#&#123;&#35;{% endif %}&#35;&#125;#}
+{#{%- endblock time_widget %}#}
