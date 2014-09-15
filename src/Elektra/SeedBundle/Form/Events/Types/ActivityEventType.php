@@ -3,7 +3,10 @@
 namespace Elektra\SeedBundle\Form\Events\Types;
 
 use Doctrine\ORM\EntityRepository;
+use Elektra\CrudBundle\Form\Field\ModalType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ActivityEventType extends UnitStatusEventType
@@ -53,4 +56,13 @@ class ActivityEventType extends UnitStatusEventType
             UnitStatusEventType::OPT_STATUS
         ));
     }
+
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        parent::buildView($view, $form, $options);
+
+        $view->vars[ActivityEventType::OPT_LOCATION] = $options[ActivityEventType::OPT_LOCATION];
+    }
+
+
 }

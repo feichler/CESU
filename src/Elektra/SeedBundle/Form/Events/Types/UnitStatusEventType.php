@@ -2,11 +2,14 @@
 
 namespace Elektra\SeedBundle\Form\Events\Types;
 
+use Elektra\CrudBundle\Form\Field\ModalType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UnitStatusEventType extends AbstractType
+class UnitStatusEventType extends ModalType
 {
     const OPT_STATUS = 'status';
 
@@ -57,6 +60,13 @@ class UnitStatusEventType extends AbstractType
         ));
     }
 
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        parent::buildView($view, $form, $options);
+
+        $view->vars[UnitStatusEventType::OPT_STATUS] = $options[UnitStatusEventType::OPT_STATUS];
+    }
+
     /**
      * @inheritdoc
      */
@@ -74,6 +84,6 @@ class UnitStatusEventType extends AbstractType
      */
     public function getParent()
     {
-        return 'form';
+        return 'modal';
     }
 }

@@ -9,15 +9,18 @@
 
 namespace Elektra\SeedBundle\Controller\Requests;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Elektra\CrudBundle\Controller\Controller;
 use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SeedBundle\Entity\Events\EventType;
 use Elektra\SeedBundle\Entity\Events\ShippingEvent;
+use Elektra\SeedBundle\Entity\Events\StatusEvent;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Requests\Request;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
+use Elektra\SeedBundle\Form\Events\Types\UnitStatusEventType;
 use Elektra\SeedBundle\Form\Requests\AddUnitsType;
 use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\Form;
@@ -69,7 +72,7 @@ class RequestController extends Controller
             if ($this->getCrud()->getRequest()->getMethod() == 'POST')
             {
                 $ids = $this->getSelectedSeedUnitIds($form);
-                $event = $this->getEvent($form);
+                $event = $this->getChangeStatusEvent($form);
 
                 $this->processShippingStatusChange($entity, $ids, $event);
             }
@@ -80,14 +83,14 @@ class RequestController extends Controller
         return $this->redirect($returnUrl);
     }
 
-    private function getEvent(Form $form)
+    private function getChangeStatusEvent(Form $form)
     {
         $event = null;
         if ($form->getClickedButton()->getName() == 'changeStatus')
         {
             $parent = $form->getClickedButton()->getParent();
             $event = $parent->getData();
-            $this->get("session")->getFlashBag()->add('info', get_class($event));
+
         }
         return $event;
     }
@@ -107,7 +110,7 @@ class RequestController extends Controller
         return $ids;
     }
 
-    private function processShippingStatusChange(Request $request, array $ids, ShippingEvent $eventTemplate)
+    private function processShippingStatusChange(Request $request, array $ids, StatusEvent $eventTemplate)
     {
         /** @var $mgr EntityManager */
         $mgr = $this->getDoctrine()->getManager();
@@ -126,6 +129,7 @@ class RequestController extends Controller
             {
 
                 $event = clone $eventTemplate;
+                $event->setAudits(new ArrayCollection());
                 $seedUnit->getEvents()->add($event);
                 $event->setSeedUnit($seedUnit);
             }

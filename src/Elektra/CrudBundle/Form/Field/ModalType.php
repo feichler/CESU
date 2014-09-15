@@ -33,12 +33,12 @@ class ModalType extends AbstractType
             )
         );
 
-        $resolver->setRequired(
-            array(
-                //                'submit_button',
-                'header',
-            )
-        );
+//        $resolver->setRequired(
+//            array(
+//                //                'submit_button',
+//                'header',
+//            )
+//        );
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

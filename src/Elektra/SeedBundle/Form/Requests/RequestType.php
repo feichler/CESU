@@ -2,6 +2,7 @@
 
 namespace Elektra\SeedBundle\Form\Requests;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use Elektra\CrudBundle\Form\Form as CrudForm;
 use Elektra\CrudBundle\Form\Form;
@@ -12,10 +13,12 @@ use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Requests\Request;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitStatusType;
+use Elektra\SeedBundle\Form\FormsHelper;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Forms;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RequestType extends CrudForm
@@ -69,10 +72,54 @@ class RequestType extends CrudForm
         $form->add('shippingLocation', 'entity', $shippingOptions->toArray());
     }
 
+    private function createModalButtonsOptions(FormBuilderInterface $builder, array $allowedStatuses)
+    {
+
+        $shipping = array();
+        foreach($allowedStatuses as $status)
+        {
+            $shipping[$status->getInternalName()] = $status->getTitle();
+        }
+
+        $modalButtonsOptions = $this->getFieldOptions('modalButtons');
+        $modalButtonsOptions->add(
+            'menus',
+            array(
+                'Shipping' => $shipping,
+                'Sales'    => array(
+                    'x' => 'Test',
+                ),
+                'Usage'    => array(
+                    'y' => 'Test 2',
+                    'z' => 'Test 3',
+                )
+            )
+        );
+
+        $modalButtons = $builder->create('modalButtons', 'modalButtons', $modalButtonsOptions->toArray());
+
+        return $modalButtons;
+    }
+
+    private function getAllowedUnitStatuses(ObjectManager $mgr, $seedUnits)
+    {
+        $names = FormsHelper::getAllowedStatuses($seedUnits);
+
+        $statuses = array();
+        if (count($names) > 0)
+        {
+            $repo = $mgr->getRepository('ElektraSeedBundle:Events\UnitStatus');
+            $qb = $repo->createQueryBuilder('us');
+            $qb->where($qb->expr()->in('us.internalName', $names));
+            $statuses = $qb->getQuery()->getResult();
+        }
+
+        return $statuses;
+    }
+
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
-        $requestId = $options['data']->getId();
         $self      = $this;
         $common    = $this->addFieldGroup($builder, $options, 'common');
 
@@ -81,13 +128,21 @@ class RequestType extends CrudForm
             $common->add('requestNumber', 'text', $this->getFieldOptions('requestNumber')->toArray());
 
             $unitsGroup   = $this->addFieldGroup($builder, $options, 'units');
+            /** @var ObjectManager $mgr */
             $mgr = $this->getCrud()->getService('doctrine')->getManager();
+            $seedUnits = $options['data']->getSeedUnits()->toArray();
 
-            $unitsGroup->add('changeStatus', new ChangeUnitStatusType(), array(
-                'mapped' => false,
-                ChangeUnitStatusType::OPT_DATA => $options['data']->getSeedUnits(),
-                ChangeUnitStatusType::OPT_EVENT_FACTORY => new EventFactory($mgr)
-            ));
+            if (count($seedUnits) > 0)
+            {
+                $allowedStatuses = $this->getAllowedUnitStatuses($mgr, $seedUnits);
+                $unitsGroup->add($this->createModalButtonsOptions($builder, $allowedStatuses));
+
+                $unitsGroup->add('changeStatus', new ChangeUnitStatusType(), array(
+                    'mapped' => false,
+                    ChangeUnitStatusType::OPT_DATA => $seedUnits,
+                    ChangeUnitStatusType::OPT_EVENT_FACTORY => new EventFactory($mgr)
+                ));
+            }
 
             // seed units
             $lastLangKey = $this->getCrud()->getLanguageKey();

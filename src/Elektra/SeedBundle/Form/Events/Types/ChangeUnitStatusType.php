@@ -3,10 +3,9 @@
 namespace Elektra\SeedBundle\Form\Events\Types;
 
 use Elektra\SeedBundle\Controller\EventFactory;
-use Elektra\SeedBundle\Entity\Events\ActivityEvent;
-use Elektra\SeedBundle\Entity\Events\ShippingEvent;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
+use Elektra\SeedBundle\Form\FormsHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -45,21 +44,22 @@ class ChangeUnitStatusType extends AbstractType
             // TODO exception
         }
 
-        // calculate allowed target statuses
-        $statuses = array();
-        foreach ($data as $seedUnit) {
-            $allowed  = UnitStatus::$ALLOWED_FROM[$seedUnit->getUnitStatus()->getInternalName()];
-            $statuses = array_merge($statuses, $allowed);
-        }
+        $statuses = FormsHelper::getAllowedStatuses($data);
 
-        $statuses = array_unique($statuses);
+        $this->buildFields($builder, $data, $eventFactory, $statuses);
 
+    }
+
+    private function buildFields(FormBuilderInterface $builder, array $data, EventFactory $eventFactory, $statuses)
+    {
         foreach ($statuses as $status)
         {
             $fieldName = $status . "StatusUI";
 
             $event = $eventFactory->createShippingEvent($status, array(
-                EventFactory::IGNORE_MISSING => true
+                EventFactory::IGNORE_MISSING => true,
+                // WORKAROUND only necessary for delivered
+                EventFactory::LOCATION => $data[0]->getRequest()->getShippingLocation()
             ));
 
             switch($status)
@@ -67,7 +67,8 @@ class ChangeUnitStatusType extends AbstractType
                 case UnitStatus::IN_TRANSIT:
                     $builder->add($fieldName, new InTransitType(), array(
                         'data' => $event,
-                        'mapped' => false
+                        'mapped' => false,
+                        UnitStatusEventType::OPT_STATUS => $status
                     ));
                     break;
 
@@ -104,6 +105,9 @@ class ChangeUnitStatusType extends AbstractType
 
         $resolver->setRequired(array(
            ChangeUnitStatusType::OPT_DATA, ChangeUnitStatusType::OPT_EVENT_FACTORY
+        ));
+        $resolver->setDefaults(array(
+            'label' => false
         ));
     }
 }
