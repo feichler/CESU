@@ -69,9 +69,9 @@ class RequestController extends Controller
             if ($this->getCrud()->getRequest()->getMethod() == 'POST')
             {
                 $ids = $this->getSelectedSeedUnitIds($form);
-                $newStatus = $this->getNewStatus($form);
+                $event = $this->getEvent($form);
 
-                $this->processShippingStatusChange($entity, $ids, $newStatus);
+                $this->processShippingStatusChange($entity, $ids, $event);
             }
         }
 
@@ -80,16 +80,16 @@ class RequestController extends Controller
         return $this->redirect($returnUrl);
     }
 
-    private function getNewStatus(Form $form)
+    private function getEvent(Form $form)
     {
-        $newStatus = null;
+        $event = null;
         if ($form->getClickedButton()->getName() == 'changeStatus')
         {
             $parent = $form->getClickedButton()->getParent();
-            $this->get("session")->getFlashBag()->add('info', get_class($parent));
-            $newStatus = $parent->get('unitStatus')->getData();
+            $event = $parent->getData();
+            $this->get("session")->getFlashBag()->add('info', get_class($event));
         }
-        return $newStatus;
+        return $event;
     }
 
     /**
@@ -107,42 +107,25 @@ class RequestController extends Controller
         return $ids;
     }
 
-    private function processShippingStatusChange(Request $request, array $ids, $newStatus)
+    private function processShippingStatusChange(Request $request, array $ids, ShippingEvent $eventTemplate)
     {
         /** @var $mgr EntityManager */
         $mgr = $this->getDoctrine()->getManager();
 
+        $newStatus = $eventTemplate->getUnitStatus()->getInternalName();
         $allowedStatuses = isset(UnitStatus::$ALLOWED_TO[$newStatus]) ? UnitStatus::$ALLOWED_TO[$newStatus] : array();
 
         // retrieve seed units
         $repo = $mgr->getRepository('ElektraSeedBundle:SeedUnits\SeedUnit');
 
-        // determine event properties
-        $location = null;
-        switch($newStatus)
-        {
-            case UnitStatus::DELIVERED:
-            case UnitStatus::ACKNOWLEDGE_ATTEMPT:
-            case UnitStatus::AA1SENT:
-            case UnitStatus::AA2SENT:
-            case UnitStatus::AA3SENT:
-            case UnitStatus::ESCALATION:
-            case UnitStatus::DELIVERY_VERIFIED:
-                $location = $request->getShippingLocation();
-                break;
-        }
-
-        $eventFactory = new EventFactory($mgr);
         foreach($ids as $id)
         {
             $seedUnit = $repo->find($id);
 
             if (in_array($seedUnit->getUnitStatus()->getInternalName(), $allowedStatuses))
             {
-                $event = $eventFactory->createShippingEvent($newStatus, array(
-                    EventFactory::LOCATION => $location
-                ));
 
+                $event = clone $eventTemplate;
                 $seedUnit->getEvents()->add($event);
                 $event->setSeedUnit($seedUnit);
             }

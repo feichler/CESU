@@ -34,6 +34,14 @@ services:
         tags:
             - { name: form.type, alias: entityTable }
 
+    elektra_crud.form.type.hiddenEntity:
+      class: Elektra\CrudBundle\Form\Field\HiddenEntityType
+      arguments:
+          - "@doctrine"
+          - "@form.type_guesser.doctrine"
+      tags:
+          - { name: form.type, alias: hiddenEntity }
+
     elektra_crud.form.type.modal:
         class: Elektra\CrudBundle\Form\Field\ModalType
         tags:

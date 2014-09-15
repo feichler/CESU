@@ -37,22 +37,20 @@ class UnitStatusEventType extends AbstractType
 
     protected function buildFields(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('unitStatus', 'hidden', array(
-                'data' => $options[UnitStatusEventType::OPT_STATUS],
-                'mapped' => false
-            )
-        );
+        $builder->add('unitStatus', 'hiddenEntity');
+        $builder->add('eventType', 'hiddenEntity');
 
         $builder->add('timestamp', 'datetime', array(
-            'mapped' => false,
+//            'mapped' => false,
             // TRANSLATE
             'label' => "Timestamp",
-            'data' => new \DateTime()
+            'input' => 'timestamp'
+//            'data' => new \DateTime()
         ));
 
         $builder->add('comment', 'textarea', array(
             'required' => false,
-            'mapped' => false,
+//            'mapped' => false,
             // TRANSLATE
             'label' => "Comment",
             'trim' => true

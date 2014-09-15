@@ -338,6 +338,7 @@ tables:
                 event_type:                                             Type
                 company:                                                Company
                 location:                                               Location
+                text:                                                   Text
 forms:
     generic:
         constraints:
