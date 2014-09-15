@@ -34,6 +34,13 @@ class ShippingEvent extends StatusEvent
     protected $location;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    protected $shippingNumber;
+
+    /**
      *
      */
     public function __construct()
@@ -58,5 +65,21 @@ class ShippingEvent extends StatusEvent
     {
 
         return $this->location;
+    }
+
+    /**
+     * @param string $shippingNumber
+     */
+    public function setShippingNumber($shippingNumber)
+    {
+        $this->shippingNumber = $shippingNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShippingNumber()
+    {
+        return $this->shippingNumber;
     }
 }

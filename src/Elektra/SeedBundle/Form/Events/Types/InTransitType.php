@@ -23,7 +23,6 @@ class InTransitType extends UnitStatusEventType
         parent::buildFields($builder, $options);
 
         $builder->add('shippingNumber', 'text', array(
-            'mapped' => false,
             // TRANSLATE
             'label' => 'Shipping Number'
         ));

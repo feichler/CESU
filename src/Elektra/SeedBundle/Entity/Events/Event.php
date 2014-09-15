@@ -77,14 +77,14 @@ abstract class Event implements AuditableInterface, AnnotableInterface, CrudInte
      *
      * @ORM\Column(type="string", length=255)
      */
-    protected $title;
+    protected $text;
 
     /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $text;
+    protected $comment;
 
     /**
      * @var ArrayCollection
@@ -178,10 +178,28 @@ abstract class Event implements AuditableInterface, AnnotableInterface, CrudInte
     /**
      * @param string $body
      */
-    public function setText($body)
+    public function setComment($body)
     {
 
-        $this->text = $body;
+        $this->comment = $body;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComment()
+    {
+
+        return $this->comment;
+    }
+
+    /**
+     * @param string $subject
+     */
+    public function setText($subject)
+    {
+
+        $this->text = $subject;
     }
 
     /**
@@ -191,24 +209,6 @@ abstract class Event implements AuditableInterface, AnnotableInterface, CrudInte
     {
 
         return $this->text;
-    }
-
-    /**
-     * @param string $subject
-     */
-    public function setTitle($subject)
-    {
-
-        $this->title = $subject;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-
-        return $this->title;
     }
 
     /**
@@ -271,7 +271,6 @@ abstract class Event implements AuditableInterface, AnnotableInterface, CrudInte
     public function getCreationAudit()
     {
         return Helper::getFirstAudit($this->getAudits());
-
     }
 
     /**
@@ -280,6 +279,13 @@ abstract class Event implements AuditableInterface, AnnotableInterface, CrudInte
     public function getLastModifiedAudit()
     {
         return Helper::getLastAudit($this->getAudits());
+    }
 
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->getText();
     }
 }

@@ -34,8 +34,8 @@ class EventTable extends Table
         $eventType->setSortable();
         $eventType->setFilterable()->setFieldFilter('name');
 
-        $subject = $this->getColumns()->add('title');
-        $subject->setFieldData('title');
+        $subject = $this->getColumns()->add('text');
+        $subject->setFieldData('text');
         $subject->setSortable();
         $subject->setSearchable();
 

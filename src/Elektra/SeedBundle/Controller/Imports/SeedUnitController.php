@@ -165,8 +165,8 @@ class SeedUnitController extends ExcelFileController
         $event->setUnitStatus($statusEntity);
         $event->setLocation($warehouse);
         $event->setTimestamp($timestamp);
+        $event->setComment('Seed Unit created');
         $event->setText('Seed Unit created');
-        $event->setTitle('Seed Unit created');
 
 
         // create the seed unit itself

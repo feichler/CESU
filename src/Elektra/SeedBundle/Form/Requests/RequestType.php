@@ -5,6 +5,7 @@ namespace Elektra\SeedBundle\Form\Requests;
 use Doctrine\ORM\EntityRepository;
 use Elektra\CrudBundle\Form\Form as CrudForm;
 use Elektra\CrudBundle\Form\Form;
+use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\Companies\Company;
 use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
@@ -80,10 +81,12 @@ class RequestType extends CrudForm
             $common->add('requestNumber', 'text', $this->getFieldOptions('requestNumber')->toArray());
 
             $unitsGroup   = $this->addFieldGroup($builder, $options, 'units');
+            $mgr = $this->getCrud()->getService('doctrine')->getManager();
 
             $unitsGroup->add('changeStatus', new ChangeUnitStatusType(), array(
                 'mapped' => false,
-                ChangeUnitStatusType::OPT_DATA => $options['data']->getSeedUnits()
+                ChangeUnitStatusType::OPT_DATA => $options['data']->getSeedUnits(),
+                ChangeUnitStatusType::OPT_EVENT_FACTORY => new EventFactory($mgr)
             ));
 
             // seed units
@@ -104,8 +107,8 @@ class RequestType extends CrudForm
                 'query_builder',
                 function (EntityRepository $repository) use ($options) {
 
-                    $builder = $repository->createQueryBuilder('u');
-                    $builder->where('u.request = :request');
+                    $builder = $repository->createQueryBuilder('su');
+                    $builder->where('su.request = :request');
                     $builder->setParameter('request', $options['data']);
 
                     return $builder;
@@ -190,22 +193,22 @@ class RequestType extends CrudForm
         $this->getCrud()->resetOverridenLangKey();
     }
 
-    protected function initialiseButtons($crudAction, array $options)
-    {
-
-        $seedUnits = $options['data']->getSeedUnits();
-
-        // calculate allowed target statuses
-        $statuses = array();
-        foreach ($seedUnits as $seedUnit) {
-            $allowed  = UnitStatus::$ALLOWED_FROM[$seedUnit->getUnitStatus()->getInternalName()];
-            $statuses = array_merge($statuses, $allowed);
-        }
-
-        $statuses = array_unique($statuses);
-
-        foreach ($statuses as $status) {
-            $this->addFormButton($status, 'submit', array(), Form::BUTTON_TOP);
-        }
-    }
+//    protected function initialiseButtons($crudAction, array $options)
+//    {
+//
+//        $seedUnits = $options['data']->getSeedUnits();
+//
+//        // calculate allowed target statuses
+//        $statuses = array();
+//        foreach ($seedUnits as $seedUnit) {
+//            $allowed  = UnitStatus::$ALLOWED_FROM[$seedUnit->getUnitStatus()->getInternalName()];
+//            $statuses = array_merge($statuses, $allowed);
+//        }
+//
+//        $statuses = array_unique($statuses);
+//
+//        foreach ($statuses as $status) {
+//            $this->addFormButton($status, 'submit', array(), Form::BUTTON_TOP);
+//        }
+//    }
 }

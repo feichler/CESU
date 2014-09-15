@@ -39,8 +39,8 @@ class SeedUnitController extends Controller
                 $event->setLocation($location);
                 $event->setSeedUnit($entity);
                 $event->setTimestamp(time());
+                $event->setComment('Seed Unit created');
                 $event->setText('Seed Unit created');
-                $event->setTitle('Seed Unit created');
                 $event->setUnitStatus($statusEntity);
                 $entity->getEvents()->add($event);
 

@@ -49,6 +49,7 @@ class EventFactory {
     const LOCATION = 'location';
     const REQUEST_NUMBER = 'requestNumber';
     const PERSON = 'person';
+    const IGNORE_MISSING = 'ignoreMissing';
 
     /**
      *
@@ -65,7 +66,7 @@ class EventFactory {
         $event = new PartnerEvent();
         $event->setEventType($this->eventTypeRepository->findByInternalName(EventType::PARTNER));
         $event->setUsage($usage);
-        $event->setTitle("Usage changed to '" . $usage->getName() . "'.");
+        $event->setText("Usage changed to '" . $usage->getName() . "'.");
 
         return $event;
     }
@@ -182,7 +183,7 @@ class EventFactory {
         return $event;
     }
 
-    public function createDelivered(CompanyLocation $location, array $options)
+    public function createDelivered(CompanyLocation $location = null, array $options)
     {
         $event = $this->_createShippingEvent('Unit arrived at target location.',
             $this->unitStatusRepository->findByInternalName(UnitStatus::DELIVERED),
@@ -193,7 +194,7 @@ class EventFactory {
         return $event;
     }
 
-    public function createAcknowledgeAttempt(CompanyPerson $person, array $options)
+    public function createAcknowledgeAttempt(CompanyPerson $person = null, array $options)
     {
         $event = $this->_createActivityEvent("Acknowledge attempted - delivery couldn't be verified.",
             $this->unitStatusRepository->findByInternalName(UnitStatus::ACKNOWLEDGE_ATTEMPT),
@@ -204,7 +205,7 @@ class EventFactory {
         return $event;
     }
 
-    public function createAA1Sent(CompanyPerson $person, array $options)
+    public function createAA1Sent(CompanyPerson $person = null, array $options)
     {
         $event = $this->_createActivityEvent("Acknowledge attempted - delivery couldn't be verified.",
             $this->unitStatusRepository->findByInternalName(UnitStatus::AA1SENT),
@@ -215,7 +216,7 @@ class EventFactory {
         return $event;
     }
 
-    public function createAA2Sent(CompanyPerson $person, array $options)
+    public function createAA2Sent(CompanyPerson $person = null, array $options)
     {
         $event = $this->_createActivityEvent("Acknowledge attempted - delivery couldn't be verified.",
             $this->unitStatusRepository->findByInternalName(UnitStatus::AA2SENT),
@@ -226,7 +227,7 @@ class EventFactory {
         return $event;
     }
 
-    public function createAA3Sent(CompanyPerson $person, array $options)
+    public function createAA3Sent(CompanyPerson $person = null, array $options)
     {
         $event = $this->_createActivityEvent("Acknowledge attempted - delivery couldn't be verified.",
             $this->unitStatusRepository->findByInternalName(UnitStatus::AA3SENT),
@@ -237,7 +238,7 @@ class EventFactory {
         return $event;
     }
 
-    public function createEscalation(CompanyLocation $location, array $options)
+    public function createEscalation(CompanyLocation $location = null, array $options)
     {
         $event = $this->_createShippingEvent("Escalation: Delivery couldn't be verified.",
             $this->unitStatusRepository->findByInternalName(UnitStatus::ESCALATION),
@@ -248,7 +249,7 @@ class EventFactory {
         return $event;
     }
 
-    public function createDeliveryVerified(CompanyPerson $person, array $options)
+    public function createDeliveryVerified(CompanyPerson $person = null, array $options)
     {
         $event = $this->_createActivityEvent("Delivery verified.",
             $this->unitStatusRepository->findByInternalName(UnitStatus::DELIVERY_VERIFIED),
@@ -259,12 +260,12 @@ class EventFactory {
         return $event;
     }
 
-    private function _createActivityEvent($title, UnitStatus $unitStatus, CompanyPerson $person, array $options)
+    private function _createActivityEvent($title, UnitStatus $unitStatus = null, CompanyPerson $person = null, array $options)
     {
         $event = new ActivityEvent();
         $this->_populateCommonFields($event, $options);
 
-        $event->setTitle($title);
+        $event->setText($title);
         $event->setEventType($this->eventTypeRepository->findByInternalName(EventType::SHIPPING));
         $event->setUnitStatus($unitStatus);
         $event->setPerson($person);
@@ -272,12 +273,12 @@ class EventFactory {
         return $event;
     }
 
-    private function _createShippingEvent($title, UnitStatus $unitStatus, Location $location, array $options)
+    private function _createShippingEvent($title, UnitStatus $unitStatus = null, Location $location = null, array $options)
     {
         $event = new ShippingEvent();
         $this->_populateCommonFields($event, $options);
 
-        $event->setTitle($title);
+        $event->setText($title);
         $event->setEventType($this->eventTypeRepository->findByInternalName(EventType::SHIPPING));
         $event->setUnitStatus($unitStatus);
         $event->setLocation($location);
@@ -287,10 +288,10 @@ class EventFactory {
 
     private function _getMandatoryOption($name, array $options)
     {
-        if (!isset($options[$name]))
+        if (!array_key_exists($name, $options) and !(array_key_exists(EventFactory::IGNORE_MISSING, $options) and $options[EventFactory::IGNORE_MISSING]))
             throw new \OutOfBoundsException("Mandatory option '" . $name . "' missing.");
 
-        return $options[$name];
+        return array_key_exists($name, $options) ? $options[$name] : null;
     }
 
     private function _populateCommonFields(Event $event, array $options)
@@ -302,7 +303,7 @@ class EventFactory {
 
         if (isset($options[EventFactory::TEXT]))
         {
-            $event->setText($options[EventFactory::TEXT]);
+            $event->setComment($options[EventFactory::TEXT]);
         }
     }
 }

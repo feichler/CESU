@@ -229,7 +229,7 @@ class TestDataFixture extends SeedBundleFixture
                 $obj->setEventType($eventType);
                 $obj->setLocation($warehouse);
                 $obj->setUnitStatus($unitStatus);
-                $obj->setTitle($subject);
+                $obj->setText($subject);
 
                 $manager->persist($obj);
 
