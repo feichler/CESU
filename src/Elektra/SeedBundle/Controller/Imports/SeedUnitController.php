@@ -157,7 +157,7 @@ class SeedUnitController extends ExcelFileController
 
         // get the unit status
         $statusRepository = $this->getDoctrine()->getRepository($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassRepository());
-        $statusEntity = $statusRepository->findOneBy(array('internalName' => UnitStatus::AVAILABLE));
+        $statusEntity     = $statusRepository->findOneBy(array('internalName' => UnitStatus::AVAILABLE));
 
         // first create the required shipping event (initial arrival at warehouse)
         $event = new ShippingEvent();
@@ -168,12 +168,13 @@ class SeedUnitController extends ExcelFileController
         $event->setComment('Seed Unit created');
         $event->setText('Seed Unit created');
 
-
         // create the seed unit itself
         $seedUnit = new SeedUnit();
         $seedUnit->setSerialNumber($serial);
         $seedUnit->setModel($model);
         $seedUnit->setPowerCordType($power);
+        $seedUnit->setShippingStatus($statusEntity);
+        $seedUnit->setLocation($warehouse);
 
         // link the event and unit together
         $event->setSeedUnit($seedUnit);
