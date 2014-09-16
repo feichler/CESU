@@ -59,7 +59,7 @@ class SeedUnitTable extends Table
 
         $status = $this->getColumns()->add('status');
         $status->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'));
-        $status->setFieldData('unitStatus.name');
+        $status->setFieldData('shippingStatus.name');
         $status->setSortable();
         // Filter not working
 //        $status->setFilterable()->setFieldFilter('name');
@@ -89,8 +89,6 @@ class SeedUnitTable extends Table
             $usage->setHidden();
         } else if ($route == 'request.view') {
             $request->setHidden();
-        } else {
-            //            $select->setHidden();
         }
     }
 

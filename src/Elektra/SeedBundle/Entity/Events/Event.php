@@ -288,4 +288,15 @@ abstract class Event implements AuditableInterface, AnnotableInterface, CrudInte
     {
         return $this->getText();
     }
+
+    public function createClone()
+    {
+
+        $event = clone $this;
+        // WORKAROUND: need to explicitly clear audits because list is not cleared on clone
+        $event->setAudits(new ArrayCollection());
+        $event->setNotes(new ArrayCollection());
+
+        return $event;
+    }
 }

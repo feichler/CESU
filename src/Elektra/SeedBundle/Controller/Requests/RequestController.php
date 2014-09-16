@@ -74,12 +74,13 @@ class RequestController extends Controller
                 $ids = $this->getSelectedSeedUnitIds($form);
                 $event = $this->getChangeStatusEvent($form);
 
-                $this->processShippingStatusChange($entity, $ids, $event);
+                $this->processShippingStatusChange($ids, $event);
             }
         }
 
         $returnUrl = $this->getCrud()->getNavigator()->getLink($this->getCrud()
             ->getDefinition('Elektra', 'Seed', 'Requests', 'Request'), 'view', array('id' => $id));
+
         return $this->redirect($returnUrl);
     }
 
@@ -91,7 +92,6 @@ class RequestController extends Controller
         {
             $parent = $form->getClickedButton()->getParent()->getParent();
             $event = $parent->getData();
-
         }
         return $event;
     }
@@ -111,7 +111,7 @@ class RequestController extends Controller
         return $ids;
     }
 
-    private function processShippingStatusChange(Request $request, array $ids, StatusEvent $eventTemplate)
+    private function processShippingStatusChange(array $ids, StatusEvent $eventTemplate)
     {
         /** @var $mgr EntityManager */
         $mgr = $this->getDoctrine()->getManager();
@@ -124,14 +124,19 @@ class RequestController extends Controller
 
         foreach($ids as $id)
         {
+            /** @var SeedUnit $seedUnit */
             $seedUnit = $repo->find($id);
 
-            if (in_array($seedUnit->getUnitStatus()->getInternalName(), $allowedStatuses))
+            if (in_array($seedUnit->getShippingStatus()->getInternalName(), $allowedStatuses))
             {
-
-                $event = clone $eventTemplate;
-                $event->setAudits(new ArrayCollection());
+                /** @var StatusEvent $event */
+                $event = $eventTemplate->createClone();
                 $seedUnit->getEvents()->add($event);
+                $seedUnit->setShippingStatus($event->getUnitStatus());
+                if ($event instanceof ShippingEvent)
+                {
+                    $seedUnit->setLocation($event->getLocation());
+                }
                 $event->setSeedUnit($seedUnit);
             }
         }
@@ -179,15 +184,21 @@ class RequestController extends Controller
 
         $form->handleRequest($this->getCrud()->getRequest());
 
-        if ($form->isValid() && !$this->filterSubmitted) {
+        if ($form->isValid() && !$this->filterSubmitted)
+        {
             /* @var $manager EntityManager */
             $manager = $this->getDoctrine()->getManager();
 
             $eventFactory = new EventFactory($manager);
+
             /* @var $su SeedUnit */
-            foreach ($entity->getSeedUnits() as $su) {
+            foreach ($entity->getSeedUnits() as $su)
+            {
                 $su->setRequest($entity);
                 $shippingEvent = $eventFactory->createReserved($su->getLocation(), $entity->getRequestNumber(), array());
+                $su->setShippingStatus($shippingEvent->getUnitStatus());
+                $su->setLocation($shippingEvent->getLocation());
+
                 $shippingEvent->setSeedUnit($su);
                 $su->getEvents()->add($shippingEvent);
             }
@@ -204,8 +215,6 @@ class RequestController extends Controller
         // render the add-view with the form
         return $this->render($viewName, array('form' => $formView));
     }
-
-
 
     /**
      * @param EntityInterface $entity

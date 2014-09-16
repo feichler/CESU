@@ -14,6 +14,8 @@ use Elektra\SeedBundle\Entity\Events\ShippingEvent;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Events\UnitUsage;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
+use Elektra\SeedBundle\Repository\Events\EventTypeRepository;
+use Elektra\SeedBundle\Repository\Events\UnitStatusRepository;
 use Symfony\Component\Form\FormInterface;
 
 class SeedUnitController extends Controller
@@ -28,12 +30,16 @@ class SeedUnitController extends Controller
     public function beforeAddEntity(EntityInterface $entity, FormInterface $form = null)
     {
 
-        if ($entity instanceof SeedUnit) {
+        if ($entity instanceof SeedUnit)
+        {
             $location = $form->get('group_common')->get('location')->getData();
-            if ($location instanceof WarehouseLocation) {
+
+            if ($location instanceof WarehouseLocation)
+            {
                 // get the unit status
-                $statusRepository = $this->getDoctrine()->getRepository($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassRepository());
-                $statusEntity = $statusRepository->findOneBy(array('internalName' => UnitStatus::AVAILABLE));
+                $status = $this->getDoctrine()
+                    ->getRepository($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassRepository())
+                    ->findByInternalName(UnitStatus::AVAILABLE);
 
                 $event = new ShippingEvent();
                 $event->setLocation($location);
@@ -41,13 +47,16 @@ class SeedUnitController extends Controller
                 $event->setTimestamp(time());
                 $event->setComment('Seed Unit created');
                 $event->setText('Seed Unit created');
-                $event->setUnitStatus($statusEntity);
+                $event->setUnitStatus($status);
                 $entity->getEvents()->add($event);
 
-                $em           = $this->getDoctrine()->getManager();
-                $rep          = $em->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'EventType')->getClassRepository());
-                $shippingType = $rep->findOneBy(array('internalName' => 'shipping'));
-                $event->setEventType($shippingType);
+                $eventType = $this->getDoctrine()
+                    ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'EventType')->getClassRepository())
+                    ->findByInternalName(EventType::SHIPPING);
+
+                $event->setEventType($eventType);
+
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($event);
             }
         }
@@ -119,7 +128,6 @@ class SeedUnitController extends Controller
         $eventTypeRepository = $mgr
             ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'EventType')
                 ->getClassRepository());
-
     }
 
     /**
@@ -132,8 +140,10 @@ class SeedUnitController extends Controller
 
         /* @var SeedUnit $seedUnit  */
         $seedUnit = $this->getEntity($id);
+
         /* @var ObjectManager $mgr  */
         $mgr = $this->getDoctrine()->getManager();
+
         /* @var UnitUsage $newUsage  */
         $newUsage = $mgr
             ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')

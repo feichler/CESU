@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UnitStatusEventType extends ModalType
+class UnitStatusEventType extends EventType
 {
 
     const OPT_STATUS = 'status';
@@ -25,72 +25,13 @@ class UnitStatusEventType extends ModalType
         return "shippingEvent";
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-
-        parent::buildForm($builder, $options);
-
-        $this->buildFields($builder, $options);
-
-        $buttons = array(
-            'changeStatus' => array(
-                'type'    => 'submit',
-                'options' => array(
-                    'label' => 'Save',
-                    'attr'  => array(
-                        'class' => 'btn btn-success',
-                    ),
-                ),
-            ),
-        );
-        $builder->add('changeActions', 'buttonGroup', array('buttons' => $buttons));
-
-//        $builder->add(
-//            'changeStatus',
-//            'submit',
-//            array(
-//                // TRANSLATE
-//                'label' => 'Save'
-//            )
-//        );
-    }
-
     protected function buildFields(FormBuilderInterface $builder, array $options)
     {
 
         $builder->add('unitStatus', 'hiddenEntity');
         $builder->add('eventType', 'hiddenEntity');
 
-        $builder->add(
-            'timestamp',
-            'datetime',
-            array(
-                //            'mapped' => false,
-                // TRANSLATE
-                'label'          => "Timestamp (UTC)",
-                'input'          => 'timestamp',
-                'with_seconds'   => true,
-                'date_widget'    => 'single_text',
-                'time_widget'    => 'single_text',
-                'view_timezone'  => 'UTC',
-                'model_timezone' => 'UTC',
-            )
-        );
-
-        $builder->add(
-            'comment',
-            'textarea',
-            array(
-                'required' => false,
-                //            'mapped' => false,
-                // TRANSLATE
-                'label'    => "Comment",
-                'trim'     => true
-            )
-        );
+        parent::buildFields($builder, $options);
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options)

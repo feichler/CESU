@@ -31,35 +31,35 @@ class SeedUnitType extends Form
 
         $commonGroup->add('serialNumber', 'text', $this->getFieldOptions('serialNumber')->required()->notBlank()->toArray());
 
-        $modelOptions = $this->getFieldOptions('model')->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model')->getClassEntity())->add('property', 'title');
+        $modelOptions = $this->getFieldOptions('model')
+            ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model')->getClassEntity())
+            ->add('property', 'title');
         $commonGroup->add('model', 'entity', $modelOptions->toArray());
 
-        $powerCordTypeOptions = $this->getFieldOptions('powerCordType')->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')->getClassEntity())->add(
-            'property',
-            'title'
-        );
+        $powerCordTypeOptions = $this->getFieldOptions('powerCordType')
+            ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')->getClassEntity())
+            ->add('property', 'title');
         $commonGroup->add('powerCordType', 'entity', $powerCordTypeOptions->toArray());
 
-        if ($options['crud_action'] == 'add') {
-            $locationOptions = $this->getFieldOptions('location')->add('mapped', false)->add(
-                'class',
-                $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'WarehouseLocation')->getClassEntity()
-            )->add('property', 'title');
+        if ($options['crud_action'] == 'add')
+        {
+            $locationOptions = $this->getFieldOptions('location')->add('mapped', false)
+                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'WarehouseLocation')->getClassEntity())
+                ->add('property', 'title');
             $commonGroup->add('location', 'entity', $locationOptions->toArray());
         }
 
-        if ($options['crud_action'] != 'add') {
-            $locationOptions = $this->getFieldOptions('location')->add('read_only', true)->add(
-                'class',
-                $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location')->getClassEntity()
-            )->add('property', 'title');
+        if ($options['crud_action'] != 'add')
+        {
+            $locationOptions = $this->getFieldOptions('location')->add('read_only', true)
+                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location')->getClassEntity())
+                ->add('property', 'title');
             $commonGroup->add('location', 'entity', $locationOptions->toArray());
 
-            $statusOptions = $this->getFieldOptions('unitStatus')->add('read_only', true)->add(
-                'class',
-                $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassEntity()
-            )->add('property', 'title');
-            $commonGroup->add('unitStatus', 'entity', $statusOptions->toArray());
+            $statusOptions = $this->getFieldOptions('shippingStatus')->add('read_only', true)
+                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassEntity())
+                ->add('property', 'title');
+            $commonGroup->add('shippingStatus', 'entity', $statusOptions->toArray());
 
             $this->addHistoryGroup($builder, $options);
         }
@@ -67,11 +67,17 @@ class SeedUnitType extends Form
         /* @var $entity SeedUnit */
         $entity = $options['data'];
 
-        if($entity->getUnitStatus() !== null) {
-        if ($entity->getUnitStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED) {
-            $usageOptions = $this->getFieldOptions('unitUsage')->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassEntity())->add('property', 'title');
+        if($entity->getShippingStatus() !== null and $entity->getShippingStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED)
+        {
+            $usageOptions = $this->getFieldOptions('unitUsage')
+                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassEntity())
+                ->add('property', 'title');
             $commonGroup->add('unitUsage', 'entity', $usageOptions->toArray());
-        }
+
+            $salesStatusOptions = $this->getFieldOptions('salesStatus')
+                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'SalesStatus')->getClassEntity())
+                ->add('property', 'title');
+            $commonGroup->add('salesStatus', 'entity', $salesStatusOptions->toArray());
         }
     }
 
@@ -80,10 +86,11 @@ class SeedUnitType extends Form
 
         $historyGroup = $this->addFieldGroup($builder, $options, 'History'); // TRANSLATE this
 
-        $eventsOptions = $this->getFieldOptions('events')->add('relation_parent_entity', $options['data'])->add(
-            'relation_child_type',
-            $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'Event')
-        )->add('ordering_field', 'timestamp')->add('ordering_direction', 'DESC')->add('list_limit', 100);
+        $eventsOptions = $this->getFieldOptions('events')->add('relation_parent_entity', $options['data'])
+            ->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'Event'))
+            ->add('ordering_field', 'timestamp')
+            ->add('ordering_direction', 'DESC')
+            ->add('list_limit', 100);
         $historyGroup->add('events', 'relatedList', $eventsOptions->toArray());
 
         return $historyGroup;
@@ -106,19 +113,24 @@ class SeedUnitType extends Form
         /* @var $entity SeedUnit */
         $entity = $options['data'];
         /* @var $unitStatus UnitStatus */
-        $unitStatus = $entity->getUnitStatus();
+        $unitStatus = $entity->getShippingStatus();
 
 
-        if($unitStatus !== null) {
-        if ($unitStatus->getInternalName() == UnitStatus::DELIVERY_VERIFIED) {
-            $buttons = $this->initialiseUsageButtons($entity);
-        } else {
-            $buttons = $this->initialiseShippingButtons($entity, $unitStatus);
-        }
+        if($unitStatus !== null)
+        {
+            if ($unitStatus->getInternalName() == UnitStatus::DELIVERY_VERIFIED)
+            {
+                $buttons = $this->initialiseUsageButtons($entity);
+            }
+            else
+            {
+                $buttons = $this->initialiseShippingButtons($entity, $unitStatus);
+            }
 
-        foreach ($buttons as $key => $button) {
-            $this->addFormButton($key, 'link', $button, Form::BUTTON_TOP);
-        }
+            foreach ($buttons as $key => $button)
+            {
+                $this->addFormButton($key, 'link', $button, Form::BUTTON_TOP);
+            }
         }
     }
 
@@ -132,17 +144,18 @@ class SeedUnitType extends Form
 
         $buttons = array();
         /* @var $repo Repository */
-        $repo = $this->getCrud()->getService('doctrine')->getRepository(
-            $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassRepository()
-        );
+        $repo = $this->getCrud()->getService('doctrine')
+            ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassRepository());
 
         $usages = $repo->findAll();
 
         $currentUsage = $seedUnit->getUnitUsage();
         $siteLanguage = $this->getCrud()->getService('siteLanguage');
         /* @var $usage UnitUsage */
-        foreach ($usages as $usage) {
-            if ($currentUsage != null && $usage->getId() == $currentUsage->getId()) {
+        foreach ($usages as $usage)
+        {
+            if ($currentUsage != null && $usage->getId() == $currentUsage->getId())
+            {
                 continue;
             }
 

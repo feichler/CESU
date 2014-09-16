@@ -21,7 +21,7 @@ class FormsHelper {
     {
         $statuses = array();
         foreach ($seedUnits as $seedUnit) {
-            $allowed  = UnitStatus::$ALLOWED_FROM[$seedUnit->getUnitStatus()->getInternalName()];
+            $allowed  = UnitStatus::$ALLOWED_FROM[$seedUnit->getShippingStatus()->getInternalName()];
             $statuses = array_merge($statuses, $allowed);
         }
 

@@ -514,9 +514,10 @@ forms:
                 model:                                                  Model
                 power_cord_type:                                        Power Cord Type
                 location:                                               Location
-                unit_status:                                            Status
+                shipping_status:                                        Status
+                sales_status:                                           'Sales Status'
                 unit_usage:                                             Usage
-                # workaround for translation issues - should be at the reuqest
+                # workaround for translation issues - should be at the request
                 requester_person:                                       Requester
                 receiver_person:                                        Receiver
                 shipping_location:                                      Ship to

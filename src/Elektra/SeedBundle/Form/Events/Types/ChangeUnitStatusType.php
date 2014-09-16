@@ -68,6 +68,7 @@ class ChangeUnitStatusType extends AbstractType
                     $builder->add($fieldName, new InTransitType(), array(
                         'data' => $event,
                         'mapped' => false,
+                        EventType::OPT_BUTTON_NAME => "changeStatus",
                         UnitStatusEventType::OPT_STATUS => $status
                     ));
                     break;
@@ -80,6 +81,7 @@ class ChangeUnitStatusType extends AbstractType
                     $builder->add($fieldName, new ActivityEventType(), array(
                         'data' => $event,
                         'mapped' => false,
+                        EventType::OPT_BUTTON_NAME => "changeStatus",
                         UnitStatusEventType::OPT_STATUS => $status,
                         ActivityEventType::OPT_LOCATION => $data[0]->getRequest()->getShippingLocation()
                     ));
@@ -89,6 +91,7 @@ class ChangeUnitStatusType extends AbstractType
                     $builder->add($fieldName, new UnitStatusEventType(), array(
                         'data' => $event,
                         'mapped' => false,
+                        EventType::OPT_BUTTON_NAME => "changeStatus",
                         UnitStatusEventType::OPT_STATUS => $status
                     ));
                     break;

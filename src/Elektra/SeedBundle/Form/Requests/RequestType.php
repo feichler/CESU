@@ -18,7 +18,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\Forms;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RequestType extends CrudForm
@@ -72,32 +71,59 @@ class RequestType extends CrudForm
         $form->add('shippingLocation', 'entity', $shippingOptions->toArray());
     }
 
-    private function createModalButtonsOptions(FormBuilderInterface $builder, array $allowedStatuses)
+    private function createModalButtonsOptions(FormBuilderInterface $builder, array $allowedStatuses, array $allowedUsages, array $allowedSalesStatuses)
     {
+        $shippingButtons = array();
+        foreach ($allowedStatuses as $status)
+        {
+            $shippingButtons[$status->getInternalName()] = $status->getTitle();
+        }
 
-        $shipping = array();
-        foreach ($allowedStatuses as $status) {
-            $shipping[$status->getInternalName()] = $status->getTitle();
+        $usageButtons = array();
+        foreach ($allowedUsages as $usage)
+        {
+            $usageButtons[$usage->getAbbreviation()] = $usage->getTitle();
+        }
+
+        $salesButtons = array();
+        foreach ($allowedSalesStatuses as $status)
+        {
+            $salesButtons[$status->getAbbreviation()] = $status->getTitle();
+        }
+
+        $buttons = array(
+            'Shipping' => $shippingButtons,
+            'Usage' => $usageButtons,
+            'Sales' => $salesButtons
+        );
+
+        foreach ($buttons as $key => $value)
+        {
+            if (count($value) == 0)
+            {
+                unset($buttons[$key]);
+            }
         }
 
         $modalButtonsOptions = $this->getFieldOptions('modalButtons');
-        $modalButtonsOptions->add(
-            'menus',
-            array(
-                'Shipping' => $shipping,
-                'Sales'    => array(
-                    'x' => 'Test',
-                ),
-                'Usage'    => array(
-                    'y' => 'Test 2',
-                    'z' => 'Test 3',
-                )
-            )
-        );
+        $modalButtonsOptions->add('menus', $buttons);
 
         $modalButtons = $builder->create('modalButtons', 'modalButtons', $modalButtonsOptions->toArray());
 
         return $modalButtons;
+    }
+
+    private function isDeliveryVerified(array $seedUnits)
+    {
+        foreach($seedUnits as $su)
+        {
+            if ($su->getShippingStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function getAllowedUnitStatuses(ObjectManager $mgr, $seedUnits)
@@ -175,12 +201,16 @@ class RequestType extends CrudForm
         if ($options['crud_action'] == 'view') {
             // seed units group
             $unitsGroup = $this->addFieldGroup($builder, $options, 'units');
+            /** @var ObjectManager $mgr */
             $mgr       = $this->getCrud()->getService('doctrine')->getManager();
+            /** @var array $seedUnits */
             $seedUnits = $options['data']->getSeedUnits()->toArray();
 
             if (count($seedUnits) > 0) {
-                $allowedStatuses = $this->getAllowedUnitStatuses($mgr, $seedUnits);
-                $unitsGroup->add($this->createModalButtonsOptions($builder, $allowedStatuses));
+                $allowedShippingStatuses = $this->getAllowedUnitStatuses($mgr, $seedUnits);
+                $allowedUsages = $this->isDeliveryVerified($seedUnits) ? $mgr->getRepository('ElektraSeedBundle:Events\UnitUsage')->findAll() : array();
+                $allowedSalesStatuses = $this->isDeliveryVerified($seedUnits) ? $mgr->getRepository('ElektraSeedBundle:Events\UnitSalesStatus')->findAll() : array();
+                $unitsGroup->add($this->createModalButtonsOptions($builder, $allowedShippingStatuses, $allowedUsages, $allowedSalesStatuses));
 
                 $unitsGroup->add(
                     'changeStatus',
