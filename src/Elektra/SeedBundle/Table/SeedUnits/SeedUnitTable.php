@@ -67,10 +67,10 @@ class SeedUnitTable extends Table
         $shipping->setSortable();
 
         // URGENT need the implemented unit sales status classes first
-//        $sales = $this->getColumns()->add('sales');
-//        $sales->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitSalesStatus'));
-//        $sales->setFieldData('salesStatus.name');
-//        $sales->setSortable();
+        //        $sales = $this->getColumns()->add('sales');
+        //        $sales->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitSalesStatus'));
+        //        $sales->setFieldData('salesStatus.name');
+        //        $sales->setSortable();
 
         $usage = $this->getColumns()->add('usage');
         $usage->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage'));
@@ -121,7 +121,8 @@ class SeedUnitTable extends Table
                 $this->addUnitUsageFilter();
                 break;
             case 'request.seedUnit.add':
-                $this->addInUseFilter();
+                $this->addInUseFilter(false);
+                $this->addWarehouseFilter();
                 break;
         }
 
@@ -184,58 +185,65 @@ class SeedUnitTable extends Table
             $filter['request'] = 'NULL';
         } else if ($route == 'request.view') {
             $filter['request'] = $crud->getRequest()->get("id");
-        } else {
-            switch ($options['name']) {
-                case 'inUse':
-                    $filterName = $this->getFilterFieldName($options);
-                    $fieldName  = 'request';
-
-                    $value = $this->getRequestData('custom-filters', $filterName);
-                    if ($value == 'n') {
-                        $filter[$fieldName] = 'NULL';
-                    } else if ($value == 'y') {
-                        $filter[$fieldName] = 'NOT NULL';
-                    }
-                    break;
-                case 'warehouse':
-                    $filterName = $this->getFilterFieldName($options);
-                    $fieldName  = 'location';
-
-                    $value = $this->getRequestData('custom-filters', $filterName);
-                    if ($value != '') {
-                        $filter[$fieldName] = $value;
-                    }
-                    break;
-                case 'shipping':
-                    $filterName = $this->getFilterFieldName($options);
-                    $fieldName  = 'shippingStatus';
-
-                    $value = $this->getRequestData('custom-filters', $filterName);
-                    if ($value != '') {
-                        $filter[$fieldName] = $value;
-                    }
-                    break;
-                case 'sales':
-                    break;
-                case 'usage':
-                    $filterName = $this->getFilterFieldName($options);
-                    $fieldName  = 'unitUsage';
-
-                    $value = $this->getRequestData('custom-filters', $filterName);
-                    if ($value != '') {
-                        $filter[$fieldName] = $value;
-                    }
-                    break;
-                default:
-                    throw new \RuntimeException('Unknown filter "' . $options['name'] . '"');
-                    break;
-            }
         }
+
+        //        } else {
+        switch ($options['name']) {
+            case 'inUse':
+
+                $filterName = $this->getFilterFieldName($options);
+                $fieldName  = 'request';
+
+                $value = $this->getRequestData('custom-filters', $filterName);
+
+                if ($value == 'n') {
+
+                    $filter[$fieldName] = 'NULL';
+                } else if ($value == 'y') {
+
+                    $filter[$fieldName] = 'NOT NULL';
+                }
+                break;
+            case 'warehouse':
+                $filterName = $this->getFilterFieldName($options);
+                $fieldName  = 'location';
+
+                $value = $this->getRequestData('custom-filters', $filterName);
+                if ($value != '') {
+                    $filter[$fieldName] = $value;
+                }
+                break;
+            case 'shipping':
+                $filterName = $this->getFilterFieldName($options);
+                $fieldName  = 'shippingStatus';
+
+                $value = $this->getRequestData('custom-filters', $filterName);
+                if ($value != '') {
+                    $filter[$fieldName] = $value;
+                }
+                break;
+            case 'sales':
+                break;
+            case 'usage':
+                $filterName = $this->getFilterFieldName($options);
+                $fieldName  = 'unitUsage';
+
+                $value = $this->getRequestData('custom-filters', $filterName);
+                if ($value != '') {
+                    $filter[$fieldName] = $value;
+                }
+                break;
+            default:
+                throw new \RuntimeException('Unknown filter "' . $options['name'] . '"');
+                break;
+        }
+
+        //        }
 
         return $filter;
     }
 
-    private function addInUseFilter()
+    private function addInUseFilter($visible = true)
     {
 
         $this->addCustomFilter(
@@ -247,7 +255,8 @@ class SeedUnitTable extends Table
                     'n' => 'No',
                     'y' => 'Yes',
                 ),
-            )
+            ),
+            $visible
         );
     }
 
@@ -331,7 +340,7 @@ class SeedUnitTable extends Table
 
         $definition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage');
         $repository = $this->getCrud()->getService('doctrine')->getRepository($definition->getClassRepository());
-        $usages   = $repository->findAll();
+        $usages     = $repository->findAll();
         $choices    = array();
         foreach ($usages as $status) {
             if ($status instanceof UnitUsage) {
