@@ -47,16 +47,17 @@ class HiddenEntityType extends AbstractType
     {
         $transformer = new EntityToIdTransformer($this->om);
         $builder->addModelTransformer($transformer);
+        $guesser = $this->guesser;
 
         if($options['class'] === null) {
 
-            $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) use ($transformer, $builder)
+            $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) use ($transformer, $builder, $guesser)
             {
                 /* @var $form \Symfony\Component\Form\Form */
                 $form = $event->getForm();
                 $class = $form->getParent()->getConfig()->getDataClass();
                 $property = $form->getName();
-                $guessedType = $this->guesser->guessType($class, $property);
+                $guessedType = $guesser->guessType($class, $property);
                 $options = $guessedType->getOptions();
 
                 $transformer->setEntityClass($options['class']);
