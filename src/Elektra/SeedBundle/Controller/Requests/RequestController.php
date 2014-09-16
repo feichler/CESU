@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Controller\Requests;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use Elektra\CrudBundle\Controller\Controller;
 use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\EntityInterface;
@@ -49,6 +50,7 @@ class RequestController extends Controller
 
     public function changeShippingStatusAction($id)
     {
+
         $this->initialise('changeShippingStatus');
 
         // get the existing entity
@@ -67,44 +69,47 @@ class RequestController extends Controller
         // WORKAROUND: $form->handleRequest sets all fields null -> undo required!!
         $mgr->refresh($entity);
 
-        if ($form instanceof Form)
-        {
-            if ($this->getCrud()->getRequest()->getMethod() == 'POST')
-            {
-                $ids = $this->getSelectedSeedUnitIds($form);
+        if ($form instanceof Form) {
+            if ($this->getCrud()->getRequest()->getMethod() == 'POST') {
+                $ids   = $this->getSelectedSeedUnitIds($form);
                 $event = $this->getChangeStatusEvent($form);
 
                 $this->processShippingStatusChange($ids, $event);
             }
         }
 
-        $returnUrl = $this->getCrud()->getNavigator()->getLink($this->getCrud()
-            ->getDefinition('Elektra', 'Seed', 'Requests', 'Request'), 'view', array('id' => $id));
+        $returnUrl = $this->getCrud()->getNavigator()->getLink(
+            $this->getCrud()->getDefinition('Elektra', 'Seed', 'Requests', 'Request'),
+            'view',
+            array('id' => $id)
+        );
 
         return $this->redirect($returnUrl);
     }
 
     private function getChangeStatusEvent(Form $form)
     {
+
         $event = null;
 
-        if ($form->getClickedButton()->getName() == 'changeStatus')
-        {
+        if ($form->getClickedButton()->getName() == 'changeStatus') {
             $parent = $form->getClickedButton()->getParent()->getParent();
-            $event = $parent->getData();
+            $event  = $parent->getData();
         }
+
         return $event;
     }
 
     /**
      * @param Form $form
+     *
      * @return array
      */
     private function getSelectedSeedUnitIds(Form $form)
     {
+
         $ids = array();
-        foreach(array_values($form->get('group_units')->get('seedUnits')->getViewData()) as $id)
-        {
+        foreach (array_values($form->get('group_units')->get('seedUnits')->getViewData()) as $id) {
             array_push($ids, intval($id));
         }
 
@@ -113,28 +118,26 @@ class RequestController extends Controller
 
     private function processShippingStatusChange(array $ids, StatusEvent $eventTemplate)
     {
+
         /** @var $mgr EntityManager */
         $mgr = $this->getDoctrine()->getManager();
 
-        $newStatus = $eventTemplate->getUnitStatus()->getInternalName();
+        $newStatus       = $eventTemplate->getUnitStatus()->getInternalName();
         $allowedStatuses = isset(UnitStatus::$ALLOWED_TO[$newStatus]) ? UnitStatus::$ALLOWED_TO[$newStatus] : array();
 
         // retrieve seed units
         $repo = $mgr->getRepository('ElektraSeedBundle:SeedUnits\SeedUnit');
 
-        foreach($ids as $id)
-        {
+        foreach ($ids as $id) {
             /** @var SeedUnit $seedUnit */
             $seedUnit = $repo->find($id);
 
-            if (in_array($seedUnit->getShippingStatus()->getInternalName(), $allowedStatuses))
-            {
+            if (in_array($seedUnit->getShippingStatus()->getInternalName(), $allowedStatuses)) {
                 /** @var StatusEvent $event */
                 $event = $eventTemplate->createClone();
                 $seedUnit->getEvents()->add($event);
                 $seedUnit->setShippingStatus($event->getUnitStatus());
-                if ($event instanceof ShippingEvent)
-                {
+                if ($event instanceof ShippingEvent) {
                     $seedUnit->setLocation($event->getLocation());
                 }
                 $event->setSeedUnit($seedUnit);
@@ -184,16 +187,14 @@ class RequestController extends Controller
 
         $form->handleRequest($this->getCrud()->getRequest());
 
-        if ($form->isValid() && !$this->filterSubmitted)
-        {
+        if ($form->isValid() && !$this->filterSubmitted) {
             /* @var $manager EntityManager */
             $manager = $this->getDoctrine()->getManager();
 
             $eventFactory = new EventFactory($manager);
 
             /* @var $su SeedUnit */
-            foreach ($entity->getSeedUnits() as $su)
-            {
+            foreach ($entity->getSeedUnits() as $su) {
                 $su->setRequest($entity);
                 $shippingEvent = $eventFactory->createReserved($su->getLocation(), $entity->getRequestNumber(), array());
                 $su->setShippingStatus($shippingEvent->getUnitStatus());
@@ -205,6 +206,7 @@ class RequestController extends Controller
             $manager->flush();
 
             $returnUrl = $this->getCrud()->getLinker()->getRedirectAfterProcess($entity);
+
             return $this->redirect($returnUrl);
         }
 
@@ -214,6 +216,27 @@ class RequestController extends Controller
 
         // render the add-view with the form
         return $this->render($viewName, array('form' => $formView));
+    }
+
+    public function beforeAddEntity(EntityInterface $entity, FormInterface $form = null)
+    {
+
+        $date = new \DateTime('now UTC');
+
+        $requestNumber = 'R' . $date->format('Ymd') . '-';
+
+        $repository = $this->getDoctrine()->getRepository($this->getCrud()->getDefinition()->getClassRepository());
+        $builder    = $repository->createQueryBuilder('s');
+
+        $builder->select('count(s.requestId)');
+        $builder->where($builder->expr()->like('s.requestNumber', '?1'));
+        $builder->setParameter(1, $requestNumber . '%');
+        $count = $builder->getQuery()->getSingleScalarResult();
+
+        $requestNumber .= str_pad(($count + 1), 3, '0', STR_PAD_LEFT);
+        $entity->setRequestNumber($requestNumber);
+
+        return parent::beforeAddEntity($entity, $form); // TODO: Change the autogenerated stub
     }
 
     /**
