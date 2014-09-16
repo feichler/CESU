@@ -270,7 +270,8 @@ tables:
                 serial_number:                                          'Serial #'
                 model:                                                  Model
                 power_cord_type:                                        Power Cord Type
-                status:                                                 Status
+                shipping:                                               Shipping
+                sales:                                                  Sales
                 location:                                               Location
                 request:                                                Request
                 usage:                                                  Usage

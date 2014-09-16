@@ -8,49 +8,49 @@
     <div id="{{ table.id }}">
         {#{% if checkboxes %}#}
         {#<form method="post">#}
-            {#{% endif %}#}
-            {% set classes = 'table table-condensed table-striped table-' ~ table.crud.definition.name|lower %}
-            {% if table.inView == false %}
-            {% set classes = classes ~ ' table-bordered' %}
-            {#{% if form_started is defined %}#}
-            {#asdf#}
-            {#{% endif %}#}
-            {#{% if form is defined %}#}
-            {#asdf1234#}
-            {#{% endif %}#}
-            {% set tableWidth = 12 %}
-            {# URGENT embedded functionality #}
-            {% if not table.crud.hasParent() %}
-                {% if table.hasFilters or table.hasSearch %}
-                    {% set inFilter = true %}
-                    {#{% set filtersWidth = 2 %}#}
-                    {#{% set tableWidth = tableWidth - filtersWidth %}#}
+        {#{% endif %}#}
+        {% set classes = 'table table-condensed table-striped table-' ~ table.crud.definition.name|lower %}
+        {% if table.inView == false %}
+        {% set classes = classes ~ ' table-bordered' %}
+        {#{% if form_started is defined %}#}
+        {#asdf#}
+        {#{% endif %}#}
+        {#{% if form is defined %}#}
+        {#asdf1234#}
+        {#{% endif %}#}
+        {% set tableWidth = 12 %}
+        {# URGENT embedded functionality #}
+        {% if not table.crud.hasParent() %}
+            {% if table.hasFilters or table.hasSearch %}
+                {% set inFilter = true %}
+                {#{% set filtersWidth = 2 %}#}
+                {#{% set tableWidth = tableWidth - filtersWidth %}#}
 
-                    {{ block('table_filter_row') }}
+                {{ block('table_filter_row') }}
 
 
-                {% endif %}
             {% endif %}
-            <div class="col-md-{{ tableWidth }}">
-                {% endif %}
-                <div class="table-responsive">
-                    <table class="{{ classes }}">
-                        {{ block('table_head') }}
-                        {{ block('table_foot') }}
-                        {{ block('table_body') }}
-                    </table>
-                </div>
-
-
-                {% if table.inView == false %}
-                {# URGENT embedded functionality #}
-                {#{% if not table.crud.hasParent() %}#}
-                {{ block('table_navigation') }}
-                {#{% endif %}#}
+        {% endif %}
+        <div class="col-md-{{ tableWidth }}">
+            {% endif %}
+            <div class="table-responsive">
+                <table class="{{ classes }}">
+                    {{ block('table_head') }}
+                    {{ block('table_foot') }}
+                    {{ block('table_body') }}
+                </table>
             </div>
 
-            {% endif %}
-            {#{% if checkboxes %}#}
+
+            {% if table.inView == false %}
+            {# URGENT embedded functionality #}
+            {#{% if not table.crud.hasParent() %}#}
+            {{ block('table_navigation') }}
+            {#{% endif %}#}
+        </div>
+
+        {% endif %}
+        {#{% if checkboxes %}#}
         {#</form>#}
         {#{% endif %}#}
 
@@ -58,17 +58,28 @@
 {% endblock table %}
 
 {% block table_filter_row %}
+    {{ siteBase.setVariable('counter', 0) }}
+    {{ siteBase.setVariable('colSize', 3) }}
+    {#{% set colSize = 3 %}#}
+    {#{% set counter = 0 %}#}
     <div class="col-md-12">
         {% if form is not defined %}
         <form method="post" class="form-horizontal">
+            {#C {{ counter }} C#}
+            {#{{ siteBase.setv }}#}
             {% endif %}
+            {#{% if counter == 12 %}#}
+                {#counter reset#}
+                {#{% set counter = 0 %}#}
+            {#{% endif %}#}
+            {#{{ siteBase.variable('counter') }}#}
             {#{% endif %}#}
             <div class="table-filters form-group">
                 {% if table.hasSearch() %}
-                    {{ block('table_search') }}
+                    {{ block('table_search', {'counter': counter, 'colSize': colSize}) }}
                 {% endif %}
                 {% if table.hasFilters %}
-                    {{ block('table_filters') }}
+                    {{ block('table_filters', {'counter': counter, 'colSize': colSize}) }}
                 {% endif %}
             </div>
             {% if form is not defined %}
@@ -139,7 +150,7 @@
             {# URGENT embedded functionality #}
             {#{% if not table.crud.hasParent() %}#}
             {% if table.inView == false %}
-            <span>{{ siteLanguage.get('pagination.pages') }}</span>
+                <span>{{ siteLanguage.get('pagination.pages') }}</span>
             {% endif %}
             {#{% endif %}#}
         </td>
@@ -330,16 +341,28 @@
 
 
 {% block table_filters %}
+
     {% for definition in table.filters %}
-        <div class="col-md-2">
+        {{ siteBase.setVariable('counter', siteBase.variable('counter') + siteBase.variable('colSize')) }}
+        {#{{ siteBase.variable('counter') }}#}
+
+        <div class="col-md-{{ siteBase.variable('colSize') }}">
             {% form_theme definition "ElektraSiteBundle::filter.html.twig" %}
             {{ form_widget(definition) }}
         </div>
+{% if siteBase.variable('counter') == 12 %}
+</div><div class="table-filters form-group">
+    {% endif %}
     {% endfor %}
 {% endblock table_filters %}
 
 {% block table_search %}
-    <div class="col-md-2">
+    {{ siteBase.setVariable('counter', siteBase.variable('counter') + siteBase.variable('colSize')) }}
+    {#{{ siteBase.variable('counter') }}#}
+    {#{{ counter }}#}
+    {#{% set counter = counter + colSize %}#}
+    {#{{ counter }}#}
+    <div class="col-md-{{ siteBase.variable('colSize') }}">
         {% set field = table.searchField %}
         {% form_theme field "ElektraSiteBundle::filter.html.twig" %}
         {{ form_widget(field) }}

@@ -22,6 +22,7 @@ use Elektra\SeedBundle\Definition\Companies\RegionDefinition;
 use Elektra\SeedBundle\Definition\Companies\WarehouseLocationDefinition;
 use Elektra\SeedBundle\Definition\Events\EventDefinition;
 use Elektra\SeedBundle\Definition\Events\EventTypeDefinition;
+use Elektra\SeedBundle\Definition\Events\UnitSalesStatusDefinition;
 use Elektra\SeedBundle\Definition\Events\UnitStatusDefinition;
 use Elektra\SeedBundle\Definition\Events\UnitUsageDefinition;
 use Elektra\SeedBundle\Definition\Notes\NoteDefinition;
@@ -96,6 +97,7 @@ final class Navigator
 
         $this->addDefinition(new EventTypeDefinition());
         $this->addDefinition(new UnitStatusDefinition());
+        $this->addDefinition(new UnitSalesStatusDefinition());
         $this->addDefinition(new UnitUsageDefinition());
         $this->addDefinition(new EventDefinition());
 
