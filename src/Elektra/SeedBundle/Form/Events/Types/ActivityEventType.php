@@ -28,20 +28,20 @@ class ActivityEventType extends UnitStatusEventType
         parent::buildFields($builder, $options);
 
         $builder->add('person', 'entity', array(
-            'mapped' => false,
-            'class' => 'Elektra\SeedBundle\Entity\Companies\CompanyPerson',
-            // TRANSLATE
-            'label' => 'Person',
-            'property' => 'title',
-            'query_builder' => function(EntityRepository $er) use($options)
-                {
-                    $qb = $er->createQueryBuilder('p');
-                    $qb->where('p.location = :location');
-                    $qb->setParameter('location', $options[ActivityEventType::OPT_LOCATION]);
+                'mapped' => false,
+                'class' => 'Elektra\SeedBundle\Entity\Companies\CompanyPerson',
+                // TRANSLATE
+                'label' => 'Person',
+                'property' => 'title',
+                'query_builder' => function(EntityRepository $er) use($options)
+                    {
+                        $qb = $er->createQueryBuilder('p');
+                        $qb->where('p.location = :location');
+                        $qb->setParameter('location', $options[ActivityEventType::OPT_LOCATION]);
 
-                    return $qb;
-                }
-        ));
+                        return $qb;
+                    }
+            ));
     }
 
     /**
@@ -52,9 +52,9 @@ class ActivityEventType extends UnitStatusEventType
         parent::setDefaultOptions($resolver);
 
         $resolver->setRequired(array(
-            ActivityEventType::OPT_LOCATION,
-            UnitStatusEventType::OPT_STATUS
-        ));
+                ActivityEventType::OPT_LOCATION,
+                UnitStatusEventType::OPT_STATUS
+            ));
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options)

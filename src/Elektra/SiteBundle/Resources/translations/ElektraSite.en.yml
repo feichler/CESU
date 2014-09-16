@@ -404,7 +404,8 @@ forms:
             fields:
                 request_number:                                         'Request #'
                 number_of_units_requested:                              '# Units'
-                number_of_units_required:                               '# Required'
+                add_number_of_units_requested:                          '# of requested Units'
+                add_number_of_units_required:                           '# Required'
                 company:                                                Requesting Company
                 requester_person:                                       Requester
                 receiver_person:                                        Receiver
@@ -515,6 +516,10 @@ forms:
                 location:                                               Location
                 unit_status:                                            Status
                 unit_usage:                                             Usage
+                # workaround for translation issues - should be at the reuqest
+                requester_person:                                       Requester
+                receiver_person:                                        Receiver
+                shipping_location:                                      Ship to
 menu:
     requests:                                                           Requests
     reports:                                                            Reports

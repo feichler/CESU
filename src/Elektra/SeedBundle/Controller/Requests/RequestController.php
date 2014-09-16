@@ -86,9 +86,10 @@ class RequestController extends Controller
     private function getChangeStatusEvent(Form $form)
     {
         $event = null;
+
         if ($form->getClickedButton()->getName() == 'changeStatus')
         {
-            $parent = $form->getClickedButton()->getParent();
+            $parent = $form->getClickedButton()->getParent()->getParent();
             $event = $parent->getData();
 
         }

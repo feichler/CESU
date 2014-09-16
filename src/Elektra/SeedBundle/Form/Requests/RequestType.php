@@ -157,6 +157,7 @@ class RequestType extends CrudForm
                 $eventData = $event->getData();
                 $em        = $self->getCrud()->getService('doctrine')->getManager();
 
+                if($eventData) {
                 if (array_key_exists('company', $eventData)) {
                     $companyId = $eventData['company'];
                     $company   = $em->find($self->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Company')->getClassEntity(), $companyId);
@@ -166,6 +167,7 @@ class RequestType extends CrudForm
                     $shippingId = $eventData['shippingLocation'];
                     $shipping   = $em->find($self->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation')->getClassEntity(), $shippingId);
                     $self->locationModifier($event->getForm(), $shipping);
+                }
                 }
             }
         );
@@ -217,7 +219,7 @@ class RequestType extends CrudForm
                 }
             );
             $unitsGroup->add('seedUnits', 'entityTable', $unitsOptions->toArray());
-
+            $this->getCrud()->resetOverridenLangKey();
         }
 
 

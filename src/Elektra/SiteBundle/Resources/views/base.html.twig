@@ -28,6 +28,52 @@
 {# Include the page heading #}
 {% include "ElektraSiteBundle:base:heading.html.twig" %}
 
+{# TESTING #}
+{#<div class="container">#}
+    {#<div class="btn-group">#}
+        {#<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">#}
+            {#Test <span class="caret"></span>#}
+        {#</button>#}
+        {#<ul class="dropdown-menu">#}
+            {#<li><a href="#" data-toggle="modal" data-target="#modal-1">Click 1</a></li>#}
+            {#<li><a href="#" data-toggle="modal" data-target="#modal-2">Click 2</a></li>#}
+        {#</ul>#}
+    {#</div>#}
+{#</div>#}
+{#<div id="modal-1" class="modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">#}
+    {#<div class="modal-dialog modal-lg">#}
+        {#<div class="modal-content">#}
+            {#<div class="modal-header">#}
+                {#Test 1#}
+                {#<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>#}
+            {#</div>#}
+            {#<div class="modal-body">#}
+                {#asdf#}
+            {#</div>#}
+            {#<div class="modal-footer">#}
+                {#<input type="submit" value="submit"/>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+{#</div>#}
+{#<div id="modal-2" class="modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">#}
+    {#<div class="modal-dialog">#}
+        {#<div class="modal-content">#}
+            {#<div class="modal-header">#}
+                {#Test 2#}
+                {#<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>#}
+            {#</div>#}
+            {#<div class="modal-body">#}
+                {#asdf#}
+            {#</div>#}
+            {#<div class="modal-footer">#}
+                {#<input type="submit" value="submit"/>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+{#</div>#}
+{# END TESTING #}
+
 {# Main content container #}
 <div class="container">
     {% block content %}
@@ -42,7 +88,62 @@
 {% endif %}
 
 {% block javascripts %}
-
+    <script type="text/javascript">
+//        jQuery('.modal').on('shown.bs.modal', function() {
+//            jQuery(this).find('.modal-dialog').css({
+//                                                       'margin-top': function() {
+//                                                           return -(jQuery(this).outerHeight() / 2);
+//                                                       },
+//                                                       'margin-left': function() {
+//                                                           return -(jQuery(this).outerWidth() / 2)
+//                                                       }
+//                                                   });
+//
+////            console.log('shown');
+////            var $obj = jQuery(this);
+////            console.log($obj);
+////            var dialog = $obj.find('.modal-dialog');
+////            console.log(dialog);
+////
+////            dialog.css({
+////                           'margin-top': function() {
+////                               console.log('top');
+////                               console.log(jQuery(this));
+////                               console.log(jQuery(this).outerHeight());
+////                               console.log(-(jQuery(this).outerHeight() / 2));
+////                               return -(jQuery(this).outerHeight() / 2);
+////                           },
+////                           'margin-left': function() {
+////                               console.log('left');
+////                               return -(jQuery(this).outerWidth() / 2)
+////                           }
+////                       });
+//        })
+//
+//
+//        //        function centerModal() {
+//        //            console.log('TEST!!');
+//        //            jQuery(this).css('display', 'block');
+//        //            console.log(jQuery(this));
+//        //            var $dialog = jQuery(this).find('.modal-dialog');
+//        //            var offset = (jQuery(window).height() - $dialog.height()) / 2;
+//        //console.log($dialog);
+//        //            console.log(offset);
+//        //            $dialog.css("margin-top", offset);
+//        //        }
+//        //
+//        //        jQuery('.modal').on('shown.bs.modal', function() {
+//        //            console.log('ASDF');
+//        //            centerModal();
+//        //
+//        //        });
+//        //        jQuery(document).ready(function() {
+//        //
+//        //            jQuery(window).on('resize', function() {
+//        //                jQuery('.modal:visible').each(centerModal());
+//        //            })
+//        //        });
+    </script>
 {% endblock javascripts %}
 </body>
 </html>

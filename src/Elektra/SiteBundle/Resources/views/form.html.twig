@@ -648,6 +648,37 @@
     {%- endfor -%}
 {%- endblock widget_container_attributes %}
 
+{% block datetime_widget -%}
+    <div class="form-inline">
+        {{ parent() }}
+    </div>
+{%- endblock datetime_widget %}
+
+{% block date_widget -%}
+    {% if widget == 'single_text' %}
+        {{- block('form_widget_simple') -}}
+    {% else -%}
+        {#<div {{ block('widget_container_attributes') }}>#}
+            {{- date_pattern|replace({
+            '{{ year }}':  form_widget(form.year),
+            '{{ month }}': form_widget(form.month),
+            '{{ day }}':   form_widget(form.day),
+            })|raw -}}
+        {#</div>#}
+    {%- endif %}
+{%- endblock date_widget %}
+
+{% block time_widget -%}
+    {% if widget == 'single_text' %}
+        {{- block('form_widget_simple') -}}
+    {% else -%}
+        {% set vars = widget == 'text' ? { 'attr': { 'size': 1 }} : {} %}
+        {#<div {{ block('widget_container_attributes') }}>#}
+        {{ form_widget(form.hour, vars) }}{% if with_minutes %}:{{ form_widget(form.minute, vars) }}{% endif %}{% if with_seconds %}:{{ form_widget(form.second, vars) }}{% endif %}
+    {#</div>#}
+    {%- endif %}
+{%- endblock time_widget %}
+
 
 {#{% block datetime_widget -%}#}
     {#{% if modalForm is defined and modalForm == true %}#}
