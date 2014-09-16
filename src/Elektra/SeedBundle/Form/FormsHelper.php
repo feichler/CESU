@@ -19,10 +19,12 @@ class FormsHelper {
      */
     public static function getAllowedStatuses(array $seedUnits)
     {
+
         $statuses = array();
-        foreach ($seedUnits as $seedUnit) {
-            $allowed  = UnitStatus::$ALLOWED_FROM[$seedUnit->getShippingStatus()->getInternalName()];
+        foreach($seedUnits as $seedUnit) {
+            $allowed = UnitStatus::$ALLOWED_FROM[$seedUnit->getShippingStatus()->getInternalName()];
             $statuses = array_merge($statuses, $allowed);
+
         }
 
         $statuses = array_unique($statuses);
