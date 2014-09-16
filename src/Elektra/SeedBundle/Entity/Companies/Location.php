@@ -56,6 +56,13 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CrudI
     /**
      * @var ArrayCollection
      *
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\SeedUnit", mappedBy="location", fetch="EXTRA_LAZY")
+     */
+    protected $seedUnits;
+
+    /**
+     * @var ArrayCollection
+     *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "locations_notes",
@@ -84,6 +91,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CrudI
     {
         $this->notes     = new ArrayCollection();
         $this->audits    = new ArrayCollection();
+        $this->seedUnits = new ArrayCollection();
     }
 
     /**
@@ -137,6 +145,24 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CrudI
     }
 
     /**
+     * @param \Doctrine\Common\Collections\ArrayCollection $seedUnits
+     */
+    public function setSeedUnits($seedUnits)
+    {
+
+        $this->seedUnits = $seedUnits;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getSeedUnits()
+    {
+
+        return $this->seedUnits;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function setNotes($notes)
@@ -177,8 +203,8 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CrudI
      */
     public function getCreationAudit()
     {
-        return Helper::getFirstAudit($this->getAudits());
 
+        return Helper::getFirstAudit($this->getAudits());
     }
 
     /**
@@ -186,7 +212,7 @@ abstract class Location implements AuditableInterface, AnnotableInterface, CrudI
      */
     public function getLastModifiedAudit()
     {
-        return Helper::getLastAudit($this->getAudits());
 
+        return Helper::getLastAudit($this->getAudits());
     }
 }

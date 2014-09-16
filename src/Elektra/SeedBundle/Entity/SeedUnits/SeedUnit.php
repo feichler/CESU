@@ -16,9 +16,13 @@ use Elektra\SeedBundle\Auditing\Helper;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
+use Elektra\SeedBundle\Entity\Companies\Location;
 use Elektra\SeedBundle\Entity\Events\PartnerEvent;
 use Elektra\SeedBundle\Entity\Events\ShippingEvent;
 use Elektra\SeedBundle\Entity\Events\StatusEvent;
+use Elektra\SeedBundle\Entity\Events\UnitSalesStatus;
+use Elektra\SeedBundle\Entity\Events\UnitStatus;
+use Elektra\SeedBundle\Entity\Events\UnitUsage;
 use Elektra\SeedBundle\Entity\Requests\Request;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -84,6 +88,38 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
      * @ORM\JoinColumn(name="requestId", referencedColumnName="requestId")
      */
     protected $request;
+
+    /**
+     * @var UnitStatus
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitStatus", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="unitStatusId", referencedColumnName="unitStatusId", nullable=false)
+     */
+    protected $shippingStatus;
+
+    /**
+     * @var UnitUsage
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitUsage", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="unitUsageId", referencedColumnName="unitUsageId")
+     */
+    protected $unitUsage;
+
+    /**
+     * @var UnitSalesStatus
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitSalesStatus", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="unitSalesStatusId", referencedColumnName="unitSalesStatusId")
+     */
+    protected $salesStatus;
+
+    /**
+     * @var Location
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Location", inversedBy="seedUnits", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="locationId", referencedColumnName="locationId", nullable=false)
+     */
+    protected $location;
 
     /**
      * @var ArrayCollection
@@ -269,8 +305,8 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
      */
     public function getCreationAudit()
     {
-        return Helper::getFirstAudit($this->getAudits());
 
+        return Helper::getFirstAudit($this->getAudits());
     }
 
     /**
@@ -278,8 +314,8 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
      */
     public function getLastModifiedAudit()
     {
-        return Helper::getLastAudit($this->getAudits());
 
+        return Helper::getLastAudit($this->getAudits());
     }
 
     /**
@@ -292,34 +328,59 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
+     * @param \Elektra\SeedBundle\Entity\Companies\Location $location
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+    }
+
+    /**
      * @return \Elektra\SeedBundle\Entity\Companies\Location
      */
     public function getLocation()
     {
+        return $this->location;
+    }
 
-        /* @var $event ShippingEvent */
-        $event = $this->getEvents()->filter(
-            function($entry) {
-                return $entry instanceof ShippingEvent;
-            })->first();
+    /**
+     * @param \Elektra\SeedBundle\Entity\Events\UnitSalesStatus $salesStatus
+     */
+    public function setSalesStatus($salesStatus)
+    {
+        $this->salesStatus = $salesStatus;
+    }
 
-        return $event != null ? $event->getLocation() : null;
+    /**
+     * @return \Elektra\SeedBundle\Entity\Events\UnitSalesStatus
+     */
+    public function getSalesStatus()
+    {
+        return $this->salesStatus;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Events\UnitStatus $shippingStatus
+     */
+    public function setShippingStatus($shippingStatus)
+    {
+        $this->shippingStatus = $shippingStatus;
     }
 
     /**
      * @return \Elektra\SeedBundle\Entity\Events\UnitStatus
      */
-    public function getUnitStatus()
+    public function getShippingStatus()
     {
+        return $this->shippingStatus;
+    }
 
-        /* @var $event StatusEvent */
-        $event = $this->getEvents()->filter(
-            function($entry) {
-
-                return $entry instanceof StatusEvent;
-            })->first();
-
-        return $event != null ? $event->getUnitStatus() : null;
+    /**
+     * @param \Elektra\SeedBundle\Entity\Events\UnitUsage $unitUsage
+     */
+    public function setUnitUsage($unitUsage)
+    {
+        $this->unitUsage = $unitUsage;
     }
 
     /**
@@ -327,14 +388,6 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
      */
     public function getUnitUsage()
     {
-
-        /* @var $event PartnerEvent */
-        $event = $this->getEvents()->filter(
-            function($entry) {
-
-                return $entry instanceof PartnerEvent;
-            })->first();
-
-        return $event != null ? $event->getUsage() : null;
+        return $this->unitUsage;
     }
 }
