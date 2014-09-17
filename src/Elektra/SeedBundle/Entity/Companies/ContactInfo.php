@@ -44,14 +44,14 @@ class ContactInfo implements AuditableInterface, AnnotableInterface, CrudInterfa
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=50, unique=true)
+     * @ORM\Column(type="string", length=50)
      */
     protected $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     protected $text;
 
