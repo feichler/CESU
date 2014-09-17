@@ -12,7 +12,9 @@ use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Requests\Request;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
+use Elektra\SeedBundle\Form\Events\Types\ChangeUnitSalesStatusType;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitStatusType;
+use Elektra\SeedBundle\Form\Events\Types\ChangeUnitUsageType;
 use Elektra\SeedBundle\Form\FormsHelper;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -76,19 +78,19 @@ class RequestType extends CrudForm
         $shippingButtons = array();
         foreach ($allowedStatuses as $status)
         {
-            $shippingButtons[$status->getInternalName()] = $status->getTitle();
+            $shippingButtons[ChangeUnitStatusType::getModalId($status)] = $status->getTitle();
         }
 
         $usageButtons = array();
         foreach ($allowedUsages as $usage)
         {
-            $usageButtons[$usage->getAbbreviation()] = $usage->getTitle();
+            $usageButtons[ChangeUnitUsageType::getModalId($usage)] = $usage->getTitle();
         }
 
         $salesButtons = array();
         foreach ($allowedSalesStatuses as $status)
         {
-            $salesButtons[$status->getAbbreviation()] = $status->getTitle();
+            $salesButtons[ChangeUnitSalesStatusType::getModalId($status)] = $status->getTitle();
         }
 
         $buttons = array(
@@ -218,9 +220,30 @@ class RequestType extends CrudForm
                     array(
                         'mapped'                                => false,
                         ChangeUnitStatusType::OPT_DATA          => $seedUnits,
-                        ChangeUnitStatusType::OPT_EVENT_FACTORY => new EventFactory($mgr)
+                        ChangeUnitStatusType::OPT_OBJECT_MANAGER => $mgr
                     )
                 );
+
+                $unitsGroup->add(
+                    'changeUsage',
+                    new ChangeUnitUsageType(),
+                    array(
+                        'mapped'                                => false,
+                        ChangeUnitUsageType::OPT_DATA          => $seedUnits,
+                        ChangeUnitUsageType::OPT_OBJECT_MANAGER => $mgr
+                    )
+                );
+
+                $unitsGroup->add(
+                    'changeUnitSalesStatus',
+                    new ChangeUnitSalesStatusType(),
+                    array(
+                        'mapped'                                => false,
+                        ChangeUnitSalesStatusType::OPT_DATA          => $seedUnits,
+                        ChangeUnitSalesStatusType::OPT_OBJECT_MANAGER => $mgr
+                    )
+                );
+
             }
 
             // seed units

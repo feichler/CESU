@@ -6,7 +6,7 @@ use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class InTransitType extends UnitStatusEventType
+class InTransitType extends UnitShippingEventType
 {
     /**
      * Returns the name of this type.
@@ -15,7 +15,7 @@ class InTransitType extends UnitStatusEventType
      */
     public function getName()
     {
-        return "inTransit";
+        return "inTransitShippingEvent";
     }
 
     protected function buildFields(FormBuilderInterface $builder, array $options)
@@ -36,7 +36,16 @@ class InTransitType extends UnitStatusEventType
         parent::setDefaultOptions($resolver);
 
         $resolver->setDefaults(array(
-           UnitStatusEventType::OPT_STATUS => UnitStatus::IN_TRANSIT
+            UnitShippingEventType::OPT_STATUS => UnitStatus::IN_TRANSIT
         ));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getParent()
+    {
+
+        return 'shippingEvent';
     }
 }

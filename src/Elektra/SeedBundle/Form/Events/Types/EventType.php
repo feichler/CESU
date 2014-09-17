@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class EventType extends ModalType
 {
     const OPT_BUTTON_NAME = 'buttonName';
+    const OPT_MODAL_ID = 'modalId';
 
     /**
      * Returns the name of this type.
@@ -85,6 +86,7 @@ class EventType extends ModalType
         parent::buildView($view, $form, $options);
 
         $view->vars[EventType::OPT_BUTTON_NAME] = $options[EventType::OPT_BUTTON_NAME];
+        $view->vars[EventType::OPT_MODAL_ID] = $options[EventType::OPT_MODAL_ID];
     }
 
     /**
@@ -97,7 +99,8 @@ class EventType extends ModalType
 
         $resolver->setRequired(
             array(
-                EventType::OPT_BUTTON_NAME
+                EventType::OPT_BUTTON_NAME,
+                EventType::OPT_MODAL_ID
             )
         );
     }

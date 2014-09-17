@@ -14,13 +14,26 @@ use Doctrine\ORM\EntityManager;
 use Elektra\CrudBundle\Controller\Controller;
 use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\EntityInterface;
+use Elektra\SeedBundle\Entity\Events\Event;
 use Elektra\SeedBundle\Entity\Events\EventType;
+use Elektra\SeedBundle\Entity\Events\PartnerEvent;
+use Elektra\SeedBundle\Entity\Events\SalesEvent;
 use Elektra\SeedBundle\Entity\Events\ShippingEvent;
 use Elektra\SeedBundle\Entity\Events\StatusEvent;
+use Elektra\SeedBundle\Entity\Events\UnitSalesStatus;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Requests\Request;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
+use Elektra\SeedBundle\Form\Events\Types\ChangeUnitSalesStatusType;
+use Elektra\SeedBundle\Form\Events\Types\ChangeUnitStatusType;
+use Elektra\SeedBundle\Form\Events\Types\ChangeUnitUsageType;
+use Elektra\SeedBundle\Form\Events\Types\Strategies\ProcessEventStrategyInterface;
+use Elektra\SeedBundle\Form\Events\Types\Strategies\ProcessSalesEventStrategy;
+use Elektra\SeedBundle\Form\Events\Types\Strategies\ProcessShippingEventStrategy;
+use Elektra\SeedBundle\Form\Events\Types\Strategies\ProcessUsageEventStrategy;
+use Elektra\SeedBundle\Form\Events\Types\UnitSalesStatusEventType;
 use Elektra\SeedBundle\Form\Events\Types\UnitStatusEventType;
+use Elektra\SeedBundle\Form\Events\Types\UnitUsageEventType;
 use Elektra\SeedBundle\Form\Requests\AddUnitsType;
 use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\Form;
@@ -72,9 +85,9 @@ class RequestController extends Controller
             if ($this->getCrud()->getRequest()->getMethod() == 'POST')
             {
                 $ids = $this->getSelectedSeedUnitIds($form);
-                $event = $this->getChangeStatusEvent($form);
+                $shippingEvent = $this->getShippingEvent($form);
 
-                $this->processShippingStatusChange($ids, $event);
+                $this->processShippingEvent($ids, $shippingEvent);
             }
         }
 
@@ -84,11 +97,11 @@ class RequestController extends Controller
         return $this->redirect($returnUrl);
     }
 
-    private function getChangeStatusEvent(Form $form)
+    private function getShippingEvent(Form $form)
     {
         $event = null;
 
-        if ($form->getClickedButton()->getName() == 'changeStatus')
+        if (in_array($form->getClickedButton()->getName(), array(ChangeUnitStatusType::BUTTON_NAME, ChangeUnitUsageType::BUTTON_NAME, ChangeUnitSalesStatusType::BUTTON_NAME)))
         {
             $parent = $form->getClickedButton()->getParent()->getParent();
             $event = $parent->getData();
@@ -111,33 +124,44 @@ class RequestController extends Controller
         return $ids;
     }
 
-    private function processShippingStatusChange(array $ids, StatusEvent $eventTemplate)
+    private function processShippingEvent(array $ids, Event $eventTemplate)
     {
+        /** @var ProcessEventStrategyInterface $processStrategy */
+        $processStrategy = null;
+        echo get_class($eventTemplate);
+        if ($eventTemplate instanceof StatusEvent)
+        {
+            $processStrategy = new ProcessShippingEventStrategy();
+        }
+        else if ($eventTemplate instanceof PartnerEvent)
+        {
+            $processStrategy = new ProcessUsageEventStrategy();
+        }
+        else if ($eventTemplate instanceof SalesEvent)
+        {
+            $processStrategy = new ProcessSalesEventStrategy();
+        }
+
         /** @var $mgr EntityManager */
         $mgr = $this->getDoctrine()->getManager();
 
-        $newStatus = $eventTemplate->getUnitStatus()->getInternalName();
-        $allowedStatuses = isset(UnitStatus::$ALLOWED_TO[$newStatus]) ? UnitStatus::$ALLOWED_TO[$newStatus] : array();
-
         // retrieve seed units
         $repo = $mgr->getRepository('ElektraSeedBundle:SeedUnits\SeedUnit');
+
+        $processStrategy->prepare($eventTemplate);
 
         foreach($ids as $id)
         {
             /** @var SeedUnit $seedUnit */
             $seedUnit = $repo->find($id);
 
-            if (in_array($seedUnit->getShippingStatus()->getInternalName(), $allowedStatuses))
+            if ($processStrategy->isAllowed($seedUnit, $eventTemplate))
             {
-                /** @var StatusEvent $event */
                 $event = $eventTemplate->createClone();
                 $seedUnit->getEvents()->add($event);
-                $seedUnit->setShippingStatus($event->getUnitStatus());
-                if ($event instanceof ShippingEvent)
-                {
-                    $seedUnit->setLocation($event->getLocation());
-                }
                 $event->setSeedUnit($seedUnit);
+
+                $processStrategy->process($seedUnit, $event);
             }
         }
 

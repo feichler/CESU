@@ -61,7 +61,7 @@ class EventFactory {
         $this->eventTypeRepository = $mgr->getRepository('ElektraSeedBundle:Events\EventType');
     }
 
-    public function createUsageEvent(UnitUsage $usage)
+    public function createUsageEvent(UnitUsage $usage, array $options)
     {
         $event = new PartnerEvent();
         $event->setEventType($this->eventTypeRepository->findByInternalName(EventType::PARTNER));

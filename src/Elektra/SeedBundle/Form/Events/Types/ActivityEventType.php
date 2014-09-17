@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ActivityEventType extends UnitStatusEventType
+class ActivityEventType extends UnitShippingEventType
 {
     const OPT_LOCATION = 'location';
 
@@ -20,7 +20,7 @@ class ActivityEventType extends UnitStatusEventType
      */
     public function getName()
     {
-        return "activity";
+        return "activityShippingEvent";
     }
 
     protected function buildFields(FormBuilderInterface $builder, array $options)
@@ -52,9 +52,8 @@ class ActivityEventType extends UnitStatusEventType
         parent::setDefaultOptions($resolver);
 
         $resolver->setRequired(array(
-                ActivityEventType::OPT_LOCATION,
-                UnitStatusEventType::OPT_STATUS
-            ));
+            ActivityEventType::OPT_LOCATION
+        ));
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options)
@@ -64,5 +63,12 @@ class ActivityEventType extends UnitStatusEventType
         $view->vars[ActivityEventType::OPT_LOCATION] = $options[ActivityEventType::OPT_LOCATION];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getParent()
+    {
 
+        return 'shippingEvent';
+    }
 }

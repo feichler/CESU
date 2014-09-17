@@ -2,6 +2,7 @@
 
 namespace Elektra\SeedBundle\Form\Events\Types;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
@@ -13,7 +14,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ChangeUnitStatusType extends AbstractType
 {
     const OPT_DATA = 'data';
-    const OPT_EVENT_FACTORY = 'eventFactory';
+    const OPT_OBJECT_MANAGER = 'objectManager';
+    const BUTTON_NAME = 'changeShippingStatus';
 
     /**
      * Returns the name of this type.
@@ -22,14 +24,12 @@ class ChangeUnitStatusType extends AbstractType
      */
     public function getName()
     {
-        return "changeunitstatus";
+        return "changeShippingStatus";
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $data = $options[ChangeUnitStatusType::OPT_DATA];
-        /** @var EventFactory $eventFactory */
-        $eventFactory = $options[ChangeUnitStatusType::OPT_EVENT_FACTORY];
+        $data = $options[ChangeUnitUsageType::OPT_DATA];
 
         if (is_array($data))
         {
@@ -44,17 +44,22 @@ class ChangeUnitStatusType extends AbstractType
             // TODO exception
         }
 
-        $statuses = FormsHelper::getAllowedStatuses($data);
+        /** @var ObjectManager $mgr */
+        $mgr = $options[ChangeUnitStatusType::OPT_OBJECT_MANAGER];
 
-        $this->buildFields($builder, $data, $eventFactory, $statuses);
+        /** @var EventFactory $eventFactory */
+        $eventFactory = new EventFactory($mgr);
 
+        $this->buildFields($builder, $data, $mgr, $eventFactory);
     }
 
-    private function buildFields(FormBuilderInterface $builder, array $data, EventFactory $eventFactory, $statuses)
+    private function buildFields(FormBuilderInterface $builder, array $data, ObjectManager $mgr, EventFactory $eventFactory)
     {
+        $statuses = FormsHelper::getAllowedStatuses($data);
+
         foreach ($statuses as $status)
         {
-            $fieldName = $status . "StatusUI";
+            $fieldName = ChangeUnitStatusType::getModalId($status);
 
             $event = $eventFactory->createShippingEvent($status, array(
                 EventFactory::IGNORE_MISSING => true,
@@ -68,8 +73,8 @@ class ChangeUnitStatusType extends AbstractType
                     $builder->add($fieldName, new InTransitType(), array(
                         'data' => $event,
                         'mapped' => false,
-                        EventType::OPT_BUTTON_NAME => "changeStatus",
-                        UnitStatusEventType::OPT_STATUS => $status
+                        EventType::OPT_MODAL_ID => $fieldName,
+                        EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
                     ));
                     break;
 
@@ -81,18 +86,18 @@ class ChangeUnitStatusType extends AbstractType
                     $builder->add($fieldName, new ActivityEventType(), array(
                         'data' => $event,
                         'mapped' => false,
-                        EventType::OPT_BUTTON_NAME => "changeStatus",
-                        UnitStatusEventType::OPT_STATUS => $status,
+                        EventType::OPT_MODAL_ID => $fieldName,
+                        EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
                         ActivityEventType::OPT_LOCATION => $data[0]->getRequest()->getShippingLocation()
                     ));
                     break;
 
                 default:
-                    $builder->add($fieldName, new UnitStatusEventType(), array(
+                    $builder->add($fieldName, new UnitShippingEventType(), array(
                         'data' => $event,
                         'mapped' => false,
-                        EventType::OPT_BUTTON_NAME => "changeStatus",
-                        UnitStatusEventType::OPT_STATUS => $status
+                        EventType::OPT_MODAL_ID => $fieldName,
+                        EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
                     ));
                     break;
             }
@@ -107,10 +112,15 @@ class ChangeUnitStatusType extends AbstractType
         parent::setDefaultOptions($resolver);
 
         $resolver->setRequired(array(
-           ChangeUnitStatusType::OPT_DATA, ChangeUnitStatusType::OPT_EVENT_FACTORY
+           ChangeUnitStatusType::OPT_DATA, ChangeUnitStatusType::OPT_OBJECT_MANAGER
         ));
         $resolver->setDefaults(array(
             'label' => false
         ));
+    }
+
+    public static function getModalId(UnitStatus $shippingStatus)
+    {
+        return "ShippingStatusUI_" . $shippingStatus->getInternalName();
     }
 }
