@@ -43,7 +43,7 @@ class Partner extends Company
     protected $partnerTier;
 
     /**
-     * @var PartnerTier
+     * @var PartnerType
      *
      * @ORM\ManyToOne(targetEntity="PartnerType", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="partnerTypeId", referencedColumnName="partnerTypeId", nullable=false)
@@ -58,13 +58,25 @@ class Partner extends Company
     protected $unitsLimit;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Customer", inversedBy="partners")
+     * @ORM\JoinTable(name="partner_customers",
+     *      joinColumns={@ORM\JoinColumn(name="partnerId", referencedColumnName="companyId")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="customerId", referencedColumnName="companyId")}
+     * )
+     */
+    protected $customers;
+
+    /**
      *
      */
     public function __construct()
     {
 
         parent::__construct();
-        $this->requests = new ArrayCollection();
+        $this->requests  = new ArrayCollection();
+        $this->customers = new ArrayCollection();
     }
 
     /**
@@ -137,6 +149,7 @@ class Partner extends Company
      */
     public function setPartnerType($partnerType)
     {
+
         $this->partnerType = $partnerType;
     }
 
@@ -145,6 +158,27 @@ class Partner extends Company
      */
     public function getPartnerType()
     {
+
         return $this->partnerType;
     }
+
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection $customers
+     */
+    public function setCustomers($customers)
+    {
+
+        $this->customers = $customers;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getCustomers()
+    {
+
+        return $this->customers;
+    }
+
+
 }

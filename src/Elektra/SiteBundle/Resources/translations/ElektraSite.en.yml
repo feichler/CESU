@@ -418,6 +418,7 @@ forms:
             groups:
                 locations:                                              Locations
                 persons:                                                Persons
+                customers:                                              Customers
             fields:
                 partner_tier:                                           Tier
                 units_limit:                                            Unit Limit
@@ -426,6 +427,8 @@ forms:
             groups:
                 locations:                                              Locations
                 persons:                                                Persons
+            fields:
+                partner:                                                Partner
         sales_team:
             groups:
                 locations:                                              Locations
