@@ -1,9 +1,67 @@
 {% extends "ElektraSeedBundle::base-form.html.twig" %}
 
-
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
+
+//        jQuery(document).ready(function() {
+//            var confirmations = jQuery('[require-confirmation="yes"]');
+//
+//            if (confirmations.length > 0) {
+//                confirmations.on('click', function(event) {
+//                    console.log(event);
+////                    event.preventDefault();
+//                    var requested = jQuery('#request_group_assign_numberOfUnitsRequested').html().trim();
+//                    console.log(requested);
+//                    var required = jQuery('#request_group_assign_numberOfUnitsRequired').html().trim();
+//                    console.log(required);
+//                    var checked = jQuery('table :checkbox:checked').length;
+//                    console.log(checked);
+//
+//                    console.log((required <= 0));
+//                    console.log((required <= checked));
+//                    if (checked != 0) {
+//                        if (required <= 0 || required <= checked) {
+//                            confirmations.confirmation({
+////                    title: 'Test',
+//                                                           onShow: function(event, element) {
+//                                                               console.log(event);
+//                                                               console.log(element);
+//                                                               var requested = jQuery('#request_group_assign_numberOfUnitsRequested').html().trim();
+//                                                               console.log(requested);
+//                                                           }
+//                                                       });
+//                            var msg = '';
+//                            if (required <= 0) {
+//                                msg = 'Do you really want to add further Seed Units?'
+//                            } else {
+//                                msg = 'You only need to add ' + required + ' Seed Units, but selected ' + checked + '. Are you sure this is correct?'
+//                            }
+//                            console.log('adding confirmation');
+//                            confirmations.confirmation({
+//                                                           title: msg
+//                                                       });
+//                        }
+//                    }
+//                })
+////                console.log('test');
+////                console.log(confirmations);
+////                confirmations.confirmation({
+//////                    title: 'Test',
+////                    onShow: function(event, element) {
+////                        console.log(event);
+////                        console.log(element);
+////                        var requested = jQuery('#request_group_assign_numberOfUnitsRequested').html().trim();
+////                        console.log(requested);
+////                    }
+////                                           });
+//////                confirmations.on('')
+//////            console.log(confirmations);
+//////            var requested = jQuery('#request_group_assign_numberOfUnitsRequested').html().trim();
+//////            console.log(requested);
+//            }
+//
+//        })
 
         var companyChange = function(fieldId) {
 

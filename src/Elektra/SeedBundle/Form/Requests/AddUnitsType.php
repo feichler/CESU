@@ -40,7 +40,13 @@ class AddUnitsType extends CrudForm
     protected function initialiseButtons($crudAction, array $options)
     {
 
-        $this->addFormButton('save', 'submit');
+        $this->addFormButton('save', 'submit', array(
+                'attr' => array(
+//                    'data-href' => '',
+                    'require-confirmation' => 'yes',
+//                    'data-title' => ''
+                )
+            ));
 
         // custom close link
         $crud       = $this->getCrud();

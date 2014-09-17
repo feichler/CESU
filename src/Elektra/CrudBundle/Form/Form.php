@@ -384,6 +384,7 @@ abstract class Form extends AbstractType
      * valid option keys:
      *      - link (for link-type buttons) -> final link
      *      - confirm -> boolean
+     *      - attr -> array to add to the button attr options
      *
      * @param string $name
      * @param string $type
@@ -399,23 +400,37 @@ abstract class Form extends AbstractType
             throw new \InvalidArgumentException('Invalid position "' . $position . '" given');
         }
 
+        //        $class = $this->getButtonClass($name,$position);
+        //        if(isset($options['addClass'])) {
+        //            $class .= ' '.$options['addClass'];
+        //        }
+        $attr = array(
+            'class' => $this->getButtonClass($name, $position),
+        );
+        if (isset($options['attr']) && is_array($options['attr'])) {
+            foreach ($options['attr'] as $k => $v) {
+                $attr[$k] = $v;
+            }
+        }
+
         $button = array(
             'type'    => $type,
             'options' => array(
                 'label' => $this->getButtonLabel($name),
-                'attr'  => array(
-                    'class' => $this->getButtonClass($name, $position),
-                ),
+                'attr'  => $attr,
             ),
         );
 
         if (isset($options['link'])) {
-            $button['options']['link'] = $options['link'];
+            $button['options']['link']              = $options['link'];
+            $button['options']['attr']['data-href'] = $options['link'];
         }
 
         if (isset($options['confirm']) && $options['confirm'] == true) {
-            $message                              = Helper::languageAlternate('view', 'confirm.' . $type);
-            $button['options']['attr']['onclick'] = 'return confirm("' . $message . '");';
+            $message = Helper::languageAlternate('view', 'confirm.' . $name);
+            //            $button['options']['attr']['onclick'] = 'return confirm("' . $message . '");';
+            $button['options']['attr']['data-toggle'] = 'confirmation';
+            $button['options']['attr']['data-title']  = $message;
         }
 
         $this->buttons[$position][$name] = $button;
