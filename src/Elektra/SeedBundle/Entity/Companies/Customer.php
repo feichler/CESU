@@ -9,6 +9,7 @@
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -27,12 +28,21 @@ class Customer extends Company
 {
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Partner", mappedBy="customers")
+     */
+    protected $partners;
+
+    /**
      *
      */
     public function __construct()
     {
 
         parent::__construct();
+
+        $this->partners = new ArrayCollection();
     }
 
     /**
@@ -45,4 +55,24 @@ class Customer extends Company
 
         return 'forms.requests.request.companies.customer';
     }
+
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection $partners
+     */
+    public function setPartners($partners)
+    {
+
+        $this->partners = $partners;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getPartners()
+    {
+
+        return $this->partners;
+    }
+
+
 }

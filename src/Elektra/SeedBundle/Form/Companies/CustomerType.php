@@ -27,6 +27,13 @@ class CustomerType extends CrudForm
 
         $common = $this->addFieldGroup($builder, $options, 'common');
 
+        if ($options['crud_action'] == 'view') {
+            $partnerOptions = $this->getFieldOptions('partner');
+            $partnerOptions->notMapped();
+            $partnerOptions->add('data', $options['data']->getPartners()->first()->getTitle());
+            $common->add('partner','display',$partnerOptions->toArray());
+        }
+
         $common->add('shortName', 'text', $this->getFieldOptions('shortName')->required()->notBlank()->toArray());
         $common->add('name', 'text', $this->getFieldOptions('name')->optional()->toArray());
 

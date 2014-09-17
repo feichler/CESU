@@ -77,6 +77,8 @@ class PartnerType extends CrudForm
             $locations->add('locations', 'relatedList', $locationsFieldOptions->toArray());
             // URGENT find a solution to display the persons at the company view
 
+
+
 //            $persons2         = $this->addFieldGroup($builder, $options, 'persons2');
 //            $personDefinition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson');
 //            $this->getCrud()->setParent($options['data'], $this->getCrud()->getLinker()->getActiveRoute(), null);
@@ -114,6 +116,23 @@ class PartnerType extends CrudForm
             $personsFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'));
             $personsFieldOptions->add('relation_name', 'persons');
             $persons->add('persons', 'list', $personsFieldOptions->toArray());
+
+
+            $customers             = $this->addFieldGroup($builder, $options, 'customers');
+            $customersFieldOptions = $this->getFieldOptions('customers', false);
+            $customersFieldOptions->add('crud', $this->getCrud());
+            $customersFieldOptions->add('relation_parent_entity', $options['data']);
+            $customersFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Customer'));
+            $customersFieldOptions->add('relation_name', 'customers');
+            $customers->add('customers', 'list', $customersFieldOptions->toArray());
+
+            //            $customers = $this->addFieldGroup($builder,$options,'customers');
+//            $customersFieldOptions = $this->getFieldOptions('customers');
+//            $customersFieldOptions->add('relation_parent_entity',$options['data']);
+//            $customersFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Customer'));
+//            $customersFieldOptions->add('relation_name', 'partners');
+//            $customers->add('customers','relatedList',$customersFieldOptions->toArray());
+
         }
     }
 }

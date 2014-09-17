@@ -163,7 +163,7 @@ class RequestType extends CrudForm
         $companyOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Partner')->getClassEntity());
         $companyOptions->add('empty_value', 'Select Company');
         $companyOptions->add('property', 'shortName');
-        $companyOptions->add('group_by', 'companyType');
+        $companyOptions->add('group_by', 'partnerType.name');
         $commonGroup->add('company', 'entity', $companyOptions->toArray());
 
         // location & requesting person

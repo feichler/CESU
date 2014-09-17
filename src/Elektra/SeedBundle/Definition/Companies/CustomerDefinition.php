@@ -18,5 +18,6 @@ class CustomerDefinition extends Definition
         // root definition -> need a plural route
         $this->setRoot();
         $this->setRoutePlural('customers');
+        $this->addParent('Elektra','Seed','Companies','Partner');
     }
 }

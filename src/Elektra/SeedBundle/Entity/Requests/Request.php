@@ -365,47 +365,4 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
 
         return $this->company;
     }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function prePersist()
-    {
-
-        $alphabet      = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $requestNumber = 'REQ-';
-
-        $dateNow = new \DateTime('now UTC');
-        $dateWas = new \DateTime('01.01.2000 00:00:00 UTC');
-
-        $daysPart = str_pad($dateNow->diff($dateWas)->days, 5, '0', STR_PAD_LEFT);
-        $hourPart = $alphabet[$dateNow->format('H')];
-        $timePart = str_pad(($dateNow->format('i') * 60) + $dateNow->format('s'), 4, '0', STR_PAD_LEFT);
-
-        $requestNumber .=  $daysPart.$hourPart . $timePart;
-
-
-//        $requestNumber = 'REQ-';
-//        $alphabet      = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-//
-//        $dateNow = new \DateTime('now');
-//        $dateWas = new \DateTime('01.01.2000 00:00:00 UTC');
-//
-//        $diff = $dateNow->diff($dateWas);
-//
-//        $time  = time();
-//        $year  = date('y', $time);
-//        $month = date('n', $time);
-//        $day   = date('z', $time);
-//        $hour  = strftime('%H', $time) + 1; // 1 - 24
-//
-//        $requestNumber .= $alphabet[$hour];
-//
-//        $days =
-
-        $this->requestNumber = $requestNumber;
-
-        //        $tmp                 = (string) time();
-        //        $this->requestNumber = substr($tmp, strlen($tmp) - 10);
-    }
 }

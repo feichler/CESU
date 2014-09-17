@@ -3,19 +3,58 @@ URGENT: check integrity constraints in table inheritance. Example: Add a partner
 
 TODO: add sorting options to tables / browseAction
 
-TODO: add related data tables to viewAction (show table of related entries with direct CRUD links)
+Done add related data tables to viewAction (show table of related entries with direct CRUD links)
 
 ENHANCE finish rendering of menu (navbar)
 
-URGENT Done~ Flo: Links for embedded crud (close / save / cancel) -> return to embedding view
-URGENT Flo: Find a way to display "repeated" entities directly in form - e.g. add a person and show contact infos in the same form (with "add" option to add multiple contact infos)
+Done Flo: Links for embedded crud (close / save / cancel) -> return to embedding view
+Done Flo: Find a way to display "repeated" entities directly in form - e.g. add a person and show contact infos in the same form (with "add" option to add multiple contact infos)
 TODO Flo: Import of Seed Units from Excel / CSV - NOTE: prototype ready
 TODO Flo: Reports (need to be defined) - prototype in development
 
-Flo: create generic column type for audits - done (hopefully design is usable)
-TODO Flo: create generic column type for notes
-Flo: create visual form groups (tabbed?) - done
-TODO Flo: create generic crud for notes on entities ~ should be ready - check tomorrow
+Done Flo: create generic column type for audits
+Done Flo: create generic column type for notes
+Done Flo: create visual form groups (tabbed?)
+Done Flo: create generic crud for notes on entities
 
 TODO: add filters to seed unit selection for requests
 
+Done Flo: Request form - dropdowns dependent on each other Company > Location > Receiver / Company > Requester
+
+TODO Flo: template (less) - :empty help-block for validation ... remove margins
+
+CHECK: difference column defined as unique and @UniqueEntity with single field -> maybe the single field uniqueEntity is not necessary?
+
+TODO: reset session on login!
+
+-------------------------------------------------------------------------------
+Open tasks:
+- Shipping States
+ 	- new State shipped
+	- Set States at the request itself
+- Starting Fixtures
+- Imports
+	- Seed Units
+	- Company Master Data
+- Reports
+	- Skeleton
+	- TBD reports
+- Request DONE
+	- Add Units - Rendering & Filtering
+- Table
+	- Sorting - low prio
+	- Column Types:
+		Checkbox selection DONE
+		Address display
+- UI for shipping events
+
+
+DONE Request assigned seed units - no edit / delete
+
+
+URGENT - besprechen: Nach Delivery Verified Event -> Initialstatus: Idle!
+
+modal mini forms:
+
+styling:
+ style="margin: 0; position: absolute; top: 50%; left: 50%;"

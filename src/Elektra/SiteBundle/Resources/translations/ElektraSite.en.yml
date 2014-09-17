@@ -347,6 +347,14 @@ tables:
                 company:                                                Company
                 location:                                               Location
                 text:                                                   Text
+view:
+    generic:
+        confirm:
+            delete:                                                     Do you really want to delete this entry?
+#    companies:
+#        partner:
+#            confirm:
+#                delete:                                                 Do you really want to delete this Partner?
 forms:
     generic:
         constraints:
@@ -418,6 +426,7 @@ forms:
             groups:
                 locations:                                              Locations
                 persons:                                                Persons
+                customers:                                              Customers
             fields:
                 partner_tier:                                           Tier
                 units_limit:                                            Unit Limit
@@ -426,6 +435,8 @@ forms:
             groups:
                 locations:                                              Locations
                 persons:                                                Persons
+            fields:
+                partner:                                                Partner
         sales_team:
             groups:
                 locations:                                              Locations

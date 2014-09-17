@@ -10,6 +10,7 @@
     {% set render = 'button' %}
     {% set classes = 'action action-' ~ type %}
     {% set confirmMsg = '' %}
+    {% set confirmation = '' %}
     {% if options.render is defined %}
         {% set render = options.render %}
     {% endif %}
@@ -20,12 +21,15 @@
         {% set classes = classes ~ ' action-btn' %}
     {% endif %}
     {% if options.confirmMsg is defined %}
+        {% set confirmation = ' data-href="'~href~'"' %}
+        {% set confirmation = confirmation ~ ' data-toggle="confirmation" data-title="'~ options.confirmMsg|escape ~ '"' %}
         {% set confirmMsg = ' onclick="return confirm(\'' ~ options.confirmMsg|escape ~ '\')"' %}
     {% endif %}
     <a
             href="{{ href }}"
             class="{{ classes }}"
-            {{ confirmMsg|raw }}
+            {#{{ confirmMsg|raw }}#}
+            {{ confirmation|raw }}
             >
         <span class="icon"></span>
         <span class="text">{{ text }}</span>
