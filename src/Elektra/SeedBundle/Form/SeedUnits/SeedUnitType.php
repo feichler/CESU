@@ -75,7 +75,7 @@ class SeedUnitType extends Form
             $commonGroup->add('unitUsage', 'entity', $usageOptions->toArray());
 
             $salesStatusOptions = $this->getFieldOptions('salesStatus')
-                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'SalesStatus')->getClassEntity())
+                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitSalesStatus')->getClassEntity())
                 ->add('property', 'title');
             $commonGroup->add('salesStatus', 'entity', $salesStatusOptions->toArray());
         }
