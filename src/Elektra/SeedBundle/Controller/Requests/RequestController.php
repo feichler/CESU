@@ -61,10 +61,9 @@ class RequestController extends Controller
         return $this->get('navigator')->getDefinition('Elektra', 'Seed', 'Requests', 'Request');
     }
 
-    public function changeShippingStatusAction($id)
+    public function addEventAction($id)
     {
-
-        $this->initialise('changeShippingStatus');
+        $this->initialise('addEventAction');
 
         // get the existing entity
         /** @var Request $entity */
@@ -87,9 +86,9 @@ class RequestController extends Controller
             if ($this->getCrud()->getRequest()->getMethod() == 'POST')
             {
                 $ids = $this->getSelectedSeedUnitIds($form);
-                $shippingEvent = $this->getShippingEvent($form);
+                $shippingEvent = $this->getSelectedEvent($form);
 
-                $this->processShippingEvent($ids, $shippingEvent);
+                $this->processEvent($ids, $shippingEvent);
             }
         }
 
@@ -102,7 +101,7 @@ class RequestController extends Controller
         return $this->redirect($returnUrl);
     }
 
-    private function getShippingEvent(Form $form)
+    private function getSelectedEvent(Form $form)
     {
 
         $event = null;
@@ -132,11 +131,10 @@ class RequestController extends Controller
         return $ids;
     }
 
-    private function processShippingEvent(array $ids, Event $eventTemplate)
+    private function processEvent(array $ids, Event $eventTemplate)
     {
         /** @var ProcessEventStrategyInterface $processStrategy */
         $processStrategy = null;
-        echo get_class($eventTemplate);
         if ($eventTemplate instanceof StatusEvent)
         {
             $processStrategy = new ProcessShippingEventStrategy();
@@ -158,6 +156,7 @@ class RequestController extends Controller
 
         $processStrategy->prepare($eventTemplate);
 
+        $isAnyAllowed = false;
         foreach($ids as $id)
         {
             /** @var SeedUnit $seedUnit */
@@ -165,6 +164,7 @@ class RequestController extends Controller
 
             if ($processStrategy->isAllowed($seedUnit, $eventTemplate))
             {
+                $isAnyAllowed = true;
                 $event = $eventTemplate->createClone();
                 $seedUnit->getEvents()->add($event);
                 $event->setSeedUnit($seedUnit);
@@ -173,7 +173,10 @@ class RequestController extends Controller
             }
         }
 
-        $mgr->flush();
+        if ($isAnyAllowed)
+        {
+            $mgr->flush();
+        }
     }
 
     /**
@@ -188,7 +191,7 @@ class RequestController extends Controller
         $entity = $this->getEntity($id);
 
         // get the associated form
-        $form = $this->getForm($entity, 'view', 'request.changeShippingStatus');
+        $form = $this->getForm($entity, 'view', 'request.addEvent');
 
         // get the view name (specific or common) and prepare the form view
         $viewName = $this->getCrud()->getView('view');
