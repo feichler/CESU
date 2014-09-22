@@ -2,31 +2,19 @@
 
 namespace Elektra\SeedBundle\Controller\SeedUnits;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Elektra\CrudBundle\Controller\Controller;
-use Elektra\SeedBundle\Controller\EventFactory;
-use Elektra\SeedBundle\Entity\Companies\GenericLocation;
 use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SeedBundle\Entity\Events\Event;
 use Elektra\SeedBundle\Entity\Events\EventType;
-use Elektra\SeedBundle\Entity\Events\PartnerEvent;
-use Elektra\SeedBundle\Entity\Events\SalesEvent;
 use Elektra\SeedBundle\Entity\Events\ShippingEvent;
-use Elektra\SeedBundle\Entity\Events\StatusEvent;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
-use Elektra\SeedBundle\Entity\Events\UnitUsage;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitSalesStatusType;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitStatusType;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitUsageType;
-use Elektra\SeedBundle\Form\Events\Types\Strategies\ProcessEventStrategyInterface;
-use Elektra\SeedBundle\Form\Events\Types\Strategies\ProcessSalesEventStrategy;
-use Elektra\SeedBundle\Form\Events\Types\Strategies\ProcessShippingEventStrategy;
-use Elektra\SeedBundle\Form\Events\Types\Strategies\ProcessUsageEventStrategy;
-use Elektra\SeedBundle\Repository\Events\EventTypeRepository;
-use Elektra\SeedBundle\Repository\Events\UnitStatusRepository;
+use Elektra\SeedBundle\Form\Events\Types\Strategies\SeedUnitTransitionRules;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 
@@ -131,20 +119,6 @@ class SeedUnitController extends Controller
 
     private function processEvent($id, Event $eventTemplate)
     {
-        /** @var ProcessEventStrategyInterface $processStrategy */
-        $processStrategy = null;
-        if ($eventTemplate instanceof StatusEvent)
-        {
-            $processStrategy = new ProcessShippingEventStrategy();
-        }
-        else if ($eventTemplate instanceof PartnerEvent)
-        {
-            $processStrategy = new ProcessUsageEventStrategy();
-        }
-        else if ($eventTemplate instanceof SalesEvent)
-        {
-            $processStrategy = new ProcessSalesEventStrategy();
-        }
 
         /** @var $mgr EntityManager */
         $mgr = $this->getDoctrine()->getManager();
@@ -152,20 +126,55 @@ class SeedUnitController extends Controller
         // retrieve seed units
         $repo = $mgr->getRepository('ElektraSeedBundle:SeedUnits\SeedUnit');
 
-        $processStrategy->prepare($eventTemplate);
+        /** @var SeedUnitTransitionRules $rules */
+        $transitionRules = new SeedUnitTransitionRules($eventTemplate);
 
         /** @var SeedUnit $seedUnit */
         $seedUnit = $repo->find($id);
 
-        if ($processStrategy->isAllowed($seedUnit, $eventTemplate))
+        if (!$transitionRules->checkNewShippingStatus($seedUnit, $eventTemplate))
         {
-            $event = $eventTemplate->createClone();
-            $seedUnit->getEvents()->add($event);
-            $event->setSeedUnit($seedUnit);
-
-            $processStrategy->process($seedUnit, $event);
-            $mgr->flush();
+            // TODO currently failing silent - any response to user?
+            return;
         }
+
+        if (!$transitionRules->checkNewUsage($seedUnit, $eventTemplate))
+        {
+            // TODO currently failing silent - any response to user?
+            return;
+        }
+
+        if (!$transitionRules->checkNewSalesStatus($seedUnit, $eventTemplate))
+        {
+            // TODO currently failing silent - any response to user?
+            return;
+        }
+
+        $event = $eventTemplate->createClone();
+        $seedUnit->getEvents()->add($event);
+        $event->setSeedUnit($seedUnit);
+
+        if ($event->getUnitStatus() != null)
+        {
+            $seedUnit->setShippingStatus($event->getUnitStatus());
+        }
+
+        if ($event->getLocation() != null)
+        {
+            $seedUnit->setLocation($event->getLocation());
+        }
+
+        if ($event->getSalesStatus() != null)
+        {
+            $seedUnit->setSalesStatus($event->getSalesStatus());
+        }
+
+        if ($event->getUsage() != null)
+        {
+            $seedUnit->setUnitUsage($event->getUsage());
+        }
+
+        $mgr->flush();
     }
 
     /**

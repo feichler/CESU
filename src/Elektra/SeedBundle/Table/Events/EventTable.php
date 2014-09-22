@@ -51,6 +51,24 @@ class EventTable extends Table
         $location->setSortable();
         $location->setFilterable()->setFieldFilter('shortName');
 
+        $shippingStatus = $this->getColumns()->add('unitStatus');
+        $shippingStatus->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'));
+        $shippingStatus->setFieldData('unitStatus.name');
+        $shippingStatus->setSortable();
+        $shippingStatus->setFilterable()->setFieldFilter('name');
+
+        $salesStatus = $this->getColumns()->add('salesStatus');
+        $salesStatus->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitSalesStatus'));
+        $salesStatus->setFieldData('salesStatus.name');
+        $salesStatus->setSortable();
+        $salesStatus->setFilterable()->setFieldFilter('name');
+
+        $usage = $this->getColumns()->add('usage');
+        $usage->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage'));
+        $usage->setFieldData('usage.name');
+        $usage->setSortable();
+        $usage->setFilterable()->setFieldFilter('name');
+
         $timestamp = $this->getColumns()->addDateColumn('date');
         $timestamp->setFieldData('timestamp');
         $timestamp->setSearchable();

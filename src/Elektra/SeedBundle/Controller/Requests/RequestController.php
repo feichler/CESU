@@ -9,38 +9,22 @@
 
 namespace Elektra\SeedBundle\Controller\Requests;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\QueryBuilder;
 use Elektra\CrudBundle\Controller\Controller;
 use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SeedBundle\Entity\Events\Event;
-use Elektra\SeedBundle\Entity\Events\EventType;
-use Elektra\SeedBundle\Entity\Events\PartnerEvent;
-use Elektra\SeedBundle\Entity\Events\SalesEvent;
-use Elektra\SeedBundle\Entity\Events\ShippingEvent;
-use Elektra\SeedBundle\Entity\Events\StatusEvent;
-use Elektra\SeedBundle\Entity\Events\UnitSalesStatus;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
+
 use Elektra\SeedBundle\Entity\Requests\Request;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitSalesStatusType;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitStatusType;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitUsageType;
-use Elektra\SeedBundle\Form\Events\Types\Strategies\ProcessEventStrategyInterface;
-use Elektra\SeedBundle\Form\Events\Types\Strategies\ProcessSalesEventStrategy;
-use Elektra\SeedBundle\Form\Events\Types\Strategies\ProcessShippingEventStrategy;
-use Elektra\SeedBundle\Form\Events\Types\Strategies\ProcessUsageEventStrategy;
-use Elektra\SeedBundle\Form\Events\Types\UnitSalesStatusEventType;
-use Elektra\SeedBundle\Form\Events\Types\UnitStatusEventType;
-use Elektra\SeedBundle\Form\Events\Types\UnitUsageEventType;
+use Elektra\SeedBundle\Form\Events\Types\Strategies\SeedUnitTransitionRules;
 use Elektra\SeedBundle\Form\Requests\AddUnitsType;
 use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Validator\ConstraintViolation;
 
 /**
  * Class RequestController
@@ -133,28 +117,14 @@ class RequestController extends Controller
 
     private function processEvent(array $ids, Event $eventTemplate)
     {
-        /** @var ProcessEventStrategyInterface $processStrategy */
-        $processStrategy = null;
-        if ($eventTemplate instanceof StatusEvent)
-        {
-            $processStrategy = new ProcessShippingEventStrategy();
-        }
-        else if ($eventTemplate instanceof PartnerEvent)
-        {
-            $processStrategy = new ProcessUsageEventStrategy();
-        }
-        else if ($eventTemplate instanceof SalesEvent)
-        {
-            $processStrategy = new ProcessSalesEventStrategy();
-        }
-
         /** @var $mgr EntityManager */
         $mgr = $this->getDoctrine()->getManager();
 
         // retrieve seed units
         $repo = $mgr->getRepository('ElektraSeedBundle:SeedUnits\SeedUnit');
 
-        $processStrategy->prepare($eventTemplate);
+        /** @var SeedUnitTransitionRules $rules */
+        $transitionRules = new SeedUnitTransitionRules($eventTemplate);
 
         $isAnyAllowed = false;
         foreach($ids as $id)
@@ -162,14 +132,47 @@ class RequestController extends Controller
             /** @var SeedUnit $seedUnit */
             $seedUnit = $repo->find($id);
 
-            if ($processStrategy->isAllowed($seedUnit, $eventTemplate))
+            if (!$transitionRules->checkNewShippingStatus($seedUnit, $eventTemplate))
             {
-                $isAnyAllowed = true;
-                $event = $eventTemplate->createClone();
-                $seedUnit->getEvents()->add($event);
-                $event->setSeedUnit($seedUnit);
+                // TODO currently failing silent - any response to user?
+                continue;
+            }
 
-                $processStrategy->process($seedUnit, $event);
+            if (!$transitionRules->checkNewUsage($seedUnit, $eventTemplate))
+            {
+                // TODO currently failing silent - any response to user?
+                continue;
+            }
+
+            if (!$transitionRules->checkNewSalesStatus($seedUnit, $eventTemplate))
+            {
+                // TODO currently failing silent - any response to user?
+                continue;
+            }
+
+            $isAnyAllowed = true;
+            $event = $eventTemplate->createClone();
+            $seedUnit->getEvents()->add($event);
+            $event->setSeedUnit($seedUnit);
+
+            if ($event->getUnitStatus() != null)
+            {
+                $seedUnit->setShippingStatus($event->getUnitStatus());
+            }
+
+            if ($event->getLocation() != null)
+            {
+                $seedUnit->setLocation($event->getLocation());
+            }
+
+            if ($event->getSalesStatus() != null)
+            {
+                $seedUnit->setSalesStatus($event->getSalesStatus());
+            }
+
+            if ($event->getUsage() != null)
+            {
+                $seedUnit->setUnitUsage($event->getUsage());
             }
         }
 

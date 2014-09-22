@@ -2,11 +2,9 @@
 
 namespace Elektra\SeedBundle\Form\Events\Types;
 
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class InTransitType extends UnitShippingEventType
+class InTransitType extends EventType
 {
     /**
      * Returns the name of this type.
@@ -26,26 +24,5 @@ class InTransitType extends UnitShippingEventType
             // TRANSLATE
             'label' => 'Shipping Number'
         ));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        parent::setDefaultOptions($resolver);
-
-        $resolver->setDefaults(array(
-            UnitShippingEventType::OPT_STATUS => UnitStatus::IN_TRANSIT
-        ));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getParent()
-    {
-
-        return 'shippingEvent';
     }
 }

@@ -16,6 +16,7 @@ use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
 use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
 use Elektra\SeedBundle\Entity\Companies\Partner;
 use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
+use Elektra\SeedBundle\Entity\Events\Event;
 use Elektra\SeedBundle\Entity\Events\EventType;
 use Elektra\SeedBundle\Entity\Events\ShippingEvent;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
@@ -224,7 +225,7 @@ class TestDataFixture extends SeedBundleFixture
             foreach($serials as $serial) {
                 /* @var $seedUnit SeedUnit */
                 $seedUnit = $this->getReference('seed_unit-' . strtolower($serial));
-                $obj = new ShippingEvent();
+                $obj = new Event();
                 $obj->setSeedUnit($seedUnit);
                 $obj->setTimestamp(time());
                 $obj->setEventType($eventType);

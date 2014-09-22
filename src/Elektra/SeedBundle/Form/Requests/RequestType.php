@@ -87,6 +87,7 @@ class RequestType extends CrudForm
 
     private function isDeliveryVerified(array $seedUnits)
     {
+        /** @var $su SeedUnit */
         foreach($seedUnits as $su)
         {
             if ($su->getShippingStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED)
@@ -137,6 +138,7 @@ class RequestType extends CrudForm
             function (FormEvent $event) use ($self) {
 
                 $eventData = $event->getData();
+                /** @var $em ObjectManager */
                 $em        = $self->getCrud()->getService('doctrine')->getManager();
 
                 if($eventData) {

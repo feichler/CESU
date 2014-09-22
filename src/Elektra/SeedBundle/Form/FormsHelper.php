@@ -10,7 +10,10 @@ namespace Elektra\SeedBundle\Form;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Elektra\SeedBundle\Entity\Events\UnitSalesStatus;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
+use Elektra\SeedBundle\Entity\Events\UnitUsage;
+use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitSalesStatusType;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitStatusType;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitUsageType;
@@ -27,6 +30,7 @@ class FormsHelper {
         $statuses = array();
         foreach($seedUnits as $seedUnit)
         {
+            /** @var $seedUnit SeedUnit */
             if ($seedUnit->getRequest() != null)
             {
                 $allowed = UnitStatus::$ALLOWED_FROM[$seedUnit->getShippingStatus()->getInternalName()];
@@ -60,18 +64,21 @@ class FormsHelper {
         $shippingButtons = array();
         foreach ($allowedStatuses as $status)
         {
+            /** @var $status UnitStatus */
             $shippingButtons[ChangeUnitStatusType::getModalId($status)] = $status->getTitle();
         }
 
         $usageButtons = array();
         foreach ($allowedUsages as $usage)
         {
+            /** @var $usage UnitUsage */
             $usageButtons[ChangeUnitUsageType::getModalId($usage)] = $usage->getTitle();
         }
 
         $salesButtons = array();
         foreach ($allowedSalesStatuses as $status)
         {
+            /** @var $status UnitSalesStatus */
             $salesButtons[ChangeUnitSalesStatusType::getModalId($status)] = $status->getTitle();
         }
 

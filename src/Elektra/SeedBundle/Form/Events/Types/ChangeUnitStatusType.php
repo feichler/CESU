@@ -11,60 +11,32 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ChangeUnitStatusType extends AbstractType
+class ChangeUnitStatusType extends ModalFormsBaseType
 {
-    const OPT_DATA = 'data';
-    const OPT_OBJECT_MANAGER = 'objectManager';
-    const BUTTON_NAME = 'changeShippingStatus';
 
     /**
-     * Returns the name of this type.
-     *
-     * @return string The name of this type
+     * @inheritdoc
      */
     public function getName()
     {
         return "changeShippingStatus";
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $data = $options[ChangeUnitUsageType::OPT_DATA];
-
-        if (is_array($data))
-        {
-            // TODO validate elements
-        }
-        else if ($data instanceof SeedUnit)
-        {
-            $data = array($data);
-        }
-        else
-        {
-            // TODO exception
-        }
-
-        /** @var ObjectManager $mgr */
-        $mgr = $options[ChangeUnitStatusType::OPT_OBJECT_MANAGER];
-
-        /** @var EventFactory $eventFactory */
-        $eventFactory = new EventFactory($mgr);
-
-        $this->buildFields($builder, $data, $mgr, $eventFactory);
-    }
-
-    private function buildFields(FormBuilderInterface $builder, array $data, ObjectManager $mgr, EventFactory $eventFactory)
+    protected function buildFields(FormBuilderInterface $builder, array $data, ObjectManager $mgr, EventFactory $eventFactory)
     {
         $statuses = FormsHelper::getAllowedStatuses($data);
 
+        /** @var SeedUnit $seedUnit */
+        $seedUnit = $data[0];
+
         foreach ($statuses as $status)
         {
-            $fieldName = ChangeUnitStatusType::getModalId($status);
+            $fieldName = ChangeUnitStatusType::getModalIdByInternalName($status);
 
             $event = $eventFactory->createShippingEvent($status, array(
                 EventFactory::IGNORE_MISSING => true,
                 // WORKAROUND only necessary for delivered
-                EventFactory::LOCATION => $data[0]->getRequest()->getShippingLocation()
+                EventFactory::LOCATION => $seedUnit->getRequest()->getShippingLocation()
             ));
 
             switch($status)
@@ -88,12 +60,12 @@ class ChangeUnitStatusType extends AbstractType
                         'mapped' => false,
                         EventType::OPT_MODAL_ID => $fieldName,
                         EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
-                        ActivityEventType::OPT_LOCATION => $data[0]->getRequest()->getShippingLocation()
+                        ActivityEventType::OPT_LOCATION => $seedUnit->getRequest()->getShippingLocation()
                     ));
                     break;
 
                 default:
-                    $builder->add($fieldName, new UnitShippingEventType(), array(
+                    $builder->add($fieldName, new EventType(), array(
                         'data' => $event,
                         'mapped' => false,
                         EventType::OPT_MODAL_ID => $fieldName,
@@ -104,23 +76,13 @@ class ChangeUnitStatusType extends AbstractType
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    private static function getModalIdByInternalName($shippingStatus)
     {
-        parent::setDefaultOptions($resolver);
-
-        $resolver->setRequired(array(
-           ChangeUnitStatusType::OPT_DATA, ChangeUnitStatusType::OPT_OBJECT_MANAGER
-        ));
-        $resolver->setDefaults(array(
-            'label' => false
-        ));
+        return "ShippingStatusUI_" . $shippingStatus;
     }
 
     public static function getModalId(UnitStatus $shippingStatus)
     {
-        return "ShippingStatusUI_" . $shippingStatus->getInternalName();
+        return ChangeUnitStatusType::getModalIdByInternalName($shippingStatus->getInternalName());
     }
 }

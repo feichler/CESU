@@ -4,7 +4,6 @@ namespace Elektra\SeedBundle\Form\SeedUnits;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\CrudBundle\Form\Form;
-use Elektra\CrudBundle\Repository\Repository;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Events\UnitUsage;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
@@ -12,7 +11,6 @@ use Elektra\SeedBundle\Form\Events\Types\ChangeUnitSalesStatusType;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitStatusType;
 use Elektra\SeedBundle\Form\Events\Types\ChangeUnitUsageType;
 use Elektra\SeedBundle\Form\FormsHelper;
-use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -87,7 +85,7 @@ class SeedUnitType extends Form
 
         $historyGroup = $this->addFieldGroup($builder, $options, 'History'); // TRANSLATE this
 
-        /* @var $entity SeedUnit */
+        /* @var $seedUnit SeedUnit */
         $seedUnit = $options['data'];
 
         if ($options['crud_action'] == 'view')

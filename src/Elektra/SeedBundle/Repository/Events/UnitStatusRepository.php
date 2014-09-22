@@ -23,13 +23,13 @@ use Elektra\SeedBundle\Entity\Events\UnitStatus;
 class UnitStatusRepository extends Repository
 {
 
-
     /**
      * @param string $internalName
      * @return UnitStatus
      */
     public function findByInternalName($internalName)
     {
+
         $builder = $this->getEntityManager()->createQueryBuilder();
         $builder->select('us')
             ->from('ElektraSeedBundle:Events\UnitStatus', 'us')

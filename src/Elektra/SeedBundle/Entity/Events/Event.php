@@ -14,6 +14,7 @@ use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 use Elektra\SeedBundle\Auditing\Helper;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
+use Elektra\SeedBundle\Entity\Companies\Location;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
@@ -30,14 +31,12 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type",type="string")
  * @ORM\DiscriminatorMap({
- *  "status" = "StatusEvent",
+ *  "event"    = "Event",
  *  "shipping" = "ShippingEvent",
- *  "partner" = "PartnerEvent",
  *  "activity" = "ActivityEvent",
- *  "sales" = "SalesEvent"
  * })
  */
-abstract class Event implements AuditableInterface, AnnotableInterface, CrudInterface
+class Event implements AuditableInterface, AnnotableInterface, CrudInterface
 {
 
     /**
@@ -85,6 +84,39 @@ abstract class Event implements AuditableInterface, AnnotableInterface, CrudInte
      * @ORM\Column(type="text", nullable=true)
      */
     protected $comment;
+
+    /**
+     * @var UnitStatus
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitStatus", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="unitStatusId", referencedColumnName="unitStatusId")
+     */
+    protected $unitStatus;
+
+    /**
+     * @var UnitSalesStatus
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitSalesStatus", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="unitSalesStatusId", referencedColumnName="unitSalesStatusId")
+     */
+    protected $salesStatus;
+
+    /**
+     * @var Location
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Location", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="locationId", referencedColumnName="locationId")
+     */
+    protected $location;
+
+    /**
+     * @var UnitUsage
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitUsage", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="unitUsageId", referencedColumnName="unitUsageId")
+     */
+    protected $usage;
+
 
     /**
      * @var ArrayCollection
@@ -287,6 +319,70 @@ abstract class Event implements AuditableInterface, AnnotableInterface, CrudInte
     public function getTitle()
     {
         return $this->getText();
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Companies\Location $location
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Companies\Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Events\UnitSalesStatus $salesStatus
+     */
+    public function setSalesStatus($salesStatus)
+    {
+        $this->salesStatus = $salesStatus;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Events\UnitSalesStatus
+     */
+    public function getSalesStatus()
+    {
+        return $this->salesStatus;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Events\UnitStatus $unitStatus
+     */
+    public function setUnitStatus($unitStatus)
+    {
+        $this->unitStatus = $unitStatus;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Events\UnitStatus
+     */
+    public function getUnitStatus()
+    {
+        return $this->unitStatus;
+    }
+
+    /**
+     * @param \Elektra\SeedBundle\Entity\Events\UnitUsage $usage
+     */
+    public function setUsage($usage)
+    {
+        $this->usage = $usage;
+    }
+
+    /**
+     * @return \Elektra\SeedBundle\Entity\Events\UnitUsage
+     */
+    public function getUsage()
+    {
+        return $this->usage;
     }
 
     public function createClone()

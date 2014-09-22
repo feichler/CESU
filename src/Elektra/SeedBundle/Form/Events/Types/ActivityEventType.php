@@ -3,13 +3,12 @@
 namespace Elektra\SeedBundle\Form\Events\Types;
 
 use Doctrine\ORM\EntityRepository;
-use Elektra\CrudBundle\Form\Field\ModalType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ActivityEventType extends UnitShippingEventType
+class ActivityEventType extends EventType
 {
     const OPT_LOCATION = 'location';
 
@@ -61,14 +60,5 @@ class ActivityEventType extends UnitShippingEventType
         parent::buildView($view, $form, $options);
 
         $view->vars[ActivityEventType::OPT_LOCATION] = $options[ActivityEventType::OPT_LOCATION];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getParent()
-    {
-
-        return 'shippingEvent';
     }
 }

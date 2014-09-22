@@ -11,6 +11,7 @@ namespace Elektra\SeedBundle\Repository\Events;
 
 use Elektra\CrudBundle\Repository\Repository;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
+use Elektra\SeedBundle\Entity\Events\UnitUsage;
 
 /**
  * Class UnitUsageRepository
@@ -23,4 +24,20 @@ use Elektra\SeedBundle\Entity\Events\UnitStatus;
 class UnitUsageRepository extends Repository
 {
 
+    /**
+     * @param string $internalName
+     * @return UnitUsage
+     */
+    public function findByInternalName($internalName)
+    {
+
+        $builder = $this->getEntityManager()->createQueryBuilder();
+        $builder->select('uu')
+            ->from('ElektraSeedBundle:Events\UnitUsage', 'uu')
+            ->where('uu.internalName = :internalName')
+            ->setParameter("internalName", $internalName);
+
+        $result = $builder->getQuery()->getSingleResult();
+        return $result;
+    }
 }

@@ -18,14 +18,13 @@ use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
 use Elektra\SeedBundle\Entity\Events\ActivityEvent;
 use Elektra\SeedBundle\Entity\Events\Event;
 use Elektra\SeedBundle\Entity\Events\EventType;
-use Elektra\SeedBundle\Entity\Events\PartnerEvent;
 use Elektra\SeedBundle\Entity\Events\ShippingEvent;
+use Elektra\SeedBundle\Entity\Events\UnitSalesStatus;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Events\UnitUsage;
-use Elektra\SeedBundle\Entity\Requests\Request;
-use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Elektra\SeedBundle\Repository\Events\EventTypeRepository;
 use Elektra\SeedBundle\Repository\Events\UnitStatusRepository;
+use Elektra\SeedBundle\Repository\Events\UnitUsageRepository;
 
 class EventFactory {
 
@@ -44,6 +43,11 @@ class EventFactory {
      */
     private $eventTypeRepository;
 
+    /**
+     * @var UnitUsageRepository $usageRepository
+     */
+    private $usageRepository;
+
     const TIMESTAMP = 'timestamp';
     const TEXT = 'text';
     const LOCATION = 'location';
@@ -59,14 +63,27 @@ class EventFactory {
         $this->mgr = $mgr;
         $this->unitStatusRepository = $mgr->getRepository('ElektraSeedBundle:Events\UnitStatus');
         $this->eventTypeRepository = $mgr->getRepository('ElektraSeedBundle:Events\EventType');
+        $this->usageRepository = $mgr->getRepository('ElektraSeedBundle:Events\UnitUsage');
+    }
+
+    public function createSalesEvent(UnitSalesStatus $salesStatus, array $options)
+    {
+        $eventType = $this->eventTypeRepository->findByInternalName(EventType::PARTNER);
+
+        $event = $this->_createEvent("Sales status changed to '" . $salesStatus->getName() . "'.",
+            $eventType,
+            null, null, $salesStatus, null, $options);
+
+        return $event;
     }
 
     public function createUsageEvent(UnitUsage $usage, array $options)
     {
-        $event = new PartnerEvent();
-        $event->setEventType($this->eventTypeRepository->findByInternalName(EventType::PARTNER));
-        $event->setUsage($usage);
-        $event->setText("Usage changed to '" . $usage->getName() . "'.");
+        $eventType = $this->eventTypeRepository->findByInternalName(EventType::PARTNER);
+
+        $event = $this->_createEvent("Usage changed to '" . $usage->getName() . "'.",
+            $eventType,
+            null, $usage, null, null, $options);
 
         return $event;
     }
@@ -117,7 +134,7 @@ class EventFactory {
                 break;
 
             case UnitStatus::ESCALATION:
-                $event = $this->createEscalation($this->_getMandatoryOption(EventFactory::LOCATION, $options),
+                $event = $this->createEscalation($this->_getMandatoryOption(EventFactory::PERSON, $options),
                     $options);
                 break;
 
@@ -159,13 +176,14 @@ class EventFactory {
 
     public function createInTransit(array $options)
     {
-        $event = $this->_createShippingEvent('Unit is being delivered.',
-            $this->unitStatusRepository->findByInternalName(UnitStatus::IN_TRANSIT),
-            $this->mgr
-                ->getRepository('ElektraSeedBundle:Companies\GenericLocation')
-                ->findByInternalName(GenericLocation::IN_TRANSIT),
-            $options
-        );
+        $eventType = $this->eventTypeRepository->findByInternalName(EventType::SHIPPING);
+        $shippingStatus = $this->unitStatusRepository->findByInternalName(UnitStatus::IN_TRANSIT);
+        $location = $this->mgr
+            ->getRepository('ElektraSeedBundle:Companies\GenericLocation')
+            ->findByInternalName(GenericLocation::IN_TRANSIT);
+
+        $event = new ShippingEvent();
+        $this->_populateEvent($event, $eventType, 'Unit is being delivered.', $shippingStatus, null, null, $location, $options);
 
         return $event;
     }
@@ -238,11 +256,11 @@ class EventFactory {
         return $event;
     }
 
-    public function createEscalation(CompanyLocation $location = null, array $options)
+    public function createEscalation(CompanyPerson $person = null, array $options)
     {
-        $event = $this->_createShippingEvent("Escalation: Delivery couldn't be verified.",
+        $event = $this->_createActivityEvent("Escalation: Delivery couldn't be verified.",
             $this->unitStatusRepository->findByInternalName(UnitStatus::ESCALATION),
-            $location,
+            $person,
             $options
         );
 
@@ -257,31 +275,38 @@ class EventFactory {
             $options
         );
 
+        // set usage to idle once a seed unit is delivered
+        $idleUsage = $this->usageRepository->findByInternalName(UnitUsage::IDLE);
+        $event->setUsage($idleUsage);
+
         return $event;
     }
 
-    private function _createActivityEvent($title, UnitStatus $unitStatus = null, CompanyPerson $person = null, array $options)
+    private function _createEvent($title, EventType $eventType, UnitStatus $shippingStatus = null, UnitUsage $usage = null, UnitSalesStatus $salesStatus = null, Location $location = null, array $options)
     {
-        $event = new ActivityEvent();
-        $this->_populateCommonFields($event, $options);
+        $event = new Event();
 
-        $event->setText($title);
-        $event->setEventType($this->eventTypeRepository->findByInternalName(EventType::SHIPPING));
-        $event->setUnitStatus($unitStatus);
+        $this->_populateEvent($event, $eventType, $title, $shippingStatus, $usage, $salesStatus, $location, $options);
+        return $event;
+    }
+
+    private function _createActivityEvent($title, UnitStatus $shippingStatus = null, CompanyPerson $person = null, array $options)
+    {
+        $eventType = $this->eventTypeRepository->findByInternalName(EventType::SHIPPING);
+
+        $event = new ActivityEvent();
+        $this->_populateEvent($event, $eventType, $title, $shippingStatus, null, null, null, $options);
         $event->setPerson($person);
 
         return $event;
     }
 
-    private function _createShippingEvent($title, UnitStatus $unitStatus = null, Location $location = null, array $options)
+    private function _createShippingEvent($title, UnitStatus $shippingStatus = null, Location $location = null, array $options)
     {
-        $event = new ShippingEvent();
-        $this->_populateCommonFields($event, $options);
+        $eventType = $this->eventTypeRepository->findByInternalName(EventType::SHIPPING);
 
-        $event->setText($title);
-        $event->setEventType($this->eventTypeRepository->findByInternalName(EventType::SHIPPING));
-        $event->setUnitStatus($unitStatus);
-        $event->setLocation($location);
+        $event = new Event();
+        $this->_populateEvent($event, $eventType, $title, $shippingStatus, null, null, $location, $options);
 
         return $event;
     }
@@ -294,8 +319,15 @@ class EventFactory {
         return array_key_exists($name, $options) ? $options[$name] : null;
     }
 
-    private function _populateCommonFields(Event $event, array $options)
+    private function _populateEvent(Event $event, EventType $eventType, $title, UnitStatus $shippingStatus = null, UnitUsage $usage = null, UnitSalesStatus $salesStatus = null, Location $location = null, array $options)
     {
+        $event->setText($title);
+        $event->setEventType($eventType);
+        $event->setUsage($usage);
+        $event->setSalesStatus($salesStatus);
+        $event->setUnitStatus($shippingStatus);
+        $event->setLocation($location);
+
         if (isset($options[EventFactory::TIMESTAMP]))
         {
             $event->setTimestamp($options[EventFactory::TIMESTAMP]);

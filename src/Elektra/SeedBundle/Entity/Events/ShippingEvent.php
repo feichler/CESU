@@ -22,21 +22,13 @@ use Elektra\SeedBundle\Entity\Companies\Location;
  * @ORM\Entity
  * @ORM\Table(name="shippingEvents")
  */
-class ShippingEvent extends StatusEvent
+class ShippingEvent extends Event
 {
-
-    /**
-     * @var Location
-     *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Location", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="locationId", referencedColumnName="locationId", nullable=false)
-     */
-    protected $location;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(type="string", length=50)
      */
     protected $shippingNumber;
 
@@ -47,24 +39,6 @@ class ShippingEvent extends StatusEvent
     {
 
         parent::__construct();
-    }
-
-    /**
-     * @param Location $location
-     */
-    public function setLocation($location)
-    {
-
-        $this->location = $location;
-    }
-
-    /**
-     * @return Location
-     */
-    public function getLocation()
-    {
-
-        return $this->location;
     }
 
     /**

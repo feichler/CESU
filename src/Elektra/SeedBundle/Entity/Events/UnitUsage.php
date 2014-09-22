@@ -28,6 +28,8 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  */
 class UnitUsage implements AuditableInterface, CrudInterface
 {
+    const IDLE = "idle";
+
     /**
      * @var int
      *
@@ -50,6 +52,13 @@ class UnitUsage implements AuditableInterface, CrudInterface
      * @ORM\Column(type="string", length=3, unique=true)
      */
     protected $abbreviation;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=50)
+     */
+    protected $internalName;
 
     /**
      * @var ArrayCollection
@@ -169,5 +178,21 @@ class UnitUsage implements AuditableInterface, CrudInterface
     {
 
         return $this->abbreviation;
+    }
+
+    /**
+     * @param string $internalName
+     */
+    public function setInternalName($internalName)
+    {
+        $this->internalName = $internalName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInternalName()
+    {
+        return $this->internalName;
     }
 }

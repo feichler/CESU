@@ -78,6 +78,11 @@ class EventType extends ModalType
                 'trim'     => true
             )
         );
+
+        $builder->add('usage', 'hiddenEntity');
+        $builder->add('eventType', 'hiddenEntity');
+        $builder->add('unitStatus', 'hiddenEntity');
+        $builder->add('salesStatus', 'hiddenEntity');
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options)
