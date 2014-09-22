@@ -11,5 +11,12 @@ class UnitSalesStatusDefinition extends Definition
     {
 
         parent::__construct('Elektra', 'Seed', 'Events', 'UnitSalesStatus');
+
+        // single route (add / view / edit / delete)
+        $this->setRouteSingular('salesStatus');
+
+        // root definition -> need a plural route
+        $this->setRoot();
+        $this->setRoutePlural('salesStatuses');
     }
 }

@@ -30,7 +30,6 @@ use Symfony\Component\Validator\Constraints\GreaterThan;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Requests\RequestRepository")
  * @ORM\Table(name="requests")
- * @ORM\HasLifecycleCallbacks
  */
 class Request implements AuditableInterface, AnnotableInterface, CrudInterface
 {

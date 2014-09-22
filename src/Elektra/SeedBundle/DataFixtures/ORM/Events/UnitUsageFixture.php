@@ -31,16 +31,15 @@ class UnitUsageFixture extends SeedBundleFixture
 
         $data = array(
             array("Idle", "I", 'idle'),
-            array("Utilized for training", "T", time() . rand()),
-            array("Installed in partner lab", "P", time() . rand()),
-            array("Installed at customer location", "C", time() . rand()),
+            array("Utilized for training", "T", null),
+            array("Installed in partner lab", "P", null),
+            array("Installed at customer location", "C", null),
         );
 
         foreach ($data as $entry) {
             $usage = new UnitUsage();
             $usage->setName($entry[0]);
             $usage->setAbbreviation($entry[1]);
-            $usage->setInternalName($entry[2]);
             $manager->persist($usage);
 
             $this->addReference('usage-' . $usage->getAbbreviation(), $usage);

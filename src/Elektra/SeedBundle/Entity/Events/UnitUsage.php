@@ -25,6 +25,7 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Events\UnitUsageRepository")
  * @ORM\Table(name="unitUsages")
+ * @ORM\HasLifecycleCallbacks
  */
 class UnitUsage implements AuditableInterface, CrudInterface
 {
@@ -194,5 +195,17 @@ class UnitUsage implements AuditableInterface, CrudInterface
     public function getInternalName()
     {
         return $this->internalName;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        if ($this->getInternalName() == null)
+        {
+            // TODO better way for unique identifier?
+            $this->setInternalName(time() . rand());
+        }
     }
 }
