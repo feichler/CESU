@@ -12,3 +12,15 @@ services:
         arguments: ["@service_container"]
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+
+    elektra_seed.company_location.listener:
+        class: Elektra\SeedBundle\Subscribers\CompanyLocationListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+    elektra_seed.company_person.listener:
+        class: Elektra\SeedBundle\Subscribers\CompanyPersonListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
