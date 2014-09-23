@@ -478,7 +478,7 @@ class TestDataFixture extends SeedBundleFixture
             array('PT1', 'Partner 1', 'partner_type-partner organisation', null, array(
                 array('HQ-AT', 'Headquarter Austria', true, 'street1', 1234, 'Vienna', 'country-two-at', array(
                     array('Max', 'Test', 'Mr.', 'Product Manager', true),
-                    array('John', 'Doe', 'Mr.', 'CEO', false)
+                    array('John', 'Doe', 'Mr.', 'CEO', true)
                 )),
                 array('HQ-DE', 'Headquarter Germany', true, 'street1', 1234, 'Berlin', 'country-two-de', array())
             )),

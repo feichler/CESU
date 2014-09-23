@@ -65,72 +65,42 @@ class AddUnitsType extends CrudForm
     {
 
         $page = $this->getCrud()->getData('page', 'addUnits');
-
         $common = $this->addFieldGroup($builder, $options, 'assign');
-
-        $noRequested   = $options['data']->getNumberOfUnitsRequested();
-        $numberOptions = $this->getFieldOptions('addNumberOfUnitsRequested');
-        $numberOptions->notMapped();
-        $numberOptions->add('data', $noRequested);
-        $common->add('numberOfUnitsRequested', 'display', $numberOptions->toArray());
-
+        /** @var Request $request */
         $request = $options['data'];
-        //        echo get_class($request);
-        if ($request instanceof Request) {
-            $noSelected      = count($request->getSeedUnits());
-            $noRequired      = $noRequested - $noSelected;
-            $requiredOptions = $this->getFieldOptions('addNumberOfUnitsRequired');
-            $requiredOptions->notMapped();
-            $requiredOptions->add('data', $noRequired);
-            $common->add('numberOfUnitsRequired', 'display', $requiredOptions->toArray());
-        }
 
-        $unitOptions = $this->getFieldOptions('seedUnits', false);
-        //        $unitOptions->notMapped();
-        $unitOptions->add('page', $page);
-        $unitOptions->add('crud', $this->getCrud());
-        $unitOptions->add('definition', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit'));
-        $unitOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit')->getClassEntity());
-        $unitOptions->add('property', 'title');
-        $unitOptions->add('expanded', true);
-        $unitOptions->add('multiple', true);
-        $unitOptions->add('required', false);
-        $unitOptions->add(
-            'query_builder',
-            function (EntityRepository $er) {
+        $noRequested   = $request->getNumberOfUnitsRequested();
+        $common->add('numberOfUnitsRequested', 'display', $this->getFieldOptions('addNumberOfUnitsRequested')
+            ->notMapped()
+            ->add('data', $noRequested)->toArray());
 
-                // NOTE: not really used
-                $builder = $er->createQueryBuilder('su');
-                $builder->where($builder->expr()->isNull('su.request'));
+        $noRequired = max(0, $noRequested - count($request->getSeedUnits()));
+        $common->add('numberOfUnitsRequired', 'display', $this->getFieldOptions('addNumberOfUnitsRequired')
+            ->notMapped()
+            ->add('data', $noRequired)->toArray());
 
-                return $builder;
-            }
-        );
+        $definition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
+        $unitOptions = $this->getFieldOptions('seedUnits', false)
+            ->add('page', $page)
+            ->add('crud', $this->getCrud())
+            ->add('definition', $definition)
+            ->add('class', $definition->getClassEntity())
+            ->add('property', 'title')
+            ->add('expanded', true)
+            ->add('multiple', true)
+            ->add('required', false)
+            ->add(
+                'query_builder',
+                function (EntityRepository $er) {
+
+                    // NOTE: not really used
+                    $builder = $er->createQueryBuilder('su');
+                    $builder->where($builder->expr()->isNull('su.request'));
+
+                    return $builder;
+                }
+            );
 
         $common->add('seedUnits', 'selectList', $unitOptions->toArray());
-
-        //        $unitOptions = $this->getFieldOptions('seedUnits', false);
-        //        $uDefinition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
-        //        $this->getCrud()->setParent($options['data'], $this->getCrud()->getLinker()->getActiveRoute(), null);
-        //        $this->getCrud()->setDefinition($uDefinition);
-        //        $unitOptions->add('multiple',true);
-        //        $unitOptions->add('class', $uDefinition->getClassEntity());
-        //        $unitOptions->add('crud', $this->getCrud());
-        //        $unitOptions->add('child', $uDefinition);
-        //        $unitOptions->add('parent', $this->getCrud()->getParentDefinition());
-        //        $unitOptions->add(
-        //            'query_builder',
-        //            function (EntityRepository $repository) use ($options) {
-        //
-        //                $builder = $repository->createQueryBuilder('u');
-        //                $builder->where($builder->expr()->isNull('u.request'));
-        ////                $builder->setParameter('request', $options['data']);
-        //
-        //                return $builder;
-        //            }
-        //        );
-        //
-        //        $common->add('seedUnits', 'entityTable', $unitOptions->toArray());
-
     }
 }

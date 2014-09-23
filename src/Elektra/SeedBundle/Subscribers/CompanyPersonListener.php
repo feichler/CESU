@@ -9,6 +9,7 @@
 
 namespace Elektra\SeedBundle\Subscribers;
 
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
 use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
@@ -38,27 +39,21 @@ class CompanyPersonListener
         $this->container = $container;
     }
 
-    /**
-     * @param OnFlushEventArgs $args
-     */
-    public function onFlush(OnFlushEventArgs $args)
+    public function preUpdate(LifecycleEventArgs $args)
     {
-
-        $em  = $args->getEntityManager();
-        $uow = $em->getUnitOfWork();
-
-        $changed = false;
-        foreach (array_merge($uow->getScheduledEntityInsertions(), $uow->getScheduledEntityUpdates()) as $entity)
+        $entity = $args->getObject();
+        if ($entity instanceof CompanyPerson)
         {
-            if ($entity instanceof CompanyPerson)
-            {
-                $changed |= $this->ensureOnlyOnePrimary($entity);
-            }
+            $this->ensureOnlyOnePrimary($entity);
         }
+    }
 
-        if ($changed)
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
+        if ($entity instanceof CompanyPerson)
         {
-            $uow->computeChangeSets();
+            $this->ensureOnlyOnePrimary($entity);
         }
     }
 
