@@ -70,9 +70,9 @@ class RequestController extends Controller
             if ($this->getCrud()->getRequest()->getMethod() == 'POST')
             {
                 $ids = $this->getSelectedSeedUnitIds($form);
-                $shippingEvent = $this->getSelectedEvent($form);
+                $event = $this->getSelectedEvent($form);
 
-                $this->processEvent($ids, $shippingEvent);
+                $this->processEvent($ids, $event);
             }
         }
 

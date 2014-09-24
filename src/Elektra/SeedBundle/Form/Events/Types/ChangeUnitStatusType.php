@@ -4,6 +4,7 @@ namespace Elektra\SeedBundle\Form\Events\Types;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\Controller\EventFactory;
+use Elektra\SeedBundle\Entity\Companies\Partner;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Elektra\SeedBundle\Form\FormsHelper;
@@ -28,6 +29,8 @@ class ChangeUnitStatusType extends ModalFormsBaseType
 
         /** @var SeedUnit $seedUnit */
         $seedUnit = $data[0];
+        /** @var Partner $partner */
+        $partner = $seedUnit->getRequest()->getCompany();
 
         foreach ($statuses as $status)
         {
@@ -45,6 +48,7 @@ class ChangeUnitStatusType extends ModalFormsBaseType
                     $builder->add($fieldName, new InTransitType(), array(
                         'data' => $event,
                         'mapped' => false,
+                        EventType::OPT_PARTNER => $partner,
                         EventType::OPT_MODAL_ID => $fieldName,
                         EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
                     ));
@@ -58,6 +62,7 @@ class ChangeUnitStatusType extends ModalFormsBaseType
                     $builder->add($fieldName, new ActivityEventType(), array(
                         'data' => $event,
                         'mapped' => false,
+                        EventType::OPT_PARTNER => $partner,
                         EventType::OPT_MODAL_ID => $fieldName,
                         EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
                         ActivityEventType::OPT_LOCATION => $seedUnit->getRequest()->getShippingLocation()
@@ -68,6 +73,7 @@ class ChangeUnitStatusType extends ModalFormsBaseType
                     $builder->add($fieldName, new EventType(), array(
                         'data' => $event,
                         'mapped' => false,
+                        EventType::OPT_PARTNER => $partner,
                         EventType::OPT_MODAL_ID => $fieldName,
                         EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
                     ));

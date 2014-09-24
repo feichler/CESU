@@ -20,13 +20,13 @@ class SeedUnitTransitionRules
 
     function __construct(Event $eventTemplate)
     {
-        $newStatus = $eventTemplate->getUnitStatus()->getInternalName();
+        $newStatus = $eventTemplate->getUnitStatus() != null ? $eventTemplate->getUnitStatus()->getInternalName() : null;
         $this->allowedStatuses = ($newStatus != null and isset(UnitStatus::$ALLOWED_TO[$newStatus])) ? UnitStatus::$ALLOWED_TO[$newStatus] : array();
     }
 
     public function checkNewShippingStatus(SeedUnit $seedUnit, Event $eventTemplate)
     {
-        return in_array($seedUnit->getShippingStatus()->getInternalName(), $this->allowedStatuses);
+        return $eventTemplate->getUnitStatus() == null or in_array($seedUnit->getShippingStatus()->getInternalName(), $this->allowedStatuses);
     }
 
     public function checkNewSalesStatus(SeedUnit $seedUnit, Event $eventTemplate)

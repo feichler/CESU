@@ -14,6 +14,7 @@ use Elektra\SeedBundle\DataFixtures\SeedBundleFixture;
 use Elektra\SeedBundle\Entity\Companies\Address;
 use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
 use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
+use Elektra\SeedBundle\Entity\Companies\Customer;
 use Elektra\SeedBundle\Entity\Companies\Partner;
 use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
 use Elektra\SeedBundle\Entity\Events\Event;
@@ -42,6 +43,7 @@ class TestDataFixture extends SeedBundleFixture
         $this->addSeedUnits($manager);
         $this->addShippingEvents($manager);
         $this->addPartners($manager);
+        $this->addCustomers($manager);
 
         $manager->flush();
     }
@@ -471,6 +473,68 @@ class TestDataFixture extends SeedBundleFixture
             $this->addReference('warehouseLocation-' . strtolower($location->getLocationIdentifier()), $location);
         }
     }
+
+    private function addCustomers(ObjectManager $manager)
+    {
+        $data = array(
+            array('C1', 'Customer 1', array(
+                array('HQ-AT', 'Headquarter Austria', true, 'street1', 1234, 'Vienna', 'country-two-at', array(
+                    array('Jane', 'Doe', 'Ms.', 'CEO', true)
+                ))
+            ),
+            array(
+                'partner-pt1'
+            ))
+        );
+
+        foreach ($data as $entryCustomer) {
+            $customer = new Customer();
+            $customer->setName($entryCustomer[1]);
+            $customer->setShortName($entryCustomer[0]);
+            $this->addReference('customer-' . strtolower($customer->getShortName()), $customer);
+
+            foreach($entryCustomer[3] as $partnerKey)
+            {
+                /** @var Partner $partner */
+                $partner = $this->getReference($partnerKey);
+
+                $customer->getPartners()->add($partner);
+                $partner->getCustomers()->add($customer);
+            }
+
+
+            foreach($entryCustomer[2] as $entryLocation)
+            {
+                $location = new CompanyLocation();
+                $customer->getLocations()->add($location);
+                $location->setCompany($customer);
+                $location->setShortName($entryLocation[0]);
+                $location->setName($entryLocation[1]);
+                $location->setIsPrimary($entryLocation[2]);
+                $location->setAddressType($this->getReference('address_type-shipping'));
+
+                $address = new Address();
+                $location->setAddress($address);
+                $address->setStreet1($entryLocation[3]);
+                $address->setPostalCode($entryLocation[4]);
+                $address->setCity($entryLocation[5]);
+                $address->setCountry($this->getReference($entryLocation[6]));
+
+                foreach($entryLocation[7] as $entryPerson)
+                {
+                    $person = new CompanyPerson();
+                    $location->getPersons()->add($person);
+                    $person->setLocation($location);
+                    $person->setFirstName($entryPerson[0]);
+                    $person->setLastName($entryPerson[1]);
+                    $person->setSalutation($entryPerson[2]);
+                    $person->setJobTitle($entryPerson[3]);
+                    $person->setIsPrimary($entryPerson[4]);
+                }
+            }
+
+            $manager->persist($customer);
+        }    }
 
     private function addPartners(ObjectManager $manager)
     {

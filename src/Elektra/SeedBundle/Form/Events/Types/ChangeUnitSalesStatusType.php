@@ -4,6 +4,7 @@ namespace Elektra\SeedBundle\Form\Events\Types;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\Controller\EventFactory;
+use Elektra\SeedBundle\Entity\Companies\Partner;
 use Elektra\SeedBundle\Entity\Events\UnitSalesStatus;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Symfony\Component\Form\AbstractType;
@@ -25,6 +26,11 @@ class ChangeUnitSalesStatusType extends ModalFormsBaseType
     {
         $salesStatuses = $mgr->getRepository('ElektraSeedBundle:Events\UnitSalesStatus')->findAll();
 
+        /** @var SeedUnit $seedUnit */
+        $seedUnit = $data[0];
+        /** @var Partner $partner */
+        $partner = $seedUnit->getRequest()->getCompany();
+
         foreach ($salesStatuses as $salesStatus)
         {
             $fieldName = ChangeUnitSalesStatusType::getModalId($salesStatus);
@@ -34,6 +40,7 @@ class ChangeUnitSalesStatusType extends ModalFormsBaseType
             $builder->add($fieldName, new EventType(), array(
                 'data' => $event,
                 'mapped' => false,
+                EventType::OPT_PARTNER => $partner,
                 EventType::OPT_MODAL_ID => $fieldName,
                 EventType::OPT_BUTTON_NAME => ChangeUnitSalesStatusType::BUTTON_NAME,
             ));
