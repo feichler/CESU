@@ -42,6 +42,7 @@ abstract class Controller extends BaseController
             $this->filterSubmitted = true;
         }
 
+        $this->specificInitialise($action, $definition);
         //        exit();
         //        $test = $this->getRequest()->get('filter-submit');
         //        if($test !== null) {
@@ -50,6 +51,10 @@ abstract class Controller extends BaseController
         //        }
         //                var_dump($test);
         //                exit();
+    }
+
+    protected function specificInitialise($action, Definition $definition = null)
+    {
     }
 
     /**
@@ -232,7 +237,7 @@ abstract class Controller extends BaseController
 
         $table = $this->getTable(1, false);
         $table->setInView(true);
-//        $table->setOptions($options);
+        //        $table->setOptions($options);
         $method = 'get' . ucfirst($relationName);
 
         if (method_exists($parentEntity, $method)) {
@@ -298,8 +303,26 @@ abstract class Controller extends BaseController
             $manager->flush();
         }
 
-        $returnUrl = $this->getCrud()->getLinker()->getRedirectAfterProcess($entity);
+        $returnToView = false;
+        $saveReturnButton = $form->get('actions')->get('saveReturn');
+        if($saveReturnButton->isClicked()) {
+            $returnToView = true;
+        }
+//        $saveButton = $form->get('actions')->get('save');
+//
+//
+//        var_dump($saveButton->isClicked());
+//        var_dump($saveReturnButton->isClicked());
+//
+//        $test = $form->get('actions');
+//        echo $test->getName();
 
+
+
+        $returnUrl = $this->getCrud()->getLinker()->getRedirectAfterProcess($entity,$returnToView);
+
+//        echo $returnUrl;
+//        exit();
         //        $returnUrl = $this->getCrud()->getAfterProcessReturnUrl();
 
         return $this->redirect($returnUrl);
@@ -367,12 +390,12 @@ abstract class Controller extends BaseController
     {
 
         $formClass = $this->getCrud()->getDefinition()->getClassForm();
-        $options   = Helper::mergeOptions(array('crud_action' => $crudAction),
+        $options   = Helper::mergeOptions(
+            array('crud_action' => $crudAction),
             $this->getFormOptions($entity, $crudAction)
         );
 
-        if ($action != null)
-        {
+        if ($action != null) {
             $options['action'] = $this->generateUrl($action, array('id' => $entity->getId()));
         }
 

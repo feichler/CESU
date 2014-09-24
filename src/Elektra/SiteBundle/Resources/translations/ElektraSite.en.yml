@@ -240,12 +240,19 @@ tables:
             last_name:                                                  Last Name
             title:                                                      Title
     imports:
-        seed_unit:
+        template:
+            columns:
+                download:                                               Download
+            actions:
+                view:                                                   Get Template
+        import:
             empty:                                                      No imports found
             columns:
-                filename:                                               Original Filename
-                new_filename:                                           Filename on Server
-                processed:                                              Processed
+                original_file:                                          File Name
+#                server_file:                                            ''
+                import_type:                                            Import Type
+                entries:                                                '# Entries in File'
+                entries_processed:                                      '# Entries processed'
             actions:
                 add:                                                    New Import
     auditing:
@@ -364,7 +371,8 @@ forms:
             unique:                                                     Unique Constraint violated
             not_blank:                                                  Value can not be empty
         buttons:
-            save:                                                       Save
+            save:                                                       Save & Close
+            save_return:                                                Save & View
             reset:                                                      Reset
             cancel:                                                     Cancel
             close:                                                      Close
@@ -380,10 +388,24 @@ forms:
             title:                                                      Title
     imports:
         seed_unit:
+            groups:
+                info:                                                   Information
             fields:
+                columns:                                                Column Definitions
+                supported_formats:                                      Supported Formats
                 file:                                                   File
             buttons:
                 save:                                                   Import
+        company:
+            groups:
+                info:                                                   Information
+            fields:
+                columns:                                                Column Definitions
+                supported_formats:                                      Supported Formats
+                file:                                                   File
+            buttons:
+                save:                                                   Import
+
     auditing:
         audit:
             fields: ~
@@ -555,5 +577,7 @@ menu:
     countries:                                                          Countries
     warehouses:                                                         Warehouses
     import:                                                             Import
-    import_seed_units:                                                  Seed Units
+    import_templates:                                                   Templates
+    import_imports:                                                     Imports
+
 
