@@ -2,8 +2,10 @@
 
 namespace Elektra\SeedBundle\Controller\SeedUnits;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Elektra\CrudBundle\Controller\Controller;
+use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SeedBundle\Entity\Events\Event;
@@ -34,6 +36,10 @@ class SeedUnitController extends Controller
         {
             $location = $form->get('group_common')->get('location')->getData();
 
+            /** @var ObjectManager $em */
+            $em = $this->getDoctrine()->getManager();
+            $eventFactory = new EventFactory($em);
+
             if ($location instanceof WarehouseLocation)
             {
                 // get the unit status
@@ -41,23 +47,13 @@ class SeedUnitController extends Controller
                     ->getRepository($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassRepository())
                     ->findByInternalName(UnitStatus::AVAILABLE);
 
-                $event = new ShippingEvent();
-                $event->setLocation($location);
+                $event = $eventFactory->createAvailable($location);
                 $event->setSeedUnit($entity);
-                $event->setTimestamp(time());
-                $event->setComment('Seed Unit created');
-                $event->setText('Seed Unit created');
-                $event->setUnitStatus($status);
                 $entity->getEvents()->add($event);
+                $entity->setShippingStatus($status);
+                $entity->setLocation($location);
 
-                $eventType = $this->getDoctrine()
-                    ->getRepository($this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Events', 'EventType')->getClassRepository())
-                    ->findByInternalName(EventType::SHIPPING);
-
-                $event->setEventType($eventType);
-
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($event);
+//                $em->persist($event);
             }
         }
 

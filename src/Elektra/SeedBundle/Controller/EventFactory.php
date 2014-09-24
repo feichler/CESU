@@ -93,6 +93,10 @@ class EventFactory {
         $event = null;
         switch($status)
         {
+            case UnitStatus::AVAILABLE:
+                $event = $this->createAvailable($this->_getMandatoryOption(EventFactory::LOCATION, $options),
+                    $options);
+                break;
             case UnitStatus::RESERVED:
                 $event = $this->createReserved($this->_getMandatoryOption(EventFactory::LOCATION, $options),
                     $this->_getMandatoryOption(EventFactory::REQUEST_NUMBER, $options),
@@ -146,6 +150,17 @@ class EventFactory {
             default:
                 throw new \OutOfBoundsException("Invalid shipping status '" . $status . "'.");
         }
+
+        return $event;
+    }
+
+    public function createAvailable(WarehouseLocation $location, array $options = array())
+    {
+        $event = $this->_createShippingEvent("Seed Unit available at warehouse.",
+            $this->unitStatusRepository->findByInternalName(UnitStatus::AVAILABLE),
+            $location,
+            $options
+        );
 
         return $event;
     }
