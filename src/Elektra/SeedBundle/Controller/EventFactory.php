@@ -276,7 +276,7 @@ class EventFactory {
         );
 
         // set usage to idle once a seed unit is delivered
-        $idleUsage = $this->usageRepository->findByInternalName(UnitUsage::IDLE);
+        $idleUsage = $this->usageRepository->findByInternalName(UnitUsage::USAGE_IDLE);
         $event->setUsage($idleUsage);
 
         return $event;

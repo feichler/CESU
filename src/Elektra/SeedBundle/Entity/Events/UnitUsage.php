@@ -29,7 +29,14 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  */
 class UnitUsage implements AuditableInterface, CrudInterface
 {
-    const IDLE = "idle";
+    const USAGE_IDLE = "idle";
+
+    const LOCATION_SCOPE_PARTNER = 'P';
+    const LOCATION_SCOPE_CUSTOMER = 'C';
+
+    const LOCATION_CONSTRAINT_REQUIRED = 'R';
+    const LOCATION_CONSTRAINT_OPTIONAL = 'O';
+    const LOCATION_CONSTRAINT_HIDDEN = 'H';
 
     /**
      * @var int
@@ -60,6 +67,20 @@ class UnitUsage implements AuditableInterface, CrudInterface
      * @ORM\Column(type="string", length=50)
      */
     protected $internalName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=1, nullable=false)
+     */
+    protected $locationConstraint;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=1, nullable=false)
+     */
+    protected $locationScope;
 
     /**
      * @var ArrayCollection
@@ -195,6 +216,46 @@ class UnitUsage implements AuditableInterface, CrudInterface
     public function getInternalName()
     {
         return $this->internalName;
+    }
+
+    /**
+     * @param string $locationConstraint
+     * @throws \OutOfBoundsException
+     */
+    public function setLocationConstraint($locationConstraint)
+    {
+        if (!in_array($locationConstraint, array(UnitUsage::LOCATION_CONSTRAINT_HIDDEN, UnitUsage::LOCATION_CONSTRAINT_OPTIONAL, UnitUsage::LOCATION_CONSTRAINT_REQUIRED)))
+            throw new \OutOfBoundsException("Unknown location constraint value: " . $locationConstraint);
+
+        $this->locationConstraint = $locationConstraint;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocationConstraint()
+    {
+        return $this->locationConstraint;
+    }
+
+    /**
+     * @param $locationScope
+     * @throws \OutOfBoundsException
+     */
+    public function setLocationScope($locationScope)
+    {
+        if (!in_array($locationScope, array(UnitUsage::LOCATION_SCOPE_CUSTOMER, UnitUsage::LOCATION_SCOPE_PARTNER)))
+            throw new \OutOfBoundsException("Unknown location scope value: " . $locationScope);
+
+        $this->locationScope = $locationScope;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocationScope()
+    {
+        return $this->locationScope;
     }
 
     /**
