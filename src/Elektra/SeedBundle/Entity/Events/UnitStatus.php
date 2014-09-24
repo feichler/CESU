@@ -96,7 +96,7 @@ class UnitStatus implements AuditableInterface, CrudInterface
         UnitStatus::AVAILABLE => array(UnitStatus::RESERVED),
         UnitStatus::RESERVED => array(UnitStatus::SHIPPED),
         UnitStatus::SHIPPED => array(UnitStatus::EXCEPTION, UnitStatus::IN_TRANSIT),
-        UnitStatus::EXCEPTION => array(UnitStatus::IN_TRANSIT, UnitStatus::DELIVERY_VERIFIED),
+        UnitStatus::EXCEPTION => array(UnitStatus::IN_TRANSIT, UnitStatus::DELIVERED),
         UnitStatus::IN_TRANSIT => array(UnitStatus::EXCEPTION, UnitStatus::DELIVERED),
         UnitStatus::DELIVERED => array(UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::DELIVERY_VERIFIED),
         UnitStatus::ACKNOWLEDGE_ATTEMPT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION, UnitStatus::AA1SENT),
