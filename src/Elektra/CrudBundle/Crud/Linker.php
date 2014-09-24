@@ -286,7 +286,7 @@ final class Linker
      *
      * @return string
      */
-    public function getRedirectAfterProcess($entity)
+    public function getRedirectAfterProcess($entity, $returnToView = false)
     {
 
         //        echo $this->getActiveRoute();
@@ -295,27 +295,34 @@ final class Linker
         // in this case the last part must be the action -> this is not needed now
         array_pop($parts);
 
-        if (count($parts) == 1) {
-            // return to root list
-            $rootDefinition = $this->getNavigator()->getDefinition($parts[0]);
-            $routeName      = $rootDefinition->getRoutePlural();
-            $params         = array('page' => $this->getCrud()->getData('page', 'browse'));
-            $link           = $this->getNavigator()->getLinkFromRoute($routeName, $params);
+        if ($returnToView) {
+            $routeName = implode(".", $parts) . '.view';
+            $params = array('id'=> $entity->getId());
+            $link = $this->getNavigator()->getLinkFromRoute($routeName,$params);
         } else {
-            // last part of the array is the current entity type
-            array_pop($parts);
-            // last part is the parent
-            $last = end($parts);
-            // if not at a root definition, the last page was a "view"
-            $routeName = implode('.', $parts) . '.view';
-            // try to get the parent's id
-            $returnId = $this->getCrud()->getParentId();
-            if (empty($returnId)) {
-                $returnId = $entity->getId();
+
+            if (count($parts) == 1) {
+                // return to root list
+                $rootDefinition = $this->getNavigator()->getDefinition($parts[0]);
+                $routeName      = $rootDefinition->getRoutePlural();
+                $params         = array('page' => $this->getCrud()->getData('page', 'browse'));
+                $link           = $this->getNavigator()->getLinkFromRoute($routeName, $params);
+            } else {
+                // last part of the array is the current entity type
+                array_pop($parts);
+                // last part is the parent
+                $last = end($parts);
+                // if not at a root definition, the last page was a "view"
+                $routeName = implode('.', $parts) . '.view';
+                // try to get the parent's id
+                $returnId = $this->getCrud()->getParentId();
+                if (empty($returnId)) {
+                    $returnId = $entity->getId();
+                }
+                // generate the link
+                $params = array('id' => $returnId);
+                $link   = $this->getNavigator()->getLinkFromRoute($routeName, $params);
             }
-            // generate the link
-            $params = array('id' => $returnId);
-            $link   = $this->getNavigator()->getLinkFromRoute($routeName, $params);
         }
 
         return $link;

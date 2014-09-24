@@ -343,6 +343,7 @@ abstract class Form extends AbstractType
         // Save Button
         if ($crudAction == 'add' || $crudAction == 'edit') {
             $this->addFormButton('save', 'submit');
+            $this->addFormButton('saveReturn', 'submit');
         }
 
         // Reset Button
