@@ -40,24 +40,29 @@ class CompanyPersonType extends CrudForm
             $companyTypeData  = $company->getCompanyType();
         }
 
-        $companyTypeFieldOptions = $this->getFieldOptions('companyType');
-        $companyFieldOptions     = $this->getFieldOptions('company');
-        $companyTypeFieldOptions->notMapped();
-        $companyFieldOptions->notMapped();
-        if ($options['crud_action'] != 'view') {
+        $companyTypeFieldOptions = $this->getFieldOptions('companyType')
+            ->notMapped()
+            ->add('data', Helper::translate($companyTypeData));
+
+        $companyFieldOptions = $this->getFieldOptions('company')
+            ->notMapped()
+            ->add('data', $companyData);
+
+        if ($options['crud_action'] != 'view')
+        {
             $companyTypeFieldOptions->readOnly();
             $companyFieldOptions->readOnly();
         }
-        $companyTypeFieldOptions->add('data', Helper::translate($companyTypeData));
-        $companyFieldOptions->add('data', $companyData);
+
         $common->add('companyType', 'text', $companyTypeFieldOptions->toArray());
         $common->add('company', 'text', $companyFieldOptions->toArray());
 
-        $locationFieldOptions = $this->getFieldOptions('location');
-        $locationFieldOptions->required()->notBlank();
-        $locationFieldOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation')->getClassEntity());
-        $locationFieldOptions->add('property', 'title');
-        $locationFieldOptions->add('choices', $company->getLocations());
+        $locationFieldOptions = $this->getFieldOptions('location')
+            ->required()
+            ->notBlank()
+            ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation')->getClassEntity())
+            ->add('property', 'title')
+            ->add('choices', $company->getLocations());
         $common->add('location', 'entity', $locationFieldOptions->toArray());
 
         $this->buildCommonForm($builder, $options, $common);

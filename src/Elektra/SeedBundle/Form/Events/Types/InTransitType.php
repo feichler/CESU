@@ -4,7 +4,7 @@ namespace Elektra\SeedBundle\Form\Events\Types;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
-class InTransitType extends EventType
+class InTransitType extends ShippingEventType
 {
     /**
      * Returns the name of this type.

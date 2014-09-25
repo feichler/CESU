@@ -10,6 +10,7 @@ use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ChangeUnitUsageType extends ModalFormsBaseType
 {
@@ -28,6 +29,10 @@ class ChangeUnitUsageType extends ModalFormsBaseType
 
         /** @var SeedUnit $seedUnit */
         $seedUnit = $data[0];
+
+        if ($seedUnit->getRequest() == null)
+            throw new \RuntimeException('Seed Unit ' . $seedUnit->getId() . ' has no request defined.');
+
         /** @var Partner $partner */
         $partner = $seedUnit->getRequest()->getCompany();
 
@@ -37,12 +42,12 @@ class ChangeUnitUsageType extends ModalFormsBaseType
 
             $event = $eventFactory->createUsageEvent($usage, array());
 
-            $builder->add($fieldName, new EventType(), array(
+            $builder->add($fieldName, new UsageEventType(), array(
                 'data' => $event,
                 'mapped' => false,
-                EventType::OPT_PARTNER => $partner,
-                EventType::OPT_LOCATION_CONSTRAINT => $usage->getLocationConstraint(),
-                EventType::OPT_LOCATION_SCOPE => $usage->getLocationScope(),
+                UsageEventType::OPT_PARTNER => $partner,
+                UsageEventType::OPT_LOCATION_CONSTRAINT => $usage->getLocationConstraint(),
+                UsageEventType::OPT_LOCATION_SCOPE => $usage->getLocationScope(),
                 EventType::OPT_MODAL_ID => $fieldName,
                 EventType::OPT_BUTTON_NAME => ChangeUnitUsageType::BUTTON_NAME
             ));

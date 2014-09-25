@@ -26,21 +26,15 @@ class ChangeUnitSalesStatusType extends ModalFormsBaseType
     {
         $salesStatuses = $mgr->getRepository('ElektraSeedBundle:Events\UnitSalesStatus')->findAll();
 
-        /** @var SeedUnit $seedUnit */
-        $seedUnit = $data[0];
-        /** @var Partner $partner */
-        $partner = $seedUnit->getRequest()->getCompany();
-
         foreach ($salesStatuses as $salesStatus)
         {
             $fieldName = ChangeUnitSalesStatusType::getModalId($salesStatus);
 
             $event = $eventFactory->createSalesEvent($salesStatus, array());
 
-            $builder->add($fieldName, new EventType(), array(
+            $builder->add($fieldName, new SalesEventType(), array(
                 'data' => $event,
                 'mapped' => false,
-                EventType::OPT_PARTNER => $partner,
                 EventType::OPT_MODAL_ID => $fieldName,
                 EventType::OPT_BUTTON_NAME => ChangeUnitSalesStatusType::BUTTON_NAME,
             ));

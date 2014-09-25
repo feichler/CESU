@@ -311,7 +311,7 @@ abstract class Form extends AbstractType
             'property' => 'title',
         );
 
-        if ($crudAction == 'add') {
+        if ($crudAction == 'add' || ($crudAction == 'edit' && !$mapped)) {
             $em                    = $this->getCrud()->getService('doctrine')->getManager();
             $parentRef             = $em->getReference($definition->getClassEntity(), $preSelectId);
             $parentOptions['data'] = $parentRef;
@@ -322,7 +322,7 @@ abstract class Form extends AbstractType
 
         if (!$mapped) {
             $parentOptions['mapped']     = false;
-            $parentOptions['show_field'] = false;
+            $parentOptions['show_field'] = true;
         }
 
         $fieldOptions = $this->getFieldOptions($fieldName)->required()->notBlank()->toArray();

@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ActivityEventType extends EventType
+class ActivityEventType extends ShippingEventType
 {
     const OPT_LOCATION = 'location';
 

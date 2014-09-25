@@ -30,7 +30,11 @@ class Customer extends Company
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Partner", mappedBy="customers")
+     * @ORM\ManyToMany(targetEntity="Partner", inversedBy="customers")
+     * @ORM\JoinTable(name="customerCompanies_partnerCompanies",
+     *      joinColumns={@ORM\JoinColumn(name="customerId", referencedColumnName="companyId")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="partnerId", referencedColumnName="companyId")}
+     * )
      */
     protected $partners;
 
