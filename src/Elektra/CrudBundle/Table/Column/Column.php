@@ -129,6 +129,8 @@ class Column
     {
 
         $this->definition = $definition;
+
+        return $this;
     }
 
     /**

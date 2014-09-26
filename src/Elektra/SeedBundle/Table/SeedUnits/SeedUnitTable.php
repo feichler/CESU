@@ -44,27 +44,27 @@ class SeedUnitTable extends Table
 
         //        $select = $this->getColumns()->addSelectColumn();
 
-        $serial = $this->getColumns()->addTitleColumn('serial_number');
-        $serial->setFieldData('serialNumber');
-        $serial->setSearchable();
-        $serial->setSortable();
+        $this->getColumns()->addTitleColumn('serial_number')
+            ->setFieldData('serialNumber')
+            ->setSearchable()
+            ->setSortable();
 
-        $model = $this->getColumns()->add('model');
-        $model->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model'));
-        $model->setFieldData('model.name');
-        $model->setSortable();
-        $model->setFilterable()->setFieldFilter('name');
+        $this->getColumns()->add('model')
+            ->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model'))
+            ->setFieldData('model.name')
+            ->setSortable()
+            ->setFilterable()->setFieldFilter('name');
 
-        $power = $this->getColumns()->add('power_cord_type');
-        $power->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType'));
-        $power->setFieldData('powerCordType.name');
-        $power->setSortable();
-        $power->setFilterable()->setFieldFilter('name');
+        $this->getColumns()->add('power_cord_type')
+            ->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType'))
+            ->setFieldData('powerCordType.name')
+            ->setSortable()
+            ->setFilterable()->setFieldFilter('name');
 
-        $shipping = $this->getColumns()->add('shipping');
-        $shipping->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'));
-        $shipping->setFieldData('shippingStatus.name');
-        $shipping->setSortable();
+        $shipping = $this->getColumns()->add('shipping')
+            ->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'))
+            ->setFieldData('shippingStatus.name')
+            ->setSortable();
 
         // URGENT need the implemented unit sales status classes first
         //        $sales = $this->getColumns()->add('sales');
@@ -72,25 +72,25 @@ class SeedUnitTable extends Table
         //        $sales->setFieldData('salesStatus.name');
         //        $sales->setSortable();
 
-        $usage = $this->getColumns()->add('usage');
-        $usage->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage'));
-        $usage->setFieldData('unitUsage.title');
+        $usage = $this->getColumns()->add('usage')
+            ->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage'))
+            ->setFieldData('unitUsage.title')
+            ->setSortable();
         //        $usage->setFieldData('unitUsage.title');
-        $usage->setSortable();
         // Filter not working
         //        $usage->setFilterable()->setFieldFilter('name');
 
-        $location = $this->getColumns()->add('location');
-        $location->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location'));
-        $location->setFieldData('location.shortName');
-        $location->setSortable();
+        $this->getColumns()->add('location')
+            ->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location'))
+            ->setFieldData('location.shortName')
+            ->setSortable();
         // Filter not working
         //        $location->setFilterable()->setFieldFilter('shortName');
 
-        $request = $this->getColumns()->add('request');
-        $request->setFieldData('request.requestNumber');
-        $request->setSearchable();
-        $request->setSortable();
+        $request = $this->getColumns()->add('request')
+            ->setFieldData('request.requestNumber')
+            ->setSearchable()
+            ->setSortable();
 
         if ($route == 'request.seedUnit.add') {
             $shipping->setHidden();
@@ -118,6 +118,7 @@ class SeedUnitTable extends Table
                 $this->addSalesStatusFilter();
                 $this->addUnitUsageFilter();
                 break;
+
             case 'request.seedUnit.add':
                 $this->addInUseFilter(false);
                 $this->addWarehouseFilter();
@@ -163,8 +164,6 @@ class SeedUnitTable extends Table
                     'choices'     => $choices,
                 )
             );
-            //            echo count($warehouses);
-            //            $wareh
         }
     }
 
@@ -202,6 +201,7 @@ class SeedUnitTable extends Table
                     $filter[$fieldName] = 'NOT NULL';
                 }
                 break;
+
             case 'warehouse':
                 $filterName = $this->getFilterFieldName($options);
                 $fieldName  = 'location';
@@ -211,6 +211,7 @@ class SeedUnitTable extends Table
                     $filter[$fieldName] = $value;
                 }
                 break;
+
             case 'shipping':
                 $filterName = $this->getFilterFieldName($options);
                 $fieldName  = 'shippingStatus';
@@ -220,8 +221,10 @@ class SeedUnitTable extends Table
                     $filter[$fieldName] = $value;
                 }
                 break;
+
             case 'sales':
                 break;
+
             case 'usage':
                 $filterName = $this->getFilterFieldName($options);
                 $fieldName  = 'unitUsage';
@@ -231,6 +234,7 @@ class SeedUnitTable extends Table
                     $filter[$fieldName] = $value;
                 }
                 break;
+
             default:
                 throw new \RuntimeException('Unknown filter "' . $options['name'] . '"');
                 break;
@@ -248,6 +252,7 @@ class SeedUnitTable extends Table
             'inUse',
             'choice',
             array(
+                // TRANSLATE
                 'empty_value' => 'In Use?',
                 'choices'     => array(
                     'n' => 'No',
@@ -275,6 +280,7 @@ class SeedUnitTable extends Table
             'choice',
             array(
                 'label'       => '',
+                // TRANSLATE
                 'empty_value' => 'Select Warehouse',
                 'choices'     => $choices,
             )
@@ -300,6 +306,7 @@ class SeedUnitTable extends Table
             'choice',
             array(
                 'label'       => '',
+                // TRANSLATE
                 'empty_value' => 'Select Shipping Status',
                 'choices'     => $choices,
             )
@@ -327,6 +334,7 @@ class SeedUnitTable extends Table
             'choice',
             array(
                 'label'       => '',
+                // TRANSLATE
                 'empty_value' => 'Select Sales Status',
                 'choices'     => $choices,
             )
@@ -351,6 +359,7 @@ class SeedUnitTable extends Table
             'choice',
             array(
                 'label'       => '',
+                // TRANSLATE
                 'empty_value' => 'Select Unit Usage',
                 'choices'     => $choices,
             )
