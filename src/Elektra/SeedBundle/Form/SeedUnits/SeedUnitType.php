@@ -32,37 +32,60 @@ class SeedUnitType extends Form
 
         $commonGroup = $this->addFieldGroup($builder, $options, 'Common'); // TRANSLATE this
 
-        $commonGroup->add('serialNumber', 'text', $this->getFieldOptions('serialNumber')->required()->notBlank()->toArray());
+        $commonGroup->add('serialNumber', 'text',
+            $this->getFieldOptions('serialNumber')->required()->notBlank()->toArray());
 
-        $modelOptions = $this->getFieldOptions('model')
-            ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model')->getClassEntity())
-            ->add('property', 'title');
-        $commonGroup->add('model', 'entity', $modelOptions->toArray());
+        $commonGroup->add('model', 'entity',
+            $this->getFieldOptions('model')
+                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model')->getClassEntity())
+                ->add('property', 'title')->toArray());
 
-        $powerCordTypeOptions = $this->getFieldOptions('powerCordType')
-            ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')->getClassEntity())
-            ->add('property', 'title');
-        $commonGroup->add('powerCordType', 'entity', $powerCordTypeOptions->toArray());
+        $commonGroup->add('powerCordType', 'entity',
+            $this->getFieldOptions('powerCordType')
+                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')->getClassEntity())
+                ->add('property', 'title')->toArray());
 
         if ($options['crud_action'] == 'add')
         {
-            $locationOptions = $this->getFieldOptions('location')->add('mapped', false)
-                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'WarehouseLocation')->getClassEntity())
-                ->add('property', 'title');
-            $commonGroup->add('location', 'entity', $locationOptions->toArray());
+            $commonGroup->add('location', 'entity',
+                $this->getFieldOptions('location')
+                    ->add('mapped', false)
+                    ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'WarehouseLocation')->getClassEntity())
+                    ->add('property', 'title')->toArray());
         }
 
         if ($options['crud_action'] == 'view')
         {
-            $locationOptions = $this->getFieldOptions('location')->add('read_only', true)
-                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location')->getClassEntity())
-                ->add('property', 'title');
-            $commonGroup->add('location', 'entity', $locationOptions->toArray());
+            $commonGroup->add('location', 'entity',
+                $this->getFieldOptions('location')
+                    ->add('read_only', true)
+                    ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location')->getClassEntity())
+                    ->add('property', 'title')->toArray());
 
-            $statusOptions = $this->getFieldOptions('shippingStatus')->add('read_only', true)
-                ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassEntity())
-                ->add('property', 'title');
-            $commonGroup->add('shippingStatus', 'entity', $statusOptions->toArray());
+            $commonGroup->add('shippingStatus', 'entity',
+                $this->getFieldOptions('shippingStatus')
+                    ->add('read_only', true)
+                    ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassEntity())
+                    ->add('property', 'title')->toArray());
+
+            /* @var $seedUnit SeedUnit */
+            $seedUnit = $options['data'];
+            $isDeliveryVerified = $seedUnit->getShippingStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED;
+
+            if ($isDeliveryVerified)
+            {
+                $commonGroup->add('unitUsage', 'entity',
+                    $this->getFieldOptions('unitUsage')
+                        ->add('read_only', true)
+                        ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassEntity())
+                        ->add('property', 'title')->toArray());
+
+                $commonGroup->add('salesStatus', 'entity',
+                    $this->getFieldOptions('salesStatus')
+                        ->add('read_only', true)
+                        ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitSalesStatus')->getClassEntity())
+                        ->add('property', 'title')->toArray());
+            }
 
             $this->addHistoryGroup($builder, $options);
         }
