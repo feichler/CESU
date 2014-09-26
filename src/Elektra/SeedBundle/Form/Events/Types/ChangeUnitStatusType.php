@@ -56,6 +56,7 @@ class ChangeUnitStatusType extends ModalFormsBaseType
                 case UnitStatus::AA2SENT:
                 case UnitStatus::AA3SENT:
                 case UnitStatus::DELIVERY_VERIFIED:
+                case UnitStatus::ESCALATION:
                     $builder->add($fieldName, new ActivityEventType(), array(
                         'data' => $event,
                         'mapped' => false,
