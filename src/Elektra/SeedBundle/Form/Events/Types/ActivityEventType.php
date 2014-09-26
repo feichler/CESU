@@ -27,7 +27,7 @@ class ActivityEventType extends ShippingEventType
         parent::buildFields($builder, $options);
 
         $builder->add('person', 'entity', array(
-                'mapped' => false,
+//                'mapped' => false,
                 'class' => 'Elektra\SeedBundle\Entity\Companies\CompanyPerson',
                 // TRANSLATE
                 'label' => 'Person',
