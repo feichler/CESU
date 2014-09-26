@@ -36,8 +36,6 @@ class CustomerType extends CrudForm
         }
         else
         {
-            echo "route=".$this->getCrud()->getLinker()->getActiveRoute()."<br/>";
-
             if (in_array($this->getCrud()->getLinker()->getActiveRoute(), array('customer.edit', 'customer.add')))
             {
                 $partnerOptions = $this->getFieldOptions('partner')
