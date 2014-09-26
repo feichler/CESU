@@ -352,11 +352,11 @@ tables:
         request:
             empty:                                                      No Requests found
             columns:
-                request_number:                                         'Request #'
+                request_number:                                         'Request No.'
                 company:                                                Company
                 requester:                                              Requester
                 receiver:                                               Receiver
-                shipping_location:                                      Shipping to
+                shipping_location:                                      Ship to
                 serial_number:                                          'Serial #'
                 model:                                                  Model
                 power_cord_type:                                        Power Cord Type
@@ -470,14 +470,14 @@ forms:
                 common:                                                 Request Data
                 assign:                                                 Assign Seed Units
             fields:
-                request_number:                                         'Request #'
+                request_number:                                         'Request No.'
                 number_of_units_requested:                              '# Units'
                 add_number_of_units_requested:                          '# of requested Units'
                 add_number_of_units_required:                           '# Required'
-                company:                                                Requesting Company
+                company:                                                'Requesting Company'
                 requester_person:                                       Requester
                 receiver_person:                                        Receiver
-                shipping_location:                                      Ship to
+                shipping_location:                                      'Ship to'
                 seed_units:                                             Select Uni
 
     companies:
