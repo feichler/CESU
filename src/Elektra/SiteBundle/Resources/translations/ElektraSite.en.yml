@@ -596,7 +596,7 @@ forms:
                 model:                                                  Model
                 power_cord_type:                                        Power Cord Type
                 location:                                               Location
-                shipping_status:                                        Status
+                shipping_status:                                        'Shipping Status'
                 sales_status:                                           'Sales Status'
                 unit_usage:                                             Usage
                 # workaround for translation issues - should be at the request
