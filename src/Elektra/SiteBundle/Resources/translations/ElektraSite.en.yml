@@ -539,11 +539,11 @@ forms:
             groups:
                 countries:                                              Countries
             fields:
-                name:                                                   Region
+                name:                                                   Name
         country:
             fields:
                 region:                                                 Region
-                name:                                                   Country
+                name:                                                   Name
                 alpha_two:                                              Alpha-2 Code
                 alpha_three:                                            Alpha-3 Code
                 numeric_code:                                           Numeric Code
