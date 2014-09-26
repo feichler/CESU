@@ -9,6 +9,8 @@
 generic:
     brand:                                                              CESU Admin
     copyright:                                                          2014 Cisco Elektra Seed Unit Program
+
+
 user:
     logged_in:                                                          Logged in as %firstname% %lastname% (%username%)
     login:                                                              Login
@@ -18,6 +20,8 @@ user:
         password:                                                       Password
         remember:                                                       Remember Me
         submit:                                                         Login
+
+
 actions:
     add:                                                                Add
     view:                                                               View
@@ -25,6 +29,8 @@ actions:
     delete:                                                             Delete
     confirmations:
         delete:                                                         Do you really want to delete this entry?
+
+
 pages:
     generic:
         title:                                                          ''
@@ -32,16 +38,19 @@ pages:
         title_suffix:                                                   CESU Administration
         heading:                                                        Welcome
         section:                                                        Administration
+
     imports:
         title_prefix:                                                   Import
         section:                                                        Import
         seed_unit:
             title:                                                      Seed Units
             heading:                                                    Import Seed Units
+
     security:
         login:
             title:                                                      Login
             heading:                                                    Please Login
+
     requests:
         request:
             title_prefix:                                               Requests
@@ -61,6 +70,7 @@ pages:
             addUnits:
                 title:                                                  Assign Units
                 heading:                                                Assign Units
+
     companies:
         partner:
             title_prefix:                                               Partners
@@ -176,6 +186,7 @@ pages:
             view:
                 title:                                                  View
                 heading:                                                View Warehouse
+
     seed_units:
         seed_unit:
             title_prefix:                                               Seed Units
@@ -366,6 +377,15 @@ tables:
                 unitStatus:                                             Shipping Status
                 salesStatus:                                            Sales Status
                 usage:                                                  Usage
+        unit_usage:
+            columns:
+                abbreviation:                                           Abbr.
+        unit_sales_status:
+            columns:
+                abbreviation:                                           Abbr.
+
+
+
 view:
     generic:
         confirm:
@@ -374,6 +394,8 @@ view:
 #        partner:
 #            confirm:
 #                delete:                                                 Do you really want to delete this Partner?
+
+
 forms:
     generic:
         constraints:
@@ -579,6 +601,8 @@ forms:
                 requester_person:                                       Requester
                 receiver_person:                                        Receiver
                 shipping_location:                                      Ship to
+
+
 menu:
     requests:                                                           Requests
     reports:                                                            Reports
@@ -600,5 +624,3 @@ menu:
     import:                                                             Import
     import_templates:                                                   Templates
     import_imports:                                                     Imports
-
-

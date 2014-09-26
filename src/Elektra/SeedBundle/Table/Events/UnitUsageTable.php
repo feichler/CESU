@@ -16,7 +16,7 @@ class UnitUsageTable extends Table
         $name->setSortable();
         $name->setFieldSort('name');
 
-        $abbreviation = $this->getColumns()->add('name');
+        $abbreviation = $this->getColumns()->add('abbreviation');
         $abbreviation->setFieldData('abbreviation');
         $abbreviation->setSearchable();
         $abbreviation->setSortable();
