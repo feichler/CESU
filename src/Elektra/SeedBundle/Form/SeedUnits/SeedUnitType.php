@@ -52,7 +52,7 @@ class SeedUnitType extends Form
             $commonGroup->add('location', 'entity', $locationOptions->toArray());
         }
 
-        if ($options['crud_action'] != 'add')
+        if ($options['crud_action'] == 'view')
         {
             $locationOptions = $this->getFieldOptions('location')->add('read_only', true)
                 ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Location')->getClassEntity())
