@@ -222,6 +222,8 @@ pages:
             view:
                 title:                                                  View
                 heading:                                                View Power Cord Type
+
+
 tables:
     generic:
         empty:                                                          No data found
@@ -239,6 +241,7 @@ tables:
             first_name:                                                 First Name
             last_name:                                                  Last Name
             title:                                                      Title
+
     imports:
         template:
             columns:
@@ -255,9 +258,11 @@ tables:
                 entries_processed:                                      '# Entries processed'
             actions:
                 add:                                                    New Import
+
     auditing:
         audit:
             columns: ~
+
     notes:
         note:
             empty:                                                      No notes found
@@ -265,6 +270,7 @@ tables:
                 text:                                                   Note
             actions:
                 add:                                                    Add Note
+
     seed_units:
         model:
             columns:
@@ -282,6 +288,7 @@ tables:
                 location:                                               Location
                 request:                                                Request
                 usage:                                                  Usage
+
     companies:
         region:
             columns:
@@ -329,6 +336,7 @@ tables:
             columns:
                 text:                                                   ''
                 contact_info_type:                                      Type
+
     requests:
         request:
             empty:                                                      No Requests found
@@ -347,6 +355,7 @@ tables:
                 usage:                                                  Usage
             actions:
                 add:                                                    New Request
+
     events:
         event:
             columns:
@@ -386,6 +395,7 @@ forms:
             name:                                                       Name
             short_name:                                                 Alias
             title:                                                      Title
+
     imports:
         seed_unit:
             groups:
@@ -409,10 +419,12 @@ forms:
     auditing:
         audit:
             fields: ~
+
     notes:
         note:
             fields:
                 text:                                                   Note
+
     requests:
         request:
             buttons:
@@ -522,6 +534,15 @@ forms:
                 city:                                                   City
                 state:                                                  State
                 country:                                                Country
+
+    events:
+        unit_usage:
+            fields:
+                abbreviation:                                           Abbreviation
+        unit_sales_status:
+            fields:
+                abbreviation:                                           Abbreviation
+
     seed_units:
         model:
             fields:
