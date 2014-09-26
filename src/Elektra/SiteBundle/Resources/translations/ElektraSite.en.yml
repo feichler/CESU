@@ -536,6 +536,8 @@ forms:
                 contact_info_type:                                      Type
                 text:                                                   Value
         region:
+            groups:
+                countries:                                              Countries
             fields:
                 name:                                                   Region
         country:
