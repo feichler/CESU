@@ -30,10 +30,5 @@ class UnitSalesStatusType extends CrudForm
 
         $common->add('name', 'text', $this->getFieldOptions('name')->required()->notBlank()->toArray());
         $common->add('abbreviation', 'text', $this->getFieldOptions('abbreviation')->required()->notBlank()->toArray());
-
-        if ($options['crud_action'] != 'add')
-        {
-            $common->add('internalName', 'hidden', $this->getFieldOptions('internalName')->toArray());
-        }
     }
 }
