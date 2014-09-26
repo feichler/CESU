@@ -73,18 +73,6 @@ class RequestType extends CrudForm
         $form->add('shippingLocation', 'entity', $shippingOptions->toArray());
     }
 
-    private function createModalButtonsOptions(FormBuilderInterface $builder, array $allowedStatuses, array $allowedUsages, array $allowedSalesStatuses)
-    {
-        $buttons = FormsHelper::createModalButtonsOptions($allowedStatuses, $allowedUsages, $allowedSalesStatuses);
-
-        $modalButtonsOptions = $this->getFieldOptions('modalButtons');
-        $modalButtonsOptions->add('menus', $buttons);
-
-        $modalButtons = $builder->create('modalButtons', 'modalButtons', $modalButtonsOptions->toArray());
-
-        return $modalButtons;
-    }
-
     private function isDeliveryVerified(array $seedUnits)
     {
         /** @var $su SeedUnit */
@@ -168,37 +156,52 @@ class RequestType extends CrudForm
                 $allowedShippingStatuses = FormsHelper::getAllowedUnitStatuses($mgr, $seedUnits);
                 $allowedUsages = $this->isDeliveryVerified($seedUnits) ? $mgr->getRepository('ElektraSeedBundle:Events\UnitUsage')->findAll() : array();
                 $allowedSalesStatuses = $this->isDeliveryVerified($seedUnits) ? $mgr->getRepository('ElektraSeedBundle:Events\UnitSalesStatus')->findAll() : array();
-                $unitsGroup->add($this->createModalButtonsOptions($builder, $allowedShippingStatuses, $allowedUsages, $allowedSalesStatuses));
 
-                $unitsGroup->add(
-                    'changeStatus',
-                    new ChangeUnitStatusType(),
-                    array(
-                        'mapped'                                => false,
-                        ChangeUnitStatusType::OPT_DATA          => $seedUnits,
-                        ChangeUnitStatusType::OPT_OBJECT_MANAGER => $mgr
-                    )
-                );
+                $buttons = FormsHelper::createModalButtonsOptions($allowedShippingStatuses, $allowedUsages, $allowedSalesStatuses);
 
-                $unitsGroup->add(
-                    'changeUsage',
-                    new ChangeUnitUsageType(),
-                    array(
-                        'mapped'                                => false,
-                        ChangeUnitUsageType::OPT_DATA          => $seedUnits,
-                        ChangeUnitUsageType::OPT_OBJECT_MANAGER => $mgr
-                    )
-                );
+                $unitsGroup->add($builder->create('modalButtons', 'modalButtons',
+                    $this->getFieldOptions('modalButtons')
+                        ->add('menus', $buttons)
+                        ->toArray()));
 
-                $unitsGroup->add(
-                    'changeUnitSalesStatus',
-                    new ChangeUnitSalesStatusType(),
-                    array(
-                        'mapped'                                => false,
-                        ChangeUnitSalesStatusType::OPT_DATA          => $seedUnits,
-                        ChangeUnitSalesStatusType::OPT_OBJECT_MANAGER => $mgr
-                    )
-                );
+                if (count($allowedShippingStatuses) > 0)
+                {
+                    $unitsGroup->add(
+                        'changeStatus',
+                        new ChangeUnitStatusType(),
+                        array(
+                            'mapped'                                => false,
+                            ChangeUnitStatusType::OPT_DATA          => $seedUnits,
+                            ChangeUnitStatusType::OPT_OBJECT_MANAGER => $mgr
+                        )
+                    );
+                }
+
+                if (count($allowedUsages) > 0)
+                {
+                    $unitsGroup->add(
+                        'changeUsage',
+                        new ChangeUnitUsageType(),
+                        array(
+                            'mapped'                                => false,
+                            ChangeUnitUsageType::OPT_DATA          => $seedUnits,
+                            ChangeUnitUsageType::OPT_OBJECT_MANAGER => $mgr
+                        )
+                    );
+                }
+
+                if (count($allowedSalesStatuses) > 0)
+                {
+                    $unitsGroup->add(
+                        'changeUnitSalesStatus',
+                        new ChangeUnitSalesStatusType(),
+                        array(
+                            'mapped'                                => false,
+                            ChangeUnitSalesStatusType::OPT_DATA          => $seedUnits,
+                            ChangeUnitSalesStatusType::OPT_OBJECT_MANAGER => $mgr
+                        )
+                    );
+                }
             }
 
             // seed units

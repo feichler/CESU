@@ -68,18 +68,6 @@ class SeedUnitType extends Form
         }
     }
 
-    private function createModalButtonsOptions(FormBuilderInterface $builder, array $allowedStatuses, array $allowedUsages, array $allowedSalesStatuses)
-    {
-        $buttons = FormsHelper::createModalButtonsOptions($allowedStatuses, $allowedUsages, $allowedSalesStatuses);
-
-        $modalButtonsOptions = $this->getFieldOptions('modalButtons');
-        $modalButtonsOptions->add('menus', $buttons);
-
-        $modalButtons = $builder->create('modalButtons', 'modalButtons', $modalButtonsOptions->toArray());
-
-        return $modalButtons;
-    }
-
     private function addHistoryGroup(FormBuilderInterface $builder, array $options)
     {
 
@@ -98,37 +86,51 @@ class SeedUnitType extends Form
             $allowedShippingStatuses = FormsHelper::getAllowedUnitStatuses($mgr, $seedUnits);
             $allowedUsages = $isDeliveryVerified ? $mgr->getRepository('ElektraSeedBundle:Events\UnitUsage')->findAll() : array();
             $allowedSalesStatuses = $isDeliveryVerified ? $mgr->getRepository('ElektraSeedBundle:Events\UnitSalesStatus')->findAll() : array();
-            $historyGroup->add($this->createModalButtonsOptions($builder, $allowedShippingStatuses, $allowedUsages, $allowedSalesStatuses));
 
-            $historyGroup->add(
-                'changeStatus',
-                new ChangeUnitStatusType(),
-                array(
-                    'mapped'                                => false,
-                    ChangeUnitStatusType::OPT_DATA          => $seedUnits,
-                    ChangeUnitStatusType::OPT_OBJECT_MANAGER => $mgr
-                )
-            );
+            $buttons = FormsHelper::createModalButtonsOptions($allowedShippingStatuses, $allowedUsages, $allowedSalesStatuses);
 
-            $historyGroup->add(
-                'changeUsage',
-                new ChangeUnitUsageType(),
-                array(
-                    'mapped'                                => false,
-                    ChangeUnitUsageType::OPT_DATA          => $seedUnits,
-                    ChangeUnitUsageType::OPT_OBJECT_MANAGER => $mgr
-                )
-            );
+            $historyGroup->add($builder->create('modalButtons', 'modalButtons',
+                $this->getFieldOptions('modalButtons')
+                    ->add('menus', $buttons)->toArray()));
 
-            $historyGroup->add(
-                'changeUnitSalesStatus',
-                new ChangeUnitSalesStatusType(),
-                array(
-                    'mapped'                                => false,
-                    ChangeUnitSalesStatusType::OPT_DATA          => $seedUnits,
-                    ChangeUnitSalesStatusType::OPT_OBJECT_MANAGER => $mgr
-                )
-            );
+            if (count($allowedShippingStatuses) > 0)
+            {
+                $historyGroup->add(
+                    'changeStatus',
+                    new ChangeUnitStatusType(),
+                    array(
+                        'mapped'                                => false,
+                        ChangeUnitStatusType::OPT_DATA          => $seedUnits,
+                        ChangeUnitStatusType::OPT_OBJECT_MANAGER => $mgr
+                    )
+                );
+            }
+
+            if (count($allowedUsages) > 0)
+            {
+                $historyGroup->add(
+                    'changeUsage',
+                    new ChangeUnitUsageType(),
+                    array(
+                        'mapped'                                => false,
+                        ChangeUnitUsageType::OPT_DATA          => $seedUnits,
+                        ChangeUnitUsageType::OPT_OBJECT_MANAGER => $mgr
+                    )
+                );
+            }
+
+            if (count($allowedSalesStatuses) > 0)
+            {
+                $historyGroup->add(
+                    'changeUnitSalesStatus',
+                    new ChangeUnitSalesStatusType(),
+                    array(
+                        'mapped'                                => false,
+                        ChangeUnitSalesStatusType::OPT_DATA          => $seedUnits,
+                        ChangeUnitSalesStatusType::OPT_OBJECT_MANAGER => $mgr
+                    )
+                );
+            }
         }
 
         $eventsOptions = $this->getFieldOptions('events')->add('relation_parent_entity', $options['data'])

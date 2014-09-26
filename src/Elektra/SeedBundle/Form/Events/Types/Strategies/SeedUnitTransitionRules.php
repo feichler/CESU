@@ -31,11 +31,11 @@ class SeedUnitTransitionRules
 
     public function checkNewSalesStatus(SeedUnit $seedUnit, Event $eventTemplate)
     {
-        return $seedUnit->getSalesStatus() == null or $seedUnit->getSalesStatus()->getId() != $eventTemplate->getSalesStatus()->getId();
+        return $seedUnit->getSalesStatus() == null or $eventTemplate->getSalesStatus() == null or $seedUnit->getSalesStatus()->getId() != $eventTemplate->getSalesStatus()->getId();
     }
 
     public function checkNewUsage(SeedUnit $seedUnit, Event $eventTemplate)
     {
-        return $seedUnit->getUnitUsage() == null or $seedUnit->getUnitUsage()->getId() != $eventTemplate->getUsage()->getId();
+        return $seedUnit->getUnitUsage() == null or $eventTemplate->getUsage() == null or $seedUnit->getUnitUsage()->getId() != $eventTemplate->getUsage()->getId();
     }
 }
