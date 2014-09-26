@@ -44,7 +44,7 @@ class PowerCordTypeFixture extends SeedBundleFixture
         foreach ($entries as $entry) {
             $obj = new PowerCordType();
             $obj->setName($entry);
-            $obj->setDescription('Description for Power Cord Type "' . $entry . '"');
+//            $obj->setDescription('Description for Power Cord Type "' . $entry . '"');
 
             $manager->persist($obj);
 

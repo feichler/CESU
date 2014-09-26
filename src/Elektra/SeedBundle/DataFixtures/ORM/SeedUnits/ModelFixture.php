@@ -36,7 +36,7 @@ class ModelFixture extends SeedBundleFixture
         foreach ($entries as $entry) {
             $obj = new Model();
             $obj->setName('Model ' . $entry);
-            $obj->setDescription('Description for "' . $entry . '"');
+//            $obj->setDescription('Description for "' . $entry . '"');
 
             $manager->persist($obj);
 

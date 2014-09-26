@@ -351,10 +351,10 @@ class Base
 
             // URGENT initialise the main menu for the site
 
-            // first item - requests
-            $siteMenu->addItem($this->getRequestsMenu());
-            // second item - reports
+            // first item - reports
             $siteMenu->addItem($this->getReportsMenu());
+            // second item - requests
+            $siteMenu->addItem($this->getRequestsMenu());
             // third item - companies (partner / customer / sales team)
             $siteMenu->addItem($this->getCompaniesMenu());
             // fourth item - master data

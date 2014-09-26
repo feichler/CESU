@@ -353,7 +353,7 @@ tables:
             empty:                                                      No Requests found
             columns:
                 request_number:                                         'Request No.'
-                company:                                                Company
+                company:                                                Partner
                 requester:                                              Requester
                 receiver:                                               Receiver
                 shipping_location:                                      Ship to
