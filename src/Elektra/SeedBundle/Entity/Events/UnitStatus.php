@@ -78,15 +78,15 @@ class UnitStatus implements AuditableInterface, CrudInterface
         UnitStatus::AVAILABLE => array(),
         UnitStatus::RESERVED => array(UnitStatus::AVAILABLE),
         UnitStatus::SHIPPED => array(UnitStatus::RESERVED),
-        UnitStatus::EXCEPTION => array(UnitStatus::SHIPPED, UnitStatus::IN_TRANSIT),
+        UnitStatus::EXCEPTION => array(UnitStatus::IN_TRANSIT),
         UnitStatus::IN_TRANSIT => array(UnitStatus::SHIPPED, UnitStatus::EXCEPTION),
         UnitStatus::DELIVERED => array(UnitStatus::IN_TRANSIT, UnitStatus::EXCEPTION),
         UnitStatus::ACKNOWLEDGE_ATTEMPT => array(UnitStatus::DELIVERED),
         UnitStatus::AA1SENT => array(UnitStatus::ACKNOWLEDGE_ATTEMPT),
         UnitStatus::AA2SENT => array(UnitStatus::AA1SENT),
         UnitStatus::AA3SENT => array(UnitStatus::AA2SENT),
-        UnitStatus::ESCALATION => array(UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::AA1SENT, UnitStatus::AA2SENT, UnitStatus::AA3SENT),
-        UnitStatus::DELIVERY_VERIFIED => array(UnitStatus::DELIVERED, UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::AA1SENT, UnitStatus::AA2SENT, UnitStatus::AA3SENT)
+        UnitStatus::ESCALATION => array(UnitStatus::DELIVERED, UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::AA1SENT, UnitStatus::AA2SENT, UnitStatus::AA3SENT),
+        UnitStatus::DELIVERY_VERIFIED => array(UnitStatus::DELIVERED, UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::AA1SENT, UnitStatus::AA2SENT, UnitStatus::AA3SENT, UnitStatus::ESCALATION)
     );
 
     /**
@@ -95,15 +95,15 @@ class UnitStatus implements AuditableInterface, CrudInterface
     static $ALLOWED_FROM = array(
         UnitStatus::AVAILABLE => array(UnitStatus::RESERVED),
         UnitStatus::RESERVED => array(UnitStatus::SHIPPED),
-        UnitStatus::SHIPPED => array(UnitStatus::EXCEPTION, UnitStatus::IN_TRANSIT),
+        UnitStatus::SHIPPED => array(UnitStatus::IN_TRANSIT),
         UnitStatus::EXCEPTION => array(UnitStatus::IN_TRANSIT, UnitStatus::DELIVERED),
         UnitStatus::IN_TRANSIT => array(UnitStatus::EXCEPTION, UnitStatus::DELIVERED),
-        UnitStatus::DELIVERED => array(UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::DELIVERY_VERIFIED),
+        UnitStatus::DELIVERED => array(UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::ESCALATION, UnitStatus::DELIVERY_VERIFIED),
         UnitStatus::ACKNOWLEDGE_ATTEMPT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION, UnitStatus::AA1SENT),
         UnitStatus::AA1SENT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION, UnitStatus::AA2SENT),
         UnitStatus::AA2SENT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION, UnitStatus::AA3SENT),
         UnitStatus::AA3SENT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION),
-        UnitStatus::ESCALATION => array(),
+        UnitStatus::ESCALATION => array(UnitStatus::DELIVERY_VERIFIED),
         UnitStatus::DELIVERY_VERIFIED => array()
     );
 
