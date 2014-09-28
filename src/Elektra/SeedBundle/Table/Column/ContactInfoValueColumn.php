@@ -14,6 +14,7 @@ class ContactInfoValueColumn extends TitleColumn
     {
 
         parent::__construct($columns, $title);
+        $this->setType('contact');
     }
 
     public function getDisplayData($entry, $rowNumber)
@@ -26,6 +27,7 @@ class ContactInfoValueColumn extends TitleColumn
         $return = parent::getDisplayData($entry, $rowNumber);
 
         $return['class'] = $entry->getContactInfoType()->getInternalName();
+        $return['type'] = $entry->getContactInfoType()->getInternalName();
 
         return $return;
     }

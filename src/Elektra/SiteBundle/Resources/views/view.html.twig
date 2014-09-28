@@ -194,9 +194,9 @@
         {% if asInput is defined and asInput %}
             {% set class = class|default('') %}
             {% set type = type|default('text') -%}
-            <input class="form-control {{ class }}" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+            <input class="form-control {{ class }} form-control-{{ type }}" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
         {% else %}
-            <span class="form-control" {{ block('widget_attributes') }}>
+            <span class="form-control form-control-{{ type }}" {{ block('widget_attributes') }}>
         {% if value is not empty %}{{ value }}{% endif %}
     </span>
         {% endif %}
@@ -237,7 +237,7 @@
     {% if modalForm is defined and modalForm == true %}
         {{ parent() }}
     {% else %}
-        <div class="form-control" {{ block('widget_attributes') }}>{{ value }}</div>
+        <div class="form-control form-control-textarea" {{ block('widget_attributes') }}>{{ value }}</div>
     {% endif %}
 {%- endblock textarea_widget %}
 
@@ -246,7 +246,7 @@
     {#{% if modalForm is defined and modalForm == true %}#}
     {#{{ parent({'modalForm': true}) }}#}
     {#{% else %}#}
-    <span class="form-control">
+    <span class="form-control form-control-checkbox">
         {% if checked %}Yes{% else %}No{% endif %}
     </span>
     {#{% endif %}#}
@@ -261,14 +261,14 @@
             {% if choice is iterable %}
                 {% for label, groupedChoice in choice %}
                     {% if groupedChoice is selectedchoice(value) %}
-                        <span class="form-control">
+                        <span class="form-control form-control-choice">
                         {{ groupedChoice.label|trans({}, translation_domain) }}
                     </span>
                     {% endif %}
                 {% endfor %}
             {% else %}
                 {% if choice is selectedchoice(value) %}
-                    <span class="form-control">
+                    <span class="form-control form-control-choice">
                 {{ choice.label|trans({}, translation_domain) }}
             </span>
                 {% endif %}
@@ -285,7 +285,7 @@
 {% block parent_widget %}
     {% for label, choice in choices %}
         {% if choice is selectedchoice(value) %}
-            <span class="form-control">
+            <span class="form-control form-control-parent">
                 {{ choice.label|trans({}, translation_domain) }}
             </span>
         {% endif %}

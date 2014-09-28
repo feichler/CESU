@@ -101,7 +101,8 @@ final class Navigator
         $this->addDefinition(new UnitUsageDefinition());
         $this->addDefinition(new EventDefinition());
 
-        $this->addDefinition(new \Elektra\SeedBundle\Definition\Imports\SeedUnitDefinition());
+        $this->addDefinition(new \Elektra\SeedBundle\Definition\Imports\TemplateDefinition());
+        $this->addDefinition(new \Elektra\SeedBundle\Definition\Imports\ImportDefinition());
     }
 
     /**

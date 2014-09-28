@@ -1,0 +1,74 @@
+{% extends "ElektraSeedBundle::base-browse.html.twig" %}
+
+{% block content %}
+    <div>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <b>Important information</b>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Always use the templates provided at this page to upload / import data. These templates have some custom properties set (embedded in the generated file) that ensure the correct
+                    processing of the imports.
+                </p>
+
+                <p>
+                    Each template gets generated when you click on the download link, so every time you want to upload data, make sure to download an actual template (to be sure to use the most actual
+                    import definitions in case they change over time)
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-group" id="templates-accordion">
+        {% for type in templates %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#templates-accordion" href="#template-{{ type.identifier }}">
+                            {{ type.title }}
+                        </a>
+                    </h4>
+                </div>
+                <div id="template-{{ type.identifier }}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <span class="pull-right">
+                            <a href="{{ type.template.link }}">
+                                <strong>
+                                    Download
+                                    <i class="fa fa-download"></i>
+                                </strong>
+                            </a>
+                        </span>
+                        {% for info in type.template.information %}
+                            <p>
+                                {{ info }}
+                            </p>
+                        {% endfor %}
+                        <hr/>
+                        <p>
+                            <b>Column Information</b>
+                        </p>
+                        <ul>
+                            {% for column in type.fields %}
+                                <li>
+                                    {{ column.name }}
+                                    {% if column.required %}
+                                        <span class="label label-warning">required</span>
+                                    {% endif %}
+                                    {% if column.comments|length > 0 %}
+                                        <ul>
+                                            {% for info in column.comments %}
+                                                <li>{{ info|replace({'required': '<span class="label label-info">required</span>'})|raw }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

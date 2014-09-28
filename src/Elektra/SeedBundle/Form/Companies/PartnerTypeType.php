@@ -27,6 +27,7 @@ class PartnerTypeType extends CrudForm
 
         $common = $this->addFieldGroup($builder, $options, 'common');
 
+        $common->add('alias', 'text', $this->getFieldOptions('alias')->required()->notBlank()->toArray());
         $common->add('name', 'text', $this->getFieldOptions('name')->required()->notBlank()->toArray());
     }
 }

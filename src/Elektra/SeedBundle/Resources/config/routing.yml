@@ -22,3 +22,7 @@ seedUnit.addEvent:
 request.addEvent:
     pattern:  /request/addEvent/{id}
     defaults: { _controller: ElektraSeedBundle:Requests/Request:addEvent }
+
+imports.template.download:
+    pattern:    /importTemplates/download/{identifier}.{format}
+    defaults: { _controller: ElektraSeedBundle:Imports/Template:download }

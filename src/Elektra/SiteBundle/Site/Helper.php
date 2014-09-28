@@ -83,7 +83,7 @@ abstract class Helper
         $crud        = static::getCrud();
         $language    = $crud->getService('siteLanguage');
         $languageKey = $crud->getLanguageKey();
-
+$suffix = static::camelToUnderScore($suffix);
         $commonKey  = $prefix . '.generic.' . $suffix;
         $defaultKey = $prefix . '.' . $languageKey . '.' . $suffix;
 

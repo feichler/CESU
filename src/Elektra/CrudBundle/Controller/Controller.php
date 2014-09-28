@@ -303,26 +303,24 @@ abstract class Controller extends BaseController
             $manager->flush();
         }
 
-        $returnToView = false;
+        $returnToView     = false;
         $saveReturnButton = $form->get('actions')->get('saveReturn');
-        if($saveReturnButton->isClicked()) {
+        if ($saveReturnButton->isClicked()) {
             $returnToView = true;
         }
-//        $saveButton = $form->get('actions')->get('save');
-//
-//
-//        var_dump($saveButton->isClicked());
-//        var_dump($saveReturnButton->isClicked());
-//
-//        $test = $form->get('actions');
-//        echo $test->getName();
+        //        $saveButton = $form->get('actions')->get('save');
+        //
+        //
+        //        var_dump($saveButton->isClicked());
+        //        var_dump($saveReturnButton->isClicked());
+        //
+        //        $test = $form->get('actions');
+        //        echo $test->getName();
 
+        $returnUrl = $this->getCrud()->getLinker()->getRedirectAfterProcess($entity, $returnToView);
 
-
-        $returnUrl = $this->getCrud()->getLinker()->getRedirectAfterProcess($entity,$returnToView);
-
-//        echo $returnUrl;
-//        exit();
+        //        echo $returnUrl;
+        //        exit();
         //        $returnUrl = $this->getCrud()->getAfterProcessReturnUrl();
 
         return $this->redirect($returnUrl);
@@ -501,4 +499,51 @@ abstract class Controller extends BaseController
      * @return Definition
      */
     protected abstract function getDefinition();
+
+    /**
+     * @param string $type
+     * @param string $message
+     */
+    protected function addMessage($type, $message)
+    {
+
+        $flashBag = $this->get('session')->getFlashBag();
+        $flashBag->add($type, $message);
+    }
+
+    /**
+     * @param string $message
+     */
+    protected function addInfoMessage($message)
+    {
+
+        $this->addMessage('info', $message);
+    }
+
+    /**
+     * @param string $message
+     */
+    protected function addSuccessMessage($message)
+    {
+
+        $this->addMessage('success', $message);
+    }
+
+    /**
+     * @param string $message
+     */
+    protected function addWarningMessage($message)
+    {
+
+        $this->addMessage('warning', $message);
+    }
+
+    /**
+     * @param string $message
+     */
+    protected function addErrorMessage($message)
+    {
+
+        $this->addMessage('error', $message);
+    }
 }

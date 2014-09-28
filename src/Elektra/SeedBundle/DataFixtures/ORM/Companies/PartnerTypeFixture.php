@@ -28,14 +28,17 @@ class PartnerTypeFixture extends SeedBundleFixture
      */
     protected function doLoad(ObjectManager $manager)
     {
+
         $data = array(
-            array("Partner Organisation"),
-            array("Sales Team")
+            "PO" => array("Partner Organisation"),
+            "ST" => array("Sales Team"),
+            "O" => array("Other"),
         );
 
-        foreach ($data as $entry) {
+        foreach ($data as $alias => $entry) {
             $obj = new PartnerType();
             $obj->setName($entry[0]);
+            $obj->setAlias($alias);
             $manager->persist($obj);
 
             $this->addReference('partner_type-' . strtolower($obj->getName()), $obj);

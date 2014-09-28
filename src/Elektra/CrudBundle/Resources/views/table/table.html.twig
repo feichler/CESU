@@ -224,6 +224,8 @@
             {{ block('table_body_cell_date') }}
         {% elseif colType == 'select' %}
             {{ block('table_body_cell_select') }}
+        {% elseif colType == 'contact' %}
+            {{ block('table_body_cell_contact') }}
         {% else %}
             {{ block('table_body_cell_default') }}
         {% endif %}
@@ -283,6 +285,32 @@
         {% endfor %}
     {% endif %}
 {% endblock table_body_cell_title %}
+
+{% block table_body_cell_contact %}
+    {% import 'ElektraSiteBundle:macros:actions.html.twig' as actions %}
+    <div>
+        <strong>
+            {% if table.isAllowed('view') %}
+                {% set options = {} %}
+                {% if data.class is defined %}
+                    {% set options = options|merge({'class': data.class}) %}
+                {% endif %}
+                {{ attribute(actions, 'view', [data.link, data.title, options]) }}
+            {% else %}
+                {{ data.title }}
+            {% endif %}
+        </strong>
+        {% if data.type is defined and data.type == 'email' %}
+            <span class="pull-right"><a href="mailto:{{ data.title }}"><i class="fa fa-at" title="Send Mail"></i></a></span>
+        {% endif %}
+    </div>
+    {% if data.other is iterable and data.other is not empty %}
+        {% for string in data.other %}
+            <div>{{ string }}</div>
+        {% endfor %}
+    {% endif %}
+{% endblock table_body_cell_contact %}
+
 
 {% block table_body_cell_action %}
     {% import 'ElektraSiteBundle:macros:actions.html.twig' as actions %}

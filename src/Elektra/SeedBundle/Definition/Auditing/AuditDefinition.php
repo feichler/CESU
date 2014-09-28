@@ -34,6 +34,10 @@ class AuditDefinition extends Definition
         //
         $this->addParent('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
 
+        $this->addParent('Elektra', 'Seed', 'Imports', 'Import');
+
+
+
         // CHECK also add the training entities?
     }
 }

@@ -35,9 +35,10 @@
             </span>
             </button>
         {% endif %}
-        <span class="icon"></span>
-        <span class="message">
-            {{- text -}}
-        </span>
+        <span class="icon pull-left" style="padding-top: 2px;"></span>
+
+        <div class="message" style="padding-left: 25px;">
+            {{- text|raw -}}
+        </div>
     </div>
 {% endmacro %}

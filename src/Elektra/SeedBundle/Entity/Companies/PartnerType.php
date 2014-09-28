@@ -43,6 +43,12 @@ class PartnerType implements AuditableInterface, CrudInterface
     /**
      * @var string
      *
+     * @ORM\Column(type="string", length=10, unique=true)
+     */
+    protected $alias;
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=50, unique=true)
      */
     protected $name;
@@ -91,6 +97,24 @@ class PartnerType implements AuditableInterface, CrudInterface
     {
 
         return $this->partnerTypeId;
+    }
+
+    /**
+     * @param string $alias
+     */
+    public function setAlias($alias)
+    {
+
+        $this->alias = $alias;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlias()
+    {
+
+        return $this->alias;
     }
 
     /**

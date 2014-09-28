@@ -413,7 +413,7 @@ class Base
         $masterDataItem = new Group($siteLanguage->getRequired('menu.master_data'));
 
         // Seed Units Sub-Menu
-//        $seedUnits = new Group($siteLanguage->getRequired('menu.seed_units'));
+        //        $seedUnits = new Group($siteLanguage->getRequired('menu.seed_units'));
         $masterDataItem->addItem(
             new Item($siteLanguage->getRequired('menu.seed_units'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit')))
         );
@@ -423,46 +423,47 @@ class Base
         $masterDataItem->addItem(
             new Item($siteLanguage->getRequired('menu.seed_unit_power_cord_types'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')))
         );
-//        $masterDataItem->addItem($seedUnits);
+        //        $masterDataItem->addItem($seedUnits);
         $masterDataItem->addItem(new Separator());
 
         $masterDataItem->addItem(
             new Item($siteLanguage->getRequired('menu.partner_types'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'PartnerType')))
         );
-//        $masterDataItem->addItem($seedUnits);
+        //        $masterDataItem->addItem($seedUnits);
         $masterDataItem->addItem(new Separator());
 
         // Trainings Sub-Menu
-//        $trainings = new Group($siteLanguage->getRequired('menu.trainings'));
-//        // URGENT add links for the training sub-menu
-//        $trainings->addItem(
-//            new Item($siteLanguage->getRequired('menu.trainings'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Training')))
-//        );
-//        $trainings->addItem(
-//            new Item($siteLanguage->getRequired('menu.registrations'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration')))
-//        );
-//        $trainings->addItem(
-//            new Item($siteLanguage->getRequired('menu.attendances'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance')))
-//        );
-//        $masterDataItem->addItem($trainings);
-//        $masterDataItem->addItem(new Separator());
+        //        $trainings = new Group($siteLanguage->getRequired('menu.trainings'));
+        //        // URGENT add links for the training sub-menu
+        //        $trainings->addItem(
+        //            new Item($siteLanguage->getRequired('menu.trainings'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Training')))
+        //        );
+        //        $trainings->addItem(
+        //            new Item($siteLanguage->getRequired('menu.registrations'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Registration')))
+        //        );
+        //        $trainings->addItem(
+        //            new Item($siteLanguage->getRequired('menu.attendances'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Trainings', 'Attendance')))
+        //        );
+        //        $masterDataItem->addItem($trainings);
+        //        $masterDataItem->addItem(new Separator());
 
         // Geographic Sub-Menu
-//        $geographic = new Group($siteLanguage->getRequired('menu.geographic'));
+        //        $geographic = new Group($siteLanguage->getRequired('menu.geographic'));
         $masterDataItem->addItem(
             new Item($siteLanguage->getRequired('menu.regions'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'Region')))
         );
         $masterDataItem->addItem(
             new Item($siteLanguage->getRequired('menu.countries'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'Country')))
         );
-//        $masterDataItem->addItem($geographic);
+        //        $masterDataItem->addItem($geographic);
         $masterDataItem->addItem(new Separator());
 
-//        $misc = new Group($siteLanguage->getRequired('menu.misc'));
+        //        $misc = new Group($siteLanguage->getRequired('menu.misc'));
         $masterDataItem->addItem(
-          new Item($siteLanguage->getRequired('menu.warehouses'), $navigator->getBrowseLink($navigator->getDefinition('Elektra','Seed','Companies','WarehouseLocation')))
+            new Item($siteLanguage->getRequired('menu.warehouses'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Companies', 'WarehouseLocation')))
         );
-//        $masterDataItem->addItem($misc);
+
+        //        $masterDataItem->addItem($misc);
 
         return $masterDataItem;
     }
@@ -475,8 +476,14 @@ class Base
 
         $importItem = new Group($siteLanguage->getRequired('menu.import'));
         $importItem->addItem(
-            new Item($siteLanguage->getRequired('menu.import_seed_units'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Imports', 'SeedUnit')))
+            new Item($siteLanguage->getRequired('menu.import_templates'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Imports', 'Template')))
         );
+        $importItem->addItem(
+            new Item($siteLanguage->getRequired('menu.import_imports'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Imports', 'Import')))
+        );
+        //        $importItem->addItem(
+        //            new Item($siteLanguage->getRequired('menu.import_companies'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Imports', 'Company')))
+        //        );
 
         return $importItem;
     }

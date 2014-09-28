@@ -1,6 +1,6 @@
 <?php
 
-namespace Elektra\SeedBundle\Controller\Imports;
+namespace Elektra\SeedBundle\Import;
 
 class ImportException extends \Exception
 {

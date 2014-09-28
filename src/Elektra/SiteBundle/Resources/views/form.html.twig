@@ -369,7 +369,7 @@
     {#{% else %}#}
     {% set class = class|default('') %}
     {% set type = type|default('text') -%}
-    <input class="form-control {{ class }}" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    <input class="form-control {{ class }} form-control-{{ type }}" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
     {#{% endif %}#}
 {%- endblock form_widget_simple %}
 
@@ -391,7 +391,7 @@
 
 {# textarea widget #}
 {% block textarea_widget -%}
-    <textarea class="form-control" {{ block('widget_attributes') }}>{{ value }}</textarea>
+    <textarea class="form-control form-control-textarea" {{ block('widget_attributes') }}>{{ value }}</textarea>
 {%- endblock textarea_widget %}
 
 {# checkbox widget #}
@@ -419,7 +419,7 @@
     {% if required and empty_value is none and not empty_value_in_choices and not multiple -%}
         {% set required = false %}
     {%- endif -%}
-    <select class="form-control {{ class }}" {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+    <select class="form-control {{ class }} form-control-choice" {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
         {% if empty_value is not none -%}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ empty_value|trans({}, translation_domain) }}</option>
         {%- endif %}
@@ -476,7 +476,7 @@
     {% if form.vars.show_field %}
         {% for label, choice in choices %}
             {% if choice is selectedchoice(value) %}
-                <input type="text" class="form-control" disabled="disabled" value="{{ choice.label|trans({}, translation_domain) }}"/>
+                <input type="text" class="form-control form-control-parent" disabled="disabled" value="{{ choice.label|trans({}, translation_domain) }}"/>
             {% endif %}
         {% endfor %}
     {% endif %}
@@ -485,7 +485,7 @@
 {# display widget (custom type) #}
 {% block display_widget %}
     {#{% set type = type|default('text') -%}#}
-    <span class="form-control" {{ block('widget_attributes') }}>
+    <span class="form-control form-control-display" {{ block('widget_attributes') }}>
         {% if value is not empty %}{{ value|raw }}{% endif %}
     </span>
 {% endblock display_widget %}

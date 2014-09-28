@@ -121,6 +121,7 @@ class Language
         }
 
         if ($translated == $identifier && $identifier != '') { // $identifier != '' in order to "reset" translations to empty
+            // URGENT: show ~~ only in dev environment
             $translated = '~~ ' . $translated . ' ~~';
         }
 
