@@ -150,6 +150,7 @@
             {# URGENT embedded functionality #}
             {#{% if not table.crud.hasParent() %}#}
             {% if table.inView == false %}
+                <span>{{ table.entryCount }} Entries</span> -
                 <span>{{ siteLanguage.get('pagination.pages') }}</span>
             {% endif %}
             {#{% endif %}#}
