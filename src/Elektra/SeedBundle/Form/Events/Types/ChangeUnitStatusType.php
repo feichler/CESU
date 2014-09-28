@@ -8,6 +8,7 @@ use Elektra\SeedBundle\Entity\Companies\Partner;
 use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Elektra\SeedBundle\Form\FormsHelper;
+use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -46,6 +47,7 @@ class ChangeUnitStatusType extends ModalFormsBaseType
                     $builder->add($fieldName, new InTransitType(), array(
                         'data' => $event,
                         'mapped' => false,
+                        'label' => Helper::translate('modal.header.status.'.$status),
                         EventType::OPT_MODAL_ID => $fieldName,
                         EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
                     ));
@@ -60,6 +62,7 @@ class ChangeUnitStatusType extends ModalFormsBaseType
                     $builder->add($fieldName, new ActivityEventType(), array(
                         'data' => $event,
                         'mapped' => false,
+                        'label' => Helper::translate('modal.header.status.'.$status),
                         EventType::OPT_MODAL_ID => $fieldName,
                         EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
                         ActivityEventType::OPT_LOCATION => $seedUnit->getRequest()->getShippingLocation()
@@ -70,6 +73,7 @@ class ChangeUnitStatusType extends ModalFormsBaseType
                     $builder->add($fieldName, new ShippingEventType(), array(
                         'data' => $event,
                         'mapped' => false,
+                        'label' => Helper::translate('modal.header.status.'.$status),
                         EventType::OPT_MODAL_ID => $fieldName,
                         EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
                     ));

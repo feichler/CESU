@@ -35,6 +35,7 @@ class ChangeUnitSalesStatusType extends ModalFormsBaseType
             $builder->add($fieldName, new SalesEventType(), array(
                 'data' => $event,
                 'mapped' => false,
+                'label' => Helper::translate('modal.header.sales.'.$salesStatus),
                 EventType::OPT_MODAL_ID => $fieldName,
                 EventType::OPT_BUTTON_NAME => ChangeUnitSalesStatusType::BUTTON_NAME,
             ));

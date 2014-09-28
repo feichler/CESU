@@ -45,6 +45,7 @@ class ChangeUnitUsageType extends ModalFormsBaseType
             $builder->add($fieldName, new UsageEventType(), array(
                 'data' => $event,
                 'mapped' => false,
+                'label' => Helper::translate('modal.header.usage.'.$usage),
                 UsageEventType::OPT_PARTNER => $partner,
                 UsageEventType::OPT_LOCATION_CONSTRAINT => $usage->getLocationConstraint(),
                 UsageEventType::OPT_LOCATION_SCOPE => $usage->getLocationScope(),

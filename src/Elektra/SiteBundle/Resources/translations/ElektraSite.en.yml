@@ -234,6 +234,15 @@ pages:
                 title:                                                  View
                 heading:                                                View Power Cord Type
 
+modal:
+    header:
+        status:
+            shipped:                                                    Shipped
+        sales:
+            something: to insert
+        usage:
+            something: to insert
+        # URGENT add model header labels / titles here
 
 tables:
     generic:
