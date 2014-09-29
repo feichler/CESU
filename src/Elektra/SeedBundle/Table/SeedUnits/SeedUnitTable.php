@@ -47,7 +47,8 @@ class SeedUnitTable extends Table
         $this->getColumns()->addTitleColumn('serial_number')
             ->setFieldData('serialNumber')
             ->setSearchable()
-            ->setSortable();
+            ->setSortable()
+            ->setName('serial');
 
         $this->getColumns()->add('model')
             ->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'Model'))
@@ -90,7 +91,8 @@ class SeedUnitTable extends Table
         $request = $this->getColumns()->add('request')
             ->setFieldData('request.requestNumber')
             ->setSearchable()
-            ->setSortable();
+            ->setSortable()
+            ->setName('request');
 
         if ($route == 'request.seedUnit.add') {
             $shipping->setHidden();

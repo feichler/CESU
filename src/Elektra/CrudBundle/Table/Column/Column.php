@@ -42,6 +42,13 @@ class Column
     protected $fields;
 
     /**
+     * Used for CSS
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
      * @param Columns $columns
      * @param string  $title
      */
@@ -49,7 +56,7 @@ class Column
     {
 
         $this->columns    = $columns;
-        $this->title      = Helper::languageAlternate('tables', 'columns.'.$title);
+        $this->title      = Helper::languageAlternate('tables', 'columns.' . $title);
         $this->type       = 'default';
         $this->definition = null;
 
@@ -67,6 +74,24 @@ class Column
             'sort'       => null,
             'filter'     => null,
         );
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+
+        return $this->name;
     }
 
     /*************************************************************************
@@ -614,7 +639,7 @@ class Column
     /**
      * @param mixed  $entry
      * @param string $field
-     * @param int   $rowNumber
+     * @param int    $rowNumber
      *
      * @return null|string
      * @throws \RuntimeException
@@ -660,7 +685,7 @@ class Column
     /**
      * @param mixed  $entry
      * @param string $field
-     * @param int   $rowNumber
+     * @param int    $rowNumber
      *
      * @return null|string
      */

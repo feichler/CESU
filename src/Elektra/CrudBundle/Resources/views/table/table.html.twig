@@ -69,8 +69,8 @@
             {#{{ siteBase.setv }}#}
             {% endif %}
             {#{% if counter == 12 %}#}
-                {#counter reset#}
-                {#{% set counter = 0 %}#}
+            {#counter reset#}
+            {#{% set counter = 0 %}#}
             {#{% endif %}#}
             {#{{ siteBase.variable('counter') }}#}
             {#{% endif %}#}
@@ -210,11 +210,14 @@
 {% endblock table_body %}
 
 {% block table_body_cell %}
-
     {% set colType = column.type %}
     {% set rowNumber = count %}
     {% set data = column.displayData(entry, rowNumber) %}
-    <td class="col-{{ index }} col-{{ colType }}">
+    {% set class = 'col-' ~ index ~ ' col-' ~ colType %}
+    {% if column.name != '' %}
+        {% set class = class ~ ' col-'~ column.name %}
+    {% endif %}
+    <td class="{{ class }}">
         {% if colType == 'title' %}
             {{ block('table_body_cell_title') }}
         {% elseif colType == 'action' %}
@@ -375,127 +378,128 @@
         {{ siteBase.setVariable('counter', siteBase.variable('counter') + siteBase.variable('colSize')) }}
         {#{{ siteBase.variable('counter') }}#}
 
-        <div class="col-md-{{ siteBase.variable('colSize') }}">
-            {% form_theme definition "ElektraSiteBundle::filter.html.twig" %}
-            {{ form_widget(definition) }}
-        </div>
+<div class="col-md-{{ siteBase.variable('colSize') }}">
+    {% form_theme definition "ElektraSiteBundle::filter.html.twig" %}
+    {{ form_widget(definition) }}
+</div>
 {% if siteBase.variable('counter') == 12 %}
-</div><div class="table-filters form-group">
+</div>
+<div class="table-filters form-group">
     {% endif %}
     {% endfor %}
-{% endblock table_filters %}
+    {% endblock table_filters %}
 
-{% block table_search %}
-    {{ siteBase.setVariable('counter', siteBase.variable('counter') + siteBase.variable('colSize')) }}
-    {#{{ siteBase.variable('counter') }}#}
-    {#{{ counter }}#}
-    {#{% set counter = counter + colSize %}#}
-    {#{{ counter }}#}
-    <div class="col-md-{{ siteBase.variable('colSize') }}">
-        {% set field = table.searchField %}
-        {% form_theme field "ElektraSiteBundle::filter.html.twig" %}
-        {{ form_widget(field) }}
-    </div>
-{% endblock table_search %}
+    {% block table_search %}
+        {{ siteBase.setVariable('counter', siteBase.variable('counter') + siteBase.variable('colSize')) }}
+        {#{{ siteBase.variable('counter') }}#}
+        {#{{ counter }}#}
+        {#{% set counter = counter + colSize %}#}
+        {#{{ counter }}#}
+        <div class="col-md-{{ siteBase.variable('colSize') }}">
+            {% set field = table.searchField %}
+            {% form_theme field "ElektraSiteBundle::filter.html.twig" %}
+            {{ form_widget(field) }}
+        </div>
+    {% endblock table_search %}
 
-{% block table_navigation %}
-    <div id="{{ table.id }}-pagination" class="table-pagination text-center">
-        {% if table.entryCount > 0 %}
-            {% if table.pagination.page > 1 %} {# Previous Link #}
-                <ul class="pager pull-left">
-                    <li><a href="{{ table.pagination.pageLink(table.pagination.page-1) }}"><span class="page-link page-prev"></span>Prev</a></li>
-                </ul>
-            {% endif %}
-            {% if table.pagination.page < table.pagination.maxPage %} {# Next Link #}
-                <ul class="pager pull-right">
-                    <li><a href="{{ table.pagination.pageLink(table.pagination.page+1) }}">Next<span class="page-link page-next"></span></a></li>
-                </ul>
-            {% endif %}
-            {% if table.pagination.maxPage > 1 %}
-                {% set page, lastPage, linkCount = table.pagination.page, table.pagination.maxPage, table.pagination.linkCount %}
-                <ul class="pagination pagination-sm">
-                    {# first page #}
-                    {% if page == 1 %}
-                        <li class="active"><a href="{{ table.pagination.pageLink(1) }}">1</a></li>
-                    {% elseif table.pagination.prevSpace %}
-                        <li><a href="{{ table.pagination.pageLink(1) }}"><span class="page-link page-first"></span>1</a></li>
-                    {% else %}
-                        <li><a href="{{ table.pagination.pageLink(1) }}">1</a></li>
-                    {% endif %}
-                    {# dots for difference between first and next displayed #}
-                    {% if table.pagination.prevSpace %}
-                        <li class="disabled"><span>...</span></li>
-                    {% endif %}
-                    {# pages links before actual - depending on linkCount #}
-                    {% for i in linkCount..1 %}
-                        {% set linkPage = page - i %}
-                        {% if linkPage > 1 %} {# > 1 => first page is already shown #}
-                            <li><a href="{{ table.pagination.pageLink(linkPage) }}">{{ linkPage }}</a></li>
+    {% block table_navigation %}
+        <div id="{{ table.id }}-pagination" class="table-pagination text-center">
+            {% if table.entryCount > 0 %}
+                {% if table.pagination.page > 1 %} {# Previous Link #}
+                    <ul class="pager pull-left">
+                        <li><a href="{{ table.pagination.pageLink(table.pagination.page-1) }}"><span class="page-link page-prev"></span>Prev</a></li>
+                    </ul>
+                {% endif %}
+                {% if table.pagination.page < table.pagination.maxPage %} {# Next Link #}
+                    <ul class="pager pull-right">
+                        <li><a href="{{ table.pagination.pageLink(table.pagination.page+1) }}">Next<span class="page-link page-next"></span></a></li>
+                    </ul>
+                {% endif %}
+                {% if table.pagination.maxPage > 1 %}
+                    {% set page, lastPage, linkCount = table.pagination.page, table.pagination.maxPage, table.pagination.linkCount %}
+                    <ul class="pagination pagination-sm">
+                        {# first page #}
+                        {% if page == 1 %}
+                            <li class="active"><a href="{{ table.pagination.pageLink(1) }}">1</a></li>
+                        {% elseif table.pagination.prevSpace %}
+                            <li><a href="{{ table.pagination.pageLink(1) }}"><span class="page-link page-first"></span>1</a></li>
+                        {% else %}
+                            <li><a href="{{ table.pagination.pageLink(1) }}">1</a></li>
                         {% endif %}
-                    {% endfor %}
-                    {# actual #}
-                    {% if page != 1 and page != lastPage %}
-                        <li class="active"><a href="{{ table.pagination.pageLink(page) }}">{{ page }}</a></li>
-                    {% endif %}
-                    {# pages links after actual - depending on linkCount #}
-                    {% for i in 1..linkCount %}
-                        {% set linkPage = page + i %}
-                        {% if linkPage < lastPage %} {# - 1 => last page will be shown anyway #}
-                            <li><a href="{{ table.pagination.pageLink(linkPage) }}">{{ linkPage }}</a></li>
+                        {# dots for difference between first and next displayed #}
+                        {% if table.pagination.prevSpace %}
+                            <li class="disabled"><span>...</span></li>
                         {% endif %}
-                    {% endfor %}
-                    {# dots for difference between last and previous displayed #}
-                    {% if table.pagination.nextSpace %}
-                        <li class="disabled"><span>...</span></li>
-                    {% endif %}
-                    {# last page #}
-                    {% if page == lastPage %}
-                        <li class="active"><a href="{{ table.pagination.pageLink(lastPage) }}">{{ lastPage }}</a></li>
-                    {% elseif table.pagination.nextSpace %}
-                        <li><a href="{{ table.pagination.pageLink(lastPage) }}">{{ lastPage }}<span class="page-link page-last"></span></a></li>
-                    {% else %}
-                        <li><a href="{{ table.pagination.pageLink(lastPage) }}">{{ lastPage }}</a></li>
-                    {% endif %}
-                </ul>
+                        {# pages links before actual - depending on linkCount #}
+                        {% for i in linkCount..1 %}
+                            {% set linkPage = page - i %}
+                            {% if linkPage > 1 %} {# > 1 => first page is already shown #}
+                                <li><a href="{{ table.pagination.pageLink(linkPage) }}">{{ linkPage }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {# actual #}
+                        {% if page != 1 and page != lastPage %}
+                            <li class="active"><a href="{{ table.pagination.pageLink(page) }}">{{ page }}</a></li>
+                        {% endif %}
+                        {# pages links after actual - depending on linkCount #}
+                        {% for i in 1..linkCount %}
+                            {% set linkPage = page + i %}
+                            {% if linkPage < lastPage %} {# - 1 => last page will be shown anyway #}
+                                <li><a href="{{ table.pagination.pageLink(linkPage) }}">{{ linkPage }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {# dots for difference between last and previous displayed #}
+                        {% if table.pagination.nextSpace %}
+                            <li class="disabled"><span>...</span></li>
+                        {% endif %}
+                        {# last page #}
+                        {% if page == lastPage %}
+                            <li class="active"><a href="{{ table.pagination.pageLink(lastPage) }}">{{ lastPage }}</a></li>
+                        {% elseif table.pagination.nextSpace %}
+                            <li><a href="{{ table.pagination.pageLink(lastPage) }}">{{ lastPage }}<span class="page-link page-last"></span></a></li>
+                        {% else %}
+                            <li><a href="{{ table.pagination.pageLink(lastPage) }}">{{ lastPage }}</a></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
             {% endif %}
+        </div>
+        {% if table.crud.hasParent() %}
+            {#<script type="text/javascript">#}
+            {#var showBackdrop = function() {#}
+            {#var $backdrop = jQuery('<div id="#request_backdrop" class="modal-backdrop fade"></div>').appendTo(jQuery('body'));#}
+            {#$backdrop.animate({opacity: 0.75}, 75);#}
+
+            {#return $backdrop;#}
+            {#}#}
+
+            {#var removeBackdrop = function($backdrop) {#}
+
+            {#$backdrop.animate({opacity: 0}, 75);#}
+            {#$backdrop.remove();#}
+            {#}#}
+
+            {#jQuery(document).ready(function() {#}
+            {#var $tableId = '#{{ table.id }}';#}
+            {#var $paginationId = '#{{ table.id }}' + '-pagination';#}
+
+            {#jQuery($paginationId + " a").each(function(index, element) {#}
+            {#jQuery(element).on('click', function(event) {#}
+            {#event.preventDefault();#}
+            {#var $link = jQuery(this).attr('href');#}
+            {#var $backdrop = showBackdrop();#}
+            {#jQuery.ajax({#}
+            {#url: $link,#}
+            {#success: function(response) {#}
+            {#jQuery($tableId).replaceWith(jQuery(response).find($tableId));#}
+            {#removeBackdrop($backdrop);#}
+            {#}#}
+            {#})#}
+            {#})#}
+            {#});#}
+
+            {#});#}
+            {#</script>#}
         {% endif %}
-    </div>
-    {% if table.crud.hasParent() %}
-        {#<script type="text/javascript">#}
-        {#var showBackdrop = function() {#}
-        {#var $backdrop = jQuery('<div id="#request_backdrop" class="modal-backdrop fade"></div>').appendTo(jQuery('body'));#}
-        {#$backdrop.animate({opacity: 0.75}, 75);#}
-
-        {#return $backdrop;#}
-        {#}#}
-
-        {#var removeBackdrop = function($backdrop) {#}
-
-        {#$backdrop.animate({opacity: 0}, 75);#}
-        {#$backdrop.remove();#}
-        {#}#}
-
-        {#jQuery(document).ready(function() {#}
-        {#var $tableId = '#{{ table.id }}';#}
-        {#var $paginationId = '#{{ table.id }}' + '-pagination';#}
-
-        {#jQuery($paginationId + " a").each(function(index, element) {#}
-        {#jQuery(element).on('click', function(event) {#}
-        {#event.preventDefault();#}
-        {#var $link = jQuery(this).attr('href');#}
-        {#var $backdrop = showBackdrop();#}
-        {#jQuery.ajax({#}
-        {#url: $link,#}
-        {#success: function(response) {#}
-        {#jQuery($tableId).replaceWith(jQuery(response).find($tableId));#}
-        {#removeBackdrop($backdrop);#}
-        {#}#}
-        {#})#}
-        {#})#}
-        {#});#}
-
-        {#});#}
-        {#</script>#}
-    {% endif %}
-{% endblock table_navigation %}
+    {% endblock table_navigation %}
 
