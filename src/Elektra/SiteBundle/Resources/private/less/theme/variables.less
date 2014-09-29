@@ -64,9 +64,13 @@
 @btn-cancel-bg: @btn-close-bg;
 @btn-cancel-border: @btn-close-border;
 
-@btn-save-color: @btn-success-color;
-@btn-save-bg: @btn-success-bg;
-@btn-save-border: @btn-success-border;
+@btn-save-return-color: @btn-success-color;
+@btn-save-return-bg: @btn-success-bg;
+@btn-save-return-border: @btn-success-border;
+
+@btn-save-color: lighten(@btn-success-color, 15%);
+@btn-save-bg: lighten(@btn-success-bg, 15%);
+@btn-save-border: lighten(@btn-success-border, 15%);
 
 @btn-edit-color: @btn-warning-color;
 @btn-edit-bg: @btn-warning-bg;
