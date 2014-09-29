@@ -9,6 +9,7 @@ services:
         class: Elektra\SiteBundle\Site\Language
         arguments:
             - "@translator.default"
+            - "@service_container"
 
     siteMenu:
         class: Elektra\SiteBundle\Menu\Menu

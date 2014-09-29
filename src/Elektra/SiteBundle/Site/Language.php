@@ -3,6 +3,7 @@
 
 namespace Elektra\SiteBundle\Site;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class Language
@@ -12,6 +13,16 @@ class Language
      * @var TranslatorInterface
      */
     protected $translator;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * @var string
+     */
+    protected $env;
 
     /**
      * @var array
@@ -26,12 +37,16 @@ class Language
     /**
      * @param TranslatorInterface $translator
      */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, ContainerInterface $container)
     {
 
         $this->translator = $translator;
-        $this->strings    = array();
-        $this->previous   = array();
+        $this->container  = $container;
+
+        $this->env = $this->container->get('kernel')->getEnvironment();
+
+        $this->strings  = array();
+        $this->previous = array();
         $this->setDefaults();
     }
 
@@ -121,8 +136,9 @@ class Language
         }
 
         if ($translated == $identifier && $identifier != '') { // $identifier != '' in order to "reset" translations to empty
-            // URGENT: show ~~ only in dev environment
-            $translated = '~~ ' . $translated . ' ~~';
+            if ($this->env == 'dev') {
+                $translated = '~~ ' . $translated . ' ~~';
+            }
         }
 
         if (!array_key_exists($key, $this->strings)) {
@@ -145,6 +161,9 @@ class Language
             $translated = $this->strings[$key];
             if ($translated == '') { // allow empty translations to omit displaying of some text
                 return true;
+            }
+            if ($translated == $key) {
+                return false;
             }
             if ($translated[0] == '~') {
                 return false;

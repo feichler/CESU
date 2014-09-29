@@ -329,7 +329,7 @@ class Base
         foreach ($strings as $string) {
             $language->override($string, $key . '.' . $string);
 
-            if (!$language->isTranslated($string)) {
+            if (!$language->isTranslated($string) || $language->get($string) == $key . '.' . $string) {
                 $language->restore($string);
             }
         }
@@ -379,9 +379,10 @@ class Base
     {
 
         $siteLanguage = $this->container->get('siteLanguage');
+        $navigator    = $this->container->get('navigator');
 
         // TODO reports definition
-        $reportsItem = new Item($siteLanguage->getRequired('menu.reports'));
+        $reportsItem = new Item($siteLanguage->getRequired('menu.reports'), $navigator->getBrowseLink($navigator->getDefinition('Elektra', 'Seed', 'Reports', 'Report')));
 
         return $reportsItem;
     }
