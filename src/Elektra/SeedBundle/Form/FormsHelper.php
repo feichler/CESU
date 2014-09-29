@@ -24,7 +24,7 @@ class FormsHelper {
      * @param array $seedUnits
      * @return array List containing the internal names of the allowed statuses
      */
-    private static function getAllowedStatuses(array $seedUnits)
+    public static function getAllowedStatuses(array $seedUnits)
     {
 
         $statuses = array();
