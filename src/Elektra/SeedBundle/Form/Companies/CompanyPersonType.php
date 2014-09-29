@@ -40,16 +40,11 @@ class CompanyPersonType extends CrudForm
             $companyTypeData  = $company->getCompanyType();
         }
 
-        $companyTypeFieldOptions = $this->getFieldOptions('companyType')
-            ->notMapped()
-            ->add('data', Helper::translate($companyTypeData));
+        $companyTypeFieldOptions = $this->getFieldOptions('companyType')->notMapped()->add('data', Helper::translate($companyTypeData));
 
-        $companyFieldOptions = $this->getFieldOptions('company')
-            ->notMapped()
-            ->add('data', $companyData);
+        $companyFieldOptions = $this->getFieldOptions('company')->notMapped()->add('data', $companyData);
 
-        if ($options['crud_action'] != 'view')
-        {
+        if ($options['crud_action'] != 'view') {
             $companyTypeFieldOptions->readOnly();
             $companyFieldOptions->readOnly();
         }
@@ -57,12 +52,10 @@ class CompanyPersonType extends CrudForm
         $common->add('companyType', 'text', $companyTypeFieldOptions->toArray());
         $common->add('company', 'text', $companyFieldOptions->toArray());
 
-        $locationFieldOptions = $this->getFieldOptions('location')
-            ->required()
-            ->notBlank()
-            ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation')->getClassEntity())
-            ->add('property', 'title')
-            ->add('choices', $company->getLocations());
+        $locationFieldOptions = $this->getFieldOptions('location')->required()->notBlank()->add(
+                'class',
+                $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation')->getClassEntity()
+            )->add('property', 'title')->add('choices', $company->getLocations());
         $common->add('location', 'entity', $locationFieldOptions->toArray());
 
         $this->buildCommonForm($builder, $options, $common);
@@ -109,13 +102,16 @@ class CompanyPersonType extends CrudForm
         $common->add('salutation', 'text', $this->getFieldOptions('salutation')->optional()->toArray());
         $common->add('jobTitle', 'text', $this->getFieldOptions('jobTitle')->optional()->toArray());
 
-        $isPrimaryOptions = $this->getFieldOptions('isPrimary')
-            ->optional();
-        if ($options['crud_action'] == 'edit' && $options['data']->getIsPrimary())
-        {
-            $isPrimaryOptions->readOnly();
+        $isPrimary = $options['data']->getIsPrimary();
+        if ($isPrimary) {
+            $isPrimaryOptions = $this->getFieldOptions('isPrimary');
+            $common->add('isPrimary', 'hidden', $isPrimaryOptions->toArray());
+            $isPrimaryInfoOptions = $this->getFieldOptions('isPrimary')->notMapped()->add('data', $isPrimary)->add('disabled', true);
+            $common->add('isPrimaryInfo', 'checkbox', $isPrimaryInfoOptions->toArray());
+        } else {
+            $isPrimaryOptions = $this->getFieldOptions('isPrimary')->optional();
+            $common->add('isPrimary', 'checkbox', $isPrimaryOptions->toArray());
         }
-        $common->add('isPrimary', 'checkbox', $isPrimaryOptions->toArray());
 
         if ($options['crud_action'] == 'view') {
             $contactInfos             = $this->addFieldGroup($builder, $options, 'contactInfos');

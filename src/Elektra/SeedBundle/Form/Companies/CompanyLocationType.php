@@ -27,10 +27,8 @@ class CompanyLocationType extends CrudForm
             $companyTypeData  = $parentEntity->getCompanyType();
         }
 
-        $companyTypeFieldOptions = $this->getFieldOptions('companyType')
-            ->notMapped();
-        if ($options['crud_action'] != 'view')
-        {
+        $companyTypeFieldOptions = $this->getFieldOptions('companyType')->notMapped();
+        if ($options['crud_action'] != 'view') {
             $companyTypeFieldOptions->readOnly();
         }
         $companyTypeFieldOptions->add('data', Helper::translate($companyTypeData));
@@ -39,38 +37,38 @@ class CompanyLocationType extends CrudForm
         $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'Company');
         $this->addParentField('common', $builder, $options, $parentDefinition, 'company');
 
-        $commonGroup->add('shortName', 'text', $this->getFieldOptions('shortName')
-            ->optional()
-            ->toArray());
-//        $commonGroup->add('name', 'text', $this->getFieldOptions('name')->optional()->toArray());
+        $commonGroup->add(
+            'shortName',
+            'text',
+            $this->getFieldOptions('shortName')->optional()->toArray()
+        );
 
-        $isPrimaryOptions = $this->getFieldOptions('isPrimary')
-            ->optional();
-        if ($options['crud_action'] == 'edit' && $options['data']->getIsPrimary())
-        {
-            $isPrimaryOptions->readOnly();
+        $isPrimary = $options['data']->getIsPrimary();
+        if ($isPrimary) {
+            $isPrimaryOptions = $this->getFieldOptions('isPrimary');
+            $commonGroup->add('isPrimary', 'hidden', $isPrimaryOptions->toArray());
+            $isPrimaryInfoOptions = $this->getFieldOptions('isPrimary')->notMapped()->add('data', $isPrimary)->add('disabled', true);
+            $commonGroup->add('isPrimaryInfo', 'checkbox', $isPrimaryInfoOptions->toArray());
+        } else {
+            $isPrimaryOptions = $this->getFieldOptions('isPrimary')->optional();
+            $commonGroup->add('isPrimary', 'checkbox', $isPrimaryOptions->toArray());
         }
-        $commonGroup->add('isPrimary', 'checkbox', $isPrimaryOptions->toArray());
 
         $addressGroup = $this->addFieldGroup($builder, $options, 'address');
 
-/*        $addressTypeFieldOptions = $this->getFieldOptions('addressType')->required()->notBlank()->add(
-            'class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'AddressType')->getClassEntity())
-            ->add('property', 'title');
-        $addressGroup->add('addressType', 'entity', $addressTypeFieldOptions->toArray());*/
-
-        $addressFieldOptions = $this->getFieldOptions('address', false)
-            ->add('data_class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Address')->getClassEntity())
-            ->add('crud_action', $options['crud_action'])
-            ->add('default_actions', false);
+        $addressFieldOptions = $this->getFieldOptions('address', false)->add('data_class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Address')->getClassEntity())->add(
+            'crud_action',
+            $options['crud_action']
+        )->add('default_actions', false);
         $addressGroup->add('address', new AddressType($this->getCrud()), $addressFieldOptions->toArray());
 
         if ($options['crud_action'] == 'view') {
             $personsGroup = $this->addFieldGroup($builder, $options, 'persons');
 
-            $personsFieldOptions = $this->getFieldOptions('persons')->add('relation_parent_entity', $options['data'])
-                ->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'))
-                ->add('relation_name', 'location');
+            $personsFieldOptions = $this->getFieldOptions('persons')->add('relation_parent_entity', $options['data'])->add(
+                'relation_child_type',
+                $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson')
+            )->add('relation_name', 'location');
             $personsGroup->add('persons', 'relatedList', $personsFieldOptions->toArray());
         }
     }
