@@ -40,5 +40,11 @@ class RequestTable extends Table
         $shippingAddress->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation'));
         $shippingAddress->setFieldData(array('shippingLocation.shortName', 'shippingLocation.name'), true);
         $shippingAddress->setSortable();
+
+        $requestedUnits = $this->getColumns()->add('numberOfUnitsRequested');
+        $requestedUnits->setFieldData('numberOfUnitsRequested');
+
+        $assigned = $this->getColumns()->addCountColumn('numberOfUnitsAssigned');
+        $assigned->setFieldData('seedUnits');
     }
 }

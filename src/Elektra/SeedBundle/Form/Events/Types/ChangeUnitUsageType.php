@@ -7,6 +7,7 @@ use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\Companies\Partner;
 use Elektra\SeedBundle\Entity\Events\UnitUsage;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
+use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -45,7 +46,8 @@ class ChangeUnitUsageType extends ModalFormsBaseType
             $builder->add($fieldName, new UsageEventType(), array(
                 'data' => $event,
                 'mapped' => false,
-                'label' => Helper::translate('modal.header.usage.'.$usage),
+                'label' => $usage->getName(),
+//                'label' => Helper::translate('modal.header.usage.'.$usage->getAbbreviation()),
                 UsageEventType::OPT_PARTNER => $partner,
                 UsageEventType::OPT_LOCATION_CONSTRAINT => $usage->getLocationConstraint(),
                 UsageEventType::OPT_LOCATION_SCOPE => $usage->getLocationScope(),

@@ -326,6 +326,8 @@ tables:
             actions:
                 add:                                                    Add Partner
         customer:
+            columns:
+                partner:                                                Partner
             actions:
                 add:                                                    Add Customer
         sales_team:
@@ -373,6 +375,8 @@ tables:
                 location:                                               Location
                 request:                                                Request
                 usage:                                                  Usage
+                number_of_units_requested:                              '# requested'
+                number_of_units_assigned:                               '# assigned'
             actions:
                 add:                                                    New Request
 

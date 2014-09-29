@@ -3,6 +3,7 @@
 namespace Elektra\SeedBundle\Form\Companies;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
+use Elektra\SeedBundle\Entity\Companies\Partner;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class CustomerType extends CrudForm
@@ -29,9 +30,14 @@ class CustomerType extends CrudForm
 
         if ($options['crud_action'] == 'view')
         {
+            /** @var Partner $partner */
+            $partner = $options['data']->getPartners()->first();
+            $title =$partner->getPartnerType()->getTitle().' - '.$partner->getName();
+
             $partnerOptions = $this->getFieldOptions('partner')
                 ->notMapped()
-                ->add('data', $options['data']->getPartners()->first()->getTitle());
+//                ->add('data', $options['data']->getPartners()->first()->getTitle());
+                ->add('data', $title);
             $common->add('partner','display',$partnerOptions->toArray());
         }
         else
@@ -41,8 +47,10 @@ class CustomerType extends CrudForm
                 $partnerOptions = $this->getFieldOptions('partner')
                     ->required()
                     ->notMapped()
+                    ->add('empty_value', 'Select Company')
                     ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Partner')->getClassEntity())
-                    ->add('property', 'title');
+                    ->add('property', 'title')
+                    ->add('group_by', 'partnerType.name');
 
                 $common->add('partner','entity',$partnerOptions->toArray());
             }
