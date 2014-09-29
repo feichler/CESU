@@ -3,6 +3,8 @@
 namespace Elektra\SeedBundle\Form\Companies;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
+use Elektra\SeedBundle\Entity\Companies\Company;
+use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
 use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -18,22 +20,33 @@ class CompanyLocationType extends CrudForm
         $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'Company');
 
         $commonGroup = $this->addFieldGroup($builder, $options, 'common');
+        /** @var CompanyLocation $entity */
+        $entity = $options['data'];
 
+        $isFirst = false;
         if ($options['crud_action'] != 'add') {
-            $companyTypeData = $options['data']->getCompany()->getCompanyType();
+            $companyTypeData = $entity->getCompany()->getCompanyType();
         } else {
             $parentRepository = $this->getCrud()->getService('doctrine')->getRepository($parentDefinition->getClassRepository());
+
+            /** @var Company $parentEntity */
             $parentEntity     = $parentRepository->find($this->getCrud()->getParentId());
             $companyTypeData  = $parentEntity->getCompanyType();
+
+            if ($parentEntity->getLocations()->count() == 0)
+            {
+                $isFirst = true;
+                $entity->setIsPrimary(true);
+            }
         }
 
         $companyTypeFieldOptions = $this->getFieldOptions('companyType')
-            ->notMapped();
+            ->notMapped()
+            ->add('data', Helper::translate($companyTypeData));
         if ($options['crud_action'] != 'view')
         {
             $companyTypeFieldOptions->readOnly();
         }
-        $companyTypeFieldOptions->add('data', Helper::translate($companyTypeData));
         $commonGroup->add('companyType', 'text', $companyTypeFieldOptions->toArray());
 
         $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'Company');
@@ -42,11 +55,10 @@ class CompanyLocationType extends CrudForm
         $commonGroup->add('shortName', 'text', $this->getFieldOptions('shortName')
             ->optional()
             ->toArray());
-//        $commonGroup->add('name', 'text', $this->getFieldOptions('name')->optional()->toArray());
 
         $isPrimaryOptions = $this->getFieldOptions('isPrimary')
             ->optional();
-        if ($options['crud_action'] == 'edit' && $options['data']->getIsPrimary())
+        if ($isFirst || ($options['crud_action'] == 'edit' && $entity->getIsPrimary()))
         {
             $isPrimaryOptions->readOnly();
         }
@@ -68,7 +80,7 @@ class CompanyLocationType extends CrudForm
         if ($options['crud_action'] == 'view') {
             $personsGroup = $this->addFieldGroup($builder, $options, 'persons');
 
-            $personsFieldOptions = $this->getFieldOptions('persons')->add('relation_parent_entity', $options['data'])
+            $personsFieldOptions = $this->getFieldOptions('persons')->add('relation_parent_entity', $entity)
                 ->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyPerson'))
                 ->add('relation_name', 'location');
             $personsGroup->add('persons', 'relatedList', $personsFieldOptions->toArray());

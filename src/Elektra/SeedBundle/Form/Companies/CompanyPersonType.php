@@ -3,6 +3,9 @@
 namespace Elektra\SeedBundle\Form\Companies;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
+use Elektra\SeedBundle\Entity\Companies\Company;
+use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
+use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
 use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -30,11 +33,13 @@ class CompanyPersonType extends CrudForm
         $parentDefinition = $this->getCrud()->getParentDefinition();
 
         if ($options['crud_action'] != 'add') {
+            /** @var Company $company */
             $company         = $options['data']->getLocation()->getCompany();
             $companyData     = $company->getTitle();
             $companyTypeData = $company->getCompanyType();
         } else {
             $parentRepository = $this->getCrud()->getService('doctrine')->getRepository($parentDefinition->getClassRepository());
+            /** @var Company $company */
             $company          = $parentRepository->find($this->getCrud()->getParentId());
             $companyData      = $company->getTitle();
             $companyTypeData  = $company->getCompanyType();
@@ -65,43 +70,49 @@ class CompanyPersonType extends CrudForm
             ->add('choices', $company->getLocations());
         $common->add('location', 'entity', $locationFieldOptions->toArray());
 
-        $this->buildCommonForm($builder, $options, $common);
+        $this->buildCommonForm($builder, $options, $common, $company);
     }
 
     private function buildLocationForm(FormBuilderInterface $builder, array $options, FormBuilderInterface $common)
     {
 
         $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation');
-
+        /** @var CompanyPerson $entity */
+        $entity = $options['data'];
         if ($options['crud_action'] != 'add') {
-            $companyData     = $options['data']->getLocation()->getCompany()->getTitle();
-            $companyTypeData = $options['data']->getLocation()->getCompany()->getCompanyType();
+            $company = $entity->getLocation()->getCompany();
+            $companyData     = $company->getTitle();
+            $companyTypeData = $company->getCompanyType();
         } else {
             $parentRepository = $this->getCrud()->getService('doctrine')->getRepository($parentDefinition->getClassRepository());
+            /** @var CompanyLocation $parentEntity */
             $parentEntity     = $parentRepository->find($this->getCrud()->getParentId());
-            $companyData      = $parentEntity->getCompany()->getTitle();
-            $companyTypeData  = $parentEntity->getCompany()->getCompanyType();
+            $company = $parentEntity->getCompany();
+            $companyData      = $company->getTitle();
+            $companyTypeData  = $company->getCompanyType();
         }
 
-        $companyTypeFieldOptions = $this->getFieldOptions('companyType');
-        $companyFieldOptions     = $this->getFieldOptions('company');
-        $companyTypeFieldOptions->notMapped();
-        $companyFieldOptions->notMapped();
+        $companyTypeFieldOptions = $this->getFieldOptions('companyType')
+            ->notMapped()
+            ->add('data', Helper::translate($companyTypeData));
+        $companyFieldOptions = $this->getFieldOptions('company')
+            ->notMapped()
+            ->add('data', $companyData);
+
         if ($options['crud_action'] != 'view') {
             $companyTypeFieldOptions->readOnly();
             $companyFieldOptions->readOnly();
         }
-        $companyTypeFieldOptions->add('data', Helper::translate($companyTypeData));
-        $companyFieldOptions->add('data', $companyData);
+
         $common->add('companyType', 'text', $companyTypeFieldOptions->toArray());
         $common->add('company', 'text', $companyFieldOptions->toArray());
 
         $this->addParentField('common', $builder, $options, $parentDefinition, 'location');
 
-        $this->buildCommonForm($builder, $options, $common);
+        $this->buildCommonForm($builder, $options, $common, $company);
     }
 
-    private function buildCommonForm(FormBuilderInterface $builder, array $options, FormBuilderInterface $common)
+    private function buildCommonForm(FormBuilderInterface $builder, array $options, FormBuilderInterface $common, Company $company)
     {
 
         $common->add('firstName', 'text', $this->getFieldOptions('firstName')->required()->notBlank()->toArray());
@@ -109,21 +120,40 @@ class CompanyPersonType extends CrudForm
         $common->add('salutation', 'text', $this->getFieldOptions('salutation')->optional()->toArray());
         $common->add('jobTitle', 'text', $this->getFieldOptions('jobTitle')->optional()->toArray());
 
+        /** @var CompanyPerson $entity */
+        $entity = $options['data'];
+
+        $first = true;
+        foreach ($company->getLocations() as $otherLocation)
+        {
+            /** @var CompanyLocation $otherLocation */
+            if ($otherLocation->getPersons()->count() > 0)
+            {
+                $first = false;
+                break;
+            }
+        }
+
+        if ($first && $options['crud_action'] == 'add')
+        {
+            $entity->setIsPrimary(true);
+        }
+
         $isPrimaryOptions = $this->getFieldOptions('isPrimary')
             ->optional();
-        if ($options['crud_action'] == 'edit' && $options['data']->getIsPrimary())
+        if ($first || ($options['crud_action'] == 'edit' && $entity->getIsPrimary()))
         {
             $isPrimaryOptions->readOnly();
         }
         $common->add('isPrimary', 'checkbox', $isPrimaryOptions->toArray());
 
         if ($options['crud_action'] == 'view') {
-            $contactInfos             = $this->addFieldGroup($builder, $options, 'contactInfos');
-            $contactInfosFieldOptions = $this->getFieldOptions('contactInfos');
-            $contactInfosFieldOptions->add('relation_parent_entity', $options['data']);
-            $contactInfosFieldOptions->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'ContactInfo'));
-            $contactInfosFieldOptions->add('relation_name', 'person');
-            $contactInfos->add('contactInfo', 'relatedList', $contactInfosFieldOptions->toArray());
+            $contactInfoGroup             = $this->addFieldGroup($builder, $options, 'contactInfos');
+            $contactInfoFieldOptions = $this->getFieldOptions('contactInfos')
+                ->add('relation_parent_entity', $options['data'])
+                ->add('relation_child_type', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'ContactInfo'))
+                ->add('relation_name', 'person');
+            $contactInfoGroup->add('contactInfo', 'relatedList', $contactInfoFieldOptions->toArray());
         }
     }
 }
