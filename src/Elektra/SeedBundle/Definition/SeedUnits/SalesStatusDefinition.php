@@ -1,16 +1,16 @@
 <?php
 
-namespace Elektra\SeedBundle\Definition\Events;
+namespace Elektra\SeedBundle\Definition\SeedUnits;
 
 use Elektra\CrudBundle\Crud\Definition;
 
-class UnitSalesStatusDefinition extends Definition
+class SalesStatusDefinition extends Definition
 {
 
     public function __construct()
     {
 
-        parent::__construct('Elektra', 'Seed', 'Events', 'UnitSalesStatus');
+        parent::__construct('Elektra', 'Seed', 'SeedUnits', 'SalesStatus');
 
         // single route (add / view / edit / delete)
         $this->setRouteSingular('salesStatus');

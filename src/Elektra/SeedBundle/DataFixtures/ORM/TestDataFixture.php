@@ -19,10 +19,9 @@ use Elektra\SeedBundle\Entity\Companies\Partner;
 use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
 use Elektra\SeedBundle\Entity\Events\Event;
 use Elektra\SeedBundle\Entity\Events\EventType;
-use Elektra\SeedBundle\Entity\Events\ShippingEvent;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\SeedUnits\Model;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
+use Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus;
 
 /**
  * Class TestDataFixture
@@ -215,8 +214,8 @@ class TestDataFixture extends SeedBundleFixture
 
         /* @var $eventType EventType */
         $eventType = $this->getReference("eventType-shipping");
-        /* @var $unitStatus UnitStatus */
-        $unitStatus = $this->getReference("status-available");
+        /* @var $shippingStatus ShippingStatus */
+        $shippingStatus = $this->getReference("status-available");
 
         foreach($data as $warehouseKey => $serials)
         {
@@ -232,7 +231,7 @@ class TestDataFixture extends SeedBundleFixture
                 $obj->setTimestamp(time());
                 $obj->setEventType($eventType);
                 $obj->setLocation($warehouse);
-                $obj->setUnitStatus($unitStatus);
+                $obj->setShippingStatus($shippingStatus);
                 $obj->setText($subject);
 
                 $manager->persist($obj);
@@ -419,7 +418,7 @@ class TestDataFixture extends SeedBundleFixture
         /** @var Model $model */
         $model = $this->getReference('model-'.strtolower('Cisco ASA 5515'));
 
-        /* @var $shippingStatus UnitStatus */
+        /* @var $shippingStatus ShippingStatus */
         $shippingStatus = $this->getReference("status-available");
 
         foreach($data as $warehouseKey => $powerCordTypes)

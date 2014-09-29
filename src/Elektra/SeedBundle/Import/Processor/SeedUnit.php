@@ -4,8 +4,6 @@ namespace Elektra\SeedBundle\Import\Processor;
 
 use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
-use Elektra\SeedBundle\Entity\Notes\Note;
 use Elektra\SeedBundle\Entity\SeedUnits\Model;
 use Elektra\SeedBundle\Entity\SeedUnits\PowerCordType;
 use Elektra\SeedBundle\Import\Processor;
@@ -82,7 +80,7 @@ class SeedUnit extends Processor
         $event = $eventFactory->createAvailable($data['warehouse']);
         $event->setSeedUnit($seedUnit);
         $seedUnit->getEvents()->add($event);
-        $seedUnit->setShippingStatus($event->getUnitStatus());
+        $seedUnit->setShippingStatus($event->getShippingStatus());
 
         // create the "created from import" note
         $this->addCreatedNote($seedUnit,$row);

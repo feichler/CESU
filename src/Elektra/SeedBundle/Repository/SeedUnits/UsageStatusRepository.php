@@ -7,33 +7,33 @@
  * @version   0.1-dev
  */
 
-namespace Elektra\SeedBundle\Repository\Events;
+namespace Elektra\SeedBundle\Repository\SeedUnits;
 
 use Elektra\CrudBundle\Repository\Repository;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
+use Elektra\SeedBundle\Entity\SeedUnits\UsageStatus;
 
 /**
- * Class UnitStatusRepository
+ * Class UsageStatusRepository
  *
- * @package Elektra\SeedBundle\Repository\Events
+ * @package Elektra\SeedBundle\Repository\SeedUnits
  *
  * @version 0.1-dev
  */
 // URGENT / CHECK should this also be a crud-repository?
-class UnitStatusRepository extends Repository
+class UsageStatusRepository extends Repository
 {
 
     /**
      * @param string $internalName
-     * @return UnitStatus
+     * @return UsageStatus
      */
     public function findByInternalName($internalName)
     {
 
         $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder->select('us')
-            ->from('ElektraSeedBundle:Events\UnitStatus', 'us')
-            ->where('us.internalName = :internalName')
+        $builder->select('uu')
+            ->from('ElektraSeedBundle:SeedUnits\UsageStatus', 'uu')
+            ->where('uu.internalName = :internalName')
             ->setParameter("internalName", $internalName);
 
         $result = $builder->getQuery()->getSingleResult();

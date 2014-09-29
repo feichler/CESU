@@ -10,8 +10,8 @@ namespace Elektra\SeedBundle\Form\Events\Types\Strategies;
 
 
 use Elektra\SeedBundle\Entity\Events\Event;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
+use Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus;
 
 class SeedUnitTransitionRules
 {
@@ -20,13 +20,13 @@ class SeedUnitTransitionRules
 
     function __construct(Event $eventTemplate)
     {
-        $newStatus = $eventTemplate->getUnitStatus() != null ? $eventTemplate->getUnitStatus()->getInternalName() : null;
-        $this->allowedStatuses = ($newStatus != null and isset(UnitStatus::$ALLOWED_TO[$newStatus])) ? UnitStatus::$ALLOWED_TO[$newStatus] : array();
+        $newStatus = $eventTemplate->getShippingStatus() != null ? $eventTemplate->getShippingStatus()->getInternalName() : null;
+        $this->allowedStatuses = ($newStatus != null and isset(ShippingStatus::$ALLOWED_TO[$newStatus])) ? ShippingStatus::$ALLOWED_TO[$newStatus] : array();
     }
 
     public function checkNewShippingStatus(SeedUnit $seedUnit, Event $eventTemplate)
     {
-        return $eventTemplate->getUnitStatus() == null or in_array($seedUnit->getShippingStatus()->getInternalName(), $this->allowedStatuses);
+        return $eventTemplate->getShippingStatus() == null or in_array($seedUnit->getShippingStatus()->getInternalName(), $this->allowedStatuses);
     }
 
     public function checkNewSalesStatus(SeedUnit $seedUnit, Event $eventTemplate)
@@ -34,8 +34,8 @@ class SeedUnitTransitionRules
         return $seedUnit->getSalesStatus() == null or $eventTemplate->getSalesStatus() == null or $seedUnit->getSalesStatus()->getId() != $eventTemplate->getSalesStatus()->getId();
     }
 
-    public function checkNewUsage(SeedUnit $seedUnit, Event $eventTemplate)
+    public function checkNewUsageStatus(SeedUnit $seedUnit, Event $eventTemplate)
     {
-        return $seedUnit->getUnitUsage() == null or $eventTemplate->getUsage() == null or $seedUnit->getUnitUsage()->getId() != $eventTemplate->getUsage()->getId();
+        return $seedUnit->getUsageStatus() == null or $eventTemplate->getUsageStatus() == null or $seedUnit->getUsageStatus()->getId() != $eventTemplate->getUsageStatus()->getId();
     }
 }

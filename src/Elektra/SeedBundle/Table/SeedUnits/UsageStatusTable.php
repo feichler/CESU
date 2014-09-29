@@ -1,10 +1,10 @@
 <?php
 
-namespace Elektra\SeedBundle\Table\Events;
+namespace Elektra\SeedBundle\Table\SeedUnits;
 
 use Elektra\CrudBundle\Table\Table;
 
-class UnitUsageTable extends Table
+class UsageStatusTable extends Table
 {
 
     protected function initialiseColumns()

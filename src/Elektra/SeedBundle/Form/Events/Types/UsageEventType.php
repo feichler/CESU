@@ -5,10 +5,9 @@ namespace Elektra\SeedBundle\Form\Events\Types;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Elektra\SeedBundle\Entity\Companies\Partner;
-use Elektra\SeedBundle\Entity\Events\UnitUsage;
+use Elektra\SeedBundle\Entity\SeedUnits\UsageStatus;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UsageEventType extends EventType
 {
@@ -34,14 +33,14 @@ class UsageEventType extends EventType
         $partner = $options[UsageEventType::OPT_PARTNER];
 
         // TEST CODE
-        if ($locationConstraint == UnitUsage::LOCATION_CONSTRAINT_HIDDEN)
+        if ($locationConstraint == UsageStatus::LOCATION_CONSTRAINT_HIDDEN)
         {
             $builder->add('location', 'hiddenEntity');
         }
         else
         {
             $builder->add('location', 'entity', array(
-                'required' => $locationConstraint == UnitUsage::LOCATION_CONSTRAINT_REQUIRED,
+                'required' => $locationConstraint == UsageStatus::LOCATION_CONSTRAINT_REQUIRED,
                 'class' => 'Elektra\SeedBundle\Entity\Companies\CompanyLocation',
                 // TRANSLATE
                 'label' => 'Location',
@@ -49,13 +48,13 @@ class UsageEventType extends EventType
                 'query_builder' => function(EntityRepository $er) use($locationScope, $partner)
                     {
                         $qb = null;
-                        if ($locationScope == UnitUsage::LOCATION_SCOPE_PARTNER)
+                        if ($locationScope == UsageStatus::LOCATION_SCOPE_PARTNER)
                         {
                             $qb = $er->createQueryBuilder('cl');
                             $qb->where('cl.company = :partner');
                             $qb->setParameter('partner', $partner);
                         }
-                        else if ($locationScope == UnitUsage::LOCATION_SCOPE_CUSTOMER)
+                        else if ($locationScope == UsageStatus::LOCATION_SCOPE_CUSTOMER)
                         {
                             $qb = $er->createQueryBuilder('cl');
                             $qb->join('ElektraSeedBundle:Companies\Customer', 'c', Join::WITH, $qb->expr()->eq('c.companyId', 'cl.company'));
@@ -84,8 +83,8 @@ class UsageEventType extends EventType
         );
 
         $resolver->setDefaults(array(
-            UsageEventType::OPT_LOCATION_CONSTRAINT => UnitUsage::LOCATION_CONSTRAINT_HIDDEN,
-            UsageEventType::OPT_LOCATION_SCOPE => UnitUsage::LOCATION_SCOPE_PARTNER
+            UsageEventType::OPT_LOCATION_CONSTRAINT => UsageStatus::LOCATION_CONSTRAINT_HIDDEN,
+            UsageEventType::OPT_LOCATION_SCOPE => UsageStatus::LOCATION_SCOPE_PARTNER
         ));
     }
 }

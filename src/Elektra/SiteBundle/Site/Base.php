@@ -352,7 +352,8 @@ class Base
             // URGENT initialise the main menu for the site
 
             // first item - reports
-            $siteMenu->addItem($this->getReportsMenu());
+            // URGENT comment due to missing definition
+            //$siteMenu->addItem($this->getReportsMenu());
             // second item - requests
             $siteMenu->addItem($this->getRequestsMenu());
             // third item - companies (partner / customer / sales team)

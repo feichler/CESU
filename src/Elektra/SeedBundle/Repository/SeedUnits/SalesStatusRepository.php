@@ -7,20 +7,19 @@
  * @version   0.1-dev
  */
 
-namespace Elektra\SeedBundle\Repository\Events;
+namespace Elektra\SeedBundle\Repository\SeedUnits;
 
 use Elektra\CrudBundle\Repository\Repository;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
 
 /**
- * Class UnitSalesStatusRepository
+ * Class SalesStatusRepository
  *
- * @package Elektra\SeedBundle\Repository\Events
+ * @package Elektra\SeedBundle\Repository\SeedUnits
  *
  * @version 0.1-dev
  */
 // URGENT / CHECK should this also be a crud-repository?
-class UnitSalesStatusRepository extends Repository
+class SalesStatusRepository extends Repository
 {
 
 }

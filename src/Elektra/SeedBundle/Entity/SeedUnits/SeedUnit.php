@@ -17,9 +17,6 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\Companies\Location;
-use Elektra\SeedBundle\Entity\Events\UnitSalesStatus;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
-use Elektra\SeedBundle\Entity\Events\UnitUsage;
 use Elektra\SeedBundle\Entity\Requests\Request;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -87,25 +84,25 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
     protected $request;
 
     /**
-     * @var UnitStatus
+     * @var ShippingStatus
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitStatus", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="shippingStatusId", referencedColumnName="shippingStatusId", nullable=false)
      */
     protected $shippingStatus;
 
     /**
-     * @var UnitUsage
+     * @var UsageStatus
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitUsage", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\UsageStatus", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="usageStatusId", referencedColumnName="usageStatusId")
      */
-    protected $unitUsage;
+    protected $usageStatus;
 
     /**
-     * @var UnitSalesStatus
+     * @var SalesStatus
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitSalesStatus", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\SalesStatus", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="salesStatusId", referencedColumnName="salesStatusId")
      */
     protected $salesStatus;
@@ -341,7 +338,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Events\UnitSalesStatus $salesStatus
+     * @param \Elektra\SeedBundle\Entity\SeedUnits\SalesStatus $salesStatus
      */
     public function setSalesStatus($salesStatus)
     {
@@ -349,7 +346,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Events\UnitSalesStatus
+     * @return \Elektra\SeedBundle\Entity\SeedUnits\SalesStatus
      */
     public function getSalesStatus()
     {
@@ -357,7 +354,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Events\UnitStatus $shippingStatus
+     * @param \Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus $shippingStatus
      */
     public function setShippingStatus($shippingStatus)
     {
@@ -365,7 +362,7 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Events\UnitStatus
+     * @return \Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus
      */
     public function getShippingStatus()
     {
@@ -373,18 +370,18 @@ class SeedUnit implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Events\UnitUsage $unitUsage
+     * @param \Elektra\SeedBundle\Entity\SeedUnits\UsageStatus $usageStatus
      */
-    public function setUnitUsage($unitUsage)
+    public function setUsageStatus($usageStatus)
     {
-        $this->unitUsage = $unitUsage;
+        $this->usageStatus = $usageStatus;
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Events\UnitUsage
+     * @return \Elektra\SeedBundle\Entity\SeedUnits\UsageStatus
      */
-    public function getUnitUsage()
+    public function getUsageStatus()
     {
-        return $this->unitUsage;
+        return $this->usageStatus;
     }
 }

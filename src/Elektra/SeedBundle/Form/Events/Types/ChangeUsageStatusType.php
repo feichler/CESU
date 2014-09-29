@@ -5,15 +5,11 @@ namespace Elektra\SeedBundle\Form\Events\Types;
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\Companies\Partner;
-use Elektra\SeedBundle\Entity\Events\UnitUsage;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
-use Elektra\SiteBundle\Site\Helper;
-use Symfony\Component\Form\AbstractType;
+use Elektra\SeedBundle\Entity\SeedUnits\UsageStatus;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ChangeUnitUsageType extends ModalFormsBaseType
+class ChangeUsageStatusType extends ModalFormsBaseType
 {
 
     /**
@@ -21,12 +17,12 @@ class ChangeUnitUsageType extends ModalFormsBaseType
      */
     public function getName()
     {
-        return "changeUnitUsage";
+        return "changeUsageStatus";
     }
 
     protected function buildFields(FormBuilderInterface $builder, array $data, ObjectManager $mgr, EventFactory $eventFactory)
     {
-        $usages = $mgr->getRepository('ElektraSeedBundle:Events\UnitUsage')->findAll();
+        $usages = $mgr->getRepository('ElektraSeedBundle:SeedUnits\UsageStatus')->findAll();
 
         /** @var SeedUnit $seedUnit */
         $seedUnit = $data[0];
@@ -39,7 +35,7 @@ class ChangeUnitUsageType extends ModalFormsBaseType
 
         foreach ($usages as $usage)
         {
-            $fieldName = ChangeUnitUsageType::getModalId($usage);
+            $fieldName = ChangeUsageStatusType::getModalId($usage);
 
             $event = $eventFactory->createUsageEvent($usage, array());
 
@@ -47,18 +43,17 @@ class ChangeUnitUsageType extends ModalFormsBaseType
                 'data' => $event,
                 'mapped' => false,
                 'label' => $usage->getName(),
-//                'label' => Helper::translate('modal.header.usage.'.$usage->getAbbreviation()),
                 UsageEventType::OPT_PARTNER => $partner,
                 UsageEventType::OPT_LOCATION_CONSTRAINT => $usage->getLocationConstraint(),
                 UsageEventType::OPT_LOCATION_SCOPE => $usage->getLocationScope(),
                 EventType::OPT_MODAL_ID => $fieldName,
-                EventType::OPT_BUTTON_NAME => ChangeUnitUsageType::BUTTON_NAME
+                EventType::OPT_BUTTON_NAME => ChangeUsageStatusType::BUTTON_NAME
             ));
         }
     }
 
 
-    public static function getModalId(UnitUsage $usage)
+    public static function getModalId(UsageStatus $usage)
     {
         return "UsageUI_" . $usage->getAbbreviation();
     }

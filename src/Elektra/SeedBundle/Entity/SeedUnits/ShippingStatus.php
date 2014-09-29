@@ -7,7 +7,7 @@
  * @version   0.1-dev
  */
 
-namespace Elektra\SeedBundle\Entity\Events;
+namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,16 +17,16 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 
 /**
- * Class UnitStatus
+ * Class ShippingStatus
  *
- * @package Elektra\SeedBundle\Entity\Events
+ * @package Elektra\SeedBundle\Entity\SeedUnits
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Events\UnitStatusRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\ShippingStatusRepository")
  * @ORM\Table(name="shippingStatuses")
  */
-class UnitStatus implements AuditableInterface, CrudInterface
+class ShippingStatus implements AuditableInterface, CrudInterface
 {
 
     const AVAILABLE = "available";
@@ -57,54 +57,54 @@ class UnitStatus implements AuditableInterface, CrudInterface
      * @var array
      */
     static $ALL_INTERNAL_NAMES = array(
-        UnitStatus::AVAILABLE,
-        UnitStatus::RESERVED,
-        UnitStatus::EXCEPTION,
-        UnitStatus::IN_TRANSIT,
-        UnitStatus::SHIPPED,
-        UnitStatus::DELIVERED,
-        UnitStatus::ACKNOWLEDGE_ATTEMPT,
-        UnitStatus::AA1SENT,
-        UnitStatus::AA2SENT,
-        UnitStatus::AA3SENT,
-        UnitStatus::ESCALATION,
-        UnitStatus::DELIVERY_VERIFIED
+        ShippingStatus::AVAILABLE,
+        ShippingStatus::RESERVED,
+        ShippingStatus::EXCEPTION,
+        ShippingStatus::IN_TRANSIT,
+        ShippingStatus::SHIPPED,
+        ShippingStatus::DELIVERED,
+        ShippingStatus::ACKNOWLEDGE_ATTEMPT,
+        ShippingStatus::AA1SENT,
+        ShippingStatus::AA2SENT,
+        ShippingStatus::AA3SENT,
+        ShippingStatus::ESCALATION,
+        ShippingStatus::DELIVERY_VERIFIED
     );
 
     /**
      * @var array
      */
     static $ALLOWED_TO = array(
-        UnitStatus::AVAILABLE => array(),
-        UnitStatus::RESERVED => array(UnitStatus::AVAILABLE),
-        UnitStatus::SHIPPED => array(UnitStatus::RESERVED),
-        UnitStatus::EXCEPTION => array(UnitStatus::IN_TRANSIT),
-        UnitStatus::IN_TRANSIT => array(UnitStatus::SHIPPED, UnitStatus::EXCEPTION),
-        UnitStatus::DELIVERED => array(UnitStatus::IN_TRANSIT, UnitStatus::EXCEPTION),
-        UnitStatus::ACKNOWLEDGE_ATTEMPT => array(UnitStatus::DELIVERED),
-        UnitStatus::AA1SENT => array(UnitStatus::ACKNOWLEDGE_ATTEMPT),
-        UnitStatus::AA2SENT => array(UnitStatus::AA1SENT),
-        UnitStatus::AA3SENT => array(UnitStatus::AA2SENT),
-        UnitStatus::ESCALATION => array(UnitStatus::DELIVERED, UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::AA1SENT, UnitStatus::AA2SENT, UnitStatus::AA3SENT),
-        UnitStatus::DELIVERY_VERIFIED => array(UnitStatus::DELIVERED, UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::AA1SENT, UnitStatus::AA2SENT, UnitStatus::AA3SENT, UnitStatus::ESCALATION)
+        ShippingStatus::AVAILABLE => array(),
+        ShippingStatus::RESERVED => array(ShippingStatus::AVAILABLE),
+        ShippingStatus::SHIPPED => array(ShippingStatus::RESERVED),
+        ShippingStatus::EXCEPTION => array(ShippingStatus::IN_TRANSIT),
+        ShippingStatus::IN_TRANSIT => array(ShippingStatus::SHIPPED, ShippingStatus::EXCEPTION),
+        ShippingStatus::DELIVERED => array(ShippingStatus::IN_TRANSIT, ShippingStatus::EXCEPTION),
+        ShippingStatus::ACKNOWLEDGE_ATTEMPT => array(ShippingStatus::DELIVERED),
+        ShippingStatus::AA1SENT => array(ShippingStatus::ACKNOWLEDGE_ATTEMPT),
+        ShippingStatus::AA2SENT => array(ShippingStatus::AA1SENT),
+        ShippingStatus::AA3SENT => array(ShippingStatus::AA2SENT),
+        ShippingStatus::ESCALATION => array(ShippingStatus::DELIVERED, ShippingStatus::ACKNOWLEDGE_ATTEMPT, ShippingStatus::AA1SENT, ShippingStatus::AA2SENT, ShippingStatus::AA3SENT),
+        ShippingStatus::DELIVERY_VERIFIED => array(ShippingStatus::DELIVERED, ShippingStatus::ACKNOWLEDGE_ATTEMPT, ShippingStatus::AA1SENT, ShippingStatus::AA2SENT, ShippingStatus::AA3SENT, ShippingStatus::ESCALATION)
     );
 
     /**
      * @var array
      */
     static $ALLOWED_FROM = array(
-        UnitStatus::AVAILABLE => array(UnitStatus::RESERVED),
-        UnitStatus::RESERVED => array(UnitStatus::SHIPPED),
-        UnitStatus::SHIPPED => array(UnitStatus::IN_TRANSIT),
-        UnitStatus::EXCEPTION => array(UnitStatus::IN_TRANSIT, UnitStatus::DELIVERED),
-        UnitStatus::IN_TRANSIT => array(UnitStatus::EXCEPTION, UnitStatus::DELIVERED),
-        UnitStatus::DELIVERED => array(UnitStatus::ACKNOWLEDGE_ATTEMPT, UnitStatus::ESCALATION, UnitStatus::DELIVERY_VERIFIED),
-        UnitStatus::ACKNOWLEDGE_ATTEMPT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION, UnitStatus::AA1SENT),
-        UnitStatus::AA1SENT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION, UnitStatus::AA2SENT),
-        UnitStatus::AA2SENT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION, UnitStatus::AA3SENT),
-        UnitStatus::AA3SENT => array(UnitStatus::DELIVERY_VERIFIED, UnitStatus::ESCALATION),
-        UnitStatus::ESCALATION => array(UnitStatus::DELIVERY_VERIFIED),
-        UnitStatus::DELIVERY_VERIFIED => array()
+        ShippingStatus::AVAILABLE => array(ShippingStatus::RESERVED),
+        ShippingStatus::RESERVED => array(ShippingStatus::SHIPPED),
+        ShippingStatus::SHIPPED => array(ShippingStatus::IN_TRANSIT),
+        ShippingStatus::EXCEPTION => array(ShippingStatus::IN_TRANSIT, ShippingStatus::DELIVERED),
+        ShippingStatus::IN_TRANSIT => array(ShippingStatus::EXCEPTION, ShippingStatus::DELIVERED),
+        ShippingStatus::DELIVERED => array(ShippingStatus::ACKNOWLEDGE_ATTEMPT, ShippingStatus::ESCALATION, ShippingStatus::DELIVERY_VERIFIED),
+        ShippingStatus::ACKNOWLEDGE_ATTEMPT => array(ShippingStatus::DELIVERY_VERIFIED, ShippingStatus::ESCALATION, ShippingStatus::AA1SENT),
+        ShippingStatus::AA1SENT => array(ShippingStatus::DELIVERY_VERIFIED, ShippingStatus::ESCALATION, ShippingStatus::AA2SENT),
+        ShippingStatus::AA2SENT => array(ShippingStatus::DELIVERY_VERIFIED, ShippingStatus::ESCALATION, ShippingStatus::AA3SENT),
+        ShippingStatus::AA3SENT => array(ShippingStatus::DELIVERY_VERIFIED, ShippingStatus::ESCALATION),
+        ShippingStatus::ESCALATION => array(ShippingStatus::DELIVERY_VERIFIED),
+        ShippingStatus::DELIVERY_VERIFIED => array()
     );
 
     /**

@@ -22,14 +22,14 @@ use Elektra\SeedBundle\Definition\Companies\RegionDefinition;
 use Elektra\SeedBundle\Definition\Companies\WarehouseLocationDefinition;
 use Elektra\SeedBundle\Definition\Events\EventDefinition;
 use Elektra\SeedBundle\Definition\Events\EventTypeDefinition;
-use Elektra\SeedBundle\Definition\Events\UnitSalesStatusDefinition;
-use Elektra\SeedBundle\Definition\Events\UnitStatusDefinition;
-use Elektra\SeedBundle\Definition\Events\UnitUsageDefinition;
 use Elektra\SeedBundle\Definition\Notes\NoteDefinition;
 use Elektra\SeedBundle\Definition\Requests\RequestDefinition;
 use Elektra\SeedBundle\Definition\SeedUnits\ModelDefinition;
 use Elektra\SeedBundle\Definition\SeedUnits\PowerCordTypeDefinition;
+use Elektra\SeedBundle\Definition\SeedUnits\SalesStatusDefinition;
 use Elektra\SeedBundle\Definition\SeedUnits\SeedUnitDefinition;
+use Elektra\SeedBundle\Definition\SeedUnits\ShippingStatusDefinition;
+use Elektra\SeedBundle\Definition\SeedUnits\UsageStatusDefinition;
 use Elektra\SeedBundle\Definition\Trainings\AttendanceDefinition;
 use Elektra\SeedBundle\Definition\Trainings\RegistrationDefinition;
 use Elektra\SeedBundle\Definition\Trainings\TrainingDefinition;
@@ -96,9 +96,9 @@ final class Navigator
         $this->addDefinition(new TrainingDefinition());
 
         $this->addDefinition(new EventTypeDefinition());
-        $this->addDefinition(new UnitStatusDefinition());
-        $this->addDefinition(new UnitSalesStatusDefinition());
-        $this->addDefinition(new UnitUsageDefinition());
+        $this->addDefinition(new ShippingStatusDefinition());
+        $this->addDefinition(new SalesStatusDefinition());
+        $this->addDefinition(new UsageStatusDefinition());
         $this->addDefinition(new EventDefinition());
 
         $this->addDefinition(new \Elektra\SeedBundle\Definition\Imports\TemplateDefinition());

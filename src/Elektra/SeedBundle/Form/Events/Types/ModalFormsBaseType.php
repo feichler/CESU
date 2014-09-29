@@ -4,7 +4,6 @@ namespace Elektra\SeedBundle\Form\Events\Types;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\Controller\EventFactory;
-use Elektra\SeedBundle\Entity\Events\UnitSalesStatus;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

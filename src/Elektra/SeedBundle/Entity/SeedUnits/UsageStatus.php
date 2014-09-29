@@ -7,7 +7,7 @@
  * @version   0.1-dev
  */
 
-namespace Elektra\SeedBundle\Entity\Events;
+namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,17 +17,17 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 
 /**
- * Class UnitUsage
+ * Class UsageStatus
  *
- * @package Elektra\SeedBundle\Entity\Events
+ * @package Elektra\SeedBundle\Entity\SeedUnits
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Events\UnitUsageRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\UsageStatusRepository")
  * @ORM\Table(name="usageStatuses")
  * @ORM\HasLifecycleCallbacks
  */
-class UnitUsage implements AuditableInterface, CrudInterface
+class UsageStatus implements AuditableInterface, CrudInterface
 {
     const USAGE_IDLE = "idle";
 
@@ -224,7 +224,7 @@ class UnitUsage implements AuditableInterface, CrudInterface
      */
     public function setLocationConstraint($locationConstraint)
     {
-        if (!in_array($locationConstraint, array(UnitUsage::LOCATION_CONSTRAINT_HIDDEN, UnitUsage::LOCATION_CONSTRAINT_OPTIONAL, UnitUsage::LOCATION_CONSTRAINT_REQUIRED)))
+        if (!in_array($locationConstraint, array(UsageStatus::LOCATION_CONSTRAINT_HIDDEN, UsageStatus::LOCATION_CONSTRAINT_OPTIONAL, UsageStatus::LOCATION_CONSTRAINT_REQUIRED)))
             throw new \OutOfBoundsException("Unknown location constraint value: " . $locationConstraint);
 
         $this->locationConstraint = $locationConstraint;
@@ -244,7 +244,7 @@ class UnitUsage implements AuditableInterface, CrudInterface
      */
     public function setLocationScope($locationScope)
     {
-        if (!in_array($locationScope, array(UnitUsage::LOCATION_SCOPE_CUSTOMER, UnitUsage::LOCATION_SCOPE_PARTNER)))
+        if (!in_array($locationScope, array(UsageStatus::LOCATION_SCOPE_CUSTOMER, UsageStatus::LOCATION_SCOPE_PARTNER)))
             throw new \OutOfBoundsException("Unknown location scope value: " . $locationScope);
 
         $this->locationScope = $locationScope;

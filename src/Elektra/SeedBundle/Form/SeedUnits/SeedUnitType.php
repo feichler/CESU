@@ -4,12 +4,11 @@ namespace Elektra\SeedBundle\Form\SeedUnits;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\CrudBundle\Form\Form;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
-use Elektra\SeedBundle\Entity\Events\UnitUsage;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
-use Elektra\SeedBundle\Form\Events\Types\ChangeUnitSalesStatusType;
-use Elektra\SeedBundle\Form\Events\Types\ChangeUnitStatusType;
-use Elektra\SeedBundle\Form\Events\Types\ChangeUnitUsageType;
+use Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus;
+use Elektra\SeedBundle\Form\Events\Types\ChangeSalesStatusType;
+use Elektra\SeedBundle\Form\Events\Types\ChangeShippingStatusType;
+use Elektra\SeedBundle\Form\Events\Types\ChangeUsageStatusType;
 use Elektra\SeedBundle\Form\FormsHelper;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -45,7 +44,7 @@ class SeedUnitType extends Form
                 ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')->getClassEntity())
                 ->add('property', 'title')->toArray());
 
-        if ($options['crud_action'] != 'add')
+        if ($options['crud_action'] == 'add')
         {
             $commonGroup->add('location', 'entity',
                 $this->getFieldOptions('location')
@@ -65,25 +64,25 @@ class SeedUnitType extends Form
             $commonGroup->add('shippingStatus', 'entity',
                 $this->getFieldOptions('shippingStatus')
                     ->add('read_only', true)
-                    ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassEntity())
+                    ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'ShippingStatus')->getClassEntity())
                     ->add('property', 'title')->toArray());
 
             /* @var $seedUnit SeedUnit */
             $seedUnit = $options['data'];
-            $isDeliveryVerified = $seedUnit->getShippingStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED;
+            $isDeliveryVerified = $seedUnit->getShippingStatus()->getInternalName() == ShippingStatus::DELIVERY_VERIFIED;
 
             if ($isDeliveryVerified)
             {
-                $commonGroup->add('unitUsage', 'entity',
-                    $this->getFieldOptions('unitUsage')
+                $commonGroup->add('usageStatus', 'entity',
+                    $this->getFieldOptions('usageStatus')
                         ->add('read_only', true)
-                        ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage')->getClassEntity())
+                        ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'UsageStatus')->getClassEntity())
                         ->add('property', 'title')->toArray());
 
                 $commonGroup->add('salesStatus', 'entity',
                     $this->getFieldOptions('salesStatus')
                         ->add('read_only', true)
-                        ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitSalesStatus')->getClassEntity())
+                        ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SalesStatus')->getClassEntity())
                         ->add('property', 'title')->toArray());
             }
 
@@ -105,10 +104,10 @@ class SeedUnitType extends Form
             $mgr       = $this->getCrud()->getService('doctrine')->getManager();
 
             $seedUnits = array($seedUnit);
-            $isDeliveryVerified = $seedUnit->getShippingStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED;
-            $allowedShippingStatuses = FormsHelper::getAllowedUnitStatuses($mgr, $seedUnits);
-            $allowedUsages = $isDeliveryVerified ? $mgr->getRepository('ElektraSeedBundle:Events\UnitUsage')->findAll() : array();
-            $allowedSalesStatuses = $isDeliveryVerified ? $mgr->getRepository('ElektraSeedBundle:Events\UnitSalesStatus')->findAll() : array();
+            $isDeliveryVerified = $seedUnit->getShippingStatus()->getInternalName() == ShippingStatus::DELIVERY_VERIFIED;
+            $allowedShippingStatuses = FormsHelper::getAllowedShippingStatuses($mgr, $seedUnits);
+            $allowedUsages = $isDeliveryVerified ? $mgr->getRepository('ElektraSeedBundle:SeedUnits\UsageStatus')->findAll() : array();
+            $allowedSalesStatuses = $isDeliveryVerified ? $mgr->getRepository('ElektraSeedBundle:SeedUnits\SalesStatus')->findAll() : array();
 
             $buttons = FormsHelper::createModalButtonsOptions($allowedShippingStatuses, $allowedUsages, $allowedSalesStatuses);
 
@@ -119,12 +118,12 @@ class SeedUnitType extends Form
             if (count($allowedShippingStatuses) > 0)
             {
                 $historyGroup->add(
-                    'changeStatus',
-                    new ChangeUnitStatusType(),
+                    'changeShippingStatus',
+                    new ChangeShippingStatusType(),
                     array(
                         'mapped'                                => false,
-                        ChangeUnitStatusType::OPT_DATA          => $seedUnits,
-                        ChangeUnitStatusType::OPT_OBJECT_MANAGER => $mgr
+                        ChangeShippingStatusType::OPT_DATA          => $seedUnits,
+                        ChangeShippingStatusType::OPT_OBJECT_MANAGER => $mgr
                     )
                 );
             }
@@ -132,12 +131,12 @@ class SeedUnitType extends Form
             if (count($allowedUsages) > 0)
             {
                 $historyGroup->add(
-                    'changeUsage',
-                    new ChangeUnitUsageType(),
+                    'changeUsageStatus',
+                    new ChangeUsageStatusType(),
                     array(
                         'mapped'                                => false,
-                        ChangeUnitUsageType::OPT_DATA          => $seedUnits,
-                        ChangeUnitUsageType::OPT_OBJECT_MANAGER => $mgr
+                        ChangeUsageStatusType::OPT_DATA          => $seedUnits,
+                        ChangeUsageStatusType::OPT_OBJECT_MANAGER => $mgr
                     )
                 );
             }
@@ -145,12 +144,12 @@ class SeedUnitType extends Form
             if (count($allowedSalesStatuses) > 0)
             {
                 $historyGroup->add(
-                    'changeUnitSalesStatus',
-                    new ChangeUnitSalesStatusType(),
+                    'changeSalesStatus',
+                    new ChangeSalesStatusType(),
                     array(
                         'mapped'                                => false,
-                        ChangeUnitSalesStatusType::OPT_DATA          => $seedUnits,
-                        ChangeUnitSalesStatusType::OPT_OBJECT_MANAGER => $mgr
+                        ChangeSalesStatusType::OPT_DATA          => $seedUnits,
+                        ChangeSalesStatusType::OPT_OBJECT_MANAGER => $mgr
                     )
                 );
             }

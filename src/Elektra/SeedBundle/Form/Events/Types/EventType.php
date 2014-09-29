@@ -2,12 +2,7 @@
 
 namespace Elektra\SeedBundle\Form\Events\Types;
 
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr\Join;
 use Elektra\CrudBundle\Form\Field\ModalType;
-use Elektra\SeedBundle\Entity\Companies\Partner;
-use Elektra\SeedBundle\Entity\Events\UnitUsage;
-use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -84,9 +79,9 @@ class EventType extends ModalType
             )
         );
 
-        $builder->add('usage', 'hiddenEntity');
+        $builder->add('usageStatus', 'hiddenEntity');
         $builder->add('eventType', 'hiddenEntity');
-        $builder->add('unitStatus', 'hiddenEntity');
+        $builder->add('shippingStatus', 'hiddenEntity');
         $builder->add('salesStatus', 'hiddenEntity');
     }
 

@@ -4,16 +4,13 @@ namespace Elektra\SeedBundle\Form\Events\Types;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Elektra\SeedBundle\Controller\EventFactory;
-use Elektra\SeedBundle\Entity\Companies\Partner;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
+use Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus;
 use Elektra\SeedBundle\Form\FormsHelper;
 use Elektra\SiteBundle\Site\Helper;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ChangeUnitStatusType extends ModalFormsBaseType
+class ChangeShippingStatusType extends ModalFormsBaseType
 {
 
     /**
@@ -33,7 +30,7 @@ class ChangeUnitStatusType extends ModalFormsBaseType
 
         foreach ($statuses as $status)
         {
-            $fieldName = ChangeUnitStatusType::getModalIdByInternalName($status);
+            $fieldName = ChangeShippingStatusType::getModalIdByInternalName($status);
 
             $event = $eventFactory->createShippingEvent($status, array(
                 EventFactory::IGNORE_MISSING => true,
@@ -43,28 +40,28 @@ class ChangeUnitStatusType extends ModalFormsBaseType
 
             switch($status)
             {
-                case UnitStatus::IN_TRANSIT:
+                case ShippingStatus::IN_TRANSIT:
                     $builder->add($fieldName, new InTransitType(), array(
                         'data' => $event,
                         'mapped' => false,
                         'label' => Helper::translate('modal.header.status.'.$status),
                         EventType::OPT_MODAL_ID => $fieldName,
-                        EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
+                        EventType::OPT_BUTTON_NAME => ChangeShippingStatusType::BUTTON_NAME,
                     ));
                     break;
 
-                case UnitStatus::ACKNOWLEDGE_ATTEMPT:
-                case UnitStatus::AA1SENT:
-                case UnitStatus::AA2SENT:
-                case UnitStatus::AA3SENT:
-                case UnitStatus::DELIVERY_VERIFIED:
-                case UnitStatus::ESCALATION:
+                case ShippingStatus::ACKNOWLEDGE_ATTEMPT:
+                case ShippingStatus::AA1SENT:
+                case ShippingStatus::AA2SENT:
+                case ShippingStatus::AA3SENT:
+                case ShippingStatus::DELIVERY_VERIFIED:
+                case ShippingStatus::ESCALATION:
                     $builder->add($fieldName, new ActivityEventType(), array(
                         'data' => $event,
                         'mapped' => false,
                         'label' => Helper::translate('modal.header.status.'.$status),
                         EventType::OPT_MODAL_ID => $fieldName,
-                        EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
+                        EventType::OPT_BUTTON_NAME => ChangeShippingStatusType::BUTTON_NAME,
                         ActivityEventType::OPT_LOCATION => $seedUnit->getRequest()->getShippingLocation()
                     ));
                     break;
@@ -75,7 +72,7 @@ class ChangeUnitStatusType extends ModalFormsBaseType
                         'mapped' => false,
                         'label' => Helper::translate('modal.header.status.'.$status),
                         EventType::OPT_MODAL_ID => $fieldName,
-                        EventType::OPT_BUTTON_NAME => ChangeUnitStatusType::BUTTON_NAME,
+                        EventType::OPT_BUTTON_NAME => ChangeShippingStatusType::BUTTON_NAME,
                     ));
                     break;
             }
@@ -87,8 +84,8 @@ class ChangeUnitStatusType extends ModalFormsBaseType
         return "ShippingStatusUI_" . $shippingStatus;
     }
 
-    public static function getModalId(UnitStatus $shippingStatus)
+    public static function getModalId(ShippingStatus $shippingStatus)
     {
-        return ChangeUnitStatusType::getModalIdByInternalName($shippingStatus->getInternalName());
+        return ChangeShippingStatusType::getModalIdByInternalName($shippingStatus->getInternalName());
     }
 }

@@ -2,12 +2,11 @@
 
 namespace Elektra\SeedBundle\Table\SeedUnits;
 
-use Doctrine\ORM\EntityManager;
 use Elektra\CrudBundle\Table\Table;
 use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
-use Elektra\SeedBundle\Entity\Events\UnitSalesStatus;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
-use Elektra\SeedBundle\Entity\Events\UnitUsage;
+use Elektra\SeedBundle\Entity\SeedUnits\SalesStatus;
+use Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus;
+use Elektra\SeedBundle\Entity\SeedUnits\UsageStatus;
 
 class SeedUnitTable extends Table
 {
@@ -63,19 +62,18 @@ class SeedUnitTable extends Table
             ->setFilterable()->setFieldFilter('name');
 
         $shipping = $this->getColumns()->add('shipping')
-            ->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'))
+            ->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'ShippingStatus'))
             ->setFieldData('shippingStatus.name')
             ->setSortable();
 
-        // URGENT need the implemented unit sales status classes first
-        //        $sales = $this->getColumns()->add('sales');
-        //        $sales->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitSalesStatus'));
-        //        $sales->setFieldData('salesStatus.name');
-        //        $sales->setSortable();
+        $sales = $this->getColumns()->add('sales')
+            ->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SalesStatus'))
+            ->setFieldData('salesStatus.name')
+            ->setSortable();
 
         $usage = $this->getColumns()->add('usage')
-            ->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage'))
-            ->setFieldData('unitUsage.title')
+            ->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'UsageStatus'))
+            ->setFieldData('usageStatus.title')
             ->setSortable();
         //        $usage->setFieldData('unitUsage.title');
         // Filter not working
@@ -91,8 +89,8 @@ class SeedUnitTable extends Table
         $request = $this->getColumns()->add('request')
             ->setFieldData('request.requestNumber')
             ->setSearchable()
-            ->setSortable()
-            ->setName('request');
+            ->setSortable();
+        $request->setName('request');
 
         if ($route == 'request.seedUnit.add') {
             $shipping->setHidden();
@@ -225,11 +223,18 @@ class SeedUnitTable extends Table
                 break;
 
             case 'sales':
+                $filterName = $this->getFilterFieldName($options);
+                $fieldName  = 'salesStatus';
+
+                $value = $this->getRequestData('custom-filters', $filterName);
+                if ($value != '') {
+                    $filter[$fieldName] = $value;
+                }
                 break;
 
             case 'usage':
                 $filterName = $this->getFilterFieldName($options);
-                $fieldName  = 'unitUsage';
+                $fieldName  = 'usageStatus';
 
                 $value = $this->getRequestData('custom-filters', $filterName);
                 if ($value != '') {
@@ -292,13 +297,13 @@ class SeedUnitTable extends Table
     private function addShippingStatusFilter()
     {
 
-        $definition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus');
+        $definition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'ShippingStatus');
         $repository = $this->getCrud()->getService('doctrine')->getRepository($definition->getClassRepository());
         $statuses   = $repository->findAll();
         $choices    = array();
 
         foreach ($statuses as $status) {
-            if ($status instanceof UnitStatus) {
+            if ($status instanceof ShippingStatus) {
                 $choices[$status->getId()] = $status->getName();
             }
         }
@@ -318,15 +323,13 @@ class SeedUnitTable extends Table
     private function addSalesStatusFilter()
     {
 
-        // URGENT need the implemented unit sales status classes first
-        return;
-        $definition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitSalesStatus');
+        $definition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SalesStatus');
         $repository = $this->getCrud()->getService('doctrine')->getRepository($definition->getClassRepository());
         $statuses   = $repository->findAll();
         $choices    = array();
 
         foreach ($statuses as $status) {
-            if ($status instanceof UnitSalesStatus) {
+            if ($status instanceof SalesStatus) {
                 $choices[$status->getId()] = $status->getName();
             }
         }
@@ -346,12 +349,12 @@ class SeedUnitTable extends Table
     private function addUnitUsageFilter()
     {
 
-        $definition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage');
+        $definition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'UsageStatus');
         $repository = $this->getCrud()->getService('doctrine')->getRepository($definition->getClassRepository());
         $usages     = $repository->findAll();
         $choices    = array();
         foreach ($usages as $status) {
-            if ($status instanceof UnitUsage) {
+            if ($status instanceof UsageStatus) {
                 $choices[$status->getId()] = $status->getName();
             }
         }

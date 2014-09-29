@@ -311,6 +311,12 @@ tables:
                 location:                                               Location
                 request:                                                Request
                 usage:                                                  Usage
+        usage_status:
+            columns:
+                abbreviation:                                           Abbr.
+        sales_status:
+            columns:
+                abbreviation:                                           Abbr.
 
     companies:
         region:
@@ -396,15 +402,9 @@ tables:
                 company:                                                Company
                 location:                                               Location
                 text:                                                   Text
-                unitStatus:                                             Shipping Status
-                salesStatus:                                            Sales Status
-                usage:                                                  Usage
-        unit_usage:
-            columns:
-                abbreviation:                                           Abbr.
-        unit_sales_status:
-            columns:
-                abbreviation:                                           Abbr.
+                shipping_status:                                        Shipping
+                sales_status:                                           Sales
+                usage_status:                                           Usage
 
 
 
@@ -581,14 +581,6 @@ forms:
                 state:                                                  State
                 country:                                                Country
 
-    events:
-        unit_usage:
-            fields:
-                abbreviation:                                           Abbreviation
-        unit_sales_status:
-            fields:
-                abbreviation:                                           Abbreviation
-
     seed_units:
         model:
             fields:
@@ -620,11 +612,17 @@ forms:
                 location:                                               Location
                 shipping_status:                                        'Shipping Status'
                 sales_status:                                           'Sales Status'
-                unit_usage:                                             Usage
+                usage_status:                                           Usage
                 # workaround for translation issues - should be at the request
                 requester_person:                                       Requester
                 receiver_person:                                        Receiver
                 shipping_location:                                      Ship to
+        usage_status:
+            fields:
+                abbreviation:                                           Abbreviation
+        sales_status:
+            fields:
+                abbreviation:                                           Abbreviation
 
 
 menu:

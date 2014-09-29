@@ -1,11 +1,11 @@
 <?php
 
-namespace Elektra\SeedBundle\Form\Events;
+namespace Elektra\SeedBundle\Form\SeedUnits;
 
 use Elektra\CrudBundle\Form\Form as CrudForm;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class UnitSalesStatusType extends CrudForm
+class UsageStatusType extends CrudForm
 {
 
     /**
@@ -30,5 +30,10 @@ class UnitSalesStatusType extends CrudForm
 
         $common->add('name', 'text', $this->getFieldOptions('name')->required()->notBlank()->toArray());
         $common->add('abbreviation', 'text', $this->getFieldOptions('abbreviation')->required()->notBlank()->toArray());
+
+        if ($options['crud_action'] != 'add')
+        {
+            $common->add('internalName', 'hidden', $this->getFieldOptions('internalName')->toArray());
+        }
     }
 }

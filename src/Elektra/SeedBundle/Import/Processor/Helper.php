@@ -877,7 +877,7 @@ class Helper
 
         if ($data['mobile'] !== null) {
             $mobile = new ContactInfo();
-            $phone->setContactInfoType($this->getFromCache('ciTypeMobile'));
+            $mobile->setContactInfoType($this->getFromCache('ciTypeMobile'));
             $mobile->setName('Primary');
             $mobile->setText($data['mobile']);
 

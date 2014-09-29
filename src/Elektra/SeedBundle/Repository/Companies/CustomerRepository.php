@@ -19,6 +19,4 @@ namespace Elektra\SeedBundle\Repository\Companies;
 class CustomerRepository extends CompanyRepository
 {
 
-
-
 }

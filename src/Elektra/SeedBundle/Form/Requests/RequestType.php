@@ -5,16 +5,14 @@ namespace Elektra\SeedBundle\Form\Requests;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use Elektra\CrudBundle\Form\Form as CrudForm;
-use Elektra\CrudBundle\Form\Form;
-use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\Companies\Company;
 use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\Requests\Request;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
-use Elektra\SeedBundle\Form\Events\Types\ChangeUnitSalesStatusType;
-use Elektra\SeedBundle\Form\Events\Types\ChangeUnitStatusType;
-use Elektra\SeedBundle\Form\Events\Types\ChangeUnitUsageType;
+use Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus;
+use Elektra\SeedBundle\Form\Events\Types\ChangeSalesStatusType;
+use Elektra\SeedBundle\Form\Events\Types\ChangeShippingStatusType;
+use Elektra\SeedBundle\Form\Events\Types\ChangeUsageStatusType;
 use Elektra\SeedBundle\Form\FormsHelper;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -78,7 +76,7 @@ class RequestType extends CrudForm
 
         /** @var $su SeedUnit */
         foreach ($seedUnits as $su) {
-            if ($su->getShippingStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED) {
+            if ($su->getShippingStatus()->getInternalName() == ShippingStatus::DELIVERY_VERIFIED) {
                 return true;
             }
         }
@@ -174,9 +172,9 @@ class RequestType extends CrudForm
             $seedUnits = $options['data']->getSeedUnits()->toArray();
 
             if (count($seedUnits) > 0) {
-                $allowedShippingStatuses = FormsHelper::getAllowedUnitStatuses($mgr, $seedUnits);
-                $allowedUsages           = $this->isDeliveryVerified($seedUnits) ? $mgr->getRepository('ElektraSeedBundle:Events\UnitUsage')->findAll() : array();
-                $allowedSalesStatuses    = $this->isDeliveryVerified($seedUnits) ? $mgr->getRepository('ElektraSeedBundle:Events\UnitSalesStatus')->findAll() : array();
+                $allowedShippingStatuses = FormsHelper::getAllowedShippingStatuses($mgr, $seedUnits);
+                $allowedUsages           = $this->isDeliveryVerified($seedUnits) ? $mgr->getRepository('ElektraSeedBundle:SeedUnits\UsageStatus')->findAll() : array();
+                $allowedSalesStatuses    = $this->isDeliveryVerified($seedUnits) ? $mgr->getRepository('ElektraSeedBundle:SeedUnits\SalesStatus')->findAll() : array();
 
                 $buttons = FormsHelper::createModalButtonsOptions($allowedShippingStatuses, $allowedUsages, $allowedSalesStatuses);
 
@@ -190,36 +188,36 @@ class RequestType extends CrudForm
 
                 if (count($allowedShippingStatuses) > 0) {
                     $unitsGroup->add(
-                        'changeStatus',
-                        new ChangeUnitStatusType(),
+                        'changeShippingStatus',
+                        new ChangeShippingStatusType(),
                         array(
                             'mapped'                                 => false,
-                            ChangeUnitStatusType::OPT_DATA           => $seedUnits,
-                            ChangeUnitStatusType::OPT_OBJECT_MANAGER => $mgr
+                            ChangeShippingStatusType::OPT_DATA           => $seedUnits,
+                            ChangeShippingStatusType::OPT_OBJECT_MANAGER => $mgr
                         )
                     );
                 }
 
                 if (count($allowedUsages) > 0) {
                     $unitsGroup->add(
-                        'changeUsage',
-                        new ChangeUnitUsageType(),
+                        'changeUsageStatus',
+                        new ChangeUsageStatusType(),
                         array(
                             'mapped'                                => false,
-                            ChangeUnitUsageType::OPT_DATA           => $seedUnits,
-                            ChangeUnitUsageType::OPT_OBJECT_MANAGER => $mgr
+                            ChangeUsageStatusType::OPT_DATA           => $seedUnits,
+                            ChangeUsageStatusType::OPT_OBJECT_MANAGER => $mgr
                         )
                     );
                 }
 
                 if (count($allowedSalesStatuses) > 0) {
                     $unitsGroup->add(
-                        'changeUnitSalesStatus',
-                        new ChangeUnitSalesStatusType(),
+                        'changeSalesStatus',
+                        new ChangeSalesStatusType(),
                         array(
                             'mapped'                                      => false,
-                            ChangeUnitSalesStatusType::OPT_DATA           => $seedUnits,
-                            ChangeUnitSalesStatusType::OPT_OBJECT_MANAGER => $mgr
+                            ChangeSalesStatusType::OPT_DATA           => $seedUnits,
+                            ChangeSalesStatusType::OPT_OBJECT_MANAGER => $mgr
                         )
                     );
                 }

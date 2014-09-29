@@ -7,7 +7,7 @@
  * @version   0.1-dev
  */
 
-namespace Elektra\SeedBundle\Entity\Events;
+namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,16 +17,16 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 
 /**
- * Class UnitSalesStatus
+ * Class SalesStatus
  *
- * @package Elektra\SeedBundle\Entity\Events
+ * @package Elektra\SeedBundle\Entity\SeedUnits
  *
  * @version 0.1-dev
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Events\UnitSalesStatusRepository")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\SalesStatusRepository")
  * @ORM\Table(name="salesStatuses")
  */
-class UnitSalesStatus implements AuditableInterface, CrudInterface
+class SalesStatus implements AuditableInterface, CrudInterface
 {
 
     /**

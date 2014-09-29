@@ -9,13 +9,9 @@ use Elektra\SeedBundle\Controller\EventFactory;
 use Elektra\SeedBundle\Entity\Companies\WarehouseLocation;
 use Elektra\SeedBundle\Entity\EntityInterface;
 use Elektra\SeedBundle\Entity\Events\Event;
-use Elektra\SeedBundle\Entity\Events\EventType;
-use Elektra\SeedBundle\Entity\Events\ShippingEvent;
-use Elektra\SeedBundle\Entity\Events\UnitStatus;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
-use Elektra\SeedBundle\Form\Events\Types\ChangeUnitSalesStatusType;
-use Elektra\SeedBundle\Form\Events\Types\ChangeUnitStatusType;
-use Elektra\SeedBundle\Form\Events\Types\ChangeUnitUsageType;
+use Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus;
+use Elektra\SeedBundle\Form\Events\Types\ChangeShippingStatusType;
 use Elektra\SeedBundle\Form\Events\Types\Strategies\SeedUnitTransitionRules;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
@@ -44,8 +40,8 @@ class SeedUnitController extends Controller
             {
                 // get the unit status
                 $status = $this->getDoctrine()
-                    ->getRepository($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus')->getClassRepository())
-                    ->findByInternalName(UnitStatus::AVAILABLE);
+                    ->getRepository($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'ShippingStatus')->getClassRepository())
+                    ->findByInternalName(ShippingStatus::AVAILABLE);
 
                 $event = $eventFactory->createAvailable($location);
                 $event->setSeedUnit($entity);
@@ -104,7 +100,7 @@ class SeedUnitController extends Controller
 
         $event = null;
 
-        if (in_array($form->getClickedButton()->getName(), array(ChangeUnitStatusType::BUTTON_NAME, ChangeUnitUsageType::BUTTON_NAME, ChangeUnitSalesStatusType::BUTTON_NAME)))
+        if (in_array($form->getClickedButton()->getName(), array(ChangeShippingStatusType::BUTTON_NAME, ChangeShippingStatusType::BUTTON_NAME, ChangeShippingStatusType::BUTTON_NAME)))
         {
             $parent = $form->getClickedButton()->getParent()->getParent();
             $event  = $parent->getData();
@@ -134,7 +130,7 @@ class SeedUnitController extends Controller
             return;
         }
 
-        if (!$transitionRules->checkNewUsage($seedUnit, $eventTemplate))
+        if (!$transitionRules->checkNewUsageStatus($seedUnit, $eventTemplate))
         {
             // TODO currently failing silent - any response to user?
             return;
@@ -150,9 +146,9 @@ class SeedUnitController extends Controller
         $seedUnit->getEvents()->add($event);
         $event->setSeedUnit($seedUnit);
 
-        if ($event->getUnitStatus() != null)
+        if ($event->getShippingStatus() != null)
         {
-            $seedUnit->setShippingStatus($event->getUnitStatus());
+            $seedUnit->setShippingStatus($event->getShippingStatus());
         }
 
         if ($event->getLocation() != null)
@@ -165,9 +161,9 @@ class SeedUnitController extends Controller
             $seedUnit->setSalesStatus($event->getSalesStatus());
         }
 
-        if ($event->getUsage() != null)
+        if ($event->getUsageStatus() != null)
         {
-            $seedUnit->setUnitUsage($event->getUsage());
+            $seedUnit->setUsageStatus($event->getUsageStatus());
         }
 
         $mgr->flush();

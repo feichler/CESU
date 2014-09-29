@@ -51,21 +51,21 @@ class EventTable extends Table
         $location->setSortable();
         $location->setFilterable()->setFieldFilter('shortName');
 
-        $shippingStatus = $this->getColumns()->add('unitStatus');
-        $shippingStatus->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitStatus'));
-        $shippingStatus->setFieldData('unitStatus.name');
+        $shippingStatus = $this->getColumns()->add('shippingStatus');
+        $shippingStatus->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'ShippingStatus'));
+        $shippingStatus->setFieldData('shippingStatus.name');
         $shippingStatus->setSortable();
         $shippingStatus->setFilterable()->setFieldFilter('name');
 
         $salesStatus = $this->getColumns()->add('salesStatus');
-        $salesStatus->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitSalesStatus'));
+        $salesStatus->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SalesStatus'));
         $salesStatus->setFieldData('salesStatus.name');
         $salesStatus->setSortable();
         $salesStatus->setFilterable()->setFieldFilter('name');
 
-        $usage = $this->getColumns()->add('usage');
-        $usage->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Events', 'UnitUsage'));
-        $usage->setFieldData('usage.name');
+        $usage = $this->getColumns()->add('usageStatus');
+        $usage->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'UsageStatus'));
+        $usage->setFieldData('usageStatus.name');
         $usage->setSortable();
         $usage->setFilterable()->setFieldFilter('name');
 

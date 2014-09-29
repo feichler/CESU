@@ -15,9 +15,12 @@ use Elektra\SeedBundle\Auditing\Helper;
 use Elektra\SeedBundle\Entity\AuditableInterface;
 use Elektra\SeedBundle\Entity\AnnotableInterface;
 use Elektra\SeedBundle\Entity\Companies\Location;
+use Elektra\SeedBundle\Entity\SeedUnits\SalesStatus;
 use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Doctrine\Common\Collections\ArrayCollection;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus;
+use Elektra\SeedBundle\Entity\SeedUnits\UsageStatus;
 
 /**
  * Class Event
@@ -32,7 +35,7 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
  * @ORM\DiscriminatorColumn(name="type",type="string")
  * @ORM\DiscriminatorMap({
  *  "event"    = "Event",
- *  "shipping" = "ShippingEvent",
+ *  "inTransit" = "InTransitEvent",
  *  "activity" = "ActivityEvent",
  * })
  */
@@ -86,17 +89,17 @@ class Event implements AuditableInterface, AnnotableInterface, CrudInterface
     protected $comment;
 
     /**
-     * @var UnitStatus
+     * @var ShippingStatus
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitStatus", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="shippingStatusId", referencedColumnName="shippingStatusId")
      */
-    protected $unitStatus;
+    protected $shippingStatus;
 
     /**
-     * @var UnitSalesStatus
+     * @var SalesStatus
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitSalesStatus", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\SalesStatus", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="salesStatusId", referencedColumnName="salesStatusId")
      */
     protected $salesStatus;
@@ -110,12 +113,12 @@ class Event implements AuditableInterface, AnnotableInterface, CrudInterface
     protected $location;
 
     /**
-     * @var UnitUsage
+     * @var UsageStatus
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitUsage", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\UsageStatus", fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="usageStatusId", referencedColumnName="usageStatusId")
      */
-    protected $usage;
+    protected $usageStatus;
 
 
     /**
@@ -338,7 +341,7 @@ class Event implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Events\UnitSalesStatus $salesStatus
+     * @param \Elektra\SeedBundle\Entity\SeedUnits\SalesStatus $salesStatus
      */
     public function setSalesStatus($salesStatus)
     {
@@ -346,7 +349,7 @@ class Event implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Events\UnitSalesStatus
+     * @return \Elektra\SeedBundle\Entity\SeedUnits\SalesStatus
      */
     public function getSalesStatus()
     {
@@ -354,35 +357,35 @@ class Event implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Events\UnitStatus $unitStatus
+     * @param \Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus $shippingStatus
      */
-    public function setUnitStatus($unitStatus)
+    public function setShippingStatus($shippingStatus)
     {
-        $this->unitStatus = $unitStatus;
+        $this->shippingStatus = $shippingStatus;
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Events\UnitStatus
+     * @return \Elektra\SeedBundle\Entity\SeedUnits\ShippingStatus
      */
-    public function getUnitStatus()
+    public function getShippingStatus()
     {
-        return $this->unitStatus;
+        return $this->shippingStatus;
     }
 
     /**
-     * @param \Elektra\SeedBundle\Entity\Events\UnitUsage $usage
+     * @param \Elektra\SeedBundle\Entity\SeedUnits\UsageStatus $usage
      */
-    public function setUsage($usage)
+    public function setUsageStatus($usage)
     {
-        $this->usage = $usage;
+        $this->usageStatus = $usage;
     }
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Events\UnitUsage
+     * @return \Elektra\SeedBundle\Entity\SeedUnits\UsageStatus
      */
-    public function getUsage()
+    public function getUsageStatus()
     {
-        return $this->usage;
+        return $this->usageStatus;
     }
 
     public function createClone()
