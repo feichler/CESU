@@ -23,28 +23,30 @@ class ChangeShippingStatusType extends ModalFormsBaseType
 
     protected function buildFields(FormBuilderInterface $builder, array $data, ObjectManager $mgr, EventFactory $eventFactory)
     {
-        $statuses = FormsHelper::getAllowedStatuses($data);
+        $statuses = FormsHelper::getAllowedShippingStatuses($mgr, $data);
 
         /** @var SeedUnit $seedUnit */
         $seedUnit = $data[0];
 
         foreach ($statuses as $status)
         {
-            $fieldName = ChangeShippingStatusType::getModalIdByInternalName($status);
+            /** @var ShippingStatus $status */
 
-            $event = $eventFactory->createShippingEvent($status, array(
+            $fieldName = ChangeShippingStatusType::getModalIdByInternalName($status->getInternalName());
+
+            $event = $eventFactory->createShippingEvent($status->getInternalName(), array(
                 EventFactory::IGNORE_MISSING => true,
                 // WORKAROUND only necessary for delivered
                 EventFactory::LOCATION => $seedUnit->getRequest()->getShippingLocation()
             ));
 
-            switch($status)
+            switch($status->getInternalName())
             {
                 case ShippingStatus::IN_TRANSIT:
                     $builder->add($fieldName, new InTransitType(), array(
                         'data' => $event,
                         'mapped' => false,
-                        'label' => Helper::translate('modal.header.status.'.$status),
+                        'label' => $status->getName(),
                         EventType::OPT_MODAL_ID => $fieldName,
                         EventType::OPT_BUTTON_NAME => ChangeShippingStatusType::BUTTON_NAME,
                     ));
@@ -59,7 +61,7 @@ class ChangeShippingStatusType extends ModalFormsBaseType
                     $builder->add($fieldName, new ActivityEventType(), array(
                         'data' => $event,
                         'mapped' => false,
-                        'label' => Helper::translate('modal.header.status.'.$status),
+                        'label' => $status->getName(),
                         EventType::OPT_MODAL_ID => $fieldName,
                         EventType::OPT_BUTTON_NAME => ChangeShippingStatusType::BUTTON_NAME,
                         ActivityEventType::OPT_LOCATION => $seedUnit->getRequest()->getShippingLocation()
@@ -70,7 +72,7 @@ class ChangeShippingStatusType extends ModalFormsBaseType
                     $builder->add($fieldName, new ShippingEventType(), array(
                         'data' => $event,
                         'mapped' => false,
-                        'label' => Helper::translate('modal.header.status.'.$status),
+                        'label' => $status->getName(),
                         EventType::OPT_MODAL_ID => $fieldName,
                         EventType::OPT_BUTTON_NAME => ChangeShippingStatusType::BUTTON_NAME,
                     ));
