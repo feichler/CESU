@@ -299,6 +299,9 @@ tables:
             columns:
                 name:                                                   Power Cord Type
         seed_unit:
+            filter:
+                model:                                                  Select Model
+                power_cord_type:                                        Select Power Cord Type
             columns:
                 serial_number:                                          'Serial #'
                 model:                                                  Model
@@ -315,14 +318,18 @@ tables:
                 region:                                                 Region
                 countries:                                              '# Countries'
         country:
+            filter:
+                region:                                                 Select Region
             columns:
                 country:                                                Country
                 region:                                                 Region
         partner:
+            filter:
+                partner_type:                                           Select Organization Type
             columns:
                 partner_tier:                                           Tier
                 units_limit:                                            Unit Limit
-                partner_type:                                           Organisation Type
+                partner_type:                                           Organization Type
             actions:
                 add:                                                    Add Partner
         customer:
@@ -362,6 +369,8 @@ tables:
     requests:
         request:
             empty:                                                      No Requests found
+            filter:
+                partner:                                                Select Partner
             columns:
                 request_number:                                         'Request No.'
                 company:                                                Partner
@@ -491,7 +500,7 @@ forms:
                 requester_person:                                       Requester
                 receiver_person:                                        Receiver
                 shipping_location:                                      'Ship to'
-                seed_units:                                             Select Uni
+                seed_units:                                             Select Unit
 
     companies:
         partner:
@@ -502,7 +511,7 @@ forms:
             fields:
                 partner_tier:                                           Tier
                 units_limit:                                            Unit Limit
-                partner_type:                                           Organisation Type
+                partner_type:                                           Organization Type
         customer:
             groups:
                 locations:                                              Locations
@@ -629,7 +638,7 @@ menu:
     seed_units:                                                         Seed Units
     seed_unit_models:                                                   Models
     seed_unit_power_cord_types:                                         Power Cord Types
-    partner_types:                                                      Organisation Types
+    partner_types:                                                      Organization Types
     trainings:                                                          Trainings
     registrations:                                                      Registrations
     attendances:                                                        Attendances

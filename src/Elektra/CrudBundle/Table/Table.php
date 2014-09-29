@@ -346,7 +346,6 @@ abstract class Table
     public function setEntries($entries)
     {
 
-
         if (is_array($entries) || $entries instanceof \Traversable) {
             foreach ($entries as $entry) {
                 if (method_exists($entry, 'getId')) {
@@ -397,7 +396,8 @@ abstract class Table
      * Column related methods
      *************************************************************************/
 
-    public function setSelectable() {
+    public function setSelectable()
+    {
 
         $this->getColumns()->addSelectColumn('first');
     }
@@ -643,7 +643,7 @@ abstract class Table
                 'entity',
                 $this->prepareFilterOptions(
                     array(
-                        'empty_value' => 'Please Select ??', // TRANSLATE empty option
+                        'empty_value' => Helper::languageAlternate('tables', 'filter.' . $definition->getName()),
                         'class'       => $definition->getClassEntity(),
                         'property'    => $filterColumn->getFieldFilter(),
                     ),
