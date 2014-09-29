@@ -65,14 +65,11 @@ class CustomerTable extends Table
         if ($route == 'customers') {
             switch ($options['name']) {
                 case 'partner':
-                    $definition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Partner');
                     $filterName = $this->getFilterFieldName($options);
-                    //        echo $filterName.'<br />';
                     $fieldName = 'partners';
                     $value     = $this->getRequestData('custom-filters', $filterName);
-                    //        echo $value.'<br />';
                     if ($value != '') {
-                        $filter[$fieldName] = 'IN:' . $definition->getClassEntity() . ':' . $value;
+                        $filter[$fieldName] = 'MANY:companyId:'.$value;
                     }
                     break;
             }

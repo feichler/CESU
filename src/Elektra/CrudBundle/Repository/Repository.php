@@ -27,7 +27,8 @@ abstract class Repository extends EntityRepository
         $builder->setFirstResult(($page - 1) * $perPage);
 
         $query = $builder->getQuery();
-
+        //        echo $query->getDQL().'<br />';
+        //echo $query->getSQL().'<br />';
         $entries = $query->getResult();
 
         return $entries;
@@ -141,15 +142,25 @@ abstract class Repository extends EntityRepository
 
         if (!empty($filters)) {
             foreach ($filters as $field => $value) {
-                switch ($value) {
-                    case 'NULL':
-                        $builder->andWhere($builder->expr()->isNull($queryAlias . '.' . $field));
-                        break;
-                    case 'NOT NULL':
-                        $builder->andWhere($builder->expr()->isNotNull($queryAlias . '.' . $field));
-                        break;
-                    default:
-                        $builder->andWhere($queryAlias . '.' . $field . '=' . $value);
+                if (strpos($value, ':') !== false) {
+                    $value = explode(':', $value);
+                    if ($value[0] === 'MANY') {
+                        $alias = $this->getNextAlias();
+                        $builder->join($queryAlias . '.' . $field, $alias);
+                        $builder->where($alias . '.' . $value[1] . ' = :' . $value[1]);
+                        $builder->setParameter($value[1], $value[2]);
+                    }
+                } else {
+                    switch ($value) {
+                        case 'NULL':
+                            $builder->andWhere($builder->expr()->isNull($queryAlias . '.' . $field));
+                            break;
+                        case 'NOT NULL':
+                            $builder->andWhere($builder->expr()->isNotNull($queryAlias . '.' . $field));
+                            break;
+                        default:
+                            $builder->andWhere($queryAlias . '.' . $field . '=' . $value);
+                    }
                 }
             }
         }
