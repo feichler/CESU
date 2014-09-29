@@ -75,11 +75,10 @@ class RequestType extends CrudForm
 
     private function isDeliveryVerified(array $seedUnits)
     {
+
         /** @var $su SeedUnit */
-        foreach($seedUnits as $su)
-        {
-            if ($su->getShippingStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED)
-            {
+        foreach ($seedUnits as $su) {
+            if ($su->getShippingStatus()->getInternalName() == UnitStatus::DELIVERY_VERIFIED) {
                 return true;
             }
         }
@@ -90,10 +89,11 @@ class RequestType extends CrudForm
     protected function buildSpecificForm(FormBuilderInterface $builder, array $options)
     {
 
+        $crudAction  = $options['crud_action'];
         $self        = $this;
         $commonGroup = $this->addFieldGroup($builder, $options, 'common');
 
-        if ($options['crud_action'] == 'view') {
+        if ($crudAction == 'view') {
             // request number
             $commonGroup->add('requestNumber', 'text', $this->getFieldOptions('requestNumber')->toArray());
         }
@@ -101,103 +101,124 @@ class RequestType extends CrudForm
         // # of units requested
         $commonGroup->add('numberOfUnitsRequested', 'integer', $this->getFieldOptions('numberOfUnitsRequested')->notBlank()->required()->toArray());
 
-        // requesting company
-        $companyOptions = $this->getFieldOptions('company')->required()->notBlank();
-        $companyOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Partner')->getClassEntity());
-        $companyOptions->add('empty_value', 'Select Company');
-        $companyOptions->add('property', 'shortName');
-        $companyOptions->add('group_by', 'partnerType.name');
-        $commonGroup->add('company', 'entity', $companyOptions->toArray());
+        if ($crudAction == 'add') {
+            // requesting company
+            $companyOptions = $this->getFieldOptions('company')->required()->notBlank();
+            $companyOptions->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Partner')->getClassEntity());
+            $companyOptions->add('empty_value', 'Select Company');
+            $companyOptions->add('property', 'shortName');
+            $companyOptions->add('group_by', 'partnerType.name');
+            $commonGroup->add('company', 'entity', $companyOptions->toArray());
 
-        // location & requesting person
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($self) {
+            // location & requesting person
+            $builder->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) use ($self) {
 
-                $data = $event->getData();
+                    $data = $event->getData();
 
-                $self->companyModifier($event->getForm()->get('group_common'), $data->getCompany());
-                $self->locationModifier($event->getForm()->get('group_common'), $data->getShippingLocation());
-            }
-        );
-
-        $commonGroup->addEventListener(
-            FormEvents::PRE_SUBMIT,
-            function (FormEvent $event) use ($self) {
-
-                $eventData = $event->getData();
-                /** @var $em ObjectManager */
-                $em        = $self->getCrud()->getService('doctrine')->getManager();
-
-                if($eventData) {
-                if (array_key_exists('company', $eventData)) {
-                    $companyId = $eventData['company'];
-                    $company   = $em->find($self->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Company')->getClassEntity(), $companyId);
-                    $self->companyModifier($event->getForm(), $company);
+                    $self->companyModifier($event->getForm()->get('group_common'), $data->getCompany());
+                    $self->locationModifier($event->getForm()->get('group_common'), $data->getShippingLocation());
                 }
-                if (array_key_exists('shippingLocation', $eventData)) {
-                    $shippingId = $eventData['shippingLocation'];
-                    $shipping   = $em->find($self->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation')->getClassEntity(), $shippingId);
-                    $self->locationModifier($event->getForm(), $shipping);
+            );
+
+            $commonGroup->addEventListener(
+                FormEvents::PRE_SUBMIT,
+                function (FormEvent $event) use ($self) {
+
+                    $eventData = $event->getData();
+                    /** @var $em ObjectManager */
+                    $em = $self->getCrud()->getService('doctrine')->getManager();
+
+                    if ($eventData) {
+                        if (array_key_exists('company', $eventData)) {
+                            $companyId = $eventData['company'];
+                            $company   = $em->find($self->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Company')->getClassEntity(), $companyId);
+                            $self->companyModifier($event->getForm(), $company);
+                        }
+                        if (array_key_exists('shippingLocation', $eventData)) {
+                            $shippingId = $eventData['shippingLocation'];
+                            $shipping   = $em->find($self->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'CompanyLocation')->getClassEntity(), $shippingId);
+                            $self->locationModifier($event->getForm(), $shipping);
+                        }
+                    }
                 }
-                }
-            }
-        );
+            );
+        } else {
+            /** @var Request $data */
+            $data = $options['data'];
+
+            $companyInfoOptions = $this->getFieldOptions('company')->notMapped()->add('data', $data->getCompany()->getTitle());
+            $commonGroup->add('company_info', 'display', $companyInfoOptions->toArray());
+            $commonGroup->add('company', 'hidden', $this->getFieldOptions('company')->add('data', $data->getCompany()->getId())->toArray());
+
+            $requesterInfoOptions = $this->getFieldOptions('requesterPerson')->notMapped()->add('data', $data->getRequesterPerson()->getTitle());
+            $commonGroup->add('requester_info', 'display', $requesterInfoOptions->toArray());
+            $commonGroup->add('requesterPerson', 'hidden', $this->getFieldOptions('requesterPerson')->add('data', $data->getRequesterPerson()->getId())->toArray());
+
+            $shippingInfoOptions = $this->getFieldOptions('shippingLocation')->notMapped()->add('data', $data->getShippingLocation()->getTitle());
+            $commonGroup->add('shipping_info', 'display', $shippingInfoOptions->toArray());
+            $commonGroup->add('shippingLocation', 'hidden', $this->getFieldOptions('shippingLocation')->add('data', $data->getShippingLocation()->getId())->toArray());
+
+            $receiverInfoOptions = $this->getFieldOptions('receiverPerson')->notMapped()->add('data', $data->getReceiverPerson()->getTitle());
+            $commonGroup->add('receiver_info', 'display', $receiverInfoOptions->toArray());
+            $commonGroup->add('receiverPerson', 'hidden', $this->getFieldOptions('receiverPerson')->add('data', $data->getReceiverPerson()->getId())->toArray());
+        }
 
         if ($options['crud_action'] == 'view') {
             // seed units group
             $unitsGroup = $this->addFieldGroup($builder, $options, 'units');
             /** @var ObjectManager $mgr */
-            $mgr       = $this->getCrud()->getService('doctrine')->getManager();
+            $mgr = $this->getCrud()->getService('doctrine')->getManager();
             /** @var array $seedUnits */
             $seedUnits = $options['data']->getSeedUnits()->toArray();
 
             if (count($seedUnits) > 0) {
                 $allowedShippingStatuses = FormsHelper::getAllowedUnitStatuses($mgr, $seedUnits);
-                $allowedUsages = $this->isDeliveryVerified($seedUnits) ? $mgr->getRepository('ElektraSeedBundle:Events\UnitUsage')->findAll() : array();
-                $allowedSalesStatuses = $this->isDeliveryVerified($seedUnits) ? $mgr->getRepository('ElektraSeedBundle:Events\UnitSalesStatus')->findAll() : array();
+                $allowedUsages           = $this->isDeliveryVerified($seedUnits) ? $mgr->getRepository('ElektraSeedBundle:Events\UnitUsage')->findAll() : array();
+                $allowedSalesStatuses    = $this->isDeliveryVerified($seedUnits) ? $mgr->getRepository('ElektraSeedBundle:Events\UnitSalesStatus')->findAll() : array();
 
                 $buttons = FormsHelper::createModalButtonsOptions($allowedShippingStatuses, $allowedUsages, $allowedSalesStatuses);
 
-                $unitsGroup->add($builder->create('modalButtons', 'modalButtons',
-                    $this->getFieldOptions('modalButtons')
-                        ->add('menus', $buttons)
-                        ->toArray()));
+                $unitsGroup->add(
+                    $builder->create(
+                        'modalButtons',
+                        'modalButtons',
+                        $this->getFieldOptions('modalButtons')->add('menus', $buttons)->toArray()
+                    )
+                );
 
-                if (count($allowedShippingStatuses) > 0)
-                {
+                if (count($allowedShippingStatuses) > 0) {
                     $unitsGroup->add(
                         'changeStatus',
                         new ChangeUnitStatusType(),
                         array(
-                            'mapped'                                => false,
-                            ChangeUnitStatusType::OPT_DATA          => $seedUnits,
+                            'mapped'                                 => false,
+                            ChangeUnitStatusType::OPT_DATA           => $seedUnits,
                             ChangeUnitStatusType::OPT_OBJECT_MANAGER => $mgr
                         )
                     );
                 }
 
-                if (count($allowedUsages) > 0)
-                {
+                if (count($allowedUsages) > 0) {
                     $unitsGroup->add(
                         'changeUsage',
                         new ChangeUnitUsageType(),
                         array(
                             'mapped'                                => false,
-                            ChangeUnitUsageType::OPT_DATA          => $seedUnits,
+                            ChangeUnitUsageType::OPT_DATA           => $seedUnits,
                             ChangeUnitUsageType::OPT_OBJECT_MANAGER => $mgr
                         )
                     );
                 }
 
-                if (count($allowedSalesStatuses) > 0)
-                {
+                if (count($allowedSalesStatuses) > 0) {
                     $unitsGroup->add(
                         'changeUnitSalesStatus',
                         new ChangeUnitSalesStatusType(),
                         array(
-                            'mapped'                                => false,
-                            ChangeUnitSalesStatusType::OPT_DATA          => $seedUnits,
+                            'mapped'                                      => false,
+                            ChangeUnitSalesStatusType::OPT_DATA           => $seedUnits,
                             ChangeUnitSalesStatusType::OPT_OBJECT_MANAGER => $mgr
                         )
                     );
