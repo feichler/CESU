@@ -108,7 +108,14 @@ class CompanyPersonType extends CrudForm
         $common->add('lastName', 'text', $this->getFieldOptions('lastName')->required()->notBlank()->toArray());
         $common->add('salutation', 'text', $this->getFieldOptions('salutation')->optional()->toArray());
         $common->add('jobTitle', 'text', $this->getFieldOptions('jobTitle')->optional()->toArray());
-        $common->add('isPrimary', 'checkbox', $this->getFieldOptions('isPrimary')->optional()->toArray());
+
+        $isPrimaryOptions = $this->getFieldOptions('isPrimary')
+            ->optional();
+        if ($options['crud_action'] == 'edit' && $options['data']->getIsPrimary())
+        {
+            $isPrimaryOptions->readOnly();
+        }
+        $common->add('isPrimary', 'checkbox', $isPrimaryOptions->toArray());
 
         if ($options['crud_action'] == 'view') {
             $contactInfos             = $this->addFieldGroup($builder, $options, 'contactInfos');

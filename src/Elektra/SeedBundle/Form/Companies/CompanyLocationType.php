@@ -43,7 +43,14 @@ class CompanyLocationType extends CrudForm
             ->optional()
             ->toArray());
 //        $commonGroup->add('name', 'text', $this->getFieldOptions('name')->optional()->toArray());
-        $commonGroup->add('isPrimary', 'checkbox', $this->getFieldOptions('isPrimary')->optional()->toArray());
+
+        $isPrimaryOptions = $this->getFieldOptions('isPrimary')
+            ->optional();
+        if ($options['crud_action'] == 'edit' && $options['data']->getIsPrimary())
+        {
+            $isPrimaryOptions->readOnly();
+        }
+        $commonGroup->add('isPrimary', 'checkbox', $isPrimaryOptions->toArray());
 
         $addressGroup = $this->addFieldGroup($builder, $options, 'address');
 
