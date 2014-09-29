@@ -25,9 +25,14 @@
         {% set confirmation = confirmation ~ ' data-toggle="confirmation" data-title="'~ options.confirmMsg|escape ~ '"' %}
         {% set confirmMsg = ' onclick="return confirm(\'' ~ options.confirmMsg|escape ~ '\')"' %}
     {% endif %}
-    <a
-            href="{{ href }}"
-            class="{{ classes }}"
+    {% set tooltip = '' %}
+    {% if options.tooltip is defined %}
+        {% set tooltip = options.tooltip %}
+        {% set classes = classes ~ ' action-tooltip' %}
+    {% endif %}
+    <a {% if tooltip != '' %}data-toggle="tooltip" title="{{ tooltip }}"{% endif %}
+       href="{{ href }}"
+       class="{{ classes }}"
             {#{{ confirmMsg|raw }}#}
             {{ confirmation|raw }}
             >

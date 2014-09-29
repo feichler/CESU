@@ -322,9 +322,9 @@
         {% if action.confirm %}
             {% set confirmKey = 'tables.' ~ action.langKey ~ '.actions.confirmations.' ~ type %}
             {% set alternateConfirmKey = 'actions.confirmations.' ~ type %}
-            {{ attribute(actions, type, [action.link, siteLanguage.alternate(typeKey, alternateTypeKey), { 'confirmMsg': siteLanguage.alternate(confirmKey, alternateConfirmKey) }]) }}
+            {{ attribute(actions, type, [action.link, siteLanguage.alternate(typeKey, alternateTypeKey), { 'tooltip': siteLanguage.alternate(typeKey, alternateTypeKey), 'confirmMsg': siteLanguage.alternate(confirmKey, alternateConfirmKey) }]) }}
         {% else %}
-            {{ attribute(actions, type, [action.link, siteLanguage.alternate(typeKey, alternateTypeKey), {  }]) }}
+            {{ attribute(actions, type, [action.link, siteLanguage.alternate(typeKey, alternateTypeKey), { 'tooltip': siteLanguage.alternate(typeKey, alternateTypeKey) }]) }}
         {% endif %}
     {% endfor %}
 {% endblock table_body_cell_action %}
