@@ -89,7 +89,7 @@ class Event implements AuditableInterface, AnnotableInterface, CrudInterface
      * @var UnitStatus
      *
      * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitStatus", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="unitStatusId", referencedColumnName="unitStatusId")
+     * @ORM\JoinColumn(name="shippingStatusId", referencedColumnName="shippingStatusId")
      */
     protected $unitStatus;
 
@@ -97,7 +97,7 @@ class Event implements AuditableInterface, AnnotableInterface, CrudInterface
      * @var UnitSalesStatus
      *
      * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitSalesStatus", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="unitSalesStatusId", referencedColumnName="unitSalesStatusId")
+     * @ORM\JoinColumn(name="salesStatusId", referencedColumnName="salesStatusId")
      */
     protected $salesStatus;
 
@@ -113,7 +113,7 @@ class Event implements AuditableInterface, AnnotableInterface, CrudInterface
      * @var UnitUsage
      *
      * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Events\UnitUsage", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="unitUsageId", referencedColumnName="unitUsageId")
+     * @ORM\JoinColumn(name="usageStatusId", referencedColumnName="usageStatusId")
      */
     protected $usage;
 

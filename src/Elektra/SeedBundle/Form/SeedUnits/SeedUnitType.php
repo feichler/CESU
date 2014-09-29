@@ -45,7 +45,7 @@ class SeedUnitType extends Form
                 ->add('class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'PowerCordType')->getClassEntity())
                 ->add('property', 'title')->toArray());
 
-        if ($options['crud_action'] == 'add')
+        if ($options['crud_action'] != 'add')
         {
             $commonGroup->add('location', 'entity',
                 $this->getFieldOptions('location')

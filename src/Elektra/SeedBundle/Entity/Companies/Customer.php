@@ -31,7 +31,7 @@ class Customer extends Company
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Partner", inversedBy="customers")
-     * @ORM\JoinTable(name="customerCompanies_partnerCompanies",
+     * @ORM\JoinTable(name="companies_customer_companies_partner",
      *      joinColumns={@ORM\JoinColumn(name="customerId", referencedColumnName="companyId")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="companyId", referencedColumnName="companyId")}
      * )
@@ -85,6 +85,4 @@ class Customer extends Company
 
         return $this->getPartners()->first();
     }
-
-
 }

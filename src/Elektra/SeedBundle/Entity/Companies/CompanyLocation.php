@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\CompanyLocationRepository")
- * @ORM\Table(name="companyLocations")
+ * @ORM\Table(name="locations_company")
  * @UniqueEntity(fields={ "shortName", "company" }, errorPath="shortName", message="")
  */
 class CompanyLocation extends PhysicalLocation

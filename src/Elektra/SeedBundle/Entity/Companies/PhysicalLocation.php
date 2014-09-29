@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  *          @version 0.1-dev
  *
- * @ORM\Entity * @ORM\Table(name="physicalLocations")
+ * @ORM\Entity * @ORM\Table(name="locations_physical")
  */
 abstract class PhysicalLocation extends Location
 {
