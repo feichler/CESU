@@ -23,7 +23,6 @@ class CompanyLocationType extends CrudForm
         /** @var CompanyLocation $entity */
         $entity = $options['data'];
 
-        $isFirst = false;
         if ($options['crud_action'] != 'add') {
             $companyTypeData = $entity->getCompany()->getCompanyType();
         } else {
@@ -35,7 +34,6 @@ class CompanyLocationType extends CrudForm
 
             if ($parentEntity->getLocations()->count() == 0)
             {
-                $isFirst = true;
                 $entity->setIsPrimary(true);
             }
         }
@@ -52,29 +50,29 @@ class CompanyLocationType extends CrudForm
         $parentDefinition = $this->getCrud()->getNavigator()->getDefinition('Elektra', 'Seed', 'Companies', 'Company');
         $this->addParentField('common', $builder, $options, $parentDefinition, 'company');
 
-        $commonGroup->add('shortName', 'text', $this->getFieldOptions('shortName')
-            ->optional()
-            ->toArray());
+        $commonGroup->add(
+            'shortName',
+            'text',
+            $this->getFieldOptions('shortName')->optional()->toArray()
+        );
 
-        $isPrimaryOptions = $this->getFieldOptions('isPrimary')
-            ->optional();
-        if ($isFirst || ($options['crud_action'] == 'edit' && $entity->getIsPrimary()))
-        {
-            $isPrimaryOptions->readOnly();
+        $isPrimary = $entity->getIsPrimary();
+        if ($isPrimary) {
+            $isPrimaryOptions = $this->getFieldOptions('isPrimary');
+            $commonGroup->add('isPrimary', 'hidden', $isPrimaryOptions->toArray());
+            $isPrimaryInfoOptions = $this->getFieldOptions('isPrimary')->notMapped()->add('data', $isPrimary)->add('disabled', true);
+            $commonGroup->add('isPrimaryInfo', 'checkbox', $isPrimaryInfoOptions->toArray());
+        } else {
+            $isPrimaryOptions = $this->getFieldOptions('isPrimary')->optional();
+            $commonGroup->add('isPrimary', 'checkbox', $isPrimaryOptions->toArray());
         }
-        $commonGroup->add('isPrimary', 'checkbox', $isPrimaryOptions->toArray());
 
         $addressGroup = $this->addFieldGroup($builder, $options, 'address');
 
-/*        $addressTypeFieldOptions = $this->getFieldOptions('addressType')->required()->notBlank()->add(
-            'class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'AddressType')->getClassEntity())
-            ->add('property', 'title');
-        $addressGroup->add('addressType', 'entity', $addressTypeFieldOptions->toArray());*/
-
-        $addressFieldOptions = $this->getFieldOptions('address', false)
-            ->add('data_class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Address')->getClassEntity())
-            ->add('crud_action', $options['crud_action'])
-            ->add('default_actions', false);
+        $addressFieldOptions = $this->getFieldOptions('address', false)->add('data_class', $this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Address')->getClassEntity())->add(
+            'crud_action',
+            $options['crud_action']
+        )->add('default_actions', false);
         $addressGroup->add('address', new AddressType($this->getCrud()), $addressFieldOptions->toArray());
 
         if ($options['crud_action'] == 'view') {
