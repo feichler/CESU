@@ -24,7 +24,7 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Events\UnitUsageRepository")
- * @ORM\Table(name="unitUsages")
+ * @ORM\Table(name="usageStatuses")
  * @ORM\HasLifecycleCallbacks
  */
 class UnitUsage implements AuditableInterface, CrudInterface
@@ -45,7 +45,7 @@ class UnitUsage implements AuditableInterface, CrudInterface
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $unitUsageId;
+    protected $usageStatusId;
 
     /**
      * @var string
@@ -87,8 +87,8 @@ class UnitUsage implements AuditableInterface, CrudInterface
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
-     * @ORM\JoinTable(name = "unitUsages_audits",
-     *      joinColumns = {@ORM\JoinColumn(name = "unitUsageId", referencedColumnName = "unitUsageId")},
+     * @ORM\JoinTable(name = "usageStatuses_audits",
+     *      joinColumns = {@ORM\JoinColumn(name = "usageStatusId", referencedColumnName = "usageStatusId")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
      * )
      */
@@ -109,16 +109,16 @@ class UnitUsage implements AuditableInterface, CrudInterface
     public function getId()
     {
 
-        return $this->unitUsageId;
+        return $this->usageStatusId;
     }
 
     /**
      * @return int
      */
-    public function getUnitUsageId()
+    public function getUsageStatusId()
     {
 
-        return $this->unitUsageId;
+        return $this->usageStatusId;
     }
 
     /**

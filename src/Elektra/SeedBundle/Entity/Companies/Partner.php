@@ -21,7 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\PartnerRepository")
- * @ORM\Table(name="partnerCompanies")
+ * @ORM\Table(name="companies_partner")
  * @UniqueEntity(fields={ "shortName" }, message="")
  */
 class Partner extends Company

@@ -21,7 +21,7 @@ use Elektra\SeedBundle\Entity\Companies\ContactInfo;
  * @version 0.1-dev
  *
  * @ORM\Entity
- * @ORM\Table(name="activityEvents")
+ * @ORM\Table(name="events_activity")
  */
 class ActivityEvent extends Event
 {

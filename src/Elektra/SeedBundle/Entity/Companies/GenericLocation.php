@@ -20,7 +20,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\GenericLocationRepository")
- * @ORM\Table(name="genericLocations")
+ * @ORM\Table(name="locations_generic")
  * @UniqueEntity(fields={ "shortName" }, message="")
  */
 class GenericLocation extends Location

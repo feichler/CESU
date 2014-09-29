@@ -20,7 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\CompanyPersonRepository")
- * @ORM\Table("companyPersons")
+ * @ORM\Table("persons_company")
  */
 class CompanyPerson extends Person
 {

@@ -20,7 +20,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\WarehouseLocationRepository")
- * @ORM\Table(name="warehouseLocations")
+ * @ORM\Table(name="locations_warehouse")
  * @UniqueEntity(fields={ "locationIdentifier" }, message="")
  * @UniqueEntity(fields={ "shortName" }, message="")
  */

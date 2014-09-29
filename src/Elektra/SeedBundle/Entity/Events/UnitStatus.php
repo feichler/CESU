@@ -24,7 +24,7 @@ use Elektra\SeedBundle\Entity\AuditableInterface;
  * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Events\UnitStatusRepository")
- * @ORM\Table(name="unitStatuses")
+ * @ORM\Table(name="shippingStatuses")
  */
 class UnitStatus implements AuditableInterface, CrudInterface
 {
@@ -114,7 +114,7 @@ class UnitStatus implements AuditableInterface, CrudInterface
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $unitStatusId;
+    protected $shippingStatusId;
 
     /**
      * @var string
@@ -142,8 +142,8 @@ class UnitStatus implements AuditableInterface, CrudInterface
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
-     * @ORM\JoinTable(name = "unitStatuses_audits",
-     *      joinColumns = {@ORM\JoinColumn(name = "unitStatusId", referencedColumnName = "unitStatusId")},
+     * @ORM\JoinTable(name = "shippingStatuses_audits",
+     *      joinColumns = {@ORM\JoinColumn(name = "shippingStatusId", referencedColumnName = "shippingStatusId")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
      * )
      */
@@ -164,16 +164,16 @@ class UnitStatus implements AuditableInterface, CrudInterface
     public function getId()
     {
 
-        return $this->unitStatusId;
+        return $this->shippingStatusId;
     }
 
     /**
      * @return int
      */
-    public function getUnitStatusId()
+    public function getShippingStatusId()
     {
 
-        return $this->unitStatusId;
+        return $this->shippingStatusId;
     }
 
     /**

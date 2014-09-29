@@ -25,7 +25,7 @@ use Elektra\SeedBundle\Entity\AnnotableInterface;
  * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\PersonRepository")
- * @ORM\Table("people")
+ * @ORM\Table("persons")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
@@ -84,7 +84,7 @@ class Person implements AuditableInterface, AnnotableInterface, CrudInterface
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
-     * @ORM\JoinTable(name = "people_notes",
+     * @ORM\JoinTable(name = "persons_notes",
      *      joinColumns = {@ORM\JoinColumn(name = "personId", referencedColumnName = "personId", onDelete="CASCADE")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true, onDelete="CASCADE")}
      * )
@@ -96,7 +96,7 @@ class Person implements AuditableInterface, AnnotableInterface, CrudInterface
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
-     * @ORM\JoinTable(name = "people_audits",
+     * @ORM\JoinTable(name = "persons_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "personId", referencedColumnName = "personId")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
      * )

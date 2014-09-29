@@ -25,7 +25,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\PartnerTierRepository")
- * @ORM\Table(name="partnerTiers")
+ * @ORM\Table(name="partnerCompanyTiers")
  * @UniqueEntity(fields={ "name" }, message="")
  */
 class PartnerTier implements AuditableInterface, CrudInterface
@@ -59,7 +59,7 @@ class PartnerTier implements AuditableInterface, CrudInterface
      *
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
-     * @ORM\JoinTable(name = "partnerTiers_audits",
+     * @ORM\JoinTable(name = "partnerCompanyTiers_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "partnerTierId", referencedColumnName = "partnerTierId")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
      * )

@@ -20,7 +20,7 @@ use Elektra\SeedBundle\Entity\Companies\Location;
  * @version 0.1-dev
  *
  * @ORM\Entity
- * @ORM\Table(name="shippingEvents")
+ * @ORM\Table(name="events_inTransit")
  */
 class ShippingEvent extends Event
 {
