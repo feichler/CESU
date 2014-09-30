@@ -191,7 +191,7 @@ class RequestType extends CrudForm
                         'changeShippingStatus',
                         new ChangeShippingStatusType(),
                         array(
-                            'mapped'                                 => false,
+                            'mapped'                                     => false,
                             ChangeShippingStatusType::OPT_DATA           => $seedUnits,
                             ChangeShippingStatusType::OPT_OBJECT_MANAGER => $mgr
                         )
@@ -203,7 +203,7 @@ class RequestType extends CrudForm
                         'changeUsageStatus',
                         new ChangeUsageStatusType(),
                         array(
-                            'mapped'                                => false,
+                            'mapped'                                  => false,
                             ChangeUsageStatusType::OPT_DATA           => $seedUnits,
                             ChangeUsageStatusType::OPT_OBJECT_MANAGER => $mgr
                         )
@@ -215,7 +215,7 @@ class RequestType extends CrudForm
                         'changeSalesStatus',
                         new ChangeSalesStatusType(),
                         array(
-                            'mapped'                                      => false,
+                            'mapped'                                  => false,
                             ChangeSalesStatusType::OPT_DATA           => $seedUnits,
                             ChangeSalesStatusType::OPT_OBJECT_MANAGER => $mgr
                         )
@@ -224,8 +224,8 @@ class RequestType extends CrudForm
             }
 
             // seed units
-            $lastLangKey = $this->getCrud()->getLanguageKey();
-            $this->getCrud()->setOverridenLangKey($lastLangKey);
+            //            $lastLangKey = $this->getCrud()->getLanguageKey();
+            //            $this->getCrud()->setOverridenLangKey($lastLangKey);
             $unitsDefinition = $this->getCrud()->getDefinition('Elektra', 'Seed', 'SeedUnits', 'SeedUnit');
 
             $this->getCrud()->setDefinition($unitsDefinition);
@@ -248,8 +248,10 @@ class RequestType extends CrudForm
                     return $builder;
                 }
             );
+            $this->getCrud()->setOverridenLangKey('requests.add_units');
             $unitsGroup->add('seedUnits', 'entityTable', $unitsOptions->toArray());
-            $this->getCrud()->resetOverridenLangKey();
+            // NOTE: if resetting here, the override wont get to the template
+            //            $this->getCrud()->resetOverridenLangKey();
         }
     }
 }

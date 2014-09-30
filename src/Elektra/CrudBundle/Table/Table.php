@@ -643,7 +643,7 @@ abstract class Table
                 'entity',
                 $this->prepareFilterOptions(
                     array(
-                        'empty_value' => Helper::languageAlternate('tables', 'filter.' . $definition->getName()),
+                        'empty_value' => Helper::languageAlternate('tables', 'filters.' . $definition->getName()),
                         'class'       => $definition->getClassEntity(),
                         'property'    => $filterColumn->getFieldFilter(),
                     ),

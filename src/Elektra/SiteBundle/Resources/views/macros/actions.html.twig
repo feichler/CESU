@@ -30,7 +30,7 @@
         {% set tooltip = options.tooltip %}
         {% set classes = classes ~ ' action-tooltip' %}
     {% endif %}
-    <a {% if tooltip != '' %}data-toggle="tooltip" title="{{ tooltip }}"{% endif %}
+    <a {% if tooltip != '' and confirmation == '' %}data-toggle="tooltip" title="{{ tooltip }}"{% endif %}
        href="{{ href }}"
        class="{{ classes }}"
             {#{{ confirmMsg|raw }}#}

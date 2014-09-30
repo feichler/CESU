@@ -6,643 +6,619 @@
 # @version   0.1-dev
 ###############################################################################
 
+###############################################################################
+# Generic translations
+###############################################################################
 generic:
-    brand:                                                              CESU Admin
-    copyright:                                                          2014 Cisco Elektra Seed Unit Program
-
-
-user:
-    logged_in:                                                          Logged in as %firstname% %lastname% (%username%)
-    login:                                                              Login
-    logout:                                                             Logout
-    form:
-        username:                                                       Username
-        password:                                                       Password
-        remember:                                                       Remember Me
-        submit:                                                         Login
-
-
+    brand:                          CESU Admin
+    copyright:                      2014 Cisco Elektra Seed Unit Program
 actions:
-    add:                                                                Add
-    view:                                                               View
-    edit:                                                               Edit
-    delete:                                                             Delete
-    confirmations:
-        delete:                                                         Do you really want to delete this entry?
+    add:                            Add
+    view:                           View
+    edit:                           Edit
+    delete:                         Delete
+    confirmations.delete:           Do you really want to delete this entry?
+pages.generic:
+    title:                          ''
+    title_prefix:                   ''
+    title_suffix:                   CESU Administration
+    heading:                        ''
+    section:                        Administration
+# Home / Landing Page
+pages.home:
+    heading:                        Welcome
 
+###############################################################################
+# User-related translations
+###############################################################################
+pages.security.login:
+    title:                          Login
+    heading:                        Please Login
+user:
+    logged_in:                      Logged in as %firstname% %lastname% (%username%)
+    login:                          Login
+    logout:                         Logout
+    form:
+        username:                   Username
+        password:                   Password
+        remember:                   Remember Me
+        submit:                     Login
 
-pages:
-    generic:
-        title:                                                          ''
-        title_prefix:                                                   ''
-        title_suffix:                                                   CESU Administration
-        heading:                                                        Welcome
-        section:                                                        Administration
-
-    imports:
-        title_prefix:                                                   Import
-        section:                                                        Import
-        seed_unit:
-            title:                                                      Seed Units
-            heading:                                                    Import Seed Units
-
-    security:
-        login:
-            title:                                                      Login
-            heading:                                                    Please Login
-
-    requests:
-        request:
-            title_prefix:                                               Requests
-            section:                                                    Requests
-            browse:
-                title:                                                  List
-                heading:                                                Request List
-            add:
-                title:                                                  New
-                heading:                                                New Request
-            edit:
-                title:                                                  Edit
-                heading:                                                Edit Request
-            view:
-                title:                                                  View
-                heading:                                                View Request
-            addUnits:
-                title:                                                  Assign Units
-                heading:                                                Assign Units
-
-    companies:
-        partner:
-            title_prefix:                                               Partners
-            section:                                                    Partners
-            browse:
-                title:                                                  List
-                heading:                                                Partner List
-            add:
-                title:                                                  New
-                heading:                                                New Partner
-            edit:
-                title:                                                  Edit
-                heading:                                                Edit Partner
-            view:
-                title:                                                  View
-                heading:                                                View Partner
-        sales_team:
-            title_prefix:                                               Sales Teams
-            section:                                                    Sales Teams
-            browse:
-                title:                                                  List
-                heading:                                                Sales Team List
-            add:
-                title:                                                  New
-                heading:                                                New Sales Team
-            edit:
-                title:                                                  Edit
-                heading:                                                Edit Sales Team
-            view:
-                title:                                                  View
-                heading:                                                View Sales Team
-        customer:
-            title_prefix:                                               Customers
-            section:                                                    Customers
-            browse:
-                title:                                                  List
-                heading:                                                Customer List
-            add:
-                title:                                                  New
-                heading:                                                New Customer
-            edit:
-                title:                                                  Edit
-                heading:                                                Edit Customer
-            view:
-                title:                                                  View
-                heading:                                                View Customer
-        company_location:
-            title_prefix:                                               Company Locations
-            section:                                                    Company Locations
-            add:
-                title:                                                  New
-                heading:                                                New Company Location
-            edit:
-                title:                                                  Edit
-                heading:                                                Edit Company Location
-            view:
-                title:                                                  View
-                heading:                                                View Company Location
-        company_person:
-            title_prefix:                                               Company Persons
-            section:                                                    Company Persons
-            add:
-                title:                                                  New
-                heading:                                                New Company Person
-            edit:
-                title:                                                  Edit
-                heading:                                                Edit Company Person
-            view:
-                title:                                                  View
-                heading:                                                View Company Person
-        region:
-            title_prefix:                                               Regions
-            section:                                                    Regions
-            browse:
-                title:                                                  List
-                heading:                                                Region List
-            add:
-                title:                                                  New
-                heading:                                                New Region
-            edit:
-                title:                                                  Edit
-                heading:                                                Edit Region
-            view:
-                title:                                                  View
-                heading:                                                View Region
-        country:
-            title_prefix:                                               Countries
-            section:                                                    Countries
-            browse:
-                title:                                                  List
-                heading:                                                Country List
-            add:
-                title:                                                  New
-                heading:                                                New Country
-            edit:
-                title:                                                  Edit
-                heading:                                                Edit Country
-            view:
-                title:                                                  View
-                heading:                                                View Country
-        warehouse_location:
-            title_prefix:                                               Warehouses
-            section:                                                    Warehouses
-            browse:
-                title:                                                  List
-                heading:                                                Warehouse List
-            add:
-                title:                                                  New
-                heading:                                                New Warehouse
-            edit:
-                title:                                                  Edit
-                heading:                                                Edit Warehouse
-            view:
-                title:                                                  View
-                heading:                                                View Warehouse
-
-    seed_units:
-        seed_unit:
-            title_prefix:                                               Seed Units
-            section:                                                    Seed Units
-            browse:
-                title:                                                  List
-                heading:                                                Seed Unit List
-            add:
-                title:                                                  New
-                heading:                                                New Seed Unit
-            edit:
-                title:                                                  Edit
-                heading:                                                Edit Seed Unit
-            view:
-                title:                                                  View
-                heading:                                                View Seed Unit
-        model:
-            title_prefix:                                               Models
-            section:                                                    Models
-            browse:
-                title:                                                  List
-                heading:                                                Model List
-            add:
-                title:                                                  New
-                heading:                                                New Model
-            edit:
-                title:                                                  Edit
-                heading:                                                Edit Model
-            view:
-                title:                                                  View
-                heading:                                                View Model
-        power_cord_type:
-            title_prefix:                                               Power Cord Types
-            section:                                                    Power Cord Types
-            browse:
-                title:                                                  List
-                heading:                                                Power Cord Type List
-            add:
-                title:                                                  New
-                heading:                                                New Power Cord Type
-            edit:
-                title:                                                  Edit
-                heading:                                                Edit Power Cord Type
-            view:
-                title:                                                  View
-                heading:                                                View Power Cord Type
-
-modal:
-    header:
-        status:
-            shipped:                                                    Shipped
-        sales:
-            something: to insert
-        usage:
-            something: to insert
-        # URGENT add model header labels / titles here
-
-tables:
-    generic:
-        empty:                                                          No data found
-        pagination:
-            pages:                                                      Page %page% of %max%
-        columns:
-            id:                                                         ID
-            audit:                                                      ''
-            action:                                                     Actions
-            note:                                                       Notes
-            date:                                                       Date
-            user:                                                       User
-            name:                                                       Name
-            short_name:                                                 Alias
-            first_name:                                                 First Name
-            last_name:                                                  Last Name
-            title:                                                      Title
-
-    imports:
-        template:
-            columns:
-                download:                                               Download
-            actions:
-                view:                                                   Get Template
-        import:
-            empty:                                                      No imports found
-            columns:
-                original_file:                                          File Name
-#                server_file:                                            ''
-                import_type:                                            Import Type
-                entries:                                                '# Entries in File'
-                entries_processed:                                      '# Entries processed'
-            actions:
-                add:                                                    New Import
-
-    auditing:
-        audit:
-            columns: ~
-
-    notes:
-        note:
-            empty:                                                      No notes found
-            columns:
-                text:                                                   Note
-            actions:
-                add:                                                    Add Note
-
-    seed_units:
-        model:
-            columns:
-                name:                                                   Model
-        power_cord_type:
-            columns:
-                name:                                                   Power Cord Type
-        seed_unit:
-            filter:
-                model:                                                  Select Model
-                power_cord_type:                                        Select Power Cord Type
-            columns:
-                serial_number:                                          'Serial #'
-                model:                                                  Model
-                power_cord_type:                                        Power Cord Type
-                shipping:                                               Shipping
-                sales:                                                  Sales
-                location:                                               Location
-                request:                                                Request
-                usage:                                                  Usage
-        usage_status:
-            columns:
-                abbreviation:                                           Abbr.
-        sales_status:
-            columns:
-                abbreviation:                                           Abbr.
-
-    companies:
-        region:
-            columns:
-                region:                                                 Region
-                countries:                                              '# Countries'
-        country:
-            filter:
-                region:                                                 Select Region
-            columns:
-                country:                                                Country
-                region:                                                 Region
-        partner:
-            filter:
-                partner_type:                                           Select Organization Type
-            columns:
-                partner_tier:                                           Tier
-                units_limit:                                            Unit Limit
-                partner_type:                                           Organization Type
-            actions:
-                add:                                                    Add Partner
-        customer:
-            columns:
-                partner:                                                Partner
-            actions:
-                add:                                                    Add Customer
-        sales_team:
-            actions:
-                add:                                                    Add Sales Team
-        company_location:
-            columns:
-                is_primary:                                             Primary
-                address_type:                                           Address Type
-                country:                                                Country
-                state:                                                  State
-                postal_code:                                            Postal Code
-                city:                                                   City
-                street1:                                                Street 1
-        warehouse_location:
-            columns:
-                location_identifier:                                    Alias
-                short_name:                                             Name
-            actions:
-                add:                                                    New Warehouse
-        company_person:
-            columns:
-                is_primary:                                             Primary
-                salutation:                                             Salutation
-                job_title:                                              Job Title
-                location:                                               Location
-        contact_info:
-            columns:
-                text:                                                   ''
-                contact_info_type:                                      Type
-
-    requests:
-        request:
-            empty:                                                      No Requests found
-            filter:
-                partner:                                                Select Partner
-            columns:
-                request_number:                                         'Request No.'
-                company:                                                Partner
-                requester:                                              Requester
-                receiver:                                               Receiver
-                shipping_location:                                      Ship to
-                serial_number:                                          'Serial #'
-                model:                                                  Model
-                power_cord_type:                                        Power Cord Type
-                status:                                                 Status
-                location:                                               Location
-                request:                                                Request
-                usage:                                                  Usage
-                number_of_units_requested:                              '# requested'
-                number_of_units_assigned:                               '# assigned'
-            actions:
-                add:                                                    New Request
-
-    events:
-        event:
-            columns:
-                event_type:                                             Type
-                company:                                                Company
-                location:                                               Location
-                text:                                                   Text
-                shipping_status:                                        Shipping
-                sales_status:                                           Sales
-                usage_status:                                           Usage
-
-
-
-view:
-    generic:
-        confirm:
-            delete:                                                     Do you really want to delete this entry?
-#    companies:
-#        partner:
-#            confirm:
-#                delete:                                                 Do you really want to delete this Partner?
-
-
-forms:
-    generic:
-        constraints:
-            unique:                                                     Unique Constraint violated
-            not_blank:                                                  Value can not be empty
-        buttons:
-            save:                                                       Save & Close
-            save_return:                                                Save & View
-            reset:                                                      Reset
-            cancel:                                                     Cancel
-            close:                                                      Close
-            edit:                                                       Edit
-            delete:                                                     Delete
-        groups:
-            common:                                                     General
-            notes:                                                      Notes
-            audits:                                                     Audits
-        fields:
-            name:                                                       Name
-            short_name:                                                 Alias
-            title:                                                      Title
-
-    imports:
-        seed_unit:
-            groups:
-                info:                                                   Information
-            fields:
-                columns:                                                Column Definitions
-                supported_formats:                                      Supported Formats
-                file:                                                   File
-            buttons:
-                save:                                                   Import
-        company:
-            groups:
-                info:                                                   Information
-            fields:
-                columns:                                                Column Definitions
-                supported_formats:                                      Supported Formats
-                file:                                                   File
-            buttons:
-                save:                                                   Import
-
-    auditing:
-        audit:
-            fields: ~
-
-    notes:
-        note:
-            fields:
-                text:                                                   Note
-
-    requests:
-        request:
-            buttons:
-                shipped:                                                Shipped
-                in_transit:                                             In-transit
-                exception:                                              Exception
-                delivered:                                              Delivered
-                acknowledge_attempt:                                    Delivery NOT verified
-                aa1sent:                                                Delivery NOT verified
-                aa2sent:                                                Delivery NOT verified
-                aa3sent:                                                Delivery NOT verified
-                escalation:                                             Delivery NOT verified
-                delivery_verified:                                      Delivery verified
-                usage:                                                  Usage: %usage%
-            companies:
-                partner:                                                Partner
-                sales_team:                                             Sales Team
-                customer:                                               Customer
-            groups:
-                units:                                                  Seed Units
-                common:                                                 Request Data
-                assign:                                                 Assign Seed Units
-            fields:
-                request_number:                                         'Request No.'
-                number_of_units_requested:                              '# Units'
-                add_number_of_units_requested:                          '# of requested Units'
-                add_number_of_units_required:                           '# Required'
-                company:                                                'Requesting Company'
-                requester_person:                                       Requester
-                receiver_person:                                        Receiver
-                shipping_location:                                      'Ship to'
-                seed_units:                                             Select Unit
-
-    companies:
-        partner:
-            groups:
-                locations:                                              Locations
-                persons:                                                Persons
-                customers:                                              Customers
-            fields:
-                partner_tier:                                           Tier
-                units_limit:                                            Unit Limit
-                partner_type:                                           Organization Type
-        customer:
-            groups:
-                locations:                                              Locations
-                persons:                                                Persons
-            fields:
-                partner:                                                Partner
-        sales_team:
-            groups:
-                locations:                                              Locations
-                persons:                                                Persons
-        company_location:
-            groups:
-                common:                                                 Location Information
-                address:                                                Address
-                persons:                                                Persons
-            fields:
-                company_type:                                           Company Type
-                company:                                                Company
-                is_primary:                                             Primary
-                address_type:                                           Type
-                street1:                                                Street Address 1
-                street2:                                                Street Address 2
-                street3:                                                Street Address 3
-                postal_code:                                            Postal Code
-                city:                                                   City
-                state:                                                  State
-                country:                                                Country
-        company_person:
-            groups:
-                common:                                                 Person Information
-                contact_infos:                                          Contact Information
-            fields:
-                company_type:                                           Company Type
-                company:                                                Company
-                location:                                               Location
-                first_name:                                             First Name
-                last_name:                                              Last Name
-                salutation:                                             Salutation
-                job_title:                                              Job Title
-                is_primary:                                             Primary
-        contact_info:
-            fields:
-                person:                                                 Person
-                contact_info_type:                                      Type
-                text:                                                   Value
-        region:
-            groups:
-                countries:                                              Countries
-            fields:
-                name:                                                   Name
-        country:
-            fields:
-                region:                                                 Region
-                name:                                                   Name
-                alpha_two:                                              Alpha-2 Code
-                alpha_three:                                            Alpha-3 Code
-                numeric_code:                                           Numeric Code
-        warehouse_location:
-            fields:
-                location_identifier:                                    Alias
-                short_name:                                             Name
-                street1:                                                Street Address 1
-                street2:                                                Street Address 2
-                street3:                                                Street Address 3
-                postal_code:                                            Postal Code
-                city:                                                   City
-                state:                                                  State
-                country:                                                Country
-
-    seed_units:
-        model:
-            fields:
-                name:                                                   Model
-                description:                                            Description
-        power_cord_type:
-            fields:
-                name:                                                   Power Cord Type
-                description:                                            Description
-        seed_unit:
-            buttons:
-                shipped:                                                Shipped
-                in_transit:                                             In-transit
-                exception:                                              Exception
-                delivered:                                              Delivered
-                acknowledge_attempt:                                    Delivery NOT verified
-                aa1sent:                                                Delivery NOT verified
-                aa2sent:                                                Delivery NOT verified
-                aa3sent:                                                Delivery NOT verified
-                escalation:                                             Delivery NOT verified
-                delivery_verified:                                      Delivery verified
-                usage:                                                  Usage: %usage%
-            groups:
-                history:                                                History
-            fields:
-                serial_number:                                          'Serial #'
-                model:                                                  Model
-                power_cord_type:                                        Power Cord Type
-                location:                                               Location
-                shipping_status:                                        'Shipping Status'
-                sales_status:                                           'Sales Status'
-                usage_status:                                           Usage
-                # workaround for translation issues - should be at the request
-                requester_person:                                       Requester
-                receiver_person:                                        Receiver
-                shipping_location:                                      Ship to
-        usage_status:
-            fields:
-                abbreviation:                                           Abbreviation
-        sales_status:
-            fields:
-                abbreviation:                                           Abbreviation
-
-
+###############################################################################
+# Menu
+###############################################################################
 menu:
-    requests:                                                           Requests
-    reports:                                                            Reports
-    companies:                                                          Companies
-    partners:                                                           Partners
-    sales_teams:                                                        Sales Teams
-    customers:                                                          Customers
-    master_data:                                                        Master Data
-    seed_units:                                                         Seed Units
-    seed_unit_models:                                                   Models
-    seed_unit_power_cord_types:                                         Power Cord Types
-    partner_types:                                                      Organization Types
-    trainings:                                                          Trainings
-    registrations:                                                      Registrations
-    attendances:                                                        Attendances
-    regions:                                                            Regions
-    countries:                                                          Countries
-    warehouses:                                                         Warehouses
-    import:                                                             Import
-    import_templates:                                                   Templates
-    import_imports:                                                     Imports
+    requests:                      Requests
+    reports:                       Reports
+    companies:                     Companies
+    partners:                      Partners
+    sales_teams:                   Sales Teams
+    customers:                     Customers
+    master_data:                   Master Data
+    seed_units:                    Seed Units
+    seed_unit_models:              Models
+    seed_unit_power_cord_types:    Power Cord Types
+    partner_types:                 Organization Types
+    trainings:                     Trainings
+    registrations:                 Registrations
+    attendances:                   Attendances
+    regions:                       Regions
+    countries:                     Countries
+    warehouses:                    Warehouses
+    import:                        Import
+    import_templates:              Templates
+    import_imports:                Imports
+
+###############################################################################
+# Data related - common and fallbacks
+###############################################################################
+tables.generic:
+    empty:                          No data found
+    pagination.pages:               Page %page% of %max%
+    columns.id:                     ID
+    columns.audit:                  ''
+    columns.action:                 Actions
+    columns.note:                   Notes
+    columns.date:                   Date
+    columns.user:                   User
+    columns.name:                   Name
+    columns.short_name:             Alias
+    columns.alias:                  Alias
+#    columns.first_name:             First Name
+#    columns.last_name:              Last Name
+    columns.title:                  Title
+    columns.text:                   Text
+forms.generic:
+    constraints.unique:             Unique Constraint violated
+    constraints.not_blank:          Value can not be empty
+    buttons.save:                   Save & Close
+    buttons.save_return:            Save
+    buttons.reset:                  Reset
+    buttons.cancel:                 Cancel
+    buttons.close:                  Close
+    buttons.edit:                   Edit
+    buttons.delete:                 Delete
+    groups.common:                  General
+    groups.notes:                   Notes
+    groups.audits:                  Audits
+    fields.name:                    Name
+    fields.short_name:              Alias
+    fields.alias:                   Alias
+    fields.title:                   Title
+    fields.description:             Description
+    fields.text:                    Text
+view.generic:
+    confirm.delete:                 Do you really want to delete this entry?
+
+###############################################################################
+# Generic - Notes
+###############################################################################
+pages.notes.note:
+    section:                        Notes
+    add.title:                      New Note
+    add.heading:                    New
+tables.notes.note:
+    empty:                          No notes found
+    actions.add:                    New Note
+forms.notes.note:
+    fields.note_parent:             Attached to
+
+###############################################################################
+# Generic - Events
+###############################################################################
+tables.events.event:
+    columns.event_type:             Event
+    columns.text:                   Information
+    columns.company:                Company
+    columns.location:               Location
+    columns.shipping_status:        Shipping
+    columns.sales_status:           Sales
+    columns.usage_status:           Usage
+
+
+
+###############################################################################
+# Master Data - Regions
+###############################################################################
+pages.companies.region:
+    section:                        Regions
+    browse.title:                   Region List
+    browse.heading:                 List
+    add.title:                      New Region
+    add.heading:                    New
+    edit.title:                     Edit Region
+    edit.heading:                   Edit
+    view.title:                     View Region
+    view.heading:                   View
+tables.companies.region:
+    empty:                          No regions found / match the criteria
+    actions.add:                    New Region
+    actions.confirmations.delete:   Do you really want to delete this region?
+    columns.region:                 Region
+    columns.countries:              '# Countries'
+forms.companies.region:
+    groups.countries:               Countries
+view.companies.region:
+    confirm.delete:                 Do you really want to delete this region?
+
+###############################################################################
+# Master Data - Countries
+###############################################################################
+pages.companies.country:
+    section:                        Countries
+    browse.title:                   Country List
+    browse.heading:                 List
+    add.title:                      New Country
+    add.heading:                    New
+    edit.title:                     Edit Country
+    edit.heading:                   Edit
+    view.title:                     View Country
+    view.heading:                   View
+tables.companies.country:
+    empty:                          No countries found / match the criteria
+    actions.add:                    New Country
+    actions.confirmations.delete:   Do you really want to delete this country?
+    filters.region:                 Select Region
+    columns.country:                Country
+    columns.region:                 Region
+forms.companies.country:
+    fields.region:                  Region
+    fields.alpha_two:               Alpha-2 Code
+    fields.alpha_three:             Alpha-3 Code
+    fields.numeric_code:            Numeric Code
+view.companies.country:
+    confirm.delete:                 Do you really want to delete this country?
+
+###############################################################################
+# Master Data - Partner Types
+###############################################################################
+pages.companies.partner_type:
+    section:                        Organization Types
+    browse.title:                   Organization Type List
+    browse.heading:                 List
+    add.title:                      New Organization Type
+    add.heading:                    New
+    edit.title:                     Edit Organization Type
+    edit.heading:                   Edit
+    view.title:                     View Organization Type
+    view.heading:                   View
+tables.companies.partner_type:
+    empty:                          No organization types found / match the criteria
+    actions.add:                    New Organization Type
+    actions.confirmations.delete:   Do you really want to delete this organization type?
+    columns.name:                   Type
+forms.companies.partner_type:
+    fields.name:                    Type
+view.companies.partner_type:
+    confirm.delete:                 Do you really want to delete this organization type?
+
+###############################################################################
+# Master Data - Warhouse Locations
+###############################################################################
+pages.companies.warehouse_location:
+    section:                        Warehouses
+    browse.title:                   Warehouse List
+    browse.heading:                 List
+    add.title:                      New Warehouse
+    add.heading:                    New
+    edit.title:                     Edit Warehouse
+    edit.heading:                   Edit
+    view.title:                     View Warehouse
+    view.heading:                   View
+tables.companies.warehouse_location:
+    empty:                          No warehouses found / match the criteria
+    actions.add:                    New Warehouse
+    actions.confirmations.delete:   Do you really want to delete this warehouse?
+    columns.location_identifier:    Alias
+    columns.short_name:             Name
+forms.companies.warehouse_location:
+    fields.location_identifier:     Alias
+    fields.short_name:              Name
+    fields.street1:                 Street Address 1
+    fields.street2:                 Street Address 2
+    fields.street3:                 Street Address 3
+    fields.postal_code:             Postal Code
+    fields.city:                    City
+    fields.state:                   State
+    fields.country:                 Country
+view.companies.warehouse_location:
+    confirm.delete:                 Do you really want to delete this warehouse?
+
+###############################################################################
+# Master Data - Models
+###############################################################################
+pages.seed_units.model:
+    section:                        Models
+    browse.title:                   Model List
+    browse.heading:                 List
+    add.title:                      New Model
+    add.heading:                    New
+    edit.title:                     Edit Model
+    edit.heading:                   Edit
+    view.title:                     View Model
+    view.heading:                   View
+tables.seed_units.model:
+    empty:                          No models found / match the criteria
+    actions.add:                    New Model
+    actions.confirmations.delete:   Do you really want to delete this model?
+forms.seed_units.model:             ~
+view.seed_units.model:
+    confirm.delete:                 Do you really want to delete this model?
+
+###############################################################################
+# Master Data - Power Cord Types
+###############################################################################
+pages.seed_units.power_cord_type:
+    section:                        Power Cord Types
+    browse.title:                   Power Cord Type List
+    browse.heading:                 List
+    add.title:                      New Power Cord Type
+    add.heading:                    New
+    edit.title:                     Edit Power Cord Type
+    edit.heading:                   Edit
+    view.title:                     View Power Cord Type
+    view.heading:                   View
+tables.seed_units.power_cord_type:
+    empty:                          No power cord types found / match the criteria
+    actions.add:                    New Power Cord Type
+    actions.confirmations.delete:   Do you really want to delete this power cord type?
+forms.seed_units.power_cord_type:   ~
+view.seed_units.power_cord_type:
+    confirm.delete:                 Do you really want to delete this power cord type?
+
+###############################################################################
+# Master Data - Seed Units
+###############################################################################
+pages.seed_units.seed_unit:
+    section:                        Seed Units
+    browse.title:                   Seed Unit List
+    browse.heading:                 List
+    add.title:                      New Seed Unit
+    add.heading:                    New
+    edit.title:                     Edit Seed Unit
+    edit.heading:                   Edit
+    view.title:                     View Seed Unit
+    view.heading:                   View
+tables.seed_units.seed_unit:
+    empty:                          No seed units found / match the criteria
+    actions.add:                    New Seed Unit
+    actions.confirmations.delete:   Do you really want to delete this seed unit?
+    filters.model:                  Select Model
+    filters.power_cord_type:        Select Power Cord Type
+    columns.serial_number:          'Serial #'
+    columns.model:                  Model
+    columns.power_cord_type:        Power Cord Type
+    columns.shipping:               Shipping
+    columns.sales:                  Sales
+    columns.usage:                  Usage
+    columns.location:               Location
+    columns.request:                'Request #'
+forms.seed_units.seed_unit:
+    groups.history:                 History
+    fields.serial_number:           'Serial #'
+    fields.model:                   Model
+    fields.power_cord_type:         Power Cord Type
+    fields.location:                Location
+    fields.shipping_status:         Shipping Status
+    fields.sales_status:            Sales Status
+    fields.usage_status:            Usage
+view.seed_units.seed_unit:
+    confirm.delete:                 Do you really want to delete this seed unit?
+
+###############################################################################
+# Partners
+###############################################################################
+pages.companies.partner:
+    section:                        Partners
+    browse.title:                   Partner List
+    browse.heading:                 List
+    add.title:                      New Partner
+    add.heading:                    New
+    edit.title:                     Edit Partner
+    edit.heading:                   Edit
+    view.title:                     View Partner
+    view.heading:                   View
+tables.companies.partner:
+    empty:                          No partners found / match the criteria
+    actions.add:                    Add Partner
+    actions.confirmations.delete:   Do you really want to delete this partner?
+    filters.partner_type:           Select Organization Type
+    columns.partner_type:           Organization Type
+forms.companies.partner:
+    groups.locations:               Locations
+    groups.persons:                 Persons
+    groups.customers:               Customers
+    fields.partner_type:            Organization Type
+view.companies.partner:
+    confirm.delete:                 Do you really want to delete this partner?
+
+###############################################################################
+# Customers
+###############################################################################
+pages.companies.customer:
+    section:                        Customers
+    browse.title:                   Customer List
+    browse.heading:                 List
+    add.title:                      New Customer
+    add.heading:                    New
+    edit.title:                     Edit Customer
+    edit.heading:                   Edit
+    view.title:                     View Customer
+    view.heading:                   View
+tables.companies.customer:
+    empty:                          No customers found / match the criteria
+    actions.add:                    Add Customer
+    actions.confirmations.delete:   Do you really want to delete this customer?
+    columns.partner:                Partner
+forms.companies.customer:
+    groups.locations:               Locations
+    groups.persons:                 Persons
+    fields.partner:                 Partner
+view.companies.customer:
+    confirm.delete:                 Do you really want to delete this customer?
+
+###############################################################################
+# Company Locations
+###############################################################################
+pages.companies.company_location:
+    section:                        Company Locations
+    add.title:                      New Company Location
+    add.heading:                    New
+    edit.title:                     Edit Company Location
+    edit.heading:                   Edit
+    view.title:                     View Company Location
+    view.heading:                   View
+tables.companies.company_location:
+    empty:                          No locations found
+    actions.add:                    Add Location
+    actions.confirmations.delete:   Do you really want to delete this location?
+    columns.name:                   Alias
+    columns.country:                Country
+    columns.state:                  State
+    columns.city:                   City
+    columns.postal_code:            Postal Code
+    columns.street:                 Street Address
+    columns.is_primary:             Primary
+forms.companies.company_location:
+    values.company_type.customer:   Customer
+    groups.common:                  Location Information
+    groups.address:                 Address
+    groups.persons:                 Persons
+    fields.company_type:            Company Type
+    fields.company:                 Company
+    fields.is_primary:              Primary
+    fields.street1:                 Street Address 1
+    fields.street2:                 Street Address 2
+    fields.street3:                 Street Address 3
+    fields.postal_code:             Postal Code
+    fields.city:                    City
+    fields.state:                   State
+    fields.country:                 Country
+view.companies.company_location:
+    confirm.delete:                 Do you really want to delete this location?
+
+###############################################################################
+# Company Persons
+###############################################################################
+pages.companies.company_person:
+    section:                        Company Persons
+    add.title:                      New Company Person
+    add.heading:                    New
+    edit.title:                     Edit Company Person
+    edit.heading:                   Edit
+    view.title:                     View Company Person
+    view.heading:                   View
+tables.companies.company_person:
+    empty:                          No persons found
+    actions.add:                    Add Person
+    actions.confirmations.delete:   Do you really want to delete this person?
+    columns.first_name:             First Name
+    columns.last_name:              Last Name
+    columns.is_primary:             Primary
+    columns.salutation:             Salutation
+    columns.job_title:              Job Title
+    columns.location:               Location
+forms.companies.company_person:
+    groups.common:                  Person Information
+    groups.contact_infos:           Contact Information
+    fields.company_type:            Company Type
+    fields.company:                 Company
+    fields.location:                Location
+    fields.first_name:              First Name
+    fields.last_name:               Last Name
+    fields.salutation:              Salutation
+    fields.job_title:               Job Title
+    fields.is_primary:              Primary
+view.companies.company_person:
+    confirm.delete:                 Do you really want to delete this person?
+
+###############################################################################
+# Contact Infos
+###############################################################################
+pages.companies.contact_info:
+    section:                        Contact Informations
+    add.title:                      New Contact Information
+    add.heading:                    New
+    edit.title:                     Edit Contact Information
+    edit.heading:                   Edit
+    view.title:                     View Contact Information
+    view.heading:                   View
+tables.companies.contact_info:
+    empty:                          No contact information found
+    actions.add:                    Add Contact Information
+    actions.confirmations.delete:   Do you really want to delete this contact information?
+    columns.text:                   ''
+    columns.contact_info_type:      Type
+forms.companies.contact_info:
+    fields.person:                  Person
+    fields.contact_info_type:       Type
+    fields.text:                    Value
+view.companies.contact_info:
+    confirm.delete:                 Do you really want to delete this contact information?
+
+###############################################################################
+# Imports - Templates
+###############################################################################
+pages.imports.template:
+    section:                        Import Templates
+    browse.title:                   Import Templates
+
+###############################################################################
+# Imports
+###############################################################################
+pages.imports.import:
+    section:                        Imports
+    browse.title:                   Import List
+    browse.heading:                 List
+    add.title:                      New Import
+    add.heading:                    New
+    view.title:                     View Import
+    view.heading:                   View
+tables.imports.import:
+    empty:                          No imports found
+    actions.add:                    Add Import
+    columns.original_file:          File Name
+    columns.import_type:            Import Type
+    columns.entries:                '# Entries in File'
+forms.imports.import:
+    fields.supported_formats:       Supported Formats
+    fields.upload_file:             File
+    fields.original_file_name:      File
+    fields.server_file_name:        File on server
+    fields.import_type:             Import Type
+    fields.number_of_entries:       '# Entries in File'
+view.imports.import:
+
+###############################################################################
+# Requests
+###############################################################################
+pages.requests.request:
+    section:                                Requests
+    browse.title:                           Request List
+    browse.heading:                         List
+    add.title:                              New Request
+    add.heading:                            New
+    edit.title:                             Edit Request
+    edit.heading:                           Edit
+    view.title:                             View Request
+    view.heading:                           View
+    addUnits.title:                         Assign Seed Units
+    addUnits.heading:                       Assign
+tables.requests.request:
+    empty:                                  No requests found / match the criteria
+    actions.add:                            New Request
+    actions.confirmations.delete:           Do you really want to delete this request?
+    filters.partner:                        Select Partner
+    columns.request_number:                 'Request #'
+    columns.company:                        Partner
+    columns.requester:                      Requester
+    columns.receiver:                       Receiver
+    columns.shipping_location:              Ship to
+    columns.number_of_units_requested:      '# requested'
+    columns.number_of_units_assigned:       '# assigned'
+forms.requests.request:
+    groups.common:                          Request Data
+    groups.units:                           Seed Units
+    groups.assign:                          Assign Seed Units
+    fields.request_number:                  'Request #'
+    fields.number_of_units_requested:       '# Units'
+    fields.company:                         Requesting Partner
+    fields.requester_person:                Requester
+    fields.shipping_location:               Ship to
+    fields.receiver_person:                 Receiver
+    fields.add_number_of_units_requested:   '# of requested Units'
+    fields.add_number_of_units_required:    '# of required Units'
+view.requests.request:
+    confirm.delete:                         Do you really want to delete this request?
+
+###############################################################################
+# Requests - Add Units
+###############################################################################
+tables.requests.add_units:
+    empty:                          No seed units assigned
+    actions.add:                    Add Seed Units
+    columns.serial_number:          'Serial #'
+    columns.model:                  Model
+    columns.power_cord_type:        Power Cord Type
+    columns.shipping:               Shipping
+    columns.sales:                  Sales
+    columns.usage:                  Usage
+    columns.location:               Location
+
+
+
+
+###############################################################################
+# Hidden Admin - Usage Status
+###############################################################################
+pages.seed_units.usage_status:
+    section:                        Usage Statuses
+    browse.title:                   Usage Statuses
+    browse.heading:                 List
+    add.title:                      New Usage Status
+    add.heading:                    New
+    edit.title:                     Edit Usage Status
+    edit.heading:                   Edit
+    view.title:                     View Usage Status
+    view.heading:                   View
+tables.seed_units.usage_status:
+    empty:                          No usage statuses found / match the criteria
+    actions.add:                    New Usage Status
+    actions.confirmations.delete:   Do you really want to delete this usage status?
+    columns.abbreviation:           Abbreviation
+forms.seed_units.usage_status:
+    fields.abbreviation:            Abbreviation
+view.seed_units.usage_status:
+    confirm.delete:                 Do you really want to delete this usage status?
+
+###############################################################################
+# Hidden Admin - Sales Status
+###############################################################################
+pages.seed_units.sales_status:
+    section:                        Sales Statuses
+    browse.title:                   Sales Statuses
+    browse.heading:                 List
+    add.title:                      New Sales Status
+    add.heading:                    New
+    edit.title:                     Edit Sales Status
+    edit.heading:                   Edit
+    view.title:                     View Sales Status
+    view.heading:                   View
+tables.seed_units.sales_status:
+    empty:                          No sales statuses found / match the criteria
+    actions.add:                    New Sales Status
+    actions.confirmations.delete:   Do you really want to delete this sales status?
+    columns.abbreviation:           Abbreviation
+forms.seed_units.sales_status:
+    fields.abbreviation:            Abbreviation
+view.seed_units.sales_status:
+    confirm.delete:                 Do you really want to delete this sales status?
+
+###############################################################################
+# Template
+###############################################################################
+#pages.GROUP.TYPE:
+#tables.GROUP.TYPE:
+#forms.GROUP.TYPE:
+#view.GROUP.TYPE:
+
