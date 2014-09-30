@@ -89,19 +89,28 @@ class CompanyPersonType extends CrudForm
         if ($options['crud_action'] != 'add') {
             $company = $entity->getLocation()->getCompany();
             $companyData     = $company->getTitle();
-            $companyTypeData = $company->getCompanyType();
+//            $companyTypeData = $company->getCompanyType();
         } else {
             $parentRepository = $this->getCrud()->getService('doctrine')->getRepository($parentDefinition->getClassRepository());
             /** @var CompanyLocation $parentEntity */
             $parentEntity     = $parentRepository->find($this->getCrud()->getParentId());
             $company = $parentEntity->getCompany();
             $companyData      = $company->getTitle();
-            $companyTypeData  = $company->getCompanyType();
+//            $companyTypeData  = $company->getCompanyType();
+        }
+
+        if (method_exists($company, 'getPartnerType')) {
+            $companyTypeData = $company->getPartnerType()->getTitle();
+        } else if ($company instanceof Customer) {
+            $companyTypeData = Helper::translate('forms.companies.company_location.values.company_type.customer');
+        } else {
+            $companyTypeData = 'UNKNOWN';
         }
 
         $companyTypeFieldOptions = $this->getFieldOptions('companyType')
             ->notMapped()
-            ->add('data', Helper::translate($companyTypeData));
+            ->add('data', $companyTypeData);
+//            ->add('data', Helper::translate($companyTypeData));
         $companyFieldOptions = $this->getFieldOptions('company')
             ->notMapped()
             ->add('data', $companyData);
