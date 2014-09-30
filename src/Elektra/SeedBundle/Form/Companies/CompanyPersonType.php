@@ -6,6 +6,7 @@ use Elektra\CrudBundle\Form\Form as CrudForm;
 use Elektra\SeedBundle\Entity\Companies\Company;
 use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
 use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
+use Elektra\SeedBundle\Entity\Companies\Customer;
 use Elektra\SiteBundle\Site\Helper;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -36,16 +37,29 @@ class CompanyPersonType extends CrudForm
             /** @var Company $company */
             $company         = $options['data']->getLocation()->getCompany();
             $companyData     = $company->getTitle();
-            $companyTypeData = $company->getCompanyType();
+//            $companyTypeData = $company->getCompanyType();
         } else {
+//            echo $parentDefinition->getName().'<br />';
+//            echo $this->getCrud()->getParentId().'<br />';
             $parentRepository = $this->getCrud()->getService('doctrine')->getRepository($parentDefinition->getClassRepository());
             /** @var Company $company */
             $company          = $parentRepository->find($this->getCrud()->getParentId());
+//            var_dump($company);
             $companyData      = $company->getTitle();
-            $companyTypeData  = $company->getCompanyType();
+//            $companyTypeData  = $company->getCompanyType();
         }
 
-        $companyTypeFieldOptions = $this->getFieldOptions('companyType')->notMapped()->add('data', Helper::translate($companyTypeData));
+        if (method_exists($company, 'getPartnerType')) {
+            $companyTypeData = $company->getPartnerType()->getTitle();
+        } else if ($company instanceof Customer) {
+            $companyTypeData = Helper::translate('forms.companies.company_location.values.company_type.customer');
+        } else {
+            $companyTypeData = 'UNKNOWN';
+        }
+
+        $companyTypeFieldOptions = $this->getFieldOptions('companyType')->notMapped()
+            ->add('data', $companyTypeData);
+//            ->add('data', Helper::translate($companyTypeData));
 
         $companyFieldOptions = $this->getFieldOptions('company')->notMapped()->add('data', $companyData);
 
