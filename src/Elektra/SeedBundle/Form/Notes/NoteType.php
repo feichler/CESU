@@ -28,4 +28,10 @@ class NoteType extends CrudForm
         $common->add('title', 'text', $this->getFieldOptions('title')->required()->notBlank()->toArray());
         $common->add('text', 'textarea', $this->getFieldOptions('text')->optional()->toArray());
     }
+
+    protected function initialiseButtons($crudAction, array $options)
+    {
+     $this->removeButton('saveReturn');
+    }
+
 }

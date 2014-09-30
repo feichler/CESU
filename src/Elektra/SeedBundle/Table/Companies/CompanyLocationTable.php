@@ -35,9 +35,9 @@ class CompanyLocationTable extends Table
         $postal->setFieldData('address.postalCode');
         $postal->setSearchable();
 
-        $street1 = $this->getColumns()->add('street1');
+        $street1 = $this->getColumns()->add('street');
         $street1->setDefinition($this->getCrud()->getDefinition('Elektra', 'Seed', 'Companies', 'Address'));
-        $street1->setFieldData('address.street1');
+        $street1->setFieldData(array('address.street1','address.street2','address.street3'));
         $street1->setSearchable();
 
         //TODO: render as checkbox column
