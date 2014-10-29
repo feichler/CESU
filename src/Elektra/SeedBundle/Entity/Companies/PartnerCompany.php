@@ -40,8 +40,6 @@ class PartnerCompany extends Company
      *
      * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\Companies\CustomerCompany", mappedBy="partner",
      * fetch="EXTRA_LAZY")
-     *                 // TODO remove unused code after verification
-     * //     * @ORM\ManyToMany(targetEntity="Elektra\SeedBundle\Entity\Companies\CustomerCompany", mappedBy="partners")
      */
     protected $customers;
 

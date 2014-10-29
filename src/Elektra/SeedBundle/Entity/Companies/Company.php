@@ -185,13 +185,6 @@ abstract class Company extends AbstractAuditableAnnotableEntity
         } else {
             throw new \RuntimeException('Cannot match within the locations');
         }
-
-        // TODO remove old code after verification of new code
-        //        $primaryLocation = $this->getLocations()->matching(Criteria::create()->where(Criteria::expr()
-        //                                                                                             ->eq("isPrimary", true))
-        //                                                                   ->setMaxResults(1))->first();
-        //
-        //        return $primaryLocation;
     }
 
     /*************************************************************************

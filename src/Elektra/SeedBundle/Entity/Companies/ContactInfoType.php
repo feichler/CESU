@@ -21,14 +21,6 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 class ContactInfoType extends AbstractAuditableEntity
 {
 
-    // TODO remove old code after verification
-    //    const PHONE = "phone";
-    //    const FAX = "fax";
-    //    const MOBILE = "mobile";
-    //    const EMAIL = "email";
-    //    const MESSENGER = "messenger";
-    //    const OTHER = "other";
-
     /**
      * @var int
      *

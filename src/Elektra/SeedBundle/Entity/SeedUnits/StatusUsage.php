@@ -17,16 +17,6 @@ use Elektra\SeedBundle\Entity\Helper;
 class StatusUsage extends Status
 {
 
-    // TODO remove old code after verification
-    //    const USAGE_IDLE = "idle";
-    //
-    //    const LOCATION_SCOPE_PARTNER  = 'P';
-    //    const LOCATION_SCOPE_CUSTOMER = 'C';
-    //
-    //    const LOCATION_CONSTRAINT_REQUIRED = 'R';
-    //    const LOCATION_CONSTRAINT_OPTIONAL = 'O';
-    //    const LOCATION_CONSTRAINT_HIDDEN   = 'H';
-
     /**
      * @var string
      *
@@ -66,17 +56,6 @@ class StatusUsage extends Status
             throw new \OutOfBoundsException("Unknown location constraint value: " . $locationConstraint);
         }
 
-        // TODO remove old code after verification
-        //        if (!in_array($locationConstraint, array(
-        //
-        //            StatusUsage::LOCATION_CONSTRAINT_HIDDEN,
-        //            StatusUsage::LOCATION_CONSTRAINT_OPTIONAL,
-        //            StatusUsage::LOCATION_CONSTRAINT_REQUIRED
-        //        ))
-        //        ) {
-        //            throw new \OutOfBoundsException("Unknown location constraint value: " . $locationConstraint);
-        //        }
-
         $this->locationConstraint = $locationConstraint;
     }
 
@@ -100,12 +79,6 @@ class StatusUsage extends Status
         if (!in_array($locationScope, Helper::getStatusUsageLocationScopes())) {
             throw new \OutOfBoundsException("Unknown location scope value: " . $locationScope);
         }
-
-        // TODO remove old code after verification
-        //        if (!in_array($locationScope, array(StatusUsage::LOCATION_SCOPE_CUSTOMER, StatusUsage::LOCATION_SCOPE_PARTNER))
-        //        ) {
-        //            throw new \OutOfBoundsException("Unknown location scope value: " . $locationScope);
-        //        }
 
         $this->locationScope = $locationScope;
     }

@@ -21,12 +21,6 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 class EventType extends AbstractAuditableEntity
 {
 
-    // TODO remove old code after verification
-    //    const SHIPPING      = "shipping";
-    //    const PARTNER       = "partner";
-    //    const SALES         = "sales";
-    //    const COMMUNICATION = "communication";
-
     /**
      * @var int
      *

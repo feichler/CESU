@@ -2,7 +2,6 @@
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

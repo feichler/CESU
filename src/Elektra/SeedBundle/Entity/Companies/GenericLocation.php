@@ -18,10 +18,6 @@ use Doctrine\ORM\Mapping as ORM;
 class GenericLocation extends AbstractLocation
 {
 
-    // TODO remove old code after verification
-    //    const IN_TRANSIT = "inTransit";
-    //    const UNKNOWN    = "unknown";
-
     /**
      * Constructor
      */
