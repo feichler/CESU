@@ -29,7 +29,7 @@ class SeedUnit extends AbstractAuditableAnnotableEntity
      * @var int
      *
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned" = true})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $seedUnitId;

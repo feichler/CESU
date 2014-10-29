@@ -22,7 +22,7 @@ class Note extends AbstractEntity
      * @var int
      *
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned" = true})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $noteId;
@@ -38,7 +38,7 @@ class Note extends AbstractEntity
     /**
      * @var int
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned" = true})
      */
     protected $timestamp;
 

@@ -28,18 +28,6 @@ class CustomerCompany extends Company
      */
     protected $partner;
 
-    //    // TODO update to single partner relation
-    //    /**
-    //     * @var Collection Partner[]
-    //     *
-    //     * @ORM\ManyToMany(targetEntity="Partner", inversedBy="customers")
-    //     * @ORM\JoinTable(name="companies_customer_partner_map",
-    //     *      joinColumns={@ORM\JoinColumn(name="customerId", referencedColumnName="companyId")},
-    //     *      inverseJoinColumns={@ORM\JoinColumn(name="partnerId", referencedColumnName="companyId")}
-    //     * )
-    //     */
-    //    protected $partners;
-
     /**
      * Constructor
      */
@@ -47,41 +35,11 @@ class CustomerCompany extends Company
     {
 
         parent::__construct();
-
-        $this->partners = new ArrayCollection();
     }
 
     /*************************************************************************
      * Getters / Setters
      *************************************************************************/
-
-    //    /**
-    //     * @param Collection PartnerCompany[] $partners
-    //     */
-    //    public function setPartners($partners)
-    //    {
-    //
-    //        $this->partners = $partners;
-    //    }
-    //
-    //    /**
-    //     * @param PartnerCompany $partner
-    //     *
-    //     */
-    //    public function addPartner(PartnerCompany $partner)
-    //    {
-    //
-    //        $this->getPartners()->add($partner);
-    //    }
-    //
-    //    /**
-    //     * @return Collection PartnerCompany[]
-    //     */
-    //    public function getPartners()
-    //    {
-    //
-    //        return $this->partners;
-    //    }
 
     /**
      * @return PartnerCompany

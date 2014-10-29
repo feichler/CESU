@@ -1,4 +1,6 @@
 <?php
+// URGENT: not reworked yet
+// TODO rework
 //
 //namespace Elektra\SeedBundle\Entity\Reports;
 //

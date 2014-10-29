@@ -16,6 +16,15 @@ use Doctrine\ORM\Mapping as ORM;
 class StatusSales extends Status
 {
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+
+        parent::__construct();
+    }
+
     /*************************************************************************
      * Getters / Setters
      *************************************************************************/
@@ -33,5 +42,4 @@ class StatusSales extends Status
      *************************************************************************/
 
     // none
-
 }

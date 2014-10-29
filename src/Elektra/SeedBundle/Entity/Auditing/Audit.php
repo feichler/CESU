@@ -21,7 +21,7 @@ class Audit extends AbstractEntity
      * @var int
      *
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned" = true})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $auditId;
@@ -37,7 +37,7 @@ class Audit extends AbstractEntity
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=false, options={"unsigned" = true})
      */
     protected $timestamp;
 

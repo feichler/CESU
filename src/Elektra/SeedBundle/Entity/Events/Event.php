@@ -32,7 +32,7 @@ class Event extends AbstractAuditableAnnotableEntity
      * @var int
      *
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned" = true})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $eventId;
@@ -57,18 +57,16 @@ class Event extends AbstractAuditableAnnotableEntity
     /**
      * @var int
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned" = true})
      */
     protected $timestamp;
 
     /**
-     * // TODO rename into title?
-     *
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
-    protected $text;
+    protected $title;
 
     /**
      * @var string
@@ -217,19 +215,19 @@ class Event extends AbstractAuditableAnnotableEntity
     /**
      * @param string $subject
      */
-    public function setText($subject)
+    public function setTitle($subject)
     {
 
-        $this->text = $subject;
+        $this->title = $subject;
     }
 
     /**
      * @return string
      */
-    public function getText()
+    public function getTitle()
     {
 
-        return $this->text;
+        return $this->title;
     }
 
     /**
@@ -357,7 +355,7 @@ class Event extends AbstractAuditableAnnotableEntity
     public function getDisplayName()
     {
 
-        return $this->getText();
+        return $this->getTitle();
     }
 
     /*************************************************************************

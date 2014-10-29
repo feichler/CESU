@@ -18,15 +18,9 @@ use Doctrine\ORM\Mapping as ORM;
 class GenericLocation extends AbstractLocation
 {
 
-    const IN_TRANSIT = "inTransit";
-    const UNKNOWN    = "unknown";
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=25, unique=true)
-     */
-    protected $alias;
+    // TODO remove old code after verification
+    //    const IN_TRANSIT = "inTransit";
+    //    const UNKNOWN    = "unknown";
 
     /**
      * Constructor
@@ -41,23 +35,7 @@ class GenericLocation extends AbstractLocation
      * Getters / Setters
      *************************************************************************/
 
-    /**
-     * @param string $internalName
-     */
-    public function setAlias($internalName)
-    {
-
-        $this->alias = $internalName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAlias()
-    {
-
-        return $this->alias;
-    }
+    // none
 
     /*************************************************************************
      * EntityInterface

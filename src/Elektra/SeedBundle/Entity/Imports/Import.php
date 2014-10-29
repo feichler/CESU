@@ -1,35 +1,33 @@
 <?php
+// URGENT: rework not completed
+// TODO rework
+
 namespace Elektra\SeedBundle\Entity\Imports;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Elektra\SeedBundle\Entity\AnnotableInterface;
-use Elektra\SeedBundle\Entity\AuditableInterface;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Elektra\SeedBundle\Entity\AbstractAuditableAnnotableEntity;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\Notes\Note;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
-use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
 
 /**
- * Class Import
- *
- * @package Elektra\SeedBundle\Entity\Imports
- *
- * @version 0.1-dev
- *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Imports\ImportRepository")
  * @ORM\Table(name="imports")
  *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique: nothing
  */
-class Import implements AuditableInterface, AnnotableInterface, CrudInterface
+class Import extends AbstractAuditableAnnotableEntity
 {
 
     /**
      * @var int
      *
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned" = true})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $importId;
@@ -69,45 +67,48 @@ class Import implements AuditableInterface, AnnotableInterface, CrudInterface
      */
     protected $numberOfEntries;
 
-//    /**
-//     * @var string
-//     *
-//     * @ORM\Column(type="integer")
-//     */
-//    protected $numberOfEntriesProcessed;
-
     /**
-     * @var ArrayCollection
+     * @var Collection Note[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist",
+     *                              "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "imports_notes",
      *      joinColumns = {@ORM\JoinColumn(name = "importId", referencedColumnName = "importId", onDelete="CASCADE")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true, onDelete="CASCADE")}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $notes;
 
     /**
-     * @var ArrayCollection
+     * @var Collection Audit[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY",
+     *                              cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "imports_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "importId", referencedColumnName = "importId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $audits;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
 
-        $this->notes  = new ArrayCollection();
-        $this->audits = new ArrayCollection();
+        parent::__construct();
 
-        $this->numberOfEntries          = 0;
+        $this->numberOfEntries = 0;
     }
+
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @return int
@@ -116,17 +117,6 @@ class Import implements AuditableInterface, AnnotableInterface, CrudInterface
     {
 
         return $this->importId;
-    }
-
-    /**
-     * Return the id of the entry
-     *
-     * @return int
-     */
-    public function getId()
-    {
-
-        return $this->getImportId();
     }
 
     /**
@@ -145,17 +135,6 @@ class Import implements AuditableInterface, AnnotableInterface, CrudInterface
     {
 
         return $this->originalFileName;
-    }
-
-    /**
-     * Return the representative title of the entity
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-
-        return $this->importType . ' - ' . $this->getOriginalFileName();
     }
 
     /**
@@ -236,93 +215,128 @@ class Import implements AuditableInterface, AnnotableInterface, CrudInterface
         return $this->numberOfEntries;
     }
 
-//    /**
-//     * @param string $numberOfEntriesProcessed
-//     */
-//    public function setNumberOfEntriesProcessed($numberOfEntriesProcessed)
-//    {
-//
-//        $this->numberOfEntriesProcessed = $numberOfEntriesProcessed;
-//    }
-//
-//    public function incrementNumberOfEntriesProcessed()
-//    {
-//
-//        $this->numberOfEntriesProcessed++;
-//    }
-//
-//    /**
-//     * @return string
-//     */
-//    public function getNumberOfEntriesProcessed()
-//    {
-//
-//        return $this->numberOfEntriesProcessed;
-//    }
+    //    /**
+    //     * @param string $numberOfEntriesProcessed
+    //     */
+    //    public function setNumberOfEntriesProcessed($numberOfEntriesProcessed)
+    //    {
+    //
+    //        $this->numberOfEntriesProcessed = $numberOfEntriesProcessed;
+    //    }
+    //
+    //    public function incrementNumberOfEntriesProcessed()
+    //    {
+    //
+    //        $this->numberOfEntriesProcessed++;
+    //    }
+    //
+    //    /**
+    //     * @return string
+    //     */
+    //    public function getNumberOfEntriesProcessed()
+    //    {
+    //
+    //        return $this->numberOfEntriesProcessed;
+    //    }
+    //
+    //    /**
+    //     * {@inheritdoc}
+    //     */
+    //    public function setNotes($notes)
+    //    {
+    //
+    //        $this->notes = $notes;
+    //    }
+    //
+    //    /**
+    //     * {@inheritdoc}
+    //     */
+    //    public function getNotes()
+    //    {
+    //
+    //        return $this->notes;
+    //    }
+    //
+    //    public function addNote($title, $text, $user)
+    //    {
+    //
+    //        $note = new Note();
+    //        $note->setTitle($title);
+    //        $note->setText($text);
+    //        $note->setTimestamp(time());
+    //        $note->setUser($user);
+    //
+    //        $this->getNotes()->add($note);
+    //    }
+    //
+    //    /**
+    //     * {@inheritdoc}
+    //     */
+    //    public function setAudits($audits)
+    //    {
+    //
+    //        $this->audits = $audits;
+    //    }
+    //
+    //    /**
+    //     * {@inheritdoc}
+    //     */
+    //    public function getAudits()
+    //    {
+    //
+    //        return $this->audits;
+    //    }
+    //
+    //    /**
+    //     * {@inheritdoc}
+    //     */
+    //    public function getCreationAudit()
+    //    {
+    //
+    //        return \Elektra\SeedBundle\Auditing\Helper::getFirstAudit($this->getAudits());
+    //    }
+    //
+    //    /**
+    //     * {@inheritdoc}
+    //     */
+    //    public function getLastModifiedAudit()
+    //    {
+    //
+    //        return \Elektra\SeedBundle\Auditing\Helper::getLastAudit($this->getAudits());
+    //    }
+
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
 
     /**
      * {@inheritdoc}
      */
-    public function setNotes($notes)
+    public function getId()
     {
 
-        $this->notes = $notes;
+        return $this->getImportId();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getNotes()
+    public function getDisplayName()
     {
 
-        return $this->notes;
+        return $this->getOriginalFileName();
     }
 
-    public function addNote($title, $text, $user)
-    {
 
-        $note = new Note();
-        $note->setTitle($title);
-        $note->setText($text);
-        $note->setTimestamp(time());
-        $note->setUser($user);
 
-        $this->getNotes()->add($note);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setAudits($audits)
-    {
-
-        $this->audits = $audits;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAudits()
-    {
-
-        return $this->audits;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreationAudit()
-    {
-
-        return \Elektra\SeedBundle\Auditing\Helper::getFirstAudit($this->getAudits());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLastModifiedAudit()
-    {
-
-        return \Elektra\SeedBundle\Auditing\Helper::getLastAudit($this->getAudits());
-    }
+    //    /**
+    //     * Return the representative title of the entity
+    //     *
+    //     * @return string
+    //     */
+    //    public function getTitle()
+    //    {
+    //
+    //        return $this->importType . ' - ' . $this->getOriginalFileName();
+    //    }
 }

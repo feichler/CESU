@@ -21,16 +21,17 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 class EventType extends AbstractAuditableEntity
 {
 
-    const SHIPPING      = "shipping";
-    const PARTNER       = "partner";
-    const SALES         = "sales";
-    const COMMUNICATION = "communication";
+    // TODO remove old code after verification
+    //    const SHIPPING      = "shipping";
+    //    const PARTNER       = "partner";
+    //    const SALES         = "sales";
+    //    const COMMUNICATION = "communication";
 
     /**
      * @var int
      *
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned" = true})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $eventTypeId;

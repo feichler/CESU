@@ -21,23 +21,19 @@ use Elektra\SeedBundle\Entity\Auditing\Audit;
 class ContactInfoType extends AbstractAuditableEntity
 {
 
-    const PHONE = "phone";
-
-    const FAX = "fax";
-
-    const MOBILE = "mobile";
-
-    const EMAIL = "email";
-
-    const MESSENGER = "messenger";
-
-    const OTHER = "other";
+    // TODO remove old code after verification
+    //    const PHONE = "phone";
+    //    const FAX = "fax";
+    //    const MOBILE = "mobile";
+    //    const EMAIL = "email";
+    //    const MESSENGER = "messenger";
+    //    const OTHER = "other";
 
     /**
      * @var int
      *
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned" = true})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $contactInfoTypeId;
