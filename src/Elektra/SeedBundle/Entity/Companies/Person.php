@@ -1,38 +1,25 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
-use Elektra\SeedBundle\Auditing\Helper;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Elektra\SeedBundle\Entity\AbstractAuditableAnnotableEntity;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\AuditableInterface;
-use Elektra\SeedBundle\Entity\AnnotableInterface;
 
 /**
- * Class Person
- *
- * @package Elektra\SeedBundle\Entity\Companies
- *
- * @version 0.1-dev
- *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\PersonRepository")
  * @ORM\Table("persons")
+ *
  * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *  "company" = "CompanyPerson"
- * })
+ * @ORM\DiscriminatorColumn(name="personType", type="string")
+ *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique: nothing
  */
-class Person implements AuditableInterface, AnnotableInterface, CrudInterface
+class Person extends AbstractAuditableAnnotableEntity
 {
 
     /**
@@ -73,55 +60,56 @@ class Person implements AuditableInterface, AnnotableInterface, CrudInterface
     protected $salutation;
 
     /**
-     * @var ArrayCollection
+     * @var Collection ContactInfo[]
      *
-     * @ORM\OneToMany(targetEntity="ContactInfo", mappedBy="person", fetch="EXTRA_LAZY", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\Companies\ContactInfo", mappedBy="person",
+     *                                                                                fetch="EXTRA_LAZY",
+     *                                                                                cascade={"remove", "persist"})
      */
     protected $contactInfo;
 
     /**
-     * @var ArrayCollection
+     * @var Collection Note[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist",
+     *                              "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "persons_notes",
      *      joinColumns = {@ORM\JoinColumn(name = "personId", referencedColumnName = "personId", onDelete="CASCADE")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true, onDelete="CASCADE")}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $notes;
 
     /**
-     * @var ArrayCollection
+     * @var Collection Audit[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY",
+     *                              cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "persons_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "personId", referencedColumnName = "personId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $audits;
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {
 
+        parent::__construct();
+
         $this->contactInfo = new ArrayCollection();
-        $this->notes       = new ArrayCollection();
-        $this->audits      = new ArrayCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-
-        return $this->personId;
-    }
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @return int
@@ -130,24 +118,6 @@ class Person implements AuditableInterface, AnnotableInterface, CrudInterface
     {
 
         return $this->personId;
-    }
-
-    /**
-     * @param ArrayCollection $contactInfo
-     */
-    public function setContactInfo($contactInfo)
-    {
-
-        $this->contactInfo = $contactInfo;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getContactInfo()
-    {
-
-        return $this->contactInfo;
     }
 
     /**
@@ -169,24 +139,6 @@ class Person implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @param string $jobTitle
-     */
-    public function setJobTitle($jobTitle)
-    {
-
-        $this->jobTitle = $jobTitle;
-    }
-
-    /**
-     * @return string
-     */
-    public function getJobTitle()
-    {
-
-        return $this->jobTitle;
-    }
-
-    /**
      * @param string $lastName
      */
     public function setLastName($lastName)
@@ -202,6 +154,24 @@ class Person implements AuditableInterface, AnnotableInterface, CrudInterface
     {
 
         return $this->lastName;
+    }
+
+    /**
+     * @param string $jobTitle
+     */
+    public function setJobTitle($jobTitle)
+    {
+
+        $this->jobTitle = $jobTitle;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJobTitle()
+    {
+
+        return $this->jobTitle;
     }
 
     /**
@@ -223,65 +193,57 @@ class Person implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param Collection ContactInfo[] $contactInfo
      */
-    public function setNotes($notes)
+    public function setContactInfo($contactInfo)
     {
 
-        $this->notes = $notes;
+        $this->contactInfo = $contactInfo;
+    }
+
+    /**
+     * @param ContactInfo $contactInfo
+     */
+    public function addContactInfo(ContactInfo $contactInfo)
+    {
+
+        $this->getContactInfo()->add($contactInfo);
+    }
+
+    /**
+     * @return Collection ContactInfo[]
+     */
+    public function getContactInfo()
+    {
+
+        return $this->contactInfo;
+    }
+
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+
+        return $this->getPersonId();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getNotes()
+    public function getDisplayName()
     {
 
-        return $this->notes;
+        return $this->getFirstName() . ' ' . $this->getLastName();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setAudits($audits)
-    {
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
 
-        $this->audits = $audits;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAudits()
-    {
-
-        return $this->audits;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreationAudit()
-    {
-        return Helper::getFirstAudit($this->getAudits());
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLastModifiedAudit()
-    {
-        return Helper::getLastAudit($this->getAudits());
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTitle()
-    {
-
-        return $this->getLastName() . ' ' . $this->getFirstName();
-    }
+    // none
 }

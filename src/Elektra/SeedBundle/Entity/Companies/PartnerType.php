@@ -1,34 +1,25 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
-use Elektra\SeedBundle\Auditing\Helper;
+use Elektra\SeedBundle\Entity\AbstractAuditableEntity;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\AuditableInterface;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Class PartnerType
- *
- * @package Elektra\SeedBundle\Entity\Companies
- *
- * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\PartnerTypeRepository")
- * @ORM\Table(name="partnerTypes")
- * @UniqueEntity(fields={ "name" }, message="")
+ * @ORM\Table(name="partner_types")
+ *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique:
+ *      single fields:
+ *          name
+ *          alias
  */
-class PartnerType implements AuditableInterface, CrudInterface
+class PartnerType extends AbstractAuditableEntity
 {
 
     /**
@@ -43,15 +34,16 @@ class PartnerType implements AuditableInterface, CrudInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=10, unique=true)
-     */
-    protected $alias;
-    /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=50, unique=true)
      */
     protected $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=10, unique=true)
+     */
+    protected $alias;
 
     /**
      * @var string
@@ -61,34 +53,31 @@ class PartnerType implements AuditableInterface, CrudInterface
     protected $comment;
 
     /**
-     * @var ArrayCollection
+     * @var Collection Audit[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY",
+     *                              cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
-     * @ORM\JoinTable(name = "partnerTypes_audits",
+     * @ORM\JoinTable(name = "partner_types_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "partnerTypeId", referencedColumnName = "partnerTypeId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $audits;
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {
 
-        $this->audits = new ArrayCollection();
+        parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-
-        return $this->partnerTypeId;
-    }
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @return int
@@ -97,24 +86,6 @@ class PartnerType implements AuditableInterface, CrudInterface
     {
 
         return $this->partnerTypeId;
-    }
-
-    /**
-     * @param string $alias
-     */
-    public function setAlias($alias)
-    {
-
-        $this->alias = $alias;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAlias()
-    {
-
-        return $this->alias;
     }
 
     /**
@@ -136,48 +107,21 @@ class PartnerType implements AuditableInterface, CrudInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $alias
      */
-    public function setAudits($audits)
+    public function setAlias($alias)
     {
 
-        $this->audits = $audits;
+        $this->alias = $alias;
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
-    public function getAudits()
+    public function getAlias()
     {
 
-        return $this->audits;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreationAudit()
-    {
-        return Helper::getFirstAudit($this->getAudits());
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLastModifiedAudit()
-    {
-        return Helper::getLastAudit($this->getAudits());
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTitle()
-    {
-
-        return $this->getName();
+        return $this->alias;
     }
 
     /**
@@ -185,6 +129,7 @@ class PartnerType implements AuditableInterface, CrudInterface
      */
     public function setComment($comment)
     {
+
         $this->comment = $comment;
     }
 
@@ -193,6 +138,35 @@ class PartnerType implements AuditableInterface, CrudInterface
      */
     public function getComment()
     {
+
         return $this->comment;
     }
+
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+
+        return $this->getPartnerTypeId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayName()
+    {
+
+        return $this->getName();
+    }
+
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
+
+    // none
 }

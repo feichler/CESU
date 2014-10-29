@@ -5,19 +5,23 @@ namespace Elektra\SeedBundle\Entity\SeedUnits;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\AbstractAuditableEntity;
-use Elektra\SeedBundle\Entity\Auditing\Audit;
 
 /**
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\PowerCordTypeRepository")
- * @ORM\Table(name="power_cord_types")
+ * @ORM\Entity()
+ * @ORM\Table(name="statuses")
+ *
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="statusType",type="string")
  *
  * @ORM\HasLifecycleCallbacks()
  *
  * Unique:
  *      single fields only:
  *          name
+ *          internalName
+ *          abbreviation
  */
-class PowerCordType extends AbstractAuditableEntity
+abstract class Status extends AbstractAuditableEntity
 {
 
     /**
@@ -27,7 +31,7 @@ class PowerCordType extends AbstractAuditableEntity
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $powerCordTypeId;
+    protected $statusId;
 
     /**
      * @var string
@@ -39,9 +43,16 @@ class PowerCordType extends AbstractAuditableEntity
     /**
      * @var string
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=50, unique=true)
      */
-    protected $description;
+    protected $internalName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=3, unique=true)
+     */
+    protected $abbreviation;
 
     /**
      * @var Collection Audit[]
@@ -49,8 +60,8 @@ class PowerCordType extends AbstractAuditableEntity
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY",
      *                              cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
-     * @ORM\JoinTable(name = "power_cord_types_audits",
-     *      joinColumns = {@ORM\JoinColumn(name = "powerCordTypeId", referencedColumnName = "powerCordTypeId")},
+     * @ORM\JoinTable(name = "statuses_audits",
+     *      joinColumns = {@ORM\JoinColumn(name = "statusId", referencedColumnName = "statusId")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true,
      *      onDelete="CASCADE")}
      * )
@@ -66,6 +77,7 @@ class PowerCordType extends AbstractAuditableEntity
         parent::__construct();
     }
 
+
     /*************************************************************************
      * Getters / Setters
      *************************************************************************/
@@ -73,19 +85,10 @@ class PowerCordType extends AbstractAuditableEntity
     /**
      * @return int
      */
-    public function getPowerCordTypeId()
+    public function getStatusId()
     {
 
-        return $this->powerCordTypeId;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-
-        $this->name = $name;
+        return $this->statusId;
     }
 
     /**
@@ -98,21 +101,48 @@ class PowerCordType extends AbstractAuditableEntity
     }
 
     /**
-     * @param string $description
+     * @param string $name
      */
-    public function setDescription($description)
+    public function setName($name)
     {
 
-        $this->description = $description;
+        $this->name = $name;
+    }
+
+    /**
+     * @param string $internalName
+     */
+    public function setInternalName($internalName)
+    {
+
+        $this->internalName = $internalName;
     }
 
     /**
      * @return string
      */
-    public function getDescription()
+    public function getInternalName()
     {
 
-        return $this->description;
+        return $this->internalName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAbbreviation()
+    {
+
+        return $this->abbreviation;
+    }
+
+    /**
+     * @param string $abbreviation
+     */
+    public function setAbbreviation($abbreviation)
+    {
+
+        $this->abbreviation = $abbreviation;
     }
 
     /*************************************************************************
@@ -120,26 +150,36 @@ class PowerCordType extends AbstractAuditableEntity
      *************************************************************************/
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getId()
     {
 
-        return $this->getPowerCordTypeId();
+        return $this->getStatusId();
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getDisplayName()
     {
 
-        return $this->getName();
+        return $this->getAbbreviation() . " (" . $this->getName() . ")";
     }
 
     /*************************************************************************
      * Lifecycle callbacks
      *************************************************************************/
 
-    // none
+    /**
+     * @ORM\PrePersist
+     */
+    public function ensureInternalName()
+    {
+
+        if ($this->getInternalName() == null) {
+            // TODO better way for unique identifier - internal name?
+            $this->setInternalName(time() . rand());
+        }
+    }
 }

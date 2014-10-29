@@ -1,29 +1,28 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\Events;
+namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
 
 /**
- *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Event\ActivityEventRepository")
- * @ORM\Table(name="events_activity")
+ * @ORM\Entity()
+ * @ORM\Table(name="locations_physical")
  *
  * @ORM\HasLifecycleCallbacks()
  *
- * Unique: nothing?
+ * Unique: defined by inheriting classes (parent.name within inheriting)
  */
-class ActivityEvent extends Event
+abstract class AbstractPhysicalLocation extends AbstractLocation
 {
 
     /**
-     * @var CompanyPerson
+     * @var Address
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\CompanyPerson", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="personId", referencedColumnName="personId", nullable=true)
+     * @ORM\OneToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Address", fetch="EXTRA_LAZY",
+     *                                                                           cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="addressId", referencedColumnName="addressId", nullable=false)
      */
-    protected $person;
+    protected $address;
 
     /**
      * Constructor
@@ -39,21 +38,21 @@ class ActivityEvent extends Event
      *************************************************************************/
 
     /**
-     * @param CompanyPerson $person
+     * @param Address $address
      */
-    public function setPerson($person)
+    public function setAddress($address)
     {
 
-        $this->person = $person;
+        $this->address = $address;
     }
 
     /**
-     * @return CompanyPerson
+     * @return Address
      */
-    public function getPerson()
+    public function getAddress()
     {
 
-        return $this->person;
+        return $this->address;
     }
 
     /*************************************************************************

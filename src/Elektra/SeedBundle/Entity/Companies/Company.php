@@ -1,39 +1,27 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
-use Elektra\SeedBundle\Entity\AnnotableInterface;
-use Elektra\SeedBundle\Entity\AuditableInterface;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
+use Doctrine\ORM\Mapping as ORM;
+use Elektra\SeedBundle\Entity\AbstractAuditableAnnotableEntity;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 
 /**
- * Class Company
- *
- * @package Elektra\SeedBundle\Entity\Companies
- *
- * @version 0.1-dev
- *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\CompanyRepository")
  * @ORM\Table(name="companies")
+ *
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="companyType",type="string")
- * @ORM\DiscriminatorMap({
- *  "partner" = "Partner",
- *  "customer" = "Customer"
- * })
+ *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique: defined by inheriting class (name within inheriting)
  */
-abstract class Company implements AuditableInterface, AnnotableInterface, CrudInterface
+abstract class Company extends AbstractAuditableAnnotableEntity
 {
 
     /**
@@ -53,23 +41,18 @@ abstract class Company implements AuditableInterface, AnnotableInterface, CrudIn
     protected $name;
 
     /**
-     * @var string
+     * @var Collection CompanyLocation[]
      *
-     * @ORM\Column(type="string", length=50)
-     */
-    protected $shortName;
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="CompanyLocation", mappedBy="company", fetch="EXTRA_LAZY", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\Companies\CompanyLocation", mappedBy="company",
+     * fetch="EXTRA_LAZY", cascade={"persist", "remove"})
      */
     protected $locations;
 
     /**
-     * @var ArrayCollection
+     * @var Collection Note[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist",
+     *                              "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "companies_notes",
      *      joinColumns = {@ORM\JoinColumn(name = "companyId", referencedColumnName = "companyId")},
@@ -79,36 +62,33 @@ abstract class Company implements AuditableInterface, AnnotableInterface, CrudIn
     protected $notes;
 
     /**
-     * @var ArrayCollection
+     * @var Collection Audit[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY",
+     *                              cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "companies_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "companyId", referencedColumnName = "companyId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $audits;
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {
 
+        parent::__construct();
+
         $this->locations = new ArrayCollection();
-        $this->notes     = new ArrayCollection();
-        $this->audits    = new ArrayCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-
-        return $this->companyId;
-    }
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @return int
@@ -117,44 +97,6 @@ abstract class Company implements AuditableInterface, AnnotableInterface, CrudIn
     {
 
         return $this->companyId;
-    }
-
-    /**
-     * @param ArrayCollection $locations
-     */
-    public function setLocations($locations)
-    {
-
-        $this->locations = $locations;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getLocations()
-    {
-
-        return $this->locations;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getPersons()
-    {
-
-        $persons   = new ArrayCollection();
-        $locations = $this->getLocations();
-        foreach ($locations as $location) {
-            if ($location instanceof CompanyLocation) {
-
-                foreach ($location->getPersons() as $person) {
-                    $persons->add($person);
-                }
-            }
-        }
-
-        return $persons;
     }
 
     /**
@@ -176,86 +118,54 @@ abstract class Company implements AuditableInterface, AnnotableInterface, CrudIn
     }
 
     /**
-     * @param string $shortName
+     * @param Collection CompanyLocation[] $locations
      */
-    public function setShortName($shortName)
+    public function setLocations($locations)
     {
 
-        $this->shortName = $shortName;
+        $this->locations = $locations;
     }
 
     /**
-     * @return string
+     * @param CompanyLocation $location
      */
-    public function getShortName()
+    public function addLocation(CompanyLocation $location)
     {
 
-        return $this->shortName;
+        $this->getLocations()->add($location);
     }
 
     /**
-     * {@inheritdoc}
+     * @return Collection CompanyLocation[]
      */
-    public function setNotes($notes)
+    public function getLocations()
     {
 
-        $this->notes = $notes;
+        return $this->locations;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getNotes()
-    {
-
-        return $this->notes;
-    }
+    /*************************************************************************
+     * Other methods
+     *************************************************************************/
 
     /**
-     * {@inheritdoc}
+     * @return Collection CompanyPerson[]
      */
-    public function setAudits($audits)
+    public function getPersons()
     {
 
-        $this->audits = $audits;
-    }
+        $persons   = new ArrayCollection();
+        $locations = $this->getLocations();
+        foreach ($locations as $location) {
+            if ($location instanceof CompanyLocation) {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAudits()
-    {
+                foreach ($location->getPersons() as $person) {
+                    $persons->add($person);
+                }
+            }
+        }
 
-        return $this->audits;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreationAudit()
-    {
-
-        return \Elektra\SeedBundle\Auditing\Helper::getFirstAudit($this->getAudits());
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLastModifiedAudit()
-    {
-
-        return \Elektra\SeedBundle\Auditing\Helper::getLastAudit($this->getAudits());
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTitle()
-    {
-
-        return $this->getShortName();
+        return $persons;
     }
 
     /**
@@ -264,12 +174,52 @@ abstract class Company implements AuditableInterface, AnnotableInterface, CrudIn
     public function getPrimaryLocation()
     {
 
-        $primaryLocation = $this->getLocations()->matching(
-            Criteria::create()->where(Criteria::expr()->eq("isPrimary", true))->setMaxResults(1)
-        )->first();
+        $locations = $this->getLocations();
+        if ($locations instanceof Selectable) {
+            $criteria = Criteria::create()->where(Criteria::expr()->eq('isPrimary', true));
+            $criteria->setMaxResults(1);
 
-        return $primaryLocation;
+            $primaryLocation = $locations->matching($criteria)->first();
+
+            return $primaryLocation;
+        } else {
+            throw new \RuntimeException('Cannot match within the locations');
+        }
+
+        // TODO remove old code after verification of new code
+        //        $primaryLocation = $this->getLocations()->matching(Criteria::create()->where(Criteria::expr()
+        //                                                                                             ->eq("isPrimary", true))
+        //                                                                   ->setMaxResults(1))->first();
+        //
+        //        return $primaryLocation;
     }
 
-    public abstract function getCompanyType();
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+
+        return $this->getCompanyId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayName()
+    {
+
+        return $this->getName();
+    }
+
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
+
+    // none
+
 }

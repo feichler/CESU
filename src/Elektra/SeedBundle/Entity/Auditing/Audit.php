@@ -1,29 +1,20 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Auditing;
 
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\SeedBundle\Entity\EntityInterface;
+use Elektra\SeedBundle\Entity\AbstractEntity;
 use Elektra\UserBundle\Entity\User;
 
 /**
- * Class Audit
- *
- * @package Elektra\SeedBundle\Entity\Auditing
- *
- * @version 0.1-dev
- *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Auditing\AuditRepository")
  * @ORM\Table(name="audits")
+ *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique: nothing
  */
-class Audit implements EntityInterface
+class Audit extends AbstractEntity
 {
 
     /**
@@ -46,25 +37,22 @@ class Audit implements EntityInterface
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=false)
      */
     protected $timestamp;
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {
+
+        parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-
-        return $this->auditId;
-    }
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @return int
@@ -109,5 +97,43 @@ class Audit implements EntityInterface
     {
 
         return $this->user;
+    }
+
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+
+        return $this->getAuditId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayName()
+    {
+
+        return $this->getUser()->getUsername();
+    }
+
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function ensureTimestamp()
+    {
+
+        if (!$this->getTimestamp()) {
+            $this->setTimestamp(time());
+        }
     }
 }

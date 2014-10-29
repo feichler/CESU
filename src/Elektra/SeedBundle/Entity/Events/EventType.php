@@ -1,36 +1,29 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Events;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
-use Elektra\SeedBundle\Auditing\Helper;
+use Elektra\SeedBundle\Entity\AbstractAuditableEntity;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\AuditableInterface;
 
 /**
- * Class EventType
- *
- * @package Elektra\SeedBundle\Entity\Events
- *
- * @version 0.1-dev
- *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Events\EventTypeRepository")
- * @ORM\Table(name="eventTypes")
+ * @ORM\Table(name="events_types")
+ *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique:
+ *      single fields only:
+ *          name
+ *          internalName
  */
-class EventType implements AuditableInterface, CrudInterface
+class EventType extends AbstractAuditableEntity
 {
-    const SHIPPING = "shipping";
-    const PARTNER = "partner";
-    const SALES = "sales";
+
+    const SHIPPING      = "shipping";
+    const PARTNER       = "partner";
+    const SALES         = "sales";
     const COMMUNICATION = "communication";
 
     /**
@@ -57,34 +50,31 @@ class EventType implements AuditableInterface, CrudInterface
     protected $internalName;
 
     /**
-     * @var ArrayCollection
+     * @var Collection Audit[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY",
+     *                              cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
-     * @ORM\JoinTable(name = "eventTypes_audits",
+     * @ORM\JoinTable(name = "events_types_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "eventTypeId", referencedColumnName = "eventTypeId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $audits;
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {
 
-        $this->audits = new ArrayCollection();
+        parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-
-        return $this->eventTypeId;
-    }
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @return int
@@ -114,55 +104,11 @@ class EventType implements AuditableInterface, CrudInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setAudits($audits)
-    {
-
-        $this->audits = $audits;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAudits()
-    {
-
-        return $this->audits;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreationAudit()
-    {
-        return Helper::getFirstAudit($this->getAudits());
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLastModifiedAudit()
-    {
-        return Helper::getLastAudit($this->getAudits());
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTitle()
-    {
-
-        return $this->getName();
-    }
-
-    /**
      * @param string $internalName
      */
     public function setInternalName($internalName)
     {
+
         $this->internalName = $internalName;
     }
 
@@ -171,6 +117,37 @@ class EventType implements AuditableInterface, CrudInterface
      */
     public function getInternalName()
     {
+
         return $this->internalName;
     }
+
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+
+        return $this->getEventTypeId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayName()
+    {
+
+        return $this->getName();
+    }
+
+    // nothing
+
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
+
+    // none
 }

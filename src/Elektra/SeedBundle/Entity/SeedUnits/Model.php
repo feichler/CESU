@@ -1,36 +1,24 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\SeedUnits;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
-use Elektra\SeedBundle\Auditing\Helper;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
+use Elektra\SeedBundle\Entity\AbstractAuditableEntity;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\AuditableInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Models
- *
- * @package Elektra\SeedBundle\Entity\SeedUnits
- *
- * @version 0.1-dev
- *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\ModelRepository")
  * @ORM\Table(name="models")
  *
- * @UniqueEntity(fields={"name"}, message="")
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique:
+ *      single fields only:
+ *          name
  */
-class Model implements AuditableInterface, CrudInterface
+class Model extends AbstractAuditableEntity
 {
 
     /**
@@ -58,40 +46,31 @@ class Model implements AuditableInterface, CrudInterface
     protected $description;
 
     /**
-     * @var ArrayCollection
+     * @var Collection Audit[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY",
+     *                              cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "models_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "modelId", referencedColumnName = "modelId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $audits;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
 
-        $this->audits = new ArrayCollection();
+        parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-
-        return $this->getModelId();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTitle()
-    {
-
-        return $this->getName();
-    }
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @return int
@@ -100,24 +79,6 @@ class Model implements AuditableInterface, CrudInterface
     {
 
         return $this->modelId;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-
-        $this->description = $description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-
-        return $this->description;
     }
 
     /**
@@ -139,44 +100,48 @@ class Model implements AuditableInterface, CrudInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $description
      */
-    public function setAudits($audits)
+    public function setDescription($description)
     {
 
-        $this->audits = $audits;
+        $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+
+        return $this->description;
+    }
+
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+
+        return $this->getModelId();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAudits()
+    public function getDisplayName()
     {
 
-        return $this->audits;
+        return $this->getName();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreationAudit()
-    {
-        return Helper::getFirstAudit($this->getAudits());
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
 
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLastModifiedAudit()
-    {
-        return Helper::getLastAudit($this->getAudits());
-
-    }
-
-    public function setId($id)
-    {
-
-        $this->modelId = $id;
-    }
+    // none
 }

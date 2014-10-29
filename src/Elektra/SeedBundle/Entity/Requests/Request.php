@@ -1,44 +1,36 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Requests;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
-use Elektra\SeedBundle\Auditing\Helper;
+use Elektra\SeedBundle\Entity\AbstractAuditableAnnotableEntity;
+use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\Companies\CompanyLocation;
 use Elektra\SeedBundle\Entity\Companies\CompanyPerson;
-use Doctrine\Common\Collections\ArrayCollection;
-use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\AuditableInterface;
-use Elektra\SeedBundle\Entity\AnnotableInterface;
-use Elektra\SeedBundle\Entity\Companies\Partner;
+use Elektra\SeedBundle\Entity\Companies\PartnerCompany;
+use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 
 /**
- * Class Requests
- *
- * @package Elektra\SeedBundle\Entity\Requests
- *
- * @version 0.1-dev
- *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Requests\RequestRepository")
  * @ORM\Table(name="requests")
+ *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique:
+ *      single fields only:
+ *          requestNumber
  */
-class Request implements AuditableInterface, AnnotableInterface, CrudInterface
+class Request extends AbstractAuditableAnnotableEntity
 {
 
     /**
      * @var int
      *
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned" = true})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $requestId;
@@ -53,23 +45,16 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true, options={"unsigned" = true})
      * @GreaterThan(value = 0)
      */
     protected $numberOfUnitsRequested;
 
     /**
-     * @var RequestStatus
+     * @var PartnerCompany
      *
-     * @ORM\ManyToOne(targetEntity="RequestStatus", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="requestStatusId", referencedColumnName="requestStatusId")
-     */
-    protected $requestStatus;
-
-    /**
-     * @var Partner
-     *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Partner", inversedBy="requests", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\PartnerCompany", inversedBy="requests",
+     *                                                                            fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="companyId", referencedColumnName="companyId")
      */
     protected $company;
@@ -99,55 +84,56 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     protected $shippingLocation;
 
     /**
-     * @var ArrayCollection
+     * @var Collection SeedUnit[]
      *
-     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\SeedUnit", mappedBy="request", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\SeedUnit", mappedBy="request",
+     *                                                                             fetch="EXTRA_LAZY")
      */
     protected $seedUnits;
 
     /**
-     * @var ArrayCollection
+     * @var Collection Note[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist",
+     *                              "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "requests_notes",
-     *      joinColumns = {@ORM\JoinColumn(name = "requestId", referencedColumnName = "requestId", onDelete="CASCADE")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true, onDelete="CASCADE")}
+     *      joinColumns = {@ORM\JoinColumn(name = "requestId", referencedColumnName = "requestId",
+     *      onDelete="CASCADE")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $notes;
 
     /**
-     * @var ArrayCollection
+     * @var Collection Audit[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY",
+     *                              cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "requests_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "requestId", referencedColumnName = "requestId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $audits;
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {
 
-        $this->notes     = new ArrayCollection();
-        $this->audits    = new ArrayCollection();
+        parent::__construct();
+
         $this->seedUnits = new ArrayCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-
-        return $this->requestId;
-    }
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @return int
@@ -177,21 +163,39 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
-     * @param CompanyPerson $receiverPerson
+     * @param int $numberOfUnitsRequested
      */
-    public function setReceiverPerson($receiverPerson)
+    public function setNumberOfUnitsRequested($numberOfUnitsRequested)
     {
 
-        $this->receiverPerson = $receiverPerson;
+        $this->numberOfUnitsRequested = $numberOfUnitsRequested;
     }
 
     /**
-     * @return CompanyPerson
+     * @return int
      */
-    public function getReceiverPerson()
+    public function getNumberOfUnitsRequested()
     {
 
-        return $this->receiverPerson;
+        return $this->numberOfUnitsRequested;
+    }
+
+    /**
+     * @param PartnerCompany $company
+     */
+    public function setCompany($company)
+    {
+
+        $this->company = $company;
+    }
+
+    /**
+     * @return PartnerCompany
+     */
+    public function getCompany()
+    {
+
+        return $this->company;
     }
 
     /**
@@ -210,6 +214,24 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     {
 
         return $this->requesterPerson;
+    }
+
+    /**
+     * @param CompanyPerson $receiverPerson
+     */
+    public function setReceiverPerson($receiverPerson)
+    {
+
+        $this->receiverPerson = $receiverPerson;
+    }
+
+    /**
+     * @return CompanyPerson
+     */
+    public function getReceiverPerson()
+    {
+
+        return $this->receiverPerson;
     }
 
     /**
@@ -240,6 +262,15 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
     }
 
     /**
+     * @param SeedUnit $seedUnit
+     */
+    public function addSeedUnit(SeedUnit $seedUnit)
+    {
+
+        $this->getSeedUnits()->add($seedUnit);
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getSeedUnits()
@@ -248,120 +279,31 @@ class Request implements AuditableInterface, AnnotableInterface, CrudInterface
         return $this->seedUnits;
     }
 
-    /**
-     * @param int $numberOfUnitsRequested
-     */
-    public function setNumberOfUnitsRequested($numberOfUnitsRequested)
-    {
-
-        $this->numberOfUnitsRequested = $numberOfUnitsRequested;
-    }
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
-    public function getNumberOfUnitsRequested()
+    public function getId()
     {
 
-        return $this->numberOfUnitsRequested;
-    }
-
-    /**
-     * @param RequestStatus $requestStatus
-     */
-    public function setRequestStatus($requestStatus)
-    {
-
-        $this->requestStatus = $requestStatus;
-    }
-
-    /**
-     * @return RequestStatus
-     */
-    public function getRequestStatus()
-    {
-
-        return $this->requestStatus;
+        return $this->getRequestId();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setNotes($notes)
-    {
-
-        $this->notes = $notes;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getNotes()
-    {
-
-        return $this->notes;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setAudits($audits)
-    {
-
-        $this->audits = $audits;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAudits()
-    {
-
-        return $this->audits;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreationAudit()
-    {
-
-        return Helper::getFirstAudit($this->getAudits());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLastModifiedAudit()
-    {
-
-        return Helper::getLastAudit($this->getAudits());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTitle()
+    public function getDisplayName()
     {
 
         return $this->getRequestNumber();
     }
 
-    /**
-     * @param Partner $company
-     */
-    public function setCompany($company)
-    {
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
 
-        $this->company = $company;
-    }
-
-    /**
-     * @return Partner
-     */
-    public function getCompany()
-    {
-
-        return $this->company;
-    }
+    // none
 }

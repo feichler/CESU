@@ -1,29 +1,21 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Notes;
 
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
+use Elektra\SeedBundle\Entity\AbstractEntity;
 use Elektra\UserBundle\Entity\User;
 
 /**
- * Class Note
- *
- * @package Elektra\SeedBundle\Entity\Notes
- *
- * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Notes\NoteRepository")
  * @ORM\Table(name="notes")
+ *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique: nothing
  */
-class Note implements CrudInterface
+class Note extends AbstractEntity
 {
 
     /**
@@ -65,20 +57,17 @@ class Note implements CrudInterface
     protected $text;
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {
+
+        parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-
-        return $this->noteId;
-    }
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @return int
@@ -90,21 +79,21 @@ class Note implements CrudInterface
     }
 
     /**
-     * @param string $text
+     * @param User $user
      */
-    public function setText($text)
+    public function setUser($user)
     {
 
-        $this->text = $text;
+        $this->user = $user;
     }
 
     /**
-     * @return string
+     * @return User
      */
-    public function getText()
+    public function getUser()
     {
 
-        return $this->text;
+        return $this->user;
     }
 
     /**
@@ -144,20 +133,58 @@ class Note implements CrudInterface
     }
 
     /**
-     * @param User $user
+     * @param string $text
      */
-    public function setUser($user)
+    public function setText($text)
     {
 
-        $this->user = $user;
+        $this->text = $text;
     }
 
     /**
-     * @return User
+     * @return string
      */
-    public function getUser()
+    public function getText()
     {
 
-        return $this->user;
+        return $this->text;
+    }
+
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+
+        return $this->getNoteId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayName()
+    {
+
+        return $this->getTitle();
+    }
+
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function ensureTimestamp()
+    {
+
+        if (!$this->getTimestamp()) {
+            $this->setTimestamp(time());
+        }
     }
 }

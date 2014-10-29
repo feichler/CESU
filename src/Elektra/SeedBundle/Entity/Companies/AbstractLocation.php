@@ -2,23 +2,25 @@
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Elektra\SeedBundle\Entity\AbstractAuditableAnnotableEntity;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
+use Elektra\SeedBundle\Entity\SeedUnits\SeedUnit;
 
 /**
+ * @ORM\Entity
+ * @ORM\Table(name="locations")
  *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\ContactInfoRepository")
- * @ORM\Table(name="contact_info")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="locationType", type="string")
  *
  * @ORM\HasLifecycleCallbacks()
  *
- * Unique:
- *      combined:
- *          name, person, contactInfoType (only one named contact info per person / type)
+ * Unique: defined by inheriting classes (name within inheriting)
  */
-class ContactInfo extends AbstractAuditableAnnotableEntity
+abstract class AbstractLocation extends AbstractAuditableAnnotableEntity
 {
 
     /**
@@ -28,38 +30,31 @@ class ContactInfo extends AbstractAuditableAnnotableEntity
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $contactInfoId;
+    protected $locationId;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $name;
 
     /**
+     * NOTE used differently by various inheriting classes
+     *
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $text;
+    protected $alias;
 
     /**
-     * @var Person
+     * @var Collection SeedUnit[]
      *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Person", inversedBy="contactInfo",
-     *                                                                           fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="personId", referencedColumnName="personId", nullable=false)
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\SeedUnits\SeedUnit", mappedBy="location",
+     *                                                                             fetch="EXTRA_LAZY")
      */
-    protected $person;
-
-    /**
-     * @var ContactInfoType
-     *
-     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\ContactInfoType", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="contactInfoTypeId", referencedColumnName="contactInfoTypeId")
-     */
-    protected $contactInfoType;
+    protected $seedUnits;
 
     /**
      * @var Collection Note[]
@@ -67,10 +62,9 @@ class ContactInfo extends AbstractAuditableAnnotableEntity
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist",
      *                              "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
-     * @ORM\JoinTable(name = "contact_info_notes",
-     *      joinColumns = {@ORM\JoinColumn(name = "contactInfoId", referencedColumnName = "contactInfoId",
-     *      onDelete="CASCADE")}, inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName =
-     *      "noteId", unique = true, onDelete="CASCADE")}
+     * @ORM\JoinTable(name = "locations_notes",
+     *      joinColumns = {@ORM\JoinColumn(name = "locationId", referencedColumnName = "locationId")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true)}
      * )
      */
     protected $notes;
@@ -81,8 +75,8 @@ class ContactInfo extends AbstractAuditableAnnotableEntity
      * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY",
      *                              cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
-     * @ORM\JoinTable(name = "contact_info_audits",
-     *      joinColumns = {@ORM\JoinColumn(name = "contactInfoId", referencedColumnName = "contactInfoId")},
+     * @ORM\JoinTable(name = "locations_audits",
+     *      joinColumns = {@ORM\JoinColumn(name = "locationId", referencedColumnName = "locationId")},
      *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true,
      *      onDelete="CASCADE")}
      * )
@@ -96,6 +90,8 @@ class ContactInfo extends AbstractAuditableAnnotableEntity
     {
 
         parent::__construct();
+
+        $this->seedUnits = new ArrayCollection();
     }
 
     /*************************************************************************
@@ -103,21 +99,30 @@ class ContactInfo extends AbstractAuditableAnnotableEntity
      *************************************************************************/
 
     /**
-     * @return int
+     * @param int $locationId
      */
-    public function getContactInfoId()
+    public function setLocationId($locationId)
     {
 
-        return $this->contactInfoId;
+        $this->locationId = $locationId;
     }
 
     /**
-     * @param string $name
+     * @return int
      */
-    public function setName($name)
+    public function getLocationId()
     {
 
-        $this->name = $name;
+        return $this->locationId;
+    }
+
+    /**
+     * @param string $shortName
+     */
+    public function setName($shortName)
+    {
+
+        $this->name = $shortName;
     }
 
     /**
@@ -130,57 +135,48 @@ class ContactInfo extends AbstractAuditableAnnotableEntity
     }
 
     /**
-     * @param string $text
-     */
-    public function setText($text)
-    {
-
-        $this->text = $text;
-    }
-
-    /**
      * @return string
      */
-    public function getText()
+    public function getAlias()
     {
 
-        return $this->text;
+        return $this->alias;
     }
 
     /**
-     * @param Person $person
+     * @param string $internalName
      */
-    public function setPerson($person)
+    public function setAlias($internalName)
     {
 
-        $this->person = $person;
+        $this->alias = $internalName;
     }
 
     /**
-     * @return Person
+     * @param Collection SeedUnit[] $seedUnits
      */
-    public function getPerson()
+    public function setSeedUnits($seedUnits)
     {
 
-        return $this->person;
+        $this->seedUnits = $seedUnits;
     }
 
     /**
-     * @param ContactInfoType $contactInfoType
+     * @param SeedUnit $seedUnit
      */
-    public function setContactInfoType($contactInfoType)
+    public function addSeedUnit(SeedUnit $seedUnit)
     {
 
-        $this->contactInfoType = $contactInfoType;
+        $this->getSeedUnits()->add($seedUnit);
     }
 
     /**
-     * @return ContactInfoType
+     * @return Collection SeedUnit[]
      */
-    public function getContactInfoType()
+    public function getSeedUnits()
     {
 
-        return $this->contactInfoType;
+        return $this->seedUnits;
     }
 
     /*************************************************************************
@@ -193,7 +189,7 @@ class ContactInfo extends AbstractAuditableAnnotableEntity
     public function getId()
     {
 
-        return $this->getContactInfoId();
+        return $this->getLocationId();
     }
 
     /**
@@ -204,8 +200,6 @@ class ContactInfo extends AbstractAuditableAnnotableEntity
 
         return $this->getName();
     }
-
-    // nothing
 
     /*************************************************************************
      * Lifecycle callbacks

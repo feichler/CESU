@@ -1,32 +1,20 @@
 <?php
 
-namespace Elektra\SeedBundle\Entity\Companies;
+namespace Elektra\SeedBundle\Entity\SeedUnits;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *
- * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\WarehouseLocationRepository")
- * @ORM\Table(name="locations_warehouse")
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\SeedUnits\StatusSalesRepository")
+ * @ORM\Table(name="statuses_sales")
  *
  * @ORM\HasLifecycleCallbacks()
  *
  * Unique:
- *      single fields only;
- *          parent.name
- *          parent.alias -> locationIdentifier
+ *      already defined by parent
  */
-class WarehouseLocation extends AbstractPhysicalLocation
+class StatusSales extends Status
 {
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-
-        parent::__construct();
-    }
 
     /*************************************************************************
      * Getters / Setters
@@ -45,4 +33,5 @@ class WarehouseLocation extends AbstractPhysicalLocation
      *************************************************************************/
 
     // none
+
 }

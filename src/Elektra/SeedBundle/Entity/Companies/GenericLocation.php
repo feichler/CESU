@@ -1,42 +1,35 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Class GenericLocation
- *
- * @package Elektra\SeedBundle\Entity\Companies
- *
- * @version 0.1-dev
- *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\GenericLocationRepository")
  * @ORM\Table(name="locations_generic")
- * @UniqueEntity(fields={ "shortName" }, message="")
+ *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique:
+ *      single fields only;
+ *          parent.name
+ *          parent.alias -> internalName
  */
-class GenericLocation extends Location
+class GenericLocation extends AbstractLocation
 {
+
     const IN_TRANSIT = "inTransit";
-    const UNKNOWN = "unknown";
+    const UNKNOWN    = "unknown";
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=25, unique=true)
      */
-    protected $internalName;
+    protected $alias;
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {
@@ -44,21 +37,37 @@ class GenericLocation extends Location
         parent::__construct();
     }
 
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
+
     /**
      * @param string $internalName
      */
-    public function setInternalName($internalName)
+    public function setAlias($internalName)
     {
 
-        $this->internalName = $internalName;
+        $this->alias = $internalName;
     }
 
     /**
      * @return string
      */
-    public function getInternalName()
+    public function getAlias()
     {
 
-        return $this->internalName;
+        return $this->alias;
     }
+
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
+
+    // nothing
+
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
+
+    // none
 }

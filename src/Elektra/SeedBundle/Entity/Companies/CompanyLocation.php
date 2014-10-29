@@ -1,51 +1,42 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class CompanyLocation
- *
- * @package Elektra\SeedBundle\Entity\Companies
- *
- * @version 0.1-dev
  *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\CompanyLocationRepository")
  * @ORM\Table(name="locations_company")
- * @UniqueEntity(fields={ "shortName", "company" }, errorPath="shortName", message="")
+ *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique:
+ *      single fields only:
+ *          parent.name within company
+ *          parent.alias within company
  */
-class CompanyLocation extends PhysicalLocation
+class CompanyLocation extends AbstractPhysicalLocation
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $name;
 
     /**
      * @var Company
      *
-     * @ORM\ManyToOne(targetEntity="Company", inversedBy="locations", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Company", inversedBy="locations",
+     *                                                                            fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="companyId", referencedColumnName="companyId")
      *
      */
     protected $company;
 
     /**
-     * @var ArrayCollection
+     * @var Collection CompanyPerson[]
      *
-     * @ORM\OneToMany(targetEntity="CompanyPerson", mappedBy="location",fetch="EXTRA_LAZY", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\Companies\CompanyPerson", mappedBy="location",
+     * fetch="EXTRA_LAZY", cascade={"remove", "persist"})
      */
     protected $persons;
 
@@ -57,22 +48,19 @@ class CompanyLocation extends PhysicalLocation
     protected $isPrimary;
 
     /**
-     * @var AddressType
-     *
-     * @ORM\ManyToOne(targetEntity="AddressType", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="addressTypeId", referencedColumnName="addressTypeId")
-     */
-    protected $addressType;
-
-    /**
      *
      */
     public function __construct()
     {
 
         parent::__construct();
+
         $this->persons = new ArrayCollection();
     }
+
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @param Company $company
@@ -102,6 +90,15 @@ class CompanyLocation extends PhysicalLocation
     }
 
     /**
+     * @param CompanyPerson $person
+     */
+    public function addPerson(CompanyPerson $person)
+    {
+
+        $this->getPersons()->add($person);
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getPersons()
@@ -128,35 +125,32 @@ class CompanyLocation extends PhysicalLocation
         return $this->isPrimary;
     }
 
-    /**
-     * @param \Elektra\SeedBundle\Entity\Companies\AddressType $addressType
-     */
-    public function setAddressType($addressType)
-    {
-        $this->addressType = $addressType;
-    }
+    /*************************************************************************
+     * Other methods
+     *************************************************************************/
 
     /**
-     * @return \Elektra\SeedBundle\Entity\Companies\AddressType
+     * @return CompanyPerson
      */
-    public function getAddressType()
+    public function getPrimaryPerson()
     {
-        return $this->addressType;
+
+        $primaryPerson = $this->getPersons()->matching(Criteria::create()->where(Criteria::expr()
+                                                                                         ->eq("isPrimary", true))
+                                                               ->setMaxResults(1))->first();
+
+        return $primaryPerson;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+    // none
+
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
+
+    // none
 }

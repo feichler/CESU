@@ -1,70 +1,49 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class CompanyPerson
- *
- * @package Elektra\SeedBundle\Entity\Companies
- *
- * @version 0.1-dev
- *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\CompanyPersonRepository")
  * @ORM\Table("persons_company")
+ *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique: nothing
  */
 class CompanyPerson extends Person
 {
 
     /**
-     * @var Location
+     * @var CompanyLocation
      *
-     * @ORM\ManyToOne(targetEntity="CompanyLocation", inversedBy="persons", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\CompanyLocation", inversedBy="persons",
+     * fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="locationId", referencedColumnName="locationId")
      *
      */
     protected $location;
 
     /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\Trainings\Attendance", mappedBy="person", fetch="EXTRA_LAZY")
-     */
-    protected $attendances;
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Elektra\SeedBundle\Entity\Trainings\Registration", mappedBy="person", fetch="EXTRA_LAZY")
-     */
-    protected $registrations;
-
-    /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      */
     protected $isPrimary;
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {
 
         parent::__construct();
-        $this->attendances   = new ArrayCollection();
-        $this->registrations = new ArrayCollection();
     }
+
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @param CompanyLocation $location
@@ -85,43 +64,7 @@ class CompanyPerson extends Person
     }
 
     /**
-     * @param ArrayCollection $attendances
-     */
-    public function setAttendances($attendances)
-    {
-
-        $this->attendances = $attendances;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getAttendances()
-    {
-
-        return $this->attendances;
-    }
-
-    /**
-     * @param ArrayCollection $registrations
-     */
-    public function setRegistrations($registrations)
-    {
-
-        $this->registrations = $registrations;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getRegistrations()
-    {
-
-        return $this->registrations;
-    }
-
-    /**
-     * @param int $isPrimary
+     * @param bool $isPrimary
      */
     public function setIsPrimary($isPrimary)
     {
@@ -130,11 +73,23 @@ class CompanyPerson extends Person
     }
 
     /**
-     * @return int
+     * @return bool
      */
     public function getIsPrimary()
     {
 
         return $this->isPrimary;
     }
+
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
+
+    // nothing
+
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
+
+    // none
 }

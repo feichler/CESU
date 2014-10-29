@@ -1,26 +1,16 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Events;
 
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\SeedBundle\Entity\Companies\Location;
 
 /**
- * Class ShippingEvent
+ * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Event\InTransitRepository")
+ * @ORM\Table(name="events_intransit")
  *
- * @package Elektra\SeedBundle\Entity\Events
+ * @ORM\HasLifecycleCallbacks()
  *
- * @version 0.1-dev
- *
- * @ORM\Entity
- * @ORM\Table(name="events_inTransit")
+ * Unique: nothing?
  */
 class InTransitEvent extends Event
 {
@@ -33,7 +23,7 @@ class InTransitEvent extends Event
     protected $shippingNumber;
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {
@@ -41,11 +31,16 @@ class InTransitEvent extends Event
         parent::__construct();
     }
 
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
+
     /**
      * @param string $shippingNumber
      */
     public function setShippingNumber($shippingNumber)
     {
+
         $this->shippingNumber = $shippingNumber;
     }
 
@@ -54,6 +49,19 @@ class InTransitEvent extends Event
      */
     public function getShippingNumber()
     {
+
         return $this->shippingNumber;
     }
+
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
+
+    // nothing
+
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
+
+    // none
 }

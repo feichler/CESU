@@ -1,34 +1,22 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
-use Elektra\SeedBundle\Auditing\Helper;
-use Elektra\SeedBundle\Entity\AnnotableInterface;
-use Elektra\SeedBundle\Entity\AuditableInterface;
+use Elektra\SeedBundle\Entity\AbstractAuditableAnnotableEntity;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
 use Elektra\SeedBundle\Entity\Notes\Note;
 
 /**
- * Class Address
- *
- * @package Elektra\SeedBundle\Entity\Companies
- *
- * @version 0.1-dev
- *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\AddressRepository")
  * @ORM\Table("addresses")
+ *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique: nothing
  */
-class Address implements AuditableInterface, AnnotableInterface, CrudInterface
+class Address extends AbstractAuditableAnnotableEntity
 {
 
     /**
@@ -39,6 +27,14 @@ class Address implements AuditableInterface, AnnotableInterface, CrudInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $addressId;
+
+    /**
+     * @var Country
+     *
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Country", fetch="EXTRA_LAZY")
+     * @ORM\JoinColumn(name="countryId", referencedColumnName="countryId")
+     */
+    protected $country;
 
     /**
      * @var string
@@ -83,55 +79,46 @@ class Address implements AuditableInterface, AnnotableInterface, CrudInterface
     protected $street3;
 
     /**
-     * @var Country
+     * @var Collection Note[]
      *
-     * @ORM\ManyToOne(targetEntity="Country", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="countryId", referencedColumnName="countryId")
-     */
-    protected $country;
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Notes\Note", fetch="EXTRA_LAZY", cascade={"persist",
+     *                              "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "addresses_notes",
-     *      joinColumns = {@ORM\JoinColumn(name = "addressId", referencedColumnName = "addressId", onDelete="CASCADE")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true, onDelete="CASCADE")}
+     *      joinColumns = {@ORM\JoinColumn(name = "addressId", referencedColumnName = "addressId",
+     *      onDelete="CASCADE")},
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "noteId", referencedColumnName = "noteId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $notes;
 
     /**
-     * @var ArrayCollection
+     * @var Collection Audit[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY",
+     *                              cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "addresses_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "addressId", referencedColumnName = "addressId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $audits;
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {
 
-        $this->notes  = new ArrayCollection();
-        $this->audits = new ArrayCollection();
+        parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-
-        return $this->addressId;
-    }
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @return int
@@ -158,6 +145,24 @@ class Address implements AuditableInterface, AnnotableInterface, CrudInterface
     {
 
         return $this->country;
+    }
+
+    /**
+     * @param string $state
+     */
+    public function setState($state)
+    {
+
+        $this->state = $state;
+    }
+
+    /**
+     * @return string
+     */
+    public function getState()
+    {
+
+        return $this->state;
     }
 
     /**
@@ -194,24 +199,6 @@ class Address implements AuditableInterface, AnnotableInterface, CrudInterface
     {
 
         return $this->postalCode;
-    }
-
-    /**
-     * @param string $state
-     */
-    public function setState($state)
-    {
-
-        $this->state = $state;
-    }
-
-    /**
-     * @return string
-     */
-    public function getState()
-    {
-
-        return $this->state;
     }
 
     /**
@@ -268,68 +255,32 @@ class Address implements AuditableInterface, AnnotableInterface, CrudInterface
         return $this->street3;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setNotes($notes)
-    {
-
-        $this->notes = $notes;
-    }
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
 
     /**
      * {@inheritdoc}
      */
-    public function getNotes()
+    public function getId()
     {
 
-        return $this->notes;
+        return $this->getAddressId();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setAudits($audits)
+    public function getDisplayName()
     {
 
-        $this->audits = $audits;
+        // URGENT - displayName for address entity
+        return '???';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAudits()
-    {
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
 
-        return $this->audits;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreationAudit()
-    {
-
-        return Helper::getFirstAudit($this->getAudits());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLastModifiedAudit()
-    {
-
-        return Helper::getLastAudit($this->getAudits());
-    }
-
-    /**
-     * Return the representative title of the entity
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-
-        return "???";
-    }
+    // none
 }

@@ -1,32 +1,26 @@
 <?php
-/**
- * @author    Florian Eichler <florian@eichler.co.at>
- * @author    Alexander Spengler <alexander.spengler@habanero-it.eu>
- * @copyright 2014 Florian Eichler, Alexander Spengler. All rights reserved.
- * @license   MINOR add a license
- * @version   0.1-dev
- */
 
 namespace Elektra\SeedBundle\Entity\Companies;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Elektra\CrudBundle\Entity\EntityInterface as CrudInterface;
-use Elektra\SeedBundle\Auditing\Helper;
+use Elektra\SeedBundle\Entity\AbstractAuditableEntity;
 use Elektra\SeedBundle\Entity\Auditing\Audit;
-use Elektra\SeedBundle\Entity\AuditableInterface;
 
 /**
- * Class Country
- *
- * @package Elektra\SeedBundle\Entity\Companies
- *
- * @version 0.1-dev
- *
  * @ORM\Entity(repositoryClass="Elektra\SeedBundle\Repository\Companies\CountryRepository")
  * @ORM\Table(name="countries")
+ *
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * Unique:
+ *      single fields only:
+ *          name
+ *          alphaTwo
+ *          alphaThree
+ *          numericCode
  */
-class Country implements AuditableInterface, CrudInterface
+class Country extends AbstractAuditableEntity
 {
 
     /**
@@ -41,7 +35,8 @@ class Country implements AuditableInterface, CrudInterface
     /**
      * @var Region
      *
-     * @ORM\ManyToOne(targetEntity="Region", inversedBy="countries", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Elektra\SeedBundle\Entity\Companies\Region", inversedBy="countries",
+     *                                                                           fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="regionId", referencedColumnName="regionId", nullable=false)
      */
     protected $region;
@@ -75,34 +70,31 @@ class Country implements AuditableInterface, CrudInterface
     protected $name;
 
     /**
-     * @var ArrayCollection
+     * @var Collection Audit[]
      *
-     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity = "Elektra\SeedBundle\Entity\Auditing\Audit", fetch="EXTRA_LAZY",
+     *                              cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"timestamp" = "DESC"})
      * @ORM\JoinTable(name = "countries_audits",
      *      joinColumns = {@ORM\JoinColumn(name = "countryId", referencedColumnName = "countryId")},
-     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true, onDelete="CASCADE")}
+     *      inverseJoinColumns = {@ORM\JoinColumn(name = "auditId", referencedColumnName = "auditId", unique = true,
+     *      onDelete="CASCADE")}
      * )
      */
     protected $audits;
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {
 
-        $this->audits = new ArrayCollection();
+        parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-
-        return $this->countryId;
-    }
+    /*************************************************************************
+     * Getters / Setters
+     *************************************************************************/
 
     /**
      * @return int
@@ -203,48 +195,31 @@ class Country implements AuditableInterface, CrudInterface
         return $this->name;
     }
 
+    /*************************************************************************
+     * EntityInterface
+     *************************************************************************/
+
     /**
      * {@inheritdoc}
      */
-    public function setAudits($audits)
+    public function getId()
     {
 
-        $this->audits = $audits;
+        return $this->getCountryId();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAudits()
-    {
-
-        return $this->audits;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreationAudit()
-    {
-        return Helper::getFirstAudit($this->getAudits());
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLastModifiedAudit()
-    {
-        return Helper::getLastAudit($this->getAudits());
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTitle()
+    public function getDisplayName()
     {
 
         return $this->getName();
     }
+
+    /*************************************************************************
+     * Lifecycle callbacks
+     *************************************************************************/
+
+    // none
 }
